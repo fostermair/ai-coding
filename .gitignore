@@ -37,3 +37,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local database
+/data/ebon.db
+/data/ebon.db-wal
+/data/ebon.db-shm
+/data/ebons/imported/
+/data/ebons/errors/

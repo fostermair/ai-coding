@@ -10,7 +10,15 @@
 - Drag & Drop nativ (HTML5) ohne externe Library implementiert
 - Upload-Queue mit Status-Machine: pending → uploading → success/duplicate/error
 - Placeholder-Seiten für `/`, `/produkte`, `/statistiken` erstellt
-- API-Call gegen `POST /api/import` vorbereitet – wartet auf Backend (PROJ-1 Backend)
+
+## Implementation Notes (Backend)
+- `src/lib/db.ts`: SQLite-Singleton via `better-sqlite3`, WAL-Modus, 5 Tabellen + Indizes
+- `src/lib/parser/rewe.ts`: 3-Phasen-Parser (Header/Items/Footer), alle eBon-Typen
+  - Produkte, Rabatte, Mengenzeilen, Pfand, Leergut, Konzessionärsartikel (X01)
+  - Geldbeträge als Integer-Cents gespeichert
+- `src/app/api/import/route.ts`: POST-Handler mit Duplikat-Erkennung + Transaktions-Insert
+- `src/lib/parser/rewe.test.ts`: 19 Unit-Tests – alle bestanden
+- Pakete: `better-sqlite3`, `pdf-parse` (+ TypeScript-Typen)
 
 ## Dependencies
 - None (Fundament aller anderen Features)

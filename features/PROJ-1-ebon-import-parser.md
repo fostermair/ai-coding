@@ -1,8 +1,16 @@
 # PROJ-1: eBon Import & Parser
 
-## Status: Planned
+## Status: In Progress
 **Created:** 2026-04-07
 **Last Updated:** 2026-04-07
+
+## Implementation Notes (Frontend)
+- Globale Navigation (`src/components/nav.tsx`) mit aktiver Link-Hervorhebung
+- Import-Seite (`src/app/import/page.tsx`) mit `ImportZone` Client-Komponente
+- Drag & Drop nativ (HTML5) ohne externe Library implementiert
+- Upload-Queue mit Status-Machine: pending → uploading → success/duplicate/error
+- Placeholder-Seiten für `/`, `/produkte`, `/statistiken` erstellt
+- API-Call gegen `POST /api/import` vorbereitet – wartet auf Backend (PROJ-1 Backend)
 
 ## Dependencies
 - None (Fundament aller anderen Features)

@@ -10,6 +10,13 @@
 - `src/lib/format.ts`: Shared Utilities für Euro-Formatierung (Cent→Euro) und Datumsformatierung
 - Responsive: Spalten verstecken auf Mobile (sm/md Breakpoints)
 - Paket: `date-fns` installiert
+
+## Implementation Notes (Backend)
+- `GET /api/bons`: Alle Bons mit item_count (Subquery), optional `?from=`/`?to=` Datumsfilter, Gesamtstatistik (Anzahl + Ausgaben) unfiltered
+- `GET /api/bons/[id]`: Einzelner Bon mit allen Positionen, LEFT JOIN auf `product_aliases` für Alias-Namen, Rabatte in einer Batch-Query geladen und pro Item zugeordnet
+- `DELETE /api/bons/[id]`: Löscht Bon — CASCADE löscht automatisch `receipt_items` und `item_discounts`
+- Keine neuen Tabellen, nutzt bestehende PROJ-1 Struktur
+- Parameterisierte Queries überall (SQL Injection geschützt)
 **Created:** 2026-04-07
 **Last Updated:** 2026-04-08
 

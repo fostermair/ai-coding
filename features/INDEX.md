@@ -15,7 +15,7 @@
 | ID | Feature | Status | Spec | Created |
 |----|---------|--------|------|---------|
 | PROJ-1 | eBon Import & Parser (PDF → SQLite) | Approved | [PROJ-1-ebon-import-parser.md](PROJ-1-ebon-import-parser.md) | 2026-04-07 |
-| PROJ-2 | Bon-Übersicht & Detailansicht | Architected | [PROJ-2-bon-uebersicht.md](PROJ-2-bon-uebersicht.md) | 2026-04-07 |
+| PROJ-2 | Bon-Übersicht & Detailansicht | In Progress | [PROJ-2-bon-uebersicht.md](PROJ-2-bon-uebersicht.md) | 2026-04-07 |
 | PROJ-3 | Produktdatenbank & Alias-Verwaltung | Planned | [PROJ-3-produktdatenbank-alias.md](PROJ-3-produktdatenbank-alias.md) | 2026-04-07 |
 | PROJ-4 | Preisentwicklungs-Chart | Planned | [PROJ-4-preisentwicklung-chart.md](PROJ-4-preisentwicklung-chart.md) | 2026-04-07 |
 | PROJ-5 | Statistik-Dashboard | Planned | [PROJ-5-statistik-dashboard.md](PROJ-5-statistik-dashboard.md) | 2026-04-07 |

@@ -1,6 +1,15 @@
 # PROJ-2: Bon-Übersicht & Detailansicht
 
-## Status: Planned
+## Status: In Progress
+
+## Implementation Notes (Frontend)
+- Übersichtsseite (`src/app/page.tsx`) mit `BonList` Client-Komponente
+- `src/components/bon-list.tsx`: Tabelle aller Bons, Summary-Header (Anzahl + Ausgaben), Datumsfilter (Von/Bis), Empty State, Loading/Error States
+- Detailansicht (`src/app/bon/[id]/page.tsx`) mit `BonDetailView` Client-Komponente
+- `src/components/bon-detail.tsx`: Bon-Header (Card), Produkt-Tabelle mit eingerückten Rabatten (rot), Pfand/Leergut-Gruppe, MwSt-Aufschlüsselung, Löschen mit AlertDialog-Bestätigung
+- `src/lib/format.ts`: Shared Utilities für Euro-Formatierung (Cent→Euro) und Datumsformatierung
+- Responsive: Spalten verstecken auf Mobile (sm/md Breakpoints)
+- Paket: `date-fns` installiert
 **Created:** 2026-04-07
 **Last Updated:** 2026-04-08
 

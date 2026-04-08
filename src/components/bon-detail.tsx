@@ -1,0 +1,350 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { ArrowLeft, Trash2 } from "lucide-react"
+import Link from "next/link"
+import { formatEuro, formatDate } from "@/lib/format"
+
+interface Discount {
+  id: number
+  description: string
+  amount_cents: number
+  tax_code: string
+}
+
+interface ReceiptItem {
+  id: number
+  raw_name: string
+  alias: string | null
+  item_type: "product" | "pfand" | "leergut" | "concession"
+  quantity: number
+  unit_price_cents: number
+  total_price_cents: number
+  tax_code: string
+  bonus_excluded: boolean
+  concessionaire_code: string | null
+  position: number
+  discounts: Discount[]
+}
+
+interface BonDetail {
+  id: number
+  filename: string
+  store_name: string
+  store_address: string
+  store_uid: string
+  market_nr: string
+  receipt_nr: string
+  receipt_date: string
+  receipt_time: string
+  payment_method: string
+  total_amount_cents: number
+  items: ReceiptItem[]
+}
+
+export function BonDetailView({ bonId }: { bonId: string }) {
+  const router = useRouter()
+  const [bon, setBon] = useState<BonDetail | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(`/api/bons/${bonId}`)
+        if (res.status === 404) {
+          setError("Bon nicht gefunden")
+          return
+        }
+        if (!res.ok) throw new Error("Fehler beim Laden")
+        setBon(await res.json())
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Unbekannter Fehler")
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [bonId])
+
+  const handleDelete = async () => {
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/bons/${bonId}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Löschen fehlgeschlagen")
+      router.push("/")
+    } catch {
+      setDeleting(false)
+      setError("Löschen fehlgeschlagen")
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-6 w-40" />
+        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-64 w-full" />
+      </div>
+    )
+  }
+
+  if (error || !bon) {
+    return (
+      <div className="space-y-4">
+        <Link href="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700">
+          <ArrowLeft className="h-4 w-4" /> Zurück zur Übersicht
+        </Link>
+        <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
+          <p className="text-red-600 font-medium">{error ?? "Bon nicht gefunden"}</p>
+        </div>
+      </div>
+    )
+  }
+
+  const products = bon.items.filter(
+    (i) => i.item_type === "product" || i.item_type === "concession"
+  )
+  const pfandLeergut = bon.items.filter(
+    (i) => i.item_type === "pfand" || i.item_type === "leergut"
+  )
+
+  // Compute VAT totals from items
+  const vatA = bon.items
+    .filter((i) => i.tax_code === "A")
+    .reduce((sum, i) => sum + i.total_price_cents, 0)
+  const vatB = bon.items
+    .filter((i) => i.tax_code === "B")
+    .reduce((sum, i) => sum + i.total_price_cents, 0)
+
+  return (
+    <div className="space-y-6">
+      {/* Back link */}
+      <Link href="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700">
+        <ArrowLeft className="h-4 w-4" /> Zurück zur Übersicht
+      </Link>
+
+      {/* Header card */}
+      <Card className="shadow-none border-gray-100">
+        <CardContent className="py-5 px-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                {bon.store_name}
+              </h2>
+              {bon.store_address && (
+                <p className="text-sm text-gray-500 mt-0.5">{bon.store_address}</p>
+              )}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-600">
+                <span>{formatDate(bon.receipt_date)}, {bon.receipt_time} Uhr</span>
+                <span>Bon-Nr. {bon.receipt_nr}</span>
+                <span>Markt {bon.market_nr}</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-2xl font-semibold tabular-nums text-gray-900">
+                {formatEuro(bon.total_amount_cents)} €
+              </p>
+              <Badge variant="secondary" className="mt-1 font-normal text-xs">
+                {bon.payment_method}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Products table */}
+      {products.length > 0 && (
+        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="w-full">Produkt</TableHead>
+                <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
+                <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
+                <TableHead className="text-right">Gesamt</TableHead>
+                <TableHead className="text-center w-12">MwSt</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {products.map((item) => (
+                <ItemRows key={item.id} item={item} />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+
+      {/* Pfand / Leergut section */}
+      {pfandLeergut.length > 0 && (
+        <div>
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Pfand & Leergut</h3>
+          <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+            <Table>
+              <TableBody>
+                {pfandLeergut.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">
+                      {item.alias ?? item.raw_name}
+                      {item.bonus_excluded && (
+                        <span className="text-gray-400 ml-1">*</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right hidden sm:table-cell">
+                      {item.quantity > 1 ? `${item.quantity} Stk` : ""}
+                    </TableCell>
+                    <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
+                      {item.quantity > 1 ? `${formatEuro(item.unit_price_cents)} €` : ""}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums font-medium">
+                      <span className={item.total_price_cents < 0 ? "text-green-600" : ""}>
+                        {formatEuro(item.total_price_cents)} €
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant="outline" className="text-xs font-normal">
+                        {item.tax_code}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )}
+
+      {/* VAT breakdown */}
+      <div className="rounded-lg border border-gray-100 bg-white p-4">
+        <h3 className="text-sm font-medium text-gray-500 mb-2">MwSt-Aufschlüsselung</h3>
+        <div className="space-y-1 text-sm">
+          {vatA !== 0 && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">A = 19%</span>
+              <span className="tabular-nums">{formatEuro(vatA)} €</span>
+            </div>
+          )}
+          {vatB !== 0 && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">B = 7%</span>
+              <span className="tabular-nums">{formatEuro(vatB)} €</span>
+            </div>
+          )}
+          <Separator className="my-2" />
+          <div className="flex justify-between font-medium">
+            <span>Summe</span>
+            <span className="tabular-nums">{formatEuro(bon.total_amount_cents)} €</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Delete action */}
+      <div className="flex justify-end">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50">
+              <Trash2 className="h-4 w-4 mr-1.5" />
+              Bon löschen
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Bon löschen?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Bon-Nr. {bon.receipt_nr} vom {formatDate(bon.receipt_date)} ({bon.store_name}) wird unwiderruflich gelöscht,
+                einschließlich aller Positionen und Rabatte.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDelete}
+                disabled={deleting}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                {deleting ? "Lösche …" : "Endgültig löschen"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </div>
+  )
+}
+
+function ItemRows({ item }: { item: ReceiptItem }) {
+  return (
+    <>
+      <TableRow>
+        <TableCell className="font-medium">
+          {item.alias ?? item.raw_name}
+          {item.concessionaire_code && (
+            <Badge variant="outline" className="ml-2 text-xs font-normal">
+              {item.concessionaire_code}
+            </Badge>
+          )}
+          {item.bonus_excluded && (
+            <span className="text-gray-400 ml-1">*</span>
+          )}
+        </TableCell>
+        <TableCell className="text-right hidden sm:table-cell">
+          {item.quantity > 1 ? `${item.quantity} Stk` : ""}
+        </TableCell>
+        <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
+          {item.quantity > 1 ? `${formatEuro(item.unit_price_cents)} €` : ""}
+        </TableCell>
+        <TableCell className="text-right tabular-nums font-medium">
+          {formatEuro(item.total_price_cents)} €
+        </TableCell>
+        <TableCell className="text-center">
+          <Badge variant="outline" className="text-xs font-normal">
+            {item.tax_code}
+          </Badge>
+        </TableCell>
+      </TableRow>
+      {item.discounts.map((d) => (
+        <TableRow key={d.id} className="hover:bg-transparent">
+          <TableCell className="pl-8 text-sm text-red-500 py-1">
+            ↳ {d.description}
+          </TableCell>
+          <TableCell className="hidden sm:table-cell" />
+          <TableCell className="hidden sm:table-cell" />
+          <TableCell className="text-right tabular-nums text-red-500 py-1 text-sm">
+            {formatEuro(d.amount_cents)} €
+          </TableCell>
+          <TableCell className="text-center py-1">
+            <Badge variant="outline" className="text-xs font-normal">
+              {d.tax_code}
+            </Badge>
+          </TableCell>
+        </TableRow>
+      ))}
+    </>
+  )
+}

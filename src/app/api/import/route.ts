@@ -1,6 +1,45 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { parseReweEbon, formatGermanDate } from "@/lib/parser/rewe"
+
+// ── pdfjs-dist (used internally by pdf-parse) requires browser globals that
+//    don't exist in Node.js. Polyfill them before require() is called. ──────
+
+if (typeof globalThis.DOMMatrix === "undefined") {
+  // Minimal DOMMatrix polyfill – pdfjs needs it for coordinate transforms.
+  class DOMMatrixMinimal {
+    a = 1; b = 0; c = 0; d = 1; e = 0; f = 0
+    m11 = 1; m12 = 0; m13 = 0; m14 = 0
+    m21 = 0; m22 = 1; m23 = 0; m24 = 0
+    m31 = 0; m32 = 0; m33 = 1; m34 = 0
+    m41 = 0; m42 = 0; m43 = 0; m44 = 1
+    is2D = true; isIdentity = true
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    constructor(_init?: string | number[]) {}
+    multiply() { return this }
+    inverse() { return this }
+    translate(tx = 0, ty = 0) {
+      const m = new DOMMatrixMinimal(); m.e = this.e + tx; m.f = this.f + ty; return m
+    }
+    scale(sx = 1, sy = sx) {
+      const m = new DOMMatrixMinimal(); m.a = this.a * sx; m.d = this.d * sy; return m
+    }
+    transformPoint(p: { x: number; y: number }) {
+      return { x: this.a * p.x + this.c * p.y + this.e, y: this.b * p.x + this.d * p.y + this.f }
+    }
+  }
+  // @ts-expect-error – polyfill for Node.js environment
+  globalThis.DOMMatrix = DOMMatrixMinimal
+}
+if (typeof globalThis.ImageData === "undefined") {
+  // @ts-expect-error – polyfill
+  globalThis.ImageData = class ImageData { constructor(public width = 0, public height = 0) {} }
+}
+if (typeof globalThis.Path2D === "undefined") {
+  // @ts-expect-error – polyfill
+  globalThis.Path2D = class Path2D {}
+}
+
 // pdf-parse has no proper ESM export – require() works in Node.js API routes
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const pdfParse = require("pdf-parse") as (buf: Buffer) => Promise<{ text: string }>
@@ -17,6 +56,14 @@ export async function POST(request: NextRequest) {
     if (!file.name.toLowerCase().endsWith(".pdf")) {
       return NextResponse.json(
         { message: "Nur PDF-Dateien werden akzeptiert" },
+        { status: 400 }
+      )
+    }
+
+    const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { message: "PDF-Datei ist zu groß (max. 10 MB)" },
         { status: 400 }
       )
     }

@@ -2,7 +2,7 @@
 
 ## Status: In Review
 **Created:** 2026-04-07
-**Last Updated:** 2026-04-07
+**Last Updated:** 2026-04-08
 
 ## Implementation Notes (Frontend)
 - Globale Navigation (`src/components/nav.tsx`) mit aktiver Link-Hervorhebung
@@ -18,7 +18,15 @@
   - Geldbeträge als Integer-Cents gespeichert
 - `src/app/api/import/route.ts`: POST-Handler mit Duplikat-Erkennung + Transaktions-Insert
 - `src/lib/parser/rewe.test.ts`: 19 Unit-Tests – alle bestanden
-- Pakete: `better-sqlite3`, `pdf-parse` (+ TypeScript-Typen)
+- Pakete: `better-sqlite3`, `pdf-parse@1.1.1`
+
+## Bug Fixes (2026-04-08)
+- **BUG-1 (Critical):** Downgraded `pdf-parse` from v2.4.5 to v1.1.1 — v2 has incompatible class-based API, v1 function API matches the code
+- **BUG-2 (High):** Added `exclude: ['**/tests/**']` to `vitest.config.ts` to prevent Vitest from picking up Playwright spec files
+- **BUG-3 (High):** Removed `@types/pdf-parse` (v1 types incompatible with v2 package; no longer needed with v1.1.1)
+- **BUG-5 (Medium):** Installed WebKit browser for Playwright (`npx playwright install webkit`)
+- **BUG-6 (Medium):** Added 10 MB file size limit on PDF upload in `route.ts`
+- **E2E tests:** Fixed flaky Mobile Safari tests caused by shared DB across parallel test workers
 
 ## Dependencies
 - None (Fundament aller anderen Features)

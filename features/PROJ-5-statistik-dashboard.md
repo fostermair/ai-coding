@@ -1,6 +1,6 @@
 # PROJ-5: Statistik-Dashboard
 
-## Status: Architected
+## Status: In Progress
 **Created:** 2026-04-07
 **Last Updated:** 2026-04-10
 
@@ -149,6 +149,29 @@ Keine neuen Pakete nötig. Alles existiert bereits:
 
 - **PROJ-4 Integration:** Klick auf ein Produkt in der Top-10-Liste öffnet den `PriceChartSheet` aus PROJ-4. Die bestehende Komponente wird unverändert wiederverwendet.
 - **Bestehende Statistiken-Seite:** Die Placeholder-Seite (`src/app/statistiken/page.tsx`) wird mit dem Dashboard-Inhalt ersetzt.
+
+## Implementation Notes (Frontend + Backend)
+
+### What was built
+- **4 API endpoints:**
+  - `GET /api/statistiken/monatlich` — monthly spending with month-over-month comparison
+  - `GET /api/statistiken/top-produkte` — top-10 products by frequency or spending
+  - `GET /api/statistiken/rabatte` — total savings, monthly savings chart, top-5 discount actions
+  - `GET /api/statistiken/mwst` — spending by VAT category (A=7%, B=19%)
+  - All endpoints support `?monate=3|6|12` filter parameter
+- **StatistikDashboard component** (`src/components/statistik-dashboard.tsx`):
+  - Global time filter (3M / 6M / 12M / All) controls all cards simultaneously
+  - Card 1: Monthly spending bar chart + month-over-month comparison badge
+  - Card 2: Top-10 products with tabs (Häufigste / Teuerste), click opens PROJ-4 PriceChartSheet
+  - Card 3: Discount tracking — total savings, monthly bar chart, top-5 discount actions list
+  - Card 4: VAT donut chart with legend and absolute amounts
+  - Empty state when no receipts imported
+  - Loading skeletons during data fetch
+  - All 4 API calls run in parallel for fast page load
+- **Page:** Replaced placeholder `src/app/statistiken/page.tsx` with dashboard
+
+### Deviations from spec
+- None. All acceptance criteria addressed in the implementation.
 
 ## QA Test Results
 _To be added by /qa_

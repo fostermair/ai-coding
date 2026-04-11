@@ -51,6 +51,12 @@
 <!-- Sections below are added by subsequent skills -->
 
 ## Implementation Notes
+- Backend created `src/app/api/produkte/[name]/preisentwicklung/route.ts`:
+  - `GET /api/produkte/[name]/preisentwicklung` — queries same price data as `/preise` (same filters)
+  - Computes gesamt (first→last purchase change) and per-year averages in JS
+  - Returns `{ gesamt: null, jahre: [] }` when < 2 valid price points exist
+  - Rounds `veraenderung_prozent` to 1 decimal place
+  - 7 integration tests covering: single purchase, multi-year, single-year, zero change, Pfand exclusion, yearly averaging
 - Frontend extended `src/components/price-chart-sheet.tsx`:
   - Added `PreisentwicklungData` + `JahrStat` interfaces
   - Added `preisentwicklung` state + `fetchPreisentwicklung` callback

@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import { BarChart3, TrendingUp, TrendingDown, Upload, Minus } from "lucide-react"
+import { BarChart3, TrendingUp, TrendingDown, Upload, Minus, EyeOff } from "lucide-react"
 import Link from "next/link"
 import {
   BarChart,
@@ -127,6 +127,7 @@ export function StatistikDashboard() {
   const [mwst, setMwst] = useState<MwstData | null>(null)
   const [loading, setLoading] = useState(true)
   const [isEmpty, setIsEmpty] = useState(false)
+  const [excludedCount, setExcludedCount] = useState(0)
 
   // Price chart integration (PROJ-4)
   const [chartOpen, setChartOpen] = useState(false)
@@ -144,22 +145,25 @@ export function StatistikDashboard() {
     }
 
     try {
-      const [monatRes, topRes, rabattRes, mwstRes] = await Promise.all([
+      const [monatRes, topRes, rabattRes, mwstRes, excludedRes] = await Promise.all([
         fetch(buildUrl("/api/statistiken/monatlich")),
         fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
         fetch(buildUrl("/api/statistiken/rabatte")),
         fetch(buildUrl("/api/statistiken/mwst")),
+        fetch("/api/produkte?filter=excluded"),
       ])
 
       const monatJson: MonatlichData = await monatRes.json()
       const topJson: TopProdukteData = await topRes.json()
       const rabattJson: RabatteData = await rabattRes.json()
       const mwstJson: MwstData = await mwstRes.json()
+      const excludedJson: { total_count: number } = await excludedRes.json()
 
       setMonatlich(monatJson)
       setTopProdukte(topJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
+      setExcludedCount(excludedJson.total_count ?? 0)
 
       setIsEmpty(
         monatJson.monate.length === 0 &&
@@ -240,19 +244,33 @@ export function StatistikDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Zeitraum-Filter */}
-      <div className="flex items-center justify-end gap-1">
-        {(Object.keys(ZEITRAUM_LABELS) as Zeitraum[]).map((key) => (
-          <Button
-            key={key}
-            variant={zeitraum === key ? "default" : "ghost"}
-            size="sm"
-            className="h-8 text-xs"
-            onClick={() => setZeitraum(key)}
+      {/* Zeitraum-Filter + Ausgeblendet-Hinweis */}
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        {excludedCount > 0 ? (
+          <Link
+            href="/produkte?filter=excluded"
+            className="flex items-center gap-1.5 text-xs text-amber-600 hover:text-amber-700 transition-colors"
+            title="Zur Produktverwaltung"
           >
-            {ZEITRAUM_LABELS[key]}
-          </Button>
-        ))}
+            <EyeOff className="h-3.5 w-3.5" />
+            {excludedCount} Produkt{excludedCount !== 1 ? "e" : ""} ausgeblendet
+          </Link>
+        ) : (
+          <span />
+        )}
+        <div className="flex items-center gap-1">
+          {(Object.keys(ZEITRAUM_LABELS) as Zeitraum[]).map((key) => (
+            <Button
+              key={key}
+              variant={zeitraum === key ? "default" : "ghost"}
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => setZeitraum(key)}
+            >
+              {ZEITRAUM_LABELS[key]}
+            </Button>
+          ))}
+        </div>
       </div>
 
       {/* Loading skeleton */}

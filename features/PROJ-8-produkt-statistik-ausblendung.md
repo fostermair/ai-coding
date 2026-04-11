@@ -1,6 +1,6 @@
 # PROJ-8: Produkt-Ausblendung für Statistiken
 
-## Status: Architected
+## Status: In Progress
 **Created:** 2026-04-11
 **Last Updated:** 2026-04-11
 
@@ -114,6 +114,28 @@ Keine neuen Pakete — alles bereits vorhanden:
 - shadcn Switch — bereits installiert (`src/components/ui/switch.tsx`)
 - better-sqlite3 — bereits installiert
 - lucide-react — bereits installiert
+
+## Implementation Notes (Frontend)
+
+### What was built
+- **`src/components/product-list.tsx`** (erweitert):
+  - `excluded_from_stats: boolean` zum `Product`-Interface hinzugefügt
+  - `excluded_count: number` zur `ProdukteResponse` hinzugefügt
+  - Neuer `filter`-State (`all` / `active` / `excluded`) mit Filter-Buttons in der Toolbar
+  - Neue Tabellenspalte "Statistiken" mit shadcn Switch-Toggle (Ein = aktiv, Aus = ausgeblendet)
+  - Optimistic update beim Toggle: sofortiges UI-Feedback, Rückgängig bei API-Fehler
+  - Ausgeblendete Zeilen: `opacity-50` + `line-through` auf Rohname
+  - Summary-Bar zeigt "X ausgeblendet" wenn `excluded_count > 0`
+  - Ruft `PUT /api/produkte/[name]/exclude` auf (noch nicht implementiert — Backend folgt)
+  - Filter wird als `?filter=active/excluded` Query-Parameter an `/api/produkte` übergeben
+- **`src/components/statistik-dashboard.tsx`** (erweitert):
+  - Zusätzlicher paralleler Fetch: `GET /api/produkte?filter=excluded`
+  - `excludedCount`-State speichert Anzahl ausgeblendeter Produkte
+  - Info-Link mit EyeOff-Icon erscheint oberhalb Zeitraum-Filter wenn `excludedCount > 0`
+  - Link führt zu `/produkte?filter=excluded` (Produktverwaltung)
+
+### Deviations from spec
+- Keine. Alle Acceptance Criteria der Frontend-Änderungen umgesetzt.
 
 ## QA Test Results
 _To be added by /qa_

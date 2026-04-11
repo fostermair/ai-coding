@@ -21,7 +21,10 @@
 | PROJ-5 | Statistik-Dashboard | Approved | [PROJ-5-statistik-dashboard.md](PROJ-5-statistik-dashboard.md) | 2026-04-07 |
 | PROJ-6 | Watch-Folder Auto-Import | Planned | [PROJ-6-watch-folder.md](PROJ-6-watch-folder.md) | 2026-04-07 |
 | PROJ-7 | Datenexport (Excel & CSV) | Planned | [PROJ-7-datenexport.md](PROJ-7-datenexport.md) | 2026-04-07 |
+| PROJ-8 | Produkt-Ausblendung für Statistiken | Architected | [PROJ-8-produkt-statistik-ausblendung.md](PROJ-8-produkt-statistik-ausblendung.md) | 2026-04-11 |
+| PROJ-9 | Preissteigerungs-Analyse | Planned | [PROJ-9-preissteigerungs-analyse.md](PROJ-9-preissteigerungs-analyse.md) | 2026-04-11 |
+| PROJ-10 | Preistrend-Indikator in Produktliste | Planned | [PROJ-10-preistrend-indikator.md](PROJ-10-preistrend-indikator.md) | 2026-04-11 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-8
+## Next Available ID: PROJ-11

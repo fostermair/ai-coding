@@ -84,4 +84,12 @@ function initSchema(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_items_raw_name
       ON receipt_items(raw_name);
   `)
+
+  // Migration: add excluded_from_stats column if not present
+  const cols = db.prepare("PRAGMA table_info(product_aliases)").all() as Array<{ name: string }>
+  if (!cols.some((c) => c.name === "excluded_from_stats")) {
+    db.exec(
+      "ALTER TABLE product_aliases ADD COLUMN excluded_from_stats INTEGER NOT NULL DEFAULT 0"
+    )
+  }
 }

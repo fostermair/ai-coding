@@ -27,9 +27,11 @@ export async function GET(request: NextRequest) {
           SUM(ri.total_price_cents) AS gesamt_cents
         FROM receipt_items ri
         JOIN receipts r ON r.id = ri.receipt_id
+        LEFT JOIN product_aliases pa ON pa.raw_name = ri.raw_name
         WHERE ri.tax_code IS NOT NULL
           AND ri.unit_price_cents > 0
           AND (ri.item_type = 'product' OR ri.item_type = 'concession')
+          AND COALESCE(pa.excluded_from_stats, 0) = 0
           ${dateFilter}
         GROUP BY ri.tax_code
         ORDER BY gesamt_cents DESC`

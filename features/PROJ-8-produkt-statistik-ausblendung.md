@@ -115,6 +115,32 @@ Keine neuen Pakete — alles bereits vorhanden:
 - better-sqlite3 — bereits installiert
 - lucide-react — bereits installiert
 
+## Implementation Notes (Backend)
+
+### What was built
+- **`src/lib/db.ts`** — Migration: `excluded_from_stats INTEGER NOT NULL DEFAULT 0` Spalte wird beim App-Start automatisch zu `product_aliases` hinzugefügt (`PRAGMA table_info` + `ALTER TABLE ADD COLUMN IF NOT EXISTS`)
+- **`src/app/api/produkte/route.ts`** (erweitert):
+  - Neuer Query-Parameter `?filter=all|active|excluded`
+  - `excluded_from_stats` wird per `COALESCE(pa.excluded_from_stats, 0)` in der Produktliste mitgeliefert (als Boolean normalisiert)
+  - Neue `excluded_count` in der Response (immer ungefiltert)
+  - `NULLIF(pa.alias, '')` stellt sicher dass leere Alias-Strings als `null` behandelt werden
+- **`src/app/api/produkte/[name]/exclude/route.ts`** (neu):
+  - `PUT` mit Body `{ excluded: boolean }` — validiert Typ, prüft Produkt-Existenz, Upsert mit `ON CONFLICT` (Alias bleibt erhalten)
+- **`src/app/api/produkte/[name]/alias/route.ts`** (erweitert):
+  - `DELETE` löscht nicht mehr die ganze Zeile wenn `excluded_from_stats = 1` gesetzt ist — stattdessen wird nur `alias = ''` gesetzt (Flag bleibt erhalten)
+- **`src/app/api/statistiken/monatlich/route.ts`** (erweitert):
+  - Aggregiert jetzt aus `receipt_items` statt `receipts.total_amount_cents`, mit `LEFT JOIN product_aliases` und `COALESCE(pa.excluded_from_stats, 0) = 0` Filter
+- **`src/app/api/statistiken/top-produkte/route.ts`** (erweitert):
+  - `COALESCE(pa.excluded_from_stats, 0) = 0` Filter hinzugefügt
+- **`src/app/api/statistiken/mwst/route.ts`** (erweitert):
+  - `COALESCE(pa.excluded_from_stats, 0) = 0` Filter hinzugefügt
+- **`src/components/price-chart-sheet.tsx`** (erweitert):
+  - Autocomplete-Fetch nutzt jetzt `?filter=active` — ausgeblendete Produkte erscheinen nicht im Preis-Chart Suche
+
+### Deviations from spec
+- Rabatt-API (`/api/statistiken/rabatte`) bleibt bewusst ungefiltert — Spec: "Rabatt-Tracking ist NICHT betroffen"
+- Monatliche Ausgaben werden nun aus `receipt_items` statt `receipts.total_amount_cents` aggregiert — präziser, da nur tatsächliche Produktpositionen (ohne Pfand) gezählt werden
+
 ## Implementation Notes (Frontend)
 
 ### What was built

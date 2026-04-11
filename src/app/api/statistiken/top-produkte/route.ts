@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
         LEFT JOIN product_aliases pa ON pa.raw_name = ri.raw_name
         WHERE ri.unit_price_cents > 0
           AND (ri.item_type = 'product' OR ri.item_type = 'concession')
+          AND COALESCE(pa.excluded_from_stats, 0) = 0
           ${dateFilter}
         GROUP BY ri.raw_name
         ORDER BY ${orderBy}

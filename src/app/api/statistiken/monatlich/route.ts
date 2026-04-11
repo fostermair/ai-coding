@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const params: string[] = []
 
     if (monate && ["3", "6", "12"].includes(monate)) {
-      dateFilter = "WHERE r.receipt_date >= date('now', ?)"
+      dateFilter = "AND r.receipt_date >= date('now', ?)"
       params.push(`-${monate} months`)
     }
 
@@ -24,9 +24,14 @@ export async function GET(request: NextRequest) {
       .prepare(
         `SELECT
           strftime('%Y-%m', r.receipt_date) AS monat,
-          SUM(r.total_amount_cents) AS ausgaben_cents
+          SUM(ri.total_price_cents) AS ausgaben_cents
         FROM receipts r
-        ${dateFilter}
+        JOIN receipt_items ri ON ri.receipt_id = r.id
+        LEFT JOIN product_aliases pa ON pa.raw_name = ri.raw_name
+        WHERE (ri.item_type = 'product' OR ri.item_type = 'concession')
+          AND ri.unit_price_cents > 0
+          AND COALESCE(pa.excluded_from_stats, 0) = 0
+          ${dateFilter}
         GROUP BY monat
         ORDER BY monat ASC`
       )

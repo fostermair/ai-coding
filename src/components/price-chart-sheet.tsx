@@ -8,6 +8,14 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -53,6 +61,23 @@ interface PriceData {
 interface ProductOption {
   raw_name: string
   alias: string | null
+}
+
+interface JahrStat {
+  jahr: number
+  avg_preis_cents: number
+  veraenderung_cents: number | null
+  veraenderung_prozent: number | null
+}
+
+interface PreisentwicklungData {
+  gesamt: {
+    erster_kauf: { datum: string; preis_cents: number }
+    letzter_kauf: { datum: string; preis_cents: number }
+    veraenderung_cents: number
+    veraenderung_prozent: number
+  }
+  jahre: JahrStat[]
 }
 
 interface PriceChartSheetProps {
@@ -129,6 +154,10 @@ export function PriceChartSheet({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Price analysis state
+  const [preisentwicklung, setPreisentwicklung] = useState<PreisentwicklungData | null>(null)
+  const [preisentwicklungLoading, setPreisentwicklungLoading] = useState(false)
+
   // Product search state
   const [searchOpen, setSearchOpen] = useState(false)
   const [products, setProducts] = useState<ProductOption[]>([])
@@ -165,6 +194,28 @@ export function PriceChartSheet({
     }
   }, [selectedProduct, open, fetchPrices])
 
+  const fetchPreisentwicklung = useCallback(async (productName: string) => {
+    setPreisentwicklungLoading(true)
+    try {
+      const res = await fetch(
+        `/api/produkte/${encodeURIComponent(productName)}/preisentwicklung`
+      )
+      if (!res.ok) throw new Error()
+      const json: PreisentwicklungData = await res.json()
+      setPreisentwicklung(json)
+    } catch {
+      setPreisentwicklung(null)
+    } finally {
+      setPreisentwicklungLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (selectedProduct && open) {
+      fetchPreisentwicklung(selectedProduct)
+    }
+  }, [selectedProduct, open, fetchPreisentwicklung])
+
   // Fetch product list for search
   const fetchProducts = useCallback(async () => {
     setProductsLoading(true)
@@ -197,6 +248,7 @@ export function PriceChartSheet({
       setSelectedProduct(null)
       setPriceData(null)
       setError(null)
+      setPreisentwicklung(null)
     }
     onOpenChange(isOpen)
   }
@@ -400,6 +452,123 @@ export function PriceChartSheet({
                   </p>
                 </div>
               </div>
+
+              {/* Price analysis section */}
+              {preisentwicklungLoading && (
+                <div className="space-y-2 pt-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-16 w-full" />
+                </div>
+              )}
+
+              {!preisentwicklungLoading && preisentwicklung && (
+                <div className="space-y-4 pt-2 border-t border-gray-100">
+                  <h3 className="text-sm font-semibold text-gray-700">Preisentwicklung</h3>
+
+                  {/* Gesamt-Veränderung */}
+                  <div className="rounded-lg border border-gray-100 bg-gray-50 p-3 space-y-1">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <span className="text-sm text-gray-600">
+                        Erster Kauf:{" "}
+                        <span className="font-medium text-gray-900">
+                          {formatEuro(preisentwicklung.gesamt.erster_kauf.preis_cents)} &euro;
+                        </span>{" "}
+                        <span className="text-xs text-gray-400">
+                          ({formatDate(preisentwicklung.gesamt.erster_kauf.datum)})
+                        </span>
+                      </span>
+                      <span className="text-gray-400 text-xs">→</span>
+                      <span className="text-sm text-gray-600">
+                        Letzter Kauf:{" "}
+                        <span className="font-medium text-gray-900">
+                          {formatEuro(preisentwicklung.gesamt.letzter_kauf.preis_cents)} &euro;
+                        </span>{" "}
+                        <span className="text-xs text-gray-400">
+                          ({formatDate(preisentwicklung.gesamt.letzter_kauf.datum)})
+                        </span>
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      <span
+                        className={`text-sm font-semibold ${
+                          preisentwicklung.gesamt.veraenderung_cents > 0
+                            ? "text-red-600"
+                            : preisentwicklung.gesamt.veraenderung_cents < 0
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {preisentwicklung.gesamt.veraenderung_cents > 0 ? "+" : ""}
+                        {formatEuro(preisentwicklung.gesamt.veraenderung_cents)} &euro;
+                      </span>
+                      <span
+                        className={`text-xs px-1.5 py-0.5 rounded font-medium ${
+                          preisentwicklung.gesamt.veraenderung_cents > 0
+                            ? "bg-red-50 text-red-600"
+                            : preisentwicklung.gesamt.veraenderung_cents < 0
+                            ? "bg-green-50 text-green-600"
+                            : "bg-gray-100 text-gray-500"
+                        }`}
+                      >
+                        {preisentwicklung.gesamt.veraenderung_prozent > 0 ? "+" : ""}
+                        {preisentwicklung.gesamt.veraenderung_prozent.toFixed(1).replace(".", ",")}%
+                        {" "}seit erstem Kauf
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Jahr-zu-Jahr table */}
+                  {preisentwicklung.jahre.length >= 2 ? (
+                    <div className="rounded-lg border border-gray-100 overflow-hidden">
+                      <Table>
+                        <TableHeader>
+                          <TableRow className="bg-gray-50">
+                            <TableHead className="text-xs font-medium text-gray-500 w-16">Jahr</TableHead>
+                            <TableHead className="text-xs font-medium text-gray-500 text-right">Ø Preis</TableHead>
+                            <TableHead className="text-xs font-medium text-gray-500 text-right">Zum Vorjahr</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {preisentwicklung.jahre.map((row) => (
+                            <TableRow key={row.jahr} className="text-sm">
+                              <TableCell className="font-medium text-gray-900">{row.jahr}</TableCell>
+                              <TableCell className="text-right text-gray-700">
+                                {formatEuro(row.avg_preis_cents)} &euro;
+                              </TableCell>
+                              <TableCell className="text-right">
+                                {row.veraenderung_cents === null ? (
+                                  <span className="text-gray-400 text-xs">—</span>
+                                ) : (
+                                  <span
+                                    className={`font-medium ${
+                                      row.veraenderung_cents > 0
+                                        ? "text-red-600"
+                                        : row.veraenderung_cents < 0
+                                        ? "text-green-600"
+                                        : "text-gray-500"
+                                    }`}
+                                  >
+                                    {row.veraenderung_cents > 0 ? "+" : ""}
+                                    {formatEuro(row.veraenderung_cents)} &euro;{" "}
+                                    <span className="text-xs font-normal">
+                                      ({row.veraenderung_prozent! > 0 ? "+" : ""}
+                                      {row.veraenderung_prozent!.toFixed(1).replace(".", ",")}%)
+                                    </span>
+                                  </span>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center py-1">
+                      Noch keine jahres&uuml;bergreifenden Daten
+                    </p>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>

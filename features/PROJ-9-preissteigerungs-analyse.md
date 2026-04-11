@@ -1,6 +1,6 @@
 # PROJ-9: Preissteigerungs-Analyse
 
-## Status: Architected
+## Status: In Progress
 **Created:** 2026-04-11
 **Last Updated:** 2026-04-11
 
@@ -49,6 +49,15 @@
 
 ---
 <!-- Sections below are added by subsequent skills -->
+
+## Implementation Notes
+- Frontend extended `src/components/price-chart-sheet.tsx`:
+  - Added `PreisentwicklungData` + `JahrStat` interfaces
+  - Added `preisentwicklung` state + `fetchPreisentwicklung` callback
+  - Added "Preisentwicklung" section below summary stats (guarded by `chartData.length >= 2`)
+  - Gesamt-Veränderung card: erster/letzter Kauf mit absoluter + prozentualer Änderung, farbcodiert
+  - Jahr-zu-Jahr Tabelle (shadcn Table): nur sichtbar wenn `jahre.length >= 2`, sonst Hinweis-Text
+  - Fetch wired to `/api/produkte/[name]/preisentwicklung` — API to be built in `/backend`
 
 ## Tech Design (Solution Architect)
 

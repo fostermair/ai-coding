@@ -1,6 +1,6 @@
 # PROJ-8: Produkt-Ausblendung für Statistiken
 
-## Status: In Progress
+## Status: Approved
 **Created:** 2026-04-11
 **Last Updated:** 2026-04-11
 
@@ -164,7 +164,73 @@ Keine neuen Pakete — alles bereits vorhanden:
 - Keine. Alle Acceptance Criteria der Frontend-Änderungen umgesetzt.
 
 ## QA Test Results
-_To be added by /qa_
+
+**Date:** 2026-04-11
+**Tester:** QA Engineer (automated)
+
+### Acceptance Criteria
+
+| # | Criterion | Status |
+|---|-----------|--------|
+| 1 | Jedes Produkt hat einen Statistics-Switch-Toggle | PASS |
+| 2 | Switch ist standardmäßig aktiv (checked) | PASS |
+| 3 | Toggle-Off dimmt die Produktzeile (opacity-50) | PASS |
+| 4 | Status-Änderung wird per API gespeichert (PUT /api/produkte/[name]/exclude) | PASS |
+| 5 | Optimistic update: Zeile sofort gedimmt nach Klick | PASS |
+| 6 | Re-Aktivierung stellt aktiven Status wieder her | PASS |
+| 7 | Filter-Buttons Alle / Aktiv / Ausgeblendet sichtbar | PASS |
+| 8 | Filter "Ausgeblendet" zeigt nur ausgeblendete Produkte | PASS |
+| 9 | Filter "Aktiv" blendet ausgeblendete Produkte aus | PASS |
+| 10 | Filter "Ausgeblendet" Empty-State zeigt Hinweis | PASS |
+| 11 | Summary-Bar zeigt "X ausgeblendet" bei excluded_count > 0 | PASS |
+| 12 | Summary-Bar zeigt keinen Hinweis wenn keine Produkte ausgeblendet | PASS |
+| 13 | GET /api/produkte gibt excluded_from_stats und excluded_count zurück | PASS |
+| 14 | filter=active schließt ausgeblendete Produkte aus | PASS |
+| 15 | filter=excluded gibt nur ausgeblendete Produkte zurück | PASS |
+| 16 | Ungültiger filter-Parameter gibt 400 zurück | PASS |
+| 17 | Monatliche Ausgaben-Statistik exkludiert ausgeblendete Produkte | PASS |
+| 18 | Top-Produkte-Statistik exkludiert ausgeblendete Produkte | PASS |
+| 19 | MwSt-Statistik exkludiert ausgeblendete Produkte | PASS |
+| 20 | Rabatt-API bleibt unverändert (Spec: nicht betroffen) | PASS |
+| 21 | Preis-Chart Autocomplete zeigt nur aktive Produkte | PASS |
+| 22 | Statistik-Dashboard zeigt Ausgeblendet-Hinweis wenn > 0 | PASS |
+| 23 | Statistik-Dashboard zeigt keinen Hinweis wenn 0 ausgeblendet | PASS |
+| 24 | Ausblendungs-Status überlebt Page-Reload (Persistenz) | PASS |
+| 25 | Alias bleibt erhalten wenn Produkt ausgeblendet wird | PASS |
+| 26 | Neue Produkte aus Import sind standardmäßig aktiv | PASS |
+| 27 | Bon-Detailansicht bleibt von Ausblendung unberührt | PASS |
+| 28 | Mobile: Produktseite zeigt Filter-Buttons | PASS |
+| 29 | Mobile: Switch-Spalte ausgeblendet (sm breakpoint) | PASS |
+
+**Total: 29/29 Acceptance Criteria PASSED**
+
+### Bugs Found
+
+None.
+
+### Security Audit
+
+- Input validation: `excluded` field type-checked (only boolean accepted, others → 400)
+- Product existence checked before update (unknown products → 404)
+- No XSS vectors: product names are not rendered as HTML
+- No SQL injection: all queries use parameterized statements
+
+No security issues found.
+
+### Automated Tests
+
+**Unit/Integration tests (Vitest):** `src/app/api/produkte/produkte-exclude.test.ts`
+- 8 tests — all PASS
+
+**E2E tests (Playwright):** `tests/PROJ-8-produkt-statistik-ausblendung.spec.ts`
+- 59 tests passed, 7 skipped (Mobile Safari switch-column hidden below sm breakpoint)
+
+### Notes
+
+- `playwright.config.ts` changed from `fullyParallel: true` (no worker limit) to `workers: 1` — SQLite is shared between browser projects; parallel Chromium + Mobile Safari workers caused non-deterministic state conflicts on exclusion-modifying tests
+- Monatliche Ausgaben werden aus `receipt_items` statt `receipts.total_amount_cents` aggregiert (bewusste Abweichung, präziser)
+
+### Production-Ready: YES
 
 ## Deployment
 _To be added by /deploy_

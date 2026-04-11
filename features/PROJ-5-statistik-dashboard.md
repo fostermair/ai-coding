@@ -1,8 +1,8 @@
 # PROJ-5: Statistik-Dashboard
 
-## Status: In Progress
+## Status: Approved
 **Created:** 2026-04-07
-**Last Updated:** 2026-04-10
+**Last Updated:** 2026-04-11
 
 ## Dependencies
 - Requires: PROJ-1 (eBon Import & Parser) – Datengrundlage
@@ -174,7 +174,80 @@ Keine neuen Pakete nötig. Alles existiert bereits:
 - None. All acceptance criteria addressed in the implementation.
 
 ## QA Test Results
-_To be added by /qa_
+
+**QA Date:** 2026-04-11
+**Tested by:** QA Engineer (automated)
+**Result:** PASS — Production Ready
+
+### Acceptance Criteria Results
+
+| # | Criterion | Status |
+|---|-----------|--------|
+| 1 | Balken-Chart monatliche Ausgaben (X: Monat/Jahr, Y: EUR) | PASS |
+| 2 | Vormonatsvergleich sichtbar (absolut + prozentual) | PASS |
+| 3 | Zeitraum-Filter (3M, 6M, 12M, Alle) | PASS |
+| 4 | Top-10 häufigste Produkte (Name/Alias, Häufigkeit) | PASS |
+| 5 | Top-10 nach Gesamtausgaben (zweite Ansicht) | PASS |
+| 6 | Klick auf Produkt → Preisentwicklungs-Chart (PROJ-4) | PASS |
+| 7 | Gesamt-Ersparnis durch Rabatte | PASS |
+| 8 | Monatliche Ersparnisse als Balkendiagramm | PASS |
+| 9 | Liste der häufigsten Rabattaktionen (Top-5) | PASS |
+| 10 | Donut/Pie-Chart MwSt-Kategorien (7% vs. 19%) | PASS |
+| 11 | Absolute Beträge pro Kategorie sichtbar | PASS |
+
+### Edge Cases Tested
+
+| Edge Case | Status |
+|-----------|--------|
+| Weniger als 2 Monate Daten → nur vorhandene Daten, kein Vergleich | PASS |
+| Keine Bons importiert → Leer-Zustand mit Hinweis | PASS |
+| Negatives `gesamt_ersparnis_cents` (Rabatte als negative Werte) → korrekt als Betrag angezeigt | PASS (Bug gefunden & behoben) |
+
+### Security Audit
+
+| Test | Status |
+|------|--------|
+| SQL Injection via `monate` Parameter | PASS — ungültige Werte werden ignoriert |
+| SQL Injection via `sort` Parameter | PASS — Whitelist-Validierung in Code |
+| XSS via URL-Parameter | PASS — kein HTML rendered aus API-Werten |
+| API gibt keine sensiblen Daten preis | PASS — nur Aggregatdaten |
+
+### Regression Testing
+
+| Feature | Status |
+|---------|--------|
+| PROJ-1: eBon Import & Parser | PASS — keine Regression |
+| PROJ-2: Bon-Übersicht & Detailansicht | PASS — keine Regression |
+| PROJ-3: Produktdatenbank & Alias-Verwaltung | PASS — keine Regression |
+| PROJ-4: Preisentwicklungs-Chart | PASS — PriceChartSheet korrekt eingebunden |
+
+### Cross-Browser / Responsive
+
+| Environment | Status |
+|-------------|--------|
+| Chromium Desktop | PASS |
+| Mobile Safari (iPhone 13) | PASS |
+
+### Test Coverage
+
+- **Unit tests:** 25 passed (existing, no regression)
+- **E2E tests:** 66 new PROJ-5 tests (33 × 2 Browsers) — alle bestanden
+- **Test file:** `tests/PROJ-5-statistik-dashboard.spec.ts`
+
+### Bugs Found
+
+| # | Severity | Description | Fix |
+|---|----------|-------------|-----|
+| 1 | Medium | `gesamt_ersparnis_cents` ist negativ (Rabatte als negative Werte gespeichert), aber Komponente prüfte `> 0` statt `!== 0` → "gespart"-Anzeige fehlte | Behoben in `statistik-dashboard.tsx`: Bedingung auf `!== 0` geändert, Betrag mit `Math.abs()` |
+| 2 | Medium | URL-Konstruktion für `top-produkte` war fehlerhaft: `...&sort=...` ohne `?` wenn kein `monate`-Filter → alle 4 API-Aufrufe schlugen still fehl | Behoben: `buildUrl` Helper-Funktion eingeführt |
+
+### Known Limitations (Low / Accepted)
+
+None.
+
+### Production-Ready Decision
+
+**READY** — Alle Acceptance Criteria bestanden, keine Critical/High Bugs, Security Audit bestanden, keine Regressionen.
 
 ## Deployment
 _To be added by /deploy_

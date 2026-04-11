@@ -136,14 +136,19 @@ export function StatistikDashboard() {
 
   const fetchAll = useCallback(async () => {
     setLoading(true)
-    const qs = zeitraum !== "alle" ? `?monate=${zeitraum}` : ""
+    const monateParam = zeitraum !== "alle" ? `monate=${zeitraum}` : ""
+
+    function buildUrl(base: string, extra?: string) {
+      const parts = [monateParam, extra].filter(Boolean)
+      return parts.length > 0 ? `${base}?${parts.join("&")}` : base
+    }
 
     try {
       const [monatRes, topRes, rabattRes, mwstRes] = await Promise.all([
-        fetch(`/api/statistiken/monatlich${qs}`),
-        fetch(`/api/statistiken/top-produkte${qs}&sort=${topSort}`),
-        fetch(`/api/statistiken/rabatte${qs}`),
-        fetch(`/api/statistiken/mwst${qs}`),
+        fetch(buildUrl("/api/statistiken/monatlich")),
+        fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
+        fetch(buildUrl("/api/statistiken/rabatte")),
+        fetch(buildUrl("/api/statistiken/mwst")),
       ])
 
       const monatJson: MonatlichData = await monatRes.json()
@@ -173,9 +178,10 @@ export function StatistikDashboard() {
 
   // Refetch top products when sort changes (without refetching everything)
   const fetchTopProdukte = useCallback(async () => {
-    const qs = zeitraum !== "alle" ? `monate=${zeitraum}&` : ""
+    const params = new URLSearchParams({ sort: topSort })
+    if (zeitraum !== "alle") params.set("monate", zeitraum)
     try {
-      const res = await fetch(`/api/statistiken/top-produkte?${qs}sort=${topSort}`)
+      const res = await fetch(`/api/statistiken/top-produkte?${params}`)
       const json: TopProdukteData = await res.json()
       setTopProdukte(json)
     } catch {
@@ -223,7 +229,7 @@ export function StatistikDashboard() {
 
   const rabattChartData = (rabatte?.monatlich ?? []).map((m) => ({
     ...m,
-    euro: centsToEuro(m.ersparnis_cents),
+    euro: centsToEuro(Math.abs(m.ersparnis_cents)),
     label: formatMonat(m.monat),
   }))
 
@@ -336,9 +342,9 @@ export function StatistikDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-base font-medium">Rabatt-Tracking</CardTitle>
-              {rabatte && rabatte.gesamt_ersparnis_cents > 0 && (
+              {rabatte && rabatte.gesamt_ersparnis_cents !== 0 && (
                 <span className="text-lg font-semibold text-green-600">
-                  {formatEuro(rabatte.gesamt_ersparnis_cents)} &euro; gespart
+                  {formatEuro(Math.abs(rabatte.gesamt_ersparnis_cents))} &euro; gespart
                 </span>
               )}
             </CardHeader>

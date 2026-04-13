@@ -188,12 +188,12 @@ function ProductRow({
   return (
     <TableRow key={product.raw_name}>
       {/* Raw name */}
-      <TableCell className="font-medium font-mono text-xs text-gray-600 max-w-[250px]">
+      <TableCell className="font-medium font-mono text-xs text-gray-600 min-w-[200px]">
         <span className="truncate block">{product.raw_name}</span>
       </TableCell>
 
       {/* Alias (inline-editable) */}
-      <TableCell className="hidden sm:table-cell min-w-[200px]">
+      <TableCell className="hidden sm:table-cell min-w-[180px]">
         {editingName === product.raw_name ? (
           <div className="flex items-center gap-1">
             <Input
@@ -260,17 +260,17 @@ function ProductRow({
       </TableCell>
 
       {/* Purchase count */}
-      <TableCell className="text-right tabular-nums">
+      <TableCell className="text-right tabular-nums min-w-[60px]">
         {product.purchase_count}×
       </TableCell>
 
       {/* Last price */}
-      <TableCell className="text-right tabular-nums hidden sm:table-cell">
+      <TableCell className="text-right tabular-nums hidden sm:table-cell min-w-[100px]">
         {formatEuro(product.last_price_cents)} €
       </TableCell>
 
       {/* Price trend badge */}
-      <TableCell className="text-right hidden sm:table-cell">
+      <TableCell className="text-right hidden sm:table-cell min-w-[90px]">
         <PriceTrendBadge
           pct={product.price_trend_pct ?? null}
           fromDate={product.trend_from_date}
@@ -280,17 +280,17 @@ function ProductRow({
       </TableCell>
 
       {/* Inflation CAGR badge */}
-      <TableCell className="text-right hidden md:table-cell">
+      <TableCell className="text-right hidden md:table-cell min-w-[120px]">
         <InflationCAGRBadge pct={product.inflation_cagr_pct ?? null} />
       </TableCell>
 
       {/* Last purchase date */}
-      <TableCell className="text-right text-gray-500 hidden md:table-cell">
+      <TableCell className="text-right text-gray-500 hidden md:table-cell min-w-[100px]">
         {formatDate(product.last_purchase_date)}
       </TableCell>
 
       {/* Saison: badge + toggle button */}
-      <TableCell className="text-center hidden sm:table-cell space-x-1">
+      <TableCell className="text-center hidden sm:table-cell space-x-1 min-w-[80px]">
         <div className="flex items-center justify-center gap-1">
           {product.seasonal && (
             <SeasonBadge season={product.current_month_season} />
@@ -313,7 +313,7 @@ function ProductRow({
       </TableCell>
 
       {/* Exclude from stats toggle */}
-      <TableCell className="text-center hidden sm:table-cell">
+      <TableCell className="text-center hidden sm:table-cell min-w-[100px]">
         <Switch
           checked={!product.excluded_from_stats}
           onCheckedChange={() => onToggleExclude(product)}
@@ -327,16 +327,22 @@ function ProductRow({
       </TableCell>
 
       {/* Price chart button */}
-      <TableCell className="text-center">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 w-7 p-0 text-gray-400 hover:text-blue-600"
-          title="Preisentwicklung anzeigen"
-          onClick={() => onOpenChart(product.raw_name)}
-        >
-          <TrendingUp className="h-4 w-4" />
-        </Button>
+      <TableCell className="text-center whitespace-nowrap min-w-[50px]">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 w-7 p-0 text-gray-400 hover:text-blue-600"
+                onClick={() => onOpenChart(product.raw_name)}
+              >
+                <TrendingUp className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Preisentwicklung</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </TableCell>
     </TableRow>
   )
@@ -348,20 +354,20 @@ function ProductTableHeader() {
   return (
     <TableHeader>
       <TableRow className="hover:bg-transparent">
-        <TableHead className="w-full">Produkt</TableHead>
-        <TableHead className="hidden sm:table-cell">Alias</TableHead>
-        <TableHead className="text-right">Käufe</TableHead>
-        <TableHead className="text-right hidden sm:table-cell">Letzter Preis</TableHead>
-        <TableHead className="text-right hidden sm:table-cell">Preistrend</TableHead>
-        <TableHead className="text-right hidden md:table-cell">Ø Inflation p.a.</TableHead>
-        <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
-        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
+        <TableHead className="min-w-[200px]">Produkt</TableHead>
+        <TableHead className="hidden sm:table-cell whitespace-nowrap min-w-[180px]">Alias</TableHead>
+        <TableHead className="text-right whitespace-nowrap min-w-[60px]">Käufe</TableHead>
+        <TableHead className="text-right hidden sm:table-cell whitespace-nowrap min-w-[100px]">Letzter Preis</TableHead>
+        <TableHead className="text-right hidden sm:table-cell whitespace-nowrap min-w-[90px]">Preistrend</TableHead>
+        <TableHead className="text-right hidden md:table-cell whitespace-nowrap min-w-[120px]">Ø Inflation p.a.</TableHead>
+        <TableHead className="text-right hidden md:table-cell whitespace-nowrap min-w-[100px]">Letzter Kauf</TableHead>
+        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap min-w-[80px]">
           Saison
         </TableHead>
-        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
+        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap min-w-[100px]">
           Statistiken
         </TableHead>
-        <TableHead className="w-10"></TableHead>
+        <TableHead className="text-center whitespace-nowrap min-w-[50px]">Chart</TableHead>
       </TableRow>
     </TableHeader>
   )
@@ -768,7 +774,7 @@ export function ProductList() {
             {/* Produkttabelle */}
             {activeProducts.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
-                <Table className="w-full">
+                <Table className="w-full min-w-max">
                   <ProductTableHeader />
                   <TableBody>
                     {activeProducts.map((product) => (
@@ -821,7 +827,7 @@ export function ProductList() {
             {/* Ausgeblendet-Tabelle */}
             {filteredExcluded.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
-                <Table className="w-full">
+                <Table className="w-full min-w-max">
                   <ProductTableHeader />
                   <TableBody>
                     {filteredExcluded.map((product) => (

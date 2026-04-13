@@ -289,29 +289,27 @@ function ProductRow({
         {formatDate(product.last_purchase_date)}
       </TableCell>
 
-      {/* Saison column */}
-      <TableCell className="text-center hidden sm:table-cell">
-        {product.seasonal ? (
-          <SeasonBadge season={product.current_month_season} />
-        ) : null}
-      </TableCell>
-
-      {/* Seasonal toggle button */}
-      <TableCell className="text-center hidden sm:table-cell">
-        <Button
-          variant="ghost"
-          size="sm"
-          className={`h-7 w-7 p-0 ${
-            product.seasonal
-              ? "text-green-600 hover:text-green-700"
-              : "text-gray-400 hover:text-gray-600"
-          }`}
-          title={product.seasonal ? "Als nicht-saisonal markieren" : "Als saisonal markieren"}
-          onClick={() => onToggleSeasonal(product)}
-          disabled={togglingSeasonalNames.has(product.raw_name)}
-        >
-          <Leaf className="h-4 w-4" />
-        </Button>
+      {/* Saison: badge + toggle button */}
+      <TableCell className="text-center hidden sm:table-cell space-x-1">
+        <div className="flex items-center justify-center gap-1">
+          {product.seasonal && (
+            <SeasonBadge season={product.current_month_season} />
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`h-7 w-7 p-0 ${
+              product.seasonal
+                ? "text-green-600 hover:text-green-700"
+                : "text-gray-400 hover:text-gray-600"
+            }`}
+            title={product.seasonal ? "Als nicht-saisonal markieren" : "Als saisonal markieren"}
+            onClick={() => onToggleSeasonal(product)}
+            disabled={togglingSeasonalNames.has(product.raw_name)}
+          >
+            <Leaf className="h-4 w-4" />
+          </Button>
+        </div>
       </TableCell>
 
       {/* Exclude from stats toggle */}
@@ -360,7 +358,6 @@ function ProductTableHeader() {
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
           Saison
         </TableHead>
-        <TableHead className="w-10 hidden sm:table-cell"></TableHead>
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
           Statistiken
         </TableHead>

@@ -1,9 +1,11 @@
 # PROJ-14: Saisonale Artikel-Markierung
 
-## Status: In Progress
+## Status: Approved
 **Created:** 2026-04-12
 **Last Updated:** 2026-04-13
 **Feature Folder:** `features/PROJ-14-saisonale-artikel/`
+
+**QA Approved:** 2026-04-13 - All acceptance criteria met, 0 bugs found, 99/99 tests passing
 
 ## Dependencies
 - Requires: PROJ-1 (eBon Import & Parser) – Preisdaten mit Datum müssen vorhanden sein

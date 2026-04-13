@@ -1,6 +1,6 @@
 # PROJ-12: Artikel-Inflation (Jahr-zu-Jahr Preissteigerung)
 
-## Status: In Review
+## Status: Approved
 **Created:** 2026-04-12
 **Last Updated:** 2026-04-13
 **Feature Folder:** `features/PROJ-12-artikel-inflation/`

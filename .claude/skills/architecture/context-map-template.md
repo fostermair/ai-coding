@@ -68,3 +68,27 @@ Explain WHY specific tools/approaches are chosen (plain language, no code).
 
 - `src/app/[irrelevant-route]/` — unberührt
 - `src/components/ui/` — shadcn, keine Änderung
+
+---
+
+## Tests
+
+> QA liest und schreibt NUR die hier gelisteten Test-Dateien.
+
+### Bestehende Tests (lesen + ggf. anpassen)
+
+| Datei | Typ | Warum relevant |
+|---|---|---|
+| `src/hooks/useExample.test.ts` | Unit | Hook wird erweitert, Tests müssen angepasst werden |
+| `tests/PROJ-Y-other-feature.spec.ts` | E2E | Shared Component geändert — Regression prüfen |
+
+> Wenn keine bestehenden Tests betroffen sind: _"Keine bestehenden Tests betroffen."_
+
+### Neue Tests (erstellen)
+
+| Datei | Typ | Inhalt |
+|---|---|---|
+| `src/hooks/useNewHook.test.ts` | Unit | Tests für neuen Custom Hook |
+| `tests/PROJ-X-feature-name.spec.ts` | E2E | Ein `test()` pro Acceptance Criterion |
+
+> Wenn kein Custom Hook oder keine Utility-Funktion entsteht: Unit-Test-Zeile weglassen.

@@ -27,7 +27,8 @@ features/PROJ-X-feature-name/context-map.md   ← Read this (for code review sco
 
 ### 2. Read ONLY the files listed in the Context Map
 - Do NOT scan the codebase independently
-- Quick context scan for regressions only: `git log --oneline -10`
+- The **Tests** section of `context-map.md` lists exactly which test files to read and where to create new ones — follow it precisely
+- No `git log`, no `git ls-files`, no directory scans
 
 ### 3. Check Playwright Browser Installation
 Run: `npx playwright install --dry-run 2>&1 | head -5`
@@ -40,8 +41,11 @@ If browsers are not installed, tell the user:
 
 ### 1. Read Feature Spec + Context Map
 - Read `spec.md`: understand ALL acceptance criteria, ALL edge cases, dependencies
-- Read `context-map.md`: understand tech decisions + scope code review to listed files
-- Open ONLY the files from the "Relevante Dateien" table for code review
+- Read `context-map.md`:
+  - **Relevante Dateien** → open these for code review
+  - **Tests → Bestehende Tests** → open and read these test files
+  - **Tests → Neue Tests** → these are the files to create (paths and types pre-decided by architect)
+- Do NOT open any file not listed in the Context Map
 
 ### 2. Manual Testing
 Test the feature systematically in the browser:
@@ -61,34 +65,38 @@ Think like an attacker:
 - Check for sensitive data in API responses
 
 ### 4. Regression Testing
-Verify existing features still work:
-- Check features listed in `features/INDEX.md` with status "Deployed"
-- Test core flows of related features
-- Verify no visual regressions on shared components
+- Read the test files listed under **Tests → Bestehende Tests** in the Context Map
+- Run only these files first to catch targeted regressions:
+  ```bash
+  npm test -- src/hooks/useExample.test.ts   # example — use actual paths from Context Map
+  npm run test:e2e -- tests/PROJ-Y.spec.ts   # example — use actual paths from Context Map
+  ```
+- Then run the full suite to catch anything unexpected:
+  ```bash
+  npm test && npm run test:e2e
+  ```
+- Failures in the targeted files are **direct regressions** (High bug). Failures elsewhere are **side-effect regressions** (also High).
 
-### 5. Run Automated Tests
-```bash
-npm test                  # Vitest: integration tests for API routes
-npm run test:e2e          # Playwright: E2E tests from previous QA runs
-```
-Note any failures — regressions are treated as High bugs.
+### 5. Adapt Existing Tests
+For each file under **Tests → Bestehende Tests** marked "anpassen":
+- Read the file
+- Update tests to reflect the new behavior introduced by this feature
+- Run after each change: `npm test`
 
-### 6. Write Unit Tests
-Place tests co-located next to source files (`src/hooks/useFeature.test.ts`):
+### 6. Write New Unit Tests
+The architect has pre-decided which unit test files to create (see **Tests → Neue Tests** in Context Map).
+Create each listed unit test file co-located next to its source file:
 
-**What to unit test:**
-- Custom hooks with non-trivial logic
-- Pure utility/transformation functions
-- Form validation logic (if extracted from components)
-
-**What NOT to unit test:**
-- Pure presentational components with no logic
-- Logic already fully covered by E2E tests
+**What to cover:**
+- Happy path
+- Error paths and edge cases
+- Mock only external dependencies (localStorage, fetch) — not internal logic
 
 Run to confirm all pass: `npm test`
 
-### 7. Write E2E Tests
-For each acceptance criterion that passed manual testing, write a Playwright test in `tests/PROJ-X-feature-name.spec.ts`:
+### 7. Write New E2E Tests
+The architect has pre-decided the E2E spec file path (see **Tests → Neue Tests** in Context Map).
+Create the listed `tests/PROJ-X-feature-name.spec.ts`:
 - One `test()` per acceptance criterion
 - Tests describe the user journey in plain language
 - Run to confirm all pass: `npm run test:e2e`
@@ -126,6 +134,8 @@ Ask: "Which bugs should be fixed first?"
 - [ ] `spec.md` fully read (all AC + edge cases understood)
 - [ ] `context-map.md` read (tech decisions + file scope understood)
 - [ ] Only Context Map files opened for code review
+- [ ] Existing tests from Context Map read and run (targeted regression)
+- [ ] Full test suite run (side-effect regression check)
 - [ ] All acceptance criteria tested (each has pass/fail)
 - [ ] All documented edge cases tested
 - [ ] Additional edge cases identified and tested
@@ -135,8 +145,9 @@ Ask: "Which bugs should be fixed first?"
 - [ ] Regression test on related features
 - [ ] Every bug documented with severity + steps to reproduce
 - [ ] Screenshots added for visual bugs
-- [ ] Unit tests written and passing (`npm test`)
-- [ ] E2E tests written and passing (`npm run test:e2e`)
+- [ ] Existing tests adapted where marked "anpassen" in Context Map
+- [ ] New unit test files created as listed in Context Map (`npm test` passes)
+- [ ] New E2E spec created as listed in Context Map (`npm run test:e2e` passes)
 - [ ] `features/PROJ-X-feature-name/qa-results.md` created
 - [ ] User has reviewed results and prioritized bugs
 - [ ] Production-ready decision made

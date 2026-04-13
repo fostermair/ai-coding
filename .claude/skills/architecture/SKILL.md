@@ -92,6 +92,21 @@ Copy-paste relevant type definitions directly — downstream agents must not ope
 #### Nicht-lesen-Liste
 Explicitly list directories/files NOT relevant to this feature.
 
+#### Tests (Abschnitt in Context Map befüllen)
+Scan for existing test files that are affected by this feature:
+```bash
+git ls-files 'src/**/*.test.*' 'tests/**/*.spec.*'
+```
+
+For each test file, decide:
+- **Lesen + anpassen** — file tests a component/hook that will be modified
+- **Regression prüfen** — file tests a shared component that is touched but not owned by this feature
+- **Neu erstellen** — does not exist yet (one E2E spec per feature, unit tests for new hooks/utils)
+
+Fill in the **Tests** section of `context-map.md` with both tables:
+1. Bestehende Tests (read + possibly update)
+2. Neue Tests (create — with file path and type pre-decided so QA doesn't have to figure it out)
+
 **Goal:** A downstream agent reads ONLY `spec.md` + `context-map.md` + the listed files — zero independent scanning.
 
 ### 6. User Review

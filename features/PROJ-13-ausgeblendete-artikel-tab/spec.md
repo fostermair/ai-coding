@@ -1,8 +1,9 @@
 # PROJ-13: Ausgeblendete Artikel als separater Tab
 
-## Status: Planned
+## Status: Approved
 **Created:** 2026-04-12
-**Last Updated:** 2026-04-12
+**Last Updated:** 2026-04-13
+**Approved:** 2026-04-13
 **Feature Folder:** `features/PROJ-13-ausgeblendete-artikel-tab/`
 
 ## Dependencies
@@ -17,20 +18,20 @@
 ## Acceptance Criteria
 
 ### Haupt-Tab "Produkte"
-- [ ] Der Haupt-Tab zeigt standardmäßig nur **nicht-ausgeblendete** Artikel (equivalent zum bisherigen Filter "Aktiv")
-- [ ] Der bisherige Dropdown-Filter (Alle / Aktiv / Ausgeblendet) entfällt ersatzlos
-- [ ] Suche, Sortierung und alle anderen Aktionen (Alias vergeben, Ausblenden) bleiben unverändert
+- [x] Der Haupt-Tab zeigt standardmäßig nur **nicht-ausgeblendete** Artikel (equivalent zum bisherigen Filter "Aktiv")
+- [x] Der bisherige Dropdown-Filter (Alle / Aktiv / Ausgeblendet) entfällt ersatzlos
+- [x] Suche, Sortierung und alle anderen Aktionen (Alias vergeben, Ausblenden) bleiben unverändert
 
 ### Tab "Ausgeblendet (N)"
-- [ ] Ein zweiter Tab zeigt alle ausgeblendeten Artikel in einer separaten Tabelle
-- [ ] Die Zahl N im Tab-Header zeigt die aktuelle Anzahl ausgeblendeter Artikel
-- [ ] Tabelle enthält die gleichen Spalten wie die Haupttabelle (Name, Alias, Anzahl Käufe, Letzter Kauf, Preistrend)
-- [ ] Jeder Eintrag hat einen Button "Wieder einblenden" (analog zu PROJ-8) der direkt in dieser Tabelle funktioniert
-- [ ] Nach Einblenden eines Artikels verschwindet er sofort aus dem Ausgeblendet-Tab und erscheint in der Hauptliste
+- [x] Ein zweiter Tab zeigt alle ausgeblendeten Artikel in einer separaten Tabelle
+- [x] Die Zahl N im Tab-Header zeigt die aktuelle Anzahl ausgeblendeter Artikel
+- [x] Tabelle enthält die gleichen Spalten wie die Haupttabelle (Name, Alias, Anzahl Käufe, Letzter Kauf, Preistrend)
+- [x] Jeder Eintrag hat einen Button "Wieder einblenden" (analog zu PROJ-8) der direkt in dieser Tabelle funktioniert
+- [x] Nach Einblenden eines Artikels verschwindet er sofort aus dem Ausgeblendet-Tab und erscheint in der Hauptliste
 
 ### Konsistenz
-- [ ] Beim Ausblenden eines Artikels im Haupt-Tab verschwindet er sofort aus der Hauptliste (kein Reload nötig)
-- [ ] Die Gesamtzahl im Tab-Header aktualisiert sich automatisch nach Aktionen
+- [x] Beim Ausblenden eines Artikels im Haupt-Tab verschwindet er sofort aus der Hauptliste (kein Reload nötig)
+- [x] Die Gesamtzahl im Tab-Header aktualisiert sich automatisch nach Aktionen
 
 ## Edge Cases
 - Keine ausgeblendeten Artikel → Tab "Ausgeblendet (0)" ist sichtbar, zeigt leeren Zustand mit Hinweistext

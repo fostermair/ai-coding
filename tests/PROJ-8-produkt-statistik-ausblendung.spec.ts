@@ -163,23 +163,22 @@ test.describe("AC: Statistiken-Toggle in Produktliste", () => {
   })
 })
 
-// ── AC: Filter (Alle / Aktiv / Ausgeblendet) ─────────────────────────────────
+// ── AC: Tabs (PROJ-13) – Produkte vs. Ausgeblendet ─────────────────────────────
 
-test.describe("AC: Produktliste Filter-Buttons", () => {
+test.describe("AC: Produktliste Tabs (PROJ-13 refactor)", () => {
   test.beforeEach(async ({ request }) => {
     await ensureBonsImported(request)
     await resetAllExclusions(request)
   })
 
-  test("filter buttons Alle / Aktiv / Ausgeblendet are visible", async ({ page }) => {
+  test("default tab is 'Produkte' (aktive Artikel)", async ({ page }) => {
     await page.goto("/produkte")
     await expect(page.locator("table tbody tr").first()).toBeVisible({ timeout: 10000 })
-    await expect(page.getByRole("button", { name: "Alle" })).toBeVisible()
-    await expect(page.getByRole("button", { name: "Aktiv" })).toBeVisible()
-    await expect(page.getByRole("button", { name: "Ausgeblendet" })).toBeVisible()
+    const produkte_tab = page.getByRole("tab", { name: "Produkte" })
+    await expect(produkte_tab).toHaveAttribute("data-state", "active")
   })
 
-  test("'Ausgeblendet' filter shows only excluded products", async ({ page, request, browserName }) => {
+  test("'Produkte' tab shows only active (non-excluded) products", async ({ page, request, browserName }) => {
     test.skip(browserName === "webkit" && (page.viewportSize()?.width ?? 0) < 640, "Switch column hidden on mobile")
     const rawName = await getFirstProductName(request)
 
@@ -191,11 +190,29 @@ test.describe("AC: Produktliste Filter-Buttons", () => {
     await page.goto("/produkte")
     await expect(page.locator("table tbody tr").first()).toBeVisible({ timeout: 10000 })
 
-    // Click "Ausgeblendet" filter — wait for the debounced API re-fetch to complete
-    await Promise.all([
-      page.waitForResponse((r) => r.url().includes("/api/produkte") && r.url().includes("filter=excluded"), { timeout: 5000 }),
-      page.getByRole("button", { name: "Ausgeblendet" }).click(),
-    ])
+    // Stay on "Produkte" tab — should NOT show the excluded product
+    const excludedRow = page.locator("table tbody tr").filter({ hasText: rawName })
+    const rowCount = await excludedRow.count()
+    expect(rowCount).toBe(0)
+
+    await resetExclusion(request, rawName)
+  })
+
+  test("'Ausgeblendet (N)' tab shows excluded products only", async ({ page, request, browserName }) => {
+    test.skip(browserName === "webkit" && (page.viewportSize()?.width ?? 0) < 640, "Switch column hidden on mobile")
+    const rawName = await getFirstProductName(request)
+
+    // Pre-exclude one product
+    await request.put(`/api/produkte/${encodeURIComponent(rawName)}/exclude`, {
+      data: { excluded: true },
+    })
+
+    await page.goto("/produkte")
+    await expect(page.locator("table tbody tr").first()).toBeVisible({ timeout: 10000 })
+
+    // Click "Ausgeblendet" tab
+    await page.getByRole("tab", { name: /Ausgeblendet/ }).click()
+    await page.waitForTimeout(300)
 
     // Should show our excluded product
     await expect(page.locator("table tbody tr").filter({ hasText: rawName })).toBeVisible({ timeout: 5000 })
@@ -203,11 +220,8 @@ test.describe("AC: Produktliste Filter-Buttons", () => {
     await resetExclusion(request, rawName)
   })
 
-  test("'Aktiv' filter hides excluded products", async ({ page, request, browserName }) => {
-    test.skip(browserName === "webkit" && (page.viewportSize()?.width ?? 0) < 640, "Switch column hidden on mobile")
+  test("'Ausgeblendet (N)' tab header shows correct count", async ({ page, request }) => {
     const rawName = await getFirstProductName(request)
-
-    // Pre-exclude one product
     await request.put(`/api/produkte/${encodeURIComponent(rawName)}/exclude`, {
       data: { excluded: true },
     })
@@ -215,29 +229,23 @@ test.describe("AC: Produktliste Filter-Buttons", () => {
     await page.goto("/produkte")
     await expect(page.locator("table tbody tr").first()).toBeVisible({ timeout: 10000 })
 
-    // Click "Aktiv" filter — wait for the debounced API re-fetch to complete
-    await Promise.all([
-      page.waitForResponse((r) => r.url().includes("/api/produkte") && r.url().includes("filter=active"), { timeout: 5000 }),
-      page.getByRole("button", { name: "Aktiv" }).click(),
-    ])
-
-    // The excluded product should NOT be visible in the table
-    await expect(page.locator("table tbody tr").filter({ hasText: rawName })).not.toBeVisible({ timeout: 3000 })
+    // Tab header should show "Ausgeblendet (1)"
+    const ausgeblendet_tab = page.getByRole("tab", { name: "Ausgeblendet (1)" })
+    await expect(ausgeblendet_tab).toBeVisible()
 
     await resetExclusion(request, rawName)
   })
 
-  test("'Ausgeblendet' filter empty state shows helpful message when nothing excluded", async ({ page }) => {
+  test("'Ausgeblendet' tab empty state when nothing excluded", async ({ page }) => {
     await page.goto("/produkte")
     await expect(page.locator("table tbody tr").first()).toBeVisible({ timeout: 10000 })
-    await Promise.all([
-      page.waitForResponse((r) => r.url().includes("/api/produkte") && r.url().includes("filter=excluded"), { timeout: 5000 }),
-      page.getByRole("button", { name: "Ausgeblendet" }).click(),
-    ])
-    const hasRows = await page.locator("table tbody tr").count()
-    if (hasRows === 0) {
-      await expect(page.getByText("Keine ausgeblendeten Produkte vorhanden.")).toBeVisible()
-    }
+
+    // Click "Ausgeblendet" tab
+    await page.getByRole("tab", { name: /Ausgeblendet/ }).click()
+    await page.waitForTimeout(300)
+
+    // Should show empty state message
+    await expect(page.getByText("Keine ausgeblendeten Produkte vorhanden")).toBeVisible()
   })
 })
 

@@ -9,11 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, TrendingUp } from "lucide-react"
+import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
@@ -41,18 +42,11 @@ interface ProdukteResponse {
 }
 
 type SortKey = "frequency" | "name" | "last_purchase"
-type FilterKey = "all" | "active" | "excluded"
 
 const SORT_LABELS: Record<SortKey, string> = {
   frequency: "Häufigkeit",
   name: "Name A–Z",
   last_purchase: "Letzter Kauf",
-}
-
-const FILTER_LABELS: Record<FilterKey, string> = {
-  all: "Alle",
-  active: "Aktiv",
-  excluded: "Ausgeblendet",
 }
 
 function formatMonthYear(isoDate: string): string {
@@ -108,11 +102,7 @@ function PriceTrendBadge({
   )
 }
 
-function InflationCAGRBadge({
-  pct,
-}: {
-  pct: number | null
-}) {
+function InflationCAGRBadge({ pct }: { pct: number | null }) {
   if (pct === null) return null
 
   const isUp = pct > 0
@@ -132,13 +122,204 @@ function InflationCAGRBadge({
   )
 }
 
+// ── Gemeinsame Tabellenzeile ───────────────────────────────────────────────
+
+function ProductRow({
+  product,
+  editingName,
+  editValue,
+  saving,
+  editInputRef,
+  togglingNames,
+  onStartEdit,
+  onCancelEdit,
+  onSaveAlias,
+  onDeleteAlias,
+  onEditValueChange,
+  onEditKeyDown,
+  onToggleExclude,
+  onOpenChart,
+}: {
+  product: Product
+  editingName: string | null
+  editValue: string
+  saving: boolean
+  editInputRef: React.RefObject<HTMLInputElement | null>
+  togglingNames: Set<string>
+  onStartEdit: (p: Product) => void
+  onCancelEdit: () => void
+  onSaveAlias: (raw: string) => void
+  onDeleteAlias: (raw: string) => void
+  onEditValueChange: (v: string) => void
+  onEditKeyDown: (e: React.KeyboardEvent, raw: string) => void
+  onToggleExclude: (p: Product) => void
+  onOpenChart: (raw: string) => void
+}) {
+  return (
+    <TableRow key={product.raw_name}>
+      {/* Raw name */}
+      <TableCell className="font-medium font-mono text-xs text-gray-600 max-w-[250px]">
+        <span className="truncate block">{product.raw_name}</span>
+      </TableCell>
+
+      {/* Alias (inline-editable) */}
+      <TableCell className="hidden sm:table-cell min-w-[200px]">
+        {editingName === product.raw_name ? (
+          <div className="flex items-center gap-1">
+            <Input
+              ref={editInputRef}
+              value={editValue}
+              onChange={(e) => onEditValueChange(e.target.value)}
+              onKeyDown={(e) => onEditKeyDown(e, product.raw_name)}
+              className="h-7 text-sm"
+              placeholder="Alias eingeben…"
+              disabled={saving}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 w-7 p-0 text-green-600 hover:text-green-700"
+              onClick={() => onSaveAlias(product.raw_name)}
+              disabled={saving}
+            >
+              <Check className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 w-7 p-0 text-gray-400 hover:text-gray-600"
+              onClick={onCancelEdit}
+              disabled={saving}
+            >
+              <X className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1 group">
+            {product.alias ? (
+              <>
+                <span className="text-sm font-medium text-gray-900">{product.alias}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600"
+                  onClick={() => onStartEdit(product)}
+                >
+                  <Pencil className="h-3 w-3" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500"
+                  onClick={() => onDeleteAlias(product.raw_name)}
+                >
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </>
+            ) : (
+              <button
+                className="text-sm text-gray-400 hover:text-gray-600 cursor-pointer flex items-center gap-1"
+                onClick={() => onStartEdit(product)}
+              >
+                <Pencil className="h-3 w-3" />
+                Alias setzen
+              </button>
+            )}
+          </div>
+        )}
+      </TableCell>
+
+      {/* Purchase count */}
+      <TableCell className="text-right tabular-nums">
+        {product.purchase_count}×
+      </TableCell>
+
+      {/* Last price */}
+      <TableCell className="text-right tabular-nums hidden sm:table-cell">
+        {formatEuro(product.last_price_cents)} €
+      </TableCell>
+
+      {/* Price trend badge */}
+      <TableCell className="text-right hidden sm:table-cell">
+        <PriceTrendBadge
+          pct={product.price_trend_pct ?? null}
+          fromDate={product.trend_from_date}
+          toDate={product.trend_to_date}
+          onClick={() => onOpenChart(product.raw_name)}
+        />
+      </TableCell>
+
+      {/* Inflation CAGR badge */}
+      <TableCell className="text-right hidden md:table-cell">
+        <InflationCAGRBadge pct={product.inflation_cagr_pct ?? null} />
+      </TableCell>
+
+      {/* Last purchase date */}
+      <TableCell className="text-right text-gray-500 hidden md:table-cell">
+        {formatDate(product.last_purchase_date)}
+      </TableCell>
+
+      {/* Exclude from stats toggle */}
+      <TableCell className="text-center hidden sm:table-cell">
+        <Switch
+          checked={!product.excluded_from_stats}
+          onCheckedChange={() => onToggleExclude(product)}
+          disabled={togglingNames.has(product.raw_name)}
+          aria-label={
+            product.excluded_from_stats
+              ? `${product.raw_name} in Statistiken anzeigen`
+              : `${product.raw_name} aus Statistiken ausblenden`
+          }
+        />
+      </TableCell>
+
+      {/* Price chart button */}
+      <TableCell className="text-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 text-gray-400 hover:text-blue-600"
+          title="Preisentwicklung anzeigen"
+          onClick={() => onOpenChart(product.raw_name)}
+        >
+          <TrendingUp className="h-4 w-4" />
+        </Button>
+      </TableCell>
+    </TableRow>
+  )
+}
+
+// ── Gemeinsamer Tabellen-Header ────────────────────────────────────────────
+
+function ProductTableHeader() {
+  return (
+    <TableHeader>
+      <TableRow className="hover:bg-transparent">
+        <TableHead className="w-full">Produkt</TableHead>
+        <TableHead className="hidden sm:table-cell">Alias</TableHead>
+        <TableHead className="text-right">Käufe</TableHead>
+        <TableHead className="text-right hidden sm:table-cell">Letzter Preis</TableHead>
+        <TableHead className="text-right hidden sm:table-cell">Preistrend</TableHead>
+        <TableHead className="text-right hidden md:table-cell">Ø Inflation p.a.</TableHead>
+        <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
+        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
+          Statistiken
+        </TableHead>
+        <TableHead className="w-10"></TableHead>
+      </TableRow>
+    </TableHeader>
+  )
+}
+
+// ── Hauptkomponente ────────────────────────────────────────────────────────
+
 export function ProductList() {
   const [data, setData] = useState<ProdukteResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState("")
+  const [excludedSearch, setExcludedSearch] = useState("")
   const [sort, setSort] = useState<SortKey>("frequency")
-  const [filter, setFilter] = useState<FilterKey>("all")
 
   // Price chart state
   const [chartOpen, setChartOpen] = useState(false)
@@ -160,7 +341,6 @@ export function ProductList() {
       const params = new URLSearchParams()
       if (search.trim()) params.set("q", search.trim())
       params.set("sort", sort)
-      if (filter !== "all") params.set("filter", filter)
       const res = await fetch(`/api/produkte?${params.toString()}`)
       if (!res.ok) throw new Error("Fehler beim Laden der Produkte")
       const json = await res.json()
@@ -170,7 +350,7 @@ export function ProductList() {
     } finally {
       setLoading(false)
     }
-  }, [search, sort, filter])
+  }, [search, sort])
 
   useEffect(() => {
     const timer = setTimeout(fetchProducts, 200)
@@ -301,6 +481,28 @@ export function ProductList() {
     }
   }
 
+  const openChart = (rawName: string) => {
+    setChartProduct(rawName)
+    setChartOpen(true)
+  }
+
+  // Gemeinsame Props für ProductRow
+  const rowProps = {
+    editingName,
+    editValue,
+    saving,
+    editInputRef,
+    togglingNames,
+    onStartEdit: startEdit,
+    onCancelEdit: cancelEdit,
+    onSaveAlias: saveAlias,
+    onDeleteAlias: deleteAlias,
+    onEditValueChange: setEditValue,
+    onEditKeyDown: handleEditKeyDown,
+    onToggleExclude: toggleExclude,
+    onOpenChart: openChart,
+  }
+
   // ── Loading state ─────────────────────────────────────────────────────────
   if (loading && !data) {
     return (
@@ -324,12 +526,26 @@ export function ProductList() {
     )
   }
 
-  const products = data?.products ?? []
+  const allProducts = data?.products ?? []
   const totalCount = data?.total_count ?? 0
   const excludedCount = data?.excluded_count ?? 0
 
-  // ── Empty state (no products at all) ──────────────────────────────────────
-  if (totalCount === 0 && !search && filter === "all") {
+  // Clientseitige Aufteilung in aktiv / ausgeblendet
+  const activeProducts = allProducts.filter((p) => !p.excluded_from_stats)
+  const excludedProducts = allProducts.filter((p) => p.excluded_from_stats)
+
+  // Lokale Suche im Ausgeblendet-Tab (unabhängig von Haupt-Suche)
+  const excludedSearchLower = excludedSearch.trim().toLowerCase()
+  const filteredExcluded = excludedSearchLower
+    ? excludedProducts.filter(
+        (p) =>
+          p.raw_name.toLowerCase().includes(excludedSearchLower) ||
+          (p.alias ?? "").toLowerCase().includes(excludedSearchLower)
+      )
+    : excludedProducts
+
+  // ── Empty state (noch keine Produkte) ─────────────────────────────────────
+  if (totalCount === 0 && !search) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white py-20 text-center">
         <div className="rounded-full bg-gray-100 p-4 mb-4">
@@ -370,46 +586,6 @@ export function ProductList() {
         )}
       </div>
 
-      {/* Search + Sort + Filter bar */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Produkt suchen…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-        <div className="flex items-center gap-1">
-          <ArrowUpDown className="h-4 w-4 text-gray-400" />
-          {(Object.keys(SORT_LABELS) as SortKey[]).map((key) => (
-            <Button
-              key={key}
-              variant={sort === key ? "default" : "ghost"}
-              size="sm"
-              className="h-8 text-xs"
-              onClick={() => setSort(key)}
-            >
-              {SORT_LABELS[key]}
-            </Button>
-          ))}
-        </div>
-        <div className="flex items-center gap-1 border-l border-gray-200 pl-3">
-          {(Object.keys(FILTER_LABELS) as FilterKey[]).map((key) => (
-            <Button
-              key={key}
-              variant={filter === key ? "secondary" : "ghost"}
-              size="sm"
-              className="h-8 text-xs"
-              onClick={() => setFilter(key)}
-            >
-              {FILTER_LABELS[key]}
-            </Button>
-          ))}
-        </div>
-      </div>
-
       {/* Error banner (non-blocking) */}
       {error && (
         <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600 flex items-center justify-between">
@@ -420,194 +596,135 @@ export function ProductList() {
         </div>
       )}
 
-      {/* Search empty state */}
-      {products.length === 0 && (search || filter !== "all") && (
-        <div className="rounded-lg border border-gray-100 bg-white p-10 text-center">
-          {search ? (
-            <>
-              <p className="text-gray-500">Kein Produkt für &ldquo;{search}&rdquo; gefunden.</p>
-              <Button variant="link" size="sm" onClick={() => setSearch("")} className="mt-2">
-                Suche zurücksetzen
-              </Button>
-            </>
-          ) : (
-            <>
-              <p className="text-gray-500">Keine ausgeblendeten Produkte vorhanden.</p>
-              <Button variant="link" size="sm" onClick={() => setFilter("all")} className="mt-2">
-                Alle Produkte anzeigen
-              </Button>
-            </>
-          )}
-        </div>
-      )}
+      {/* Tabs */}
+      <Tabs defaultValue="produkte">
+        <TabsList>
+          <TabsTrigger value="produkte">Produkte</TabsTrigger>
+          <TabsTrigger value="ausgeblendet">
+            Ausgeblendet ({excludedCount})
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Product table */}
-      {products.length > 0 && (
-        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="w-full">Produkt</TableHead>
-                <TableHead className="hidden sm:table-cell">Alias</TableHead>
-                <TableHead className="text-right">Käufe</TableHead>
-                <TableHead className="text-right hidden sm:table-cell">Letzter Preis</TableHead>
-                <TableHead className="text-right hidden sm:table-cell">Preistrend</TableHead>
-                <TableHead className="text-right hidden md:table-cell">Ø Inflation p.a.</TableHead>
-                <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
-                <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
-                  Statistiken
-                </TableHead>
-                <TableHead className="w-10"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow
-                  key={product.raw_name}
-                  className={product.excluded_from_stats ? "opacity-50" : undefined}
-                >
-                  {/* Raw name */}
-                  <TableCell className="font-medium font-mono text-xs text-gray-600 max-w-[250px]">
-                    <span className={`truncate block${product.excluded_from_stats ? " line-through" : ""}`}>
-                      {product.raw_name}
-                    </span>
-                  </TableCell>
+        {/* ── Tab 1: Aktive Produkte ─────────────────────────────────────── */}
+        <TabsContent value="produkte">
+          <div className="space-y-4 pt-2">
+            {/* Search + Sort bar */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="relative flex-1 min-w-[200px] max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Produkt suchen…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <ArrowUpDown className="h-4 w-4 text-gray-400" />
+                {(Object.keys(SORT_LABELS) as SortKey[]).map((key) => (
+                  <Button
+                    key={key}
+                    variant={sort === key ? "default" : "ghost"}
+                    size="sm"
+                    className="h-8 text-xs"
+                    onClick={() => setSort(key)}
+                  >
+                    {SORT_LABELS[key]}
+                  </Button>
+                ))}
+              </div>
+            </div>
 
-                  {/* Alias (inline-editable) */}
-                  <TableCell className="hidden sm:table-cell min-w-[200px]">
-                    {editingName === product.raw_name ? (
-                      <div className="flex items-center gap-1">
-                        <Input
-                          ref={editInputRef}
-                          value={editValue}
-                          onChange={(e) => setEditValue(e.target.value)}
-                          onKeyDown={(e) => handleEditKeyDown(e, product.raw_name)}
-                          className="h-7 text-sm"
-                          placeholder="Alias eingeben…"
-                          disabled={saving}
-                        />
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 w-7 p-0 text-green-600 hover:text-green-700"
-                          onClick={() => saveAlias(product.raw_name)}
-                          disabled={saving}
-                        >
-                          <Check className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 w-7 p-0 text-gray-400 hover:text-gray-600"
-                          onClick={cancelEdit}
-                          disabled={saving}
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1 group">
-                        {product.alias ? (
-                          <>
-                            <span className="text-sm font-medium text-gray-900">{product.alias}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600"
-                              onClick={() => startEdit(product)}
-                            >
-                              <Pencil className="h-3 w-3" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500"
-                              onClick={() => deleteAlias(product.raw_name)}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </>
-                        ) : (
-                          <button
-                            className="text-sm text-gray-400 hover:text-gray-600 cursor-pointer flex items-center gap-1"
-                            onClick={() => startEdit(product)}
-                          >
-                            <Pencil className="h-3 w-3" />
-                            Alias setzen
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </TableCell>
+            {/* Suche ohne Treffer */}
+            {activeProducts.length === 0 && search && (
+              <div className="rounded-lg border border-gray-100 bg-white p-10 text-center">
+                <p className="text-gray-500">Kein Produkt für &ldquo;{search}&rdquo; gefunden.</p>
+                <Button variant="link" size="sm" onClick={() => setSearch("")} className="mt-2">
+                  Suche zurücksetzen
+                </Button>
+              </div>
+            )}
 
-                  {/* Purchase count */}
-                  <TableCell className="text-right tabular-nums">
-                    {product.purchase_count}×
-                  </TableCell>
+            {/* Alle aktiven ausgeblendet */}
+            {activeProducts.length === 0 && !search && (
+              <div className="rounded-lg border border-amber-100 bg-amber-50 p-10 text-center">
+                <EyeOff className="h-8 w-8 text-amber-400 mx-auto mb-3" />
+                <p className="text-amber-700 font-medium">Alle Produkte sind ausgeblendet.</p>
+                <p className="text-amber-600 text-sm mt-1">
+                  Wechsle zum Tab &ldquo;Ausgeblendet&rdquo;, um Produkte wieder einzublenden.
+                </p>
+              </div>
+            )}
 
-                  {/* Last price */}
-                  <TableCell className="text-right tabular-nums hidden sm:table-cell">
-                    {formatEuro(product.last_price_cents)} €
-                  </TableCell>
+            {/* Produkttabelle */}
+            {activeProducts.length > 0 && (
+              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+                <Table>
+                  <ProductTableHeader />
+                  <TableBody>
+                    {activeProducts.map((product) => (
+                      <ProductRow key={product.raw_name} product={product} {...rowProps} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </div>
+        </TabsContent>
 
-                  {/* Price trend badge */}
-                  <TableCell className="text-right hidden sm:table-cell">
-                    <PriceTrendBadge
-                      pct={product.price_trend_pct ?? null}
-                      fromDate={product.trend_from_date}
-                      toDate={product.trend_to_date}
-                      onClick={() => {
-                        setChartProduct(product.raw_name)
-                        setChartOpen(true)
-                      }}
-                    />
-                  </TableCell>
+        {/* ── Tab 2: Ausgeblendete Artikel ──────────────────────────────── */}
+        <TabsContent value="ausgeblendet">
+          <div className="space-y-4 pt-2">
+            {/* Suche im Ausgeblendet-Tab */}
+            {excludedProducts.length > 0 && (
+              <div className="relative flex-1 min-w-[200px] max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Ausgeblendete suchen…"
+                  value={excludedSearch}
+                  onChange={(e) => setExcludedSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+            )}
 
-                  {/* Inflation CAGR badge */}
-                  <TableCell className="text-right hidden md:table-cell">
-                    <InflationCAGRBadge pct={product.inflation_cagr_pct ?? null} />
-                  </TableCell>
+            {/* Keine ausgeblendeten Artikel */}
+            {excludedProducts.length === 0 && (
+              <div className="rounded-lg border border-gray-100 bg-white p-10 text-center">
+                <EyeOff className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 font-medium">Keine ausgeblendeten Artikel</p>
+                <p className="text-gray-400 text-sm mt-1">
+                  Blende Artikel über den Statistiken-Schalter in der Produktliste aus.
+                </p>
+              </div>
+            )}
 
-                  {/* Last purchase date */}
-                  <TableCell className="text-right text-gray-500 hidden md:table-cell">
-                    {formatDate(product.last_purchase_date)}
-                  </TableCell>
+            {/* Suche ohne Treffer im Ausgeblendet-Tab */}
+            {excludedProducts.length > 0 && filteredExcluded.length === 0 && excludedSearch && (
+              <div className="rounded-lg border border-gray-100 bg-white p-10 text-center">
+                <p className="text-gray-500">Kein ausgeblendetes Produkt für &ldquo;{excludedSearch}&rdquo; gefunden.</p>
+                <Button variant="link" size="sm" onClick={() => setExcludedSearch("")} className="mt-2">
+                  Suche zurücksetzen
+                </Button>
+              </div>
+            )}
 
-                  {/* Exclude from stats toggle */}
-                  <TableCell className="text-center hidden sm:table-cell">
-                    <Switch
-                      checked={!product.excluded_from_stats}
-                      onCheckedChange={() => toggleExclude(product)}
-                      disabled={togglingNames.has(product.raw_name)}
-                      aria-label={
-                        product.excluded_from_stats
-                          ? `${product.raw_name} in Statistiken anzeigen`
-                          : `${product.raw_name} aus Statistiken ausblenden`
-                      }
-                    />
-                  </TableCell>
-
-                  {/* Price chart button */}
-                  <TableCell className="text-center">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 w-7 p-0 text-gray-400 hover:text-blue-600"
-                      title="Preisentwicklung anzeigen"
-                      onClick={() => {
-                        setChartProduct(product.raw_name)
-                        setChartOpen(true)
-                      }}
-                    >
-                      <TrendingUp className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+            {/* Ausgeblendet-Tabelle */}
+            {filteredExcluded.length > 0 && (
+              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+                <Table>
+                  <ProductTableHeader />
+                  <TableBody>
+                    {filteredExcluded.map((product) => (
+                      <ProductRow key={product.raw_name} product={product} {...rowProps} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </div>
+        </TabsContent>
+      </Tabs>
 
       {/* Price chart sheet */}
       <PriceChartSheet

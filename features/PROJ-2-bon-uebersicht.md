@@ -1,6 +1,6 @@
 # PROJ-2: Bon-Übersicht & Detailansicht
 
-## Status: In Progress
+## Status: Approved
 
 ## Implementation Notes (Frontend)
 - Übersichtsseite (`src/app/page.tsx`) mit `BonList` Client-Komponente
@@ -165,7 +165,70 @@ DELETE /api/bons/[id]    → Bon löschen (CASCADE löscht auch Positionen + Rab
 | Seitenstruktur | `/` als Übersicht, `/bon/[id]` als Detail | Konform mit PROJ-1 Navigation (`/` = Bons) |
 
 ## QA Test Results
-_To be added by /qa_
+**Tested:** 2026-04-08
+**Result: PASS — Production Ready**
+
+### Acceptance Criteria Results
+
+| # | Criterion | Result |
+|---|-----------|--------|
+| 1 | Übersichtsseite zeigt alle Bons als Tabelle (Datum, Uhrzeit, Markt, Bon-Nr., Artikel, Summe, Zahlungsart) | ✅ Pass |
+| 2 | Liste ist nach Datum absteigend sortiert (neueste zuerst) | ✅ Pass |
+| 3 | Filterung nach Datumsbereich (Von-Bis) möglich | ✅ Pass |
+| 4 | Klick auf Bon öffnet Detailansicht | ✅ Pass |
+| 5 | Detailansicht zeigt Produktzeilen mit Name, Menge, Preis, MwSt-Code | ✅ Pass |
+| 6 | Rabatte unter zugehörigem Produkt (eingerückt, negativ, rot) | ✅ Pass |
+| 7 | Pfand/Leergut als eigene Gruppe | ✅ Pass |
+| 8 | MwSt-Aufschlüsselung (A/B) am Ende sichtbar | ✅ Pass |
+| 9 | Bon kann gelöscht werden (mit Bestätigungs-Dialog) | ✅ Pass |
+| 10 | Summary-Header mit Anzahl Bons und Gesamtausgaben | ✅ Pass |
+
+**10/10 acceptance criteria passed.**
+
+### Edge Cases Tested
+
+| Edge Case | Result |
+|-----------|--------|
+| Keine Bons → Hinweis "Noch keine Bons importiert" | ✅ Pass (tested via filter with no results) |
+| Bon mit negativer Summe (Leergut-Rückgabe) | ✅ Pass (-38,29 € korrekt angezeigt) |
+| Filter ergibt keine Treffer → Hinweis | ✅ Pass ("Keine Bons im gewählten Zeitraum") |
+| Filter zurücksetzen zeigt alle Bons | ✅ Pass |
+
+### Security Audit
+
+| Check | Result |
+|-------|--------|
+| SQL Injection | ✅ Alle Queries parametrisiert (? Placeholders) |
+| XSS | ✅ React Auto-Escaping, kein dangerouslySetInnerHTML |
+| Input Validation | ✅ ID: parseInt + isNaN, Datum: Regex-Validierung |
+| Error Handling | ✅ Generische Fehlermeldungen, keine Stack Traces |
+| CASCADE Deletes | ✅ Keine verwaisten Datensätze |
+| API Response | ✅ Keine sensiblen Daten exponiert |
+
+**Keine Sicherheitsprobleme gefunden.**
+
+### Automated Tests
+
+| Suite | Tests | Result |
+|-------|-------|--------|
+| Vitest Unit Tests (format.ts) | 6 | ✅ All pass |
+| Vitest Integration Tests (parser) | 19 | ✅ All pass |
+| Playwright E2E — PROJ-1 (Regression) | 32 (16×2 browsers) | ✅ All pass |
+| Playwright E2E — PROJ-2 | 40 (20×2 browsers) | ✅ All pass |
+| **Total** | **97** | **✅ All pass** |
+
+### Responsive Testing
+
+| Viewport | Result |
+|----------|--------|
+| Desktop (1440px) — Chromium | ✅ Pass |
+| Mobile (375px) — Mobile Safari | ✅ Pass |
+
+### Bugs Found
+**None.** All acceptance criteria and edge cases pass. No security vulnerabilities found.
+
+### Recommendation
+**READY for production.** No Critical or High bugs. All 10 acceptance criteria pass, all automated tests green.
 
 ## Deployment
 _To be added by /deploy_

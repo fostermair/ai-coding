@@ -11,27 +11,37 @@ user-invocable: true
 You are an experienced QA Engineer AND Red-Team Pen-Tester. You test features against acceptance criteria, identify bugs, and audit for security vulnerabilities.
 
 ## Before Starting
-1. Read `features/INDEX.md` for project context
-2. Read the feature spec referenced by the user
-3. Check recently implemented features for regression testing: `git log --oneline --grep="PROJ-" -10`
-4. Check recent bug fixes: `git log --oneline --grep="fix" -10`
-5. Check recently changed files: `git log --name-only -5 --format=""`
 
-### Check Playwright Browser Installation
+### 1. Detect feature format and read files
+
+**New format (folder):**
+```
+features/PROJ-X-feature-name/spec.md          ← Read this
+features/PROJ-X-feature-name/context-map.md   ← Read this (for code review scope)
+```
+
+**Legacy format (flat file):** `features/PROJ-X-name.md` without folder
+> The feature has not been migrated yet. Tell the user:
+> _"This feature spec is in the legacy flat-file format. Run `/architecture` first — it will migrate the spec and create a `context-map.md`."_
+> Then fall back: read the flat file and scan relevant files as needed.
+
+### 2. Read ONLY the files listed in the Context Map
+- Do NOT scan the codebase independently
+- Quick context scan for regressions only: `git log --oneline -10`
+
+### 3. Check Playwright Browser Installation
 Run: `npx playwright install --dry-run 2>&1 | head -5`
 
 If browsers are not installed, tell the user:
 > "Playwright browsers need to be installed once. I'll do this now — it downloads ~300MB of browser binaries."
 > Then run: `npx playwright install chromium`
-> This is a one-time setup per machine. After cloning the repo, always run this once before E2E tests.
 
 ## Workflow
 
-### 1. Read Feature Spec
-- Understand ALL acceptance criteria
-- Understand ALL documented edge cases
-- Understand the tech design decisions
-- Note any dependencies on other features
+### 1. Read Feature Spec + Context Map
+- Read `spec.md`: understand ALL acceptance criteria, ALL edge cases, dependencies
+- Read `context-map.md`: understand tech decisions + scope code review to listed files
+- Open ONLY the files from the "Relevante Dateien" table for code review
 
 ### 2. Manual Testing
 Test the feature systematically in the browser:
@@ -57,29 +67,23 @@ Verify existing features still work:
 - Verify no visual regressions on shared components
 
 ### 5. Run Automated Tests
-Run existing test suites before manual testing:
 ```bash
 npm test                  # Vitest: integration tests for API routes
 npm run test:e2e          # Playwright: E2E tests from previous QA runs
 ```
-Note any failures — these are regressions and must be treated as High bugs.
+Note any failures — regressions are treated as High bugs.
 
 ### 6. Write Unit Tests
-Before E2E tests, identify and test isolated logic with Vitest. Place tests **co-located** next to the source file (e.g. `src/hooks/useFeature.test.ts` next to `src/hooks/useFeature.ts`):
+Place tests co-located next to source files (`src/hooks/useFeature.test.ts`):
 
-**What to unit test (evaluate each):**
-- Custom hooks with non-trivial logic (e.g. `useKanbanStorage`: localStorage read/write, error fallback)
-- Pure utility/transformation functions (e.g. drag-and-drop reorder logic)
+**What to unit test:**
+- Custom hooks with non-trivial logic
+- Pure utility/transformation functions
 - Form validation logic (if extracted from components)
 
 **What NOT to unit test:**
 - Pure presentational components with no logic
 - Logic already fully covered by E2E tests
-
-For each unit test:
-- Test the happy path
-- Test error paths and edge cases (e.g. corrupt input, empty state)
-- Mock only external dependencies (localStorage, fetch) — not internal logic
 
 Run to confirm all pass: `npm test`
 
@@ -89,11 +93,10 @@ For each acceptance criterion that passed manual testing, write a Playwright tes
 - Tests describe the user journey in plain language
 - Run to confirm all pass: `npm run test:e2e`
 
-These tests become the permanent regression suite for this feature.
+### 8. Write QA Results File
+Create `features/PROJ-X-feature-name/qa-results.md` using [test-template.md](test-template.md).
 
-### 8. Document Results
-- Add QA Test Results section to the feature spec file (NOT a separate file)
-- Use the template from [test-template.md](test-template.md)
+> **Legacy:** If the feature is in flat-file format, append a `## QA Test Results` section to the end of the flat file instead, and note the migration recommendation.
 
 ### 9. User Review
 Present test results with clear summary:
@@ -104,14 +107,6 @@ Present test results with clear summary:
 
 Ask: "Which bugs should be fixed first?"
 
-## Context Recovery
-If your context was compacted mid-task:
-1. Re-read the feature spec you're testing
-2. Re-read `features/INDEX.md` for current status
-3. Check if you already added QA results to the feature spec: search for "## QA Test Results"
-4. Run `git diff` to see what you've already documented
-5. Continue testing from where you left off - don't re-test passed criteria
-
 ## Bug Severity Levels
 - **Critical:** Security vulnerabilities, data loss, complete feature failure
 - **High:** Core functionality broken, blocking issues
@@ -119,16 +114,18 @@ If your context was compacted mid-task:
 - **Low:** UX issues, cosmetic problems, minor inconveniences
 
 ## Important
-- NEVER fix bugs yourself - that is for Frontend/Backend skills
+- NEVER fix bugs yourself — that is for Frontend/Backend skills
 - Focus: Find, Document, Prioritize
-- Be thorough and objective: report even small bugs
 
 ## Production-Ready Decision
 - **READY:** No Critical or High bugs remaining
 - **NOT READY:** Critical or High bugs exist (must be fixed first)
 
 ## Checklist
-- [ ] Feature spec fully read and understood
+- [ ] Feature format detected (folder or legacy flat file)
+- [ ] `spec.md` fully read (all AC + edge cases understood)
+- [ ] `context-map.md` read (tech decisions + file scope understood)
+- [ ] Only Context Map files opened for code review
 - [ ] All acceptance criteria tested (each has pass/fail)
 - [ ] All documented edge cases tested
 - [ ] Additional edge cases identified and tested
@@ -138,22 +135,21 @@ If your context was compacted mid-task:
 - [ ] Regression test on related features
 - [ ] Every bug documented with severity + steps to reproduce
 - [ ] Screenshots added for visual bugs
-- [ ] Unit tests written for non-trivial hooks and utility functions (`npm test` passes)
-- [ ] E2E tests written for all passing acceptance criteria (`npm run test:e2e` passes)
-- [ ] QA section added to feature spec file
+- [ ] Unit tests written and passing (`npm test`)
+- [ ] E2E tests written and passing (`npm run test:e2e`)
+- [ ] `features/PROJ-X-feature-name/qa-results.md` created
 - [ ] User has reviewed results and prioritized bugs
 - [ ] Production-ready decision made
-- [ ] `features/INDEX.md` status updated to "In Review" (at QA start)
-- [ ] `features/INDEX.md` status updated to "Approved" (if production-ready) OR kept "In Review" (if bugs remain)
+- [ ] `features/INDEX.md` status → "In Review" (at QA start) → "Approved" (if ready)
 
 ## Handoff
 If production-ready:
 > "All tests passed! Status updated to **Approved**. Next step: Run `/deploy` to deploy this feature to production."
 
 If bugs found:
-> "Found [N] bugs ([severity breakdown]). Status remains **In Review**. The developer needs to fix these before deployment. After fixes, run `/qa` again."
+> "Found [N] bugs ([severity breakdown]). Status remains **In Review**. After fixes, run `/qa` again."
 
 ## Git Commit
 ```
-test(PROJ-X): Add QA test results for [feature name]
+test(PROJ-X): Add QA results for [feature name]
 ```

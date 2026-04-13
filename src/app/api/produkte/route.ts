@@ -61,6 +61,78 @@ export async function GET(request: NextRequest) {
            WHERE ri2.raw_name = ri.raw_name
            ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
            LIMIT 1) AS last_price_cents,
+          (SELECT ri2.total_price_cents
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.total_price_cents > 0
+             AND r2.receipt_date >= DATE('now', '-12 months')
+           ORDER BY r2.receipt_date ASC, r2.receipt_time ASC
+           LIMIT 1) AS first_price_cents,
+          (SELECT ri2.total_price_cents
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND r2.receipt_date >= DATE('now', '-12 months')
+           ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
+           LIMIT 1) AS trend_last_price_cents,
+          (SELECT COUNT(*)
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.total_price_cents > 0
+             AND r2.receipt_date >= DATE('now', '-12 months')) AS price_data_count,
+          (SELECT r2.receipt_date
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.total_price_cents > 0
+             AND r2.receipt_date >= DATE('now', '-12 months')
+           ORDER BY r2.receipt_date ASC, r2.receipt_time ASC
+           LIMIT 1) AS trend_from_date,
+          (SELECT r2.receipt_date
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND r2.receipt_date >= DATE('now', '-12 months')
+           ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
+           LIMIT 1) AS trend_to_date,
+          (SELECT AVG(ri2.unit_price_cents)
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.unit_price_cents > 0
+             AND strftime('%Y', r2.receipt_date) = (
+               SELECT MIN(strftime('%Y', r3.receipt_date))
+               FROM receipt_items ri3
+               JOIN receipts r3 ON r3.id = ri3.receipt_id
+               WHERE ri3.raw_name = ri.raw_name AND ri3.unit_price_cents > 0
+             )
+          ) AS cagr_first_avg,
+          (SELECT AVG(ri2.unit_price_cents)
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.unit_price_cents > 0
+             AND strftime('%Y', r2.receipt_date) = (
+               SELECT MAX(strftime('%Y', r3.receipt_date))
+               FROM receipt_items ri3
+               JOIN receipts r3 ON r3.id = ri3.receipt_id
+               WHERE ri3.raw_name = ri.raw_name AND ri3.unit_price_cents > 0
+             )
+          ) AS cagr_last_avg,
+          (SELECT
+             CAST(MAX(strftime('%Y', r2.receipt_date)) AS INTEGER) -
+             CAST(MIN(strftime('%Y', r2.receipt_date)) AS INTEGER)
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name AND ri2.unit_price_cents > 0
+          ) AS cagr_year_dist,
+          (SELECT COUNT(DISTINCT strftime('%Y', r2.receipt_date))
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name AND ri2.unit_price_cents > 0
+          ) AS cagr_year_count,
           MAX(r.receipt_date) AS last_purchase_date
         FROM receipt_items ri
         JOIN receipts r ON r.id = ri.receipt_id
@@ -72,11 +144,39 @@ export async function GET(request: NextRequest) {
       )
       .all(...params) as Array<Record<string, unknown>>
 
-    // Normalize excluded_from_stats to boolean
-    const productsNormalized = products.map((p) => ({
-      ...p,
-      excluded_from_stats: p.excluded_from_stats === 1,
-    }))
+    // Normalize and compute derived fields
+    const productsNormalized = products.map((p) => {
+      const first = p.first_price_cents as number | null
+      const trendLast = p.trend_last_price_cents as number | null
+      const count = p.price_data_count as number
+
+      const price_trend_pct =
+        count >= 2 && first != null && first !== 0 && trendLast != null && trendLast > 0
+          ? ((trendLast - first) / first) * 100
+          : null
+
+      // Compute CAGR (Compound Annual Growth Rate)
+      const cagrFirst = p.cagr_first_avg as number | null
+      const cagrLast = p.cagr_last_avg as number | null
+      const cagrDist = p.cagr_year_dist as number
+      const cagrCount = p.cagr_year_count as number
+
+      const inflation_cagr_pct =
+        cagrCount >= 2 && cagrDist > 0 && cagrFirst != null && cagrFirst > 0 && cagrLast != null
+          ? Math.round((Math.pow(cagrLast / cagrFirst, 1 / cagrDist) - 1) * 100 * 10) / 10
+          : null
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { price_data_count: _drop, trend_last_price_cents: _drop2, cagr_first_avg: _drop3, cagr_last_avg: _drop4, cagr_year_dist: _drop5, cagr_year_count: _drop6, ...rest } = p
+      return {
+        ...rest,
+        excluded_from_stats: p.excluded_from_stats === 1,
+        price_trend_pct,
+        trend_from_date: (p.trend_from_date as string | null) ?? null,
+        trend_to_date: (p.trend_to_date as string | null) ?? null,
+        inflation_cagr_pct,
+      }
+    })
 
     // Total unique product count (unfiltered, always)
     const totalRow = db

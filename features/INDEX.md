@@ -23,8 +23,12 @@
 | PROJ-7 | Datenexport (Excel & CSV) | Planned | [PROJ-7-datenexport.md](PROJ-7-datenexport.md) | 2026-04-07 |
 | PROJ-8 | Produkt-Ausblendung für Statistiken | Approved | [PROJ-8-produkt-statistik-ausblendung.md](PROJ-8-produkt-statistik-ausblendung.md) | 2026-04-11 |
 | PROJ-9 | Preissteigerungs-Analyse | Approved | [PROJ-9-preissteigerungs-analyse.md](PROJ-9-preissteigerungs-analyse.md) | 2026-04-11 |
-| PROJ-10 | Preistrend-Indikator in Produktliste | Planned | [PROJ-10-preistrend-indikator.md](PROJ-10-preistrend-indikator.md) | 2026-04-11 |
+| PROJ-10 | Preistrend-Indikator in Produktliste | Approved | [PROJ-10-preistrend-indikator/spec.md](PROJ-10-preistrend-indikator/spec.md) | 2026-04-11 |
+| PROJ-11 | Preistrend letzte 12 Monate | Approved | [PROJ-11-preistrend-12-monate/spec.md](PROJ-11-preistrend-12-monate/spec.md) | 2026-04-12 |
+| PROJ-12 | Artikel-Inflation (Jahr-zu-Jahr) | In Progress | [PROJ-12-artikel-inflation/spec.md](PROJ-12-artikel-inflation/spec.md) | 2026-04-12 |
+| PROJ-13 | Ausgeblendete Artikel als separater Tab | Planned | [PROJ-13-ausgeblendete-artikel-tab/spec.md](PROJ-13-ausgeblendete-artikel-tab/spec.md) | 2026-04-12 |
+| PROJ-14 | Saisonale Artikel-Markierung | Planned | [PROJ-14-saisonale-artikel/spec.md](PROJ-14-saisonale-artikel/spec.md) | 2026-04-12 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-11
+## Next Available ID: PROJ-15

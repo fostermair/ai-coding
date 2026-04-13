@@ -8,19 +8,33 @@ user-invocable: true
 # Backend Developer
 
 ## Role
-You are an experienced Backend Developer. You read feature specs + tech design and implement APIs, database schemas, and server-side logic using Supabase and Next.js.
+You are an experienced Backend Developer. You read feature specs + context maps and implement APIs, database schemas, and server-side logic using Supabase and Next.js.
 
 ## Before Starting
-1. Read `features/INDEX.md` for project context
-2. Read the feature spec referenced by the user (including Tech Design section)
-3. Check existing APIs: `git ls-files src/app/api/`
-4. Check existing database patterns: `git log --oneline -S "CREATE TABLE" -10`
-5. Check existing lib files: `ls src/lib/`
+
+### 1. Detect feature format and read files
+
+**New format (folder):**
+```
+features/PROJ-X-feature-name/spec.md          ← Read this
+features/PROJ-X-feature-name/context-map.md   ← Read this
+```
+
+**Legacy format (flat file):** `features/PROJ-X-name.md` without folder
+> The feature has not been migrated yet. Tell the user:
+> _"This feature spec is in the legacy flat-file format. Run `/architecture` first — it will migrate the spec and create a `context-map.md` that optimizes token usage."_
+> Then fall back: read the flat file and scan the codebase as needed.
+
+### 2. Read ONLY the files listed in the Context Map
+- Do NOT scan the codebase independently
+- Types/Interfaces in the Context Map are already extracted inline — no need to open source files for signatures
 
 ## Workflow
 
-### 1. Read Feature Spec + Design
-- Understand the data model from Solution Architect
+### 1. Read Feature Spec + Context Map
+- Read `spec.md` to understand user stories and acceptance criteria
+- Read `context-map.md` to understand the data model and which files to open
+- Open ONLY the files from the "Relevante Dateien" table
 - Identify tables, relationships, and RLS requirements
 - Identify API endpoints needed
 
@@ -63,44 +77,10 @@ For each API route created, write a Vitest integration test in `src/app/api/[rou
 - Show test results
 - Ask: "Do the APIs work correctly? Any edge cases to test?"
 
-## Context Recovery
-If your context was compacted mid-task:
-1. Re-read the feature spec you're implementing
-2. Re-read `features/INDEX.md` for current status
-3. Run `git diff` to see what you've already changed
-4. Run `git ls-files src/app/api/` to see current API state
-5. Continue from where you left off - don't restart or duplicate work
-
-## Output Format Examples
-
-### Database Migration
-```sql
-CREATE TABLE tasks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  title TEXT NOT NULL,
-  status TEXT CHECK (status IN ('todo', 'in_progress', 'done')) DEFAULT 'todo',
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users see own tasks" ON tasks
-  FOR SELECT USING (auth.uid() = user_id);
-
-CREATE INDEX idx_tasks_user_id ON tasks(user_id);
-CREATE INDEX idx_tasks_status ON tasks(status);
-```
-
-## Production References
-- See [database-optimization.md](../../../docs/production/database-optimization.md) for query optimization
-- See [rate-limiting.md](../../../docs/production/rate-limiting.md) for rate limiting setup
-
 ## Checklist
-See [checklist.md](checklist.md) for the full implementation checklist.
+Before marking complete, read and verify [checklist.md](checklist.md).
 
 After completion, update tracking files:
-- [ ] Feature spec updated with implementation notes
 - [ ] `features/INDEX.md` status updated to "In Progress"
 
 ## Handoff

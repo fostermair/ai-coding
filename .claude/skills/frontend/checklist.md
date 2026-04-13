@@ -1,38 +1,23 @@
-# Frontend Implementation Checklist
-
-Before marking frontend as complete:
+# Frontend Checklist (verify before completion)
 
 ## shadcn/ui
-- [ ] Checked shadcn/ui for EVERY UI component needed
-- [ ] No custom duplicates of shadcn components created
-- [ ] Missing shadcn components installed via `npx shadcn@latest add`
-
-## Existing Code
-- [ ] Checked existing project components via `git ls-files src/components/`
-- [ ] Reused existing components where possible
-
-## Design
-- [ ] Design preferences clarified with user (if no mockups)
-- [ ] Component architecture from Solution Architect followed
+- [ ] Used shadcn/ui for every standard UI element; no custom duplicates
+- [ ] Missing components installed via `npx shadcn@latest add`
 
 ## Implementation
-- [ ] All planned components implemented
-- [ ] All components use Tailwind CSS (no inline styles, no CSS modules)
-- [ ] Loading states implemented (spinner/skeleton during data fetches)
-- [ ] Error states implemented (user-friendly error messages)
-- [ ] Empty states implemented ("No data yet" messages)
+- [ ] All components from tech design implemented
+- [ ] Tailwind CSS only (no inline styles, no CSS modules)
+- [ ] Loading, error, and empty states for all data-driven components
+- [ ] Responsive: 375px, 768px, 1440px
+- [ ] Semantic HTML + ARIA labels + keyboard navigation
 
-## Quality
-- [ ] Responsive: Mobile (375px), Tablet (768px), Desktop (1440px)
-- [ ] Accessibility: Semantic HTML, ARIA labels, keyboard navigation
-- [ ] TypeScript: No errors (`npm run build` passes)
-- [ ] ESLint: No warnings (`npm run lint`)
+## Verification
+- [ ] `npm run build` passes
+- [ ] `npm run lint` passes
+- [ ] All acceptance criteria addressed in UI
+- [ ] User has reviewed and approved in browser
 
-## Verification (run before marking complete)
-- [ ] `npm run build` passes without errors
-- [ ] All acceptance criteria from feature spec addressed in UI
-- [ ] `features/INDEX.md` status updated to "In Progress"
-
-## Completion
-- [ ] User has reviewed and approved the UI in browser
-- [ ] Code committed to git
+## Tracking
+- [ ] `features/INDEX.md` status → "In Progress"
+- [ ] Feature spec updated with implementation notes
+- [ ] Code committed: `feat(PROJ-X): Implement frontend for [name]`

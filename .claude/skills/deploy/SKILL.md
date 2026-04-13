@@ -11,18 +11,30 @@ user-invocable: true
 You are an experienced DevOps Engineer handling deployment, environment setup, and production readiness.
 
 ## Before Starting
-1. Read `features/INDEX.md` to know what is being deployed
-2. Check QA status in the feature spec
-3. Verify no Critical/High bugs exist in QA results
-4. If QA has not been done, tell the user: "Run `/qa` first before deploying."
+
+### 1. Detect feature format and read files
+
+**New format (folder):**
+```
+features/PROJ-X-feature-name/spec.md          ← Read status + summary
+features/PROJ-X-feature-name/qa-results.md    ← Read to verify QA approval
+```
+
+**Legacy format (flat file):** `features/PROJ-X-name.md`
+> Read the flat file. Check for a `## QA Test Results` section at the end.
+
+### 2. Verify QA gate
+- Check `qa-results.md` (or QA section in flat file): must show **Production Ready: YES**
+- If QA has not been done or shows open Critical/High bugs:
+  > "Run `/qa` first and fix all Critical/High bugs before deploying."
 
 ## Workflow
 
 ### 1. Pre-Deployment Checks
 - [ ] `npm run build` succeeds locally
 - [ ] `npm run lint` passes
-- [ ] QA Engineer has approved the feature (check feature spec)
-- [ ] No Critical/High bugs in test report
+- [ ] `qa-results.md` shows Production Ready: YES
+- [ ] No Critical/High bugs in QA results
 - [ ] All environment variables documented in `.env.local.example`
 - [ ] No secrets committed to git
 - [ ] All database migrations applied in Supabase (if applicable)
@@ -59,11 +71,34 @@ For first deployment, guide the user through these setup guides:
 **Database Optimization:** See [database-optimization.md](../../../docs/production/database-optimization.md)
 **Rate Limiting (optional):** See [rate-limiting.md](../../../docs/production/rate-limiting.md)
 
-### 6. Post-Deployment Bookkeeping
-- Update feature spec: Add deployment section with production URL and date
+### 6. Write Deployment File
+Create `features/PROJ-X-feature-name/deployment.md`:
+
+```markdown
+# Deployment: PROJ-X Feature Name
+
+**Deployed:** YYYY-MM-DD
+**Production URL:** https://your-app.vercel.app
+**Deploy Method:** Vercel (auto-deploy from main branch)
+
+## Environment Variables Added
+- `NEXT_PUBLIC_EXAMPLE` — description
+
+## Database Migrations Applied
+- Migration name / description
+
+## Notes
+- Any post-deployment observations
+```
+
+> **Legacy:** If the feature is in flat-file format, append a `## Deployment` section to the flat file instead.
+
+### 7. Post-Deployment Bookkeeping
 - Update `features/INDEX.md`: Set status to **Deployed**
 - Create git tag: `git tag -a v1.X.0-PROJ-X -m "Deploy PROJ-X: [Feature Name]"`
 - Push tag: `git push origin v1.X.0-PROJ-X`
+
+---
 
 ## Common Issues
 
@@ -75,7 +110,7 @@ For first deployment, guide the user through these setup guides:
 ### Environment variables not available
 - Verify vars are set in Vercel Dashboard (Settings → Environment Variables)
 - Client-side vars need `NEXT_PUBLIC_` prefix
-- Redeploy after adding new env vars (they don't apply retroactively)
+- Redeploy after adding new env vars
 
 ### Database connection errors
 - Verify Supabase URL and anon key in Vercel env vars
@@ -84,11 +119,12 @@ For first deployment, guide the user through these setup guides:
 
 ## Rollback Instructions
 If production is broken:
-1. **Immediate:** Vercel Dashboard → Deployments → Click "..." on previous working deployment → "Promote to Production"
-2. **Fix locally:** Debug the issue, `npm run build`, commit, push
-3. Vercel auto-deploys the fix
+1. **Immediate:** Vercel Dashboard → Deployments → "..." on last working deployment → "Promote to Production"
+2. **Fix locally:** Debug, `npm run build`, commit, push → Vercel auto-deploys
 
 ## Full Deployment Checklist
+- [ ] Feature format detected (folder or legacy flat file)
+- [ ] `qa-results.md` read and shows Production Ready: YES
 - [ ] Pre-deployment checks all pass
 - [ ] Vercel build successful
 - [ ] Production URL loads and works
@@ -97,7 +133,7 @@ If production is broken:
 - [ ] Error tracking setup (Sentry or alternative)
 - [ ] Security headers configured in next.config
 - [ ] Lighthouse score checked (target > 90)
-- [ ] Feature spec updated with deployment info
+- [ ] `features/PROJ-X-feature-name/deployment.md` created
 - [ ] `features/INDEX.md` updated to Deployed
 - [ ] Git tag created and pushed
 - [ ] User has verified production deployment

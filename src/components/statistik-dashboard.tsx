@@ -157,13 +157,13 @@ export function StatistikDashboard() {
       const topJson: TopProdukteData = await topRes.json()
       const rabattJson: RabatteData = await rabattRes.json()
       const mwstJson: MwstData = await mwstRes.json()
-      const excludedJson: { total_count: number } = await excludedRes.json()
+      const excludedJson: { excluded_count: number } = await excludedRes.json()
 
       setMonatlich(monatJson)
       setTopProdukte(topJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
-      setExcludedCount(excludedJson.total_count ?? 0)
+      setExcludedCount(excludedJson.excluded_count ?? 0)
 
       setIsEmpty(
         monatJson.monate.length === 0 &&

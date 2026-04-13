@@ -3,6 +3,7 @@
 ## Status: Planned
 **Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
+**Feature Folder:** `features/PROJ-X-feature-name/`
 
 ## Dependencies
 - None
@@ -24,13 +25,9 @@
 - Browser Support: Chrome, Firefox, Safari
 
 ---
-<!-- Sections below are added by subsequent skills -->
-
-## Tech Design (Solution Architect)
-_To be added by /architecture_
-
-## QA Test Results
-_To be added by /qa_
-
-## Deployment
-_To be added by /deploy_
+<!-- This file covers WHAT the feature does.
+     Subsequent phases add their own files to this folder:
+     - context-map.md  ← /architecture (tech design + file map)
+     - qa-results.md   ← /qa (test results)
+     - deployment.md   ← /deploy (production info)
+-->

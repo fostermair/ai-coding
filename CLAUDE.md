@@ -38,7 +38,7 @@ docs/
 
 ## Feature Tracking
 
-All features tracked in `features/INDEX.md`. Every skill reads it at start and updates it when done. Feature specs live in `features/PROJ-X-name.md`.
+All features tracked in `features/INDEX.md` (pre-loaded below via @-reference — do NOT re-read unless stale). Feature specs live in `features/PROJ-X-name.md`.
 
 ## Key Conventions
 
@@ -60,6 +60,34 @@ npm test             # Vitest unit/integration tests
 npm run test:e2e     # Playwright E2E tests
 npm run test:all     # Both test suites
 ```
+
+## Context Recovery (After Compaction)
+
+If your context was compacted mid-task:
+1. Re-read the feature spec you're working on
+2. Re-read `features/INDEX.md` for current status
+3. Run `git diff` to see what you've already changed
+4. Continue from where you left off — never restart or duplicate work
+
+## Status Updates (MANDATORY)
+
+After completing work on any feature, follow this exact sequence:
+1. **Read** the feature spec and `features/INDEX.md` BEFORE editing
+2. **Write** changes using the Edit tool — never just describe changes in chat
+3. **Re-read** the file AFTER editing to verify changes are present
+4. **If missing**, repeat step 2 — never claim updates without verifying
+
+Valid status flow: Planned → Architected → In Progress → In Review → Approved → Deployed
+
+## File Handling
+
+- ALWAYS read a file before modifying it — never assume contents from memory
+- After context compaction, re-read files before continuing work
+- Never guess at import paths, component names, or API routes — verify by reading
+
+## Handoffs Between Skills
+
+After completing a skill, suggest the next skill. Format: "Next step: Run `/skillname` to [action]". Handoffs are always user-initiated, never automatic.
 
 ## Product Context
 

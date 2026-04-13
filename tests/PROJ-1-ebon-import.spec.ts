@@ -128,7 +128,7 @@ test.describe("AC: Duplicate detection", () => {
     await fileInput.setInputFiles(EBON2)
     // Two terminal-state badges now visible; the newest is "Duplikat"
     await expect(page.getByText("Duplikat")).toBeVisible({ timeout: 15000 })
-    await expect(page.getByText(/Bon-Nr\./)).toBeVisible()
+    await expect(page.getByText(/Bon-Nr\./).first()).toBeVisible()
   })
 })
 

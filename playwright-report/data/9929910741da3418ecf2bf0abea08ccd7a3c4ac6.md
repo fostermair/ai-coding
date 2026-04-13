@@ -1,0 +1,27743 @@
+# Page snapshot
+
+```yaml
+- generic:
+  - navigation:
+    - generic:
+      - generic:
+        - link:
+          - /url: /
+          - img
+          - text: eBon Analyzer
+        - generic:
+          - link:
+            - /url: /
+            - text: Bons
+          - link:
+            - /url: /import
+            - text: Import
+          - link:
+            - /url: /produkte
+            - text: Produkte
+          - link:
+            - /url: /statistiken
+            - text: Statistiken
+  - main:
+    - generic:
+      - generic:
+        - heading [level=1]: Produktdatenbank
+        - paragraph: Alle Produkte aus deinen Bons · Alias-Verwaltung
+      - generic:
+        - generic:
+          - generic:
+            - img
+            - generic:
+              - paragraph: "1614"
+              - paragraph: Produkte
+        - generic:
+          - generic:
+            - img
+            - textbox:
+              - /placeholder: Produkt suchen…
+          - generic:
+            - img
+            - button: Häufigkeit
+            - button: Name A–Z
+            - button: Letzter Kauf
+          - generic:
+            - button: Alle
+            - button: Aktiv
+            - button: Ausgeblendet
+        - generic:
+          - generic:
+            - table:
+              - rowgroup:
+                - row:
+                  - columnheader: Produkt
+                  - columnheader: Alias
+                  - columnheader: Käufe
+                  - columnheader: Letzter Preis
+                  - columnheader: Preistrend
+                  - columnheader: Letzter Kauf
+                  - columnheader: Statistiken
+                  - columnheader
+              - rowgroup:
+                - row:
+                  - cell:
+                    - generic: TRANSPORTBOX ABH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 273×
+                  - cell: 8,00 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SERVICEGEB.ABHO.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 212×
+                  - cell: 1,42 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAMMYS SANDWICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 207×
+                  - cell: 4,98 €
+                  - cell:
+                    - button: ↑ 31,7%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SERVICE ABHOLUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 204×
+                  - cell: 0,58 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND 0,25 EURO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 128×
+                  - cell: 1,75 €
+                  - cell:
+                    - button: ↑ 600,0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ARLA MILCH 1,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 124×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! GOUDA JUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 114×
+                  - cell: 2,45 €
+                  - cell:
+                    - button: ↓ 72,7%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCA COLA ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 89×
+                  - cell: 23,98 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEIDELBEEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 87×
+                  - cell: 3,99 €
+                  - cell:
+                    - button: ↓ 9,1%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL. MORTADELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 79×
+                  - cell: 5,95 €
+                  - cell:
+                    - button: ↑ 33,1%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWI GOLD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 78×
+                  - cell: 1,78 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BANANE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 76×
+                  - cell: 1,94 €
+                  - cell:
+                    - button: ↑ 162,2%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND 1,50 EURO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 71×
+                  - cell: 3,00 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BANANE CHIQUITA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 65×
+                  - cell: 0,78 €
+                  - cell:
+                    - button: ↓ 15,2%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOUDA GER. 48%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 64×
+                  - cell: 3,58 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! BUTTERKAESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 63×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GERAMONT SCHB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 56×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 18.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENBRUST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 56×
+                  - cell: 3,18 €
+                  - cell:
+                    - button: ↑ 6,7%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 54×
+                  - cell: 3,30 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 08.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LYONER AUFSCHNIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 53×
+                  - cell: 4,09 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 50×
+                  - cell: 5,29 €
+                  - cell:
+                    - button: ↓ 53,5%
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND 1,00 EURO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 44×
+                  - cell: 4,00 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 28.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SERRANO SCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 44×
+                  - cell: 7,96 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEROLST. MEDIUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 43×
+                  - cell: 7,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 28.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STREICHGUT GESAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 43×
+                  - cell: 1,09 €
+                  - cell:
+                    - button: ↓ 79,7%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUB.DUN.KERNL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 43×
+                  - cell: 1,79 €
+                  - cell:
+                    - button: ↑ 5,9%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRANZ.BAG.SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 42×
+                  - cell: 6,55 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFLUEGEL-SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 41×
+                  - cell: 5,16 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALATGURKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 41×
+                  - cell: 0,79 €
+                  - cell:
+                    - button: ↑ 14,5%
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BANANE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 38×
+                  - cell: 1,22 €
+                  - cell:
+                    - button: ↑ 79,4%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO EIER OKT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 38×
+                  - cell: 7,98 €
+                  - cell:
+                    - button: ↑ 17,7%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAN.SERRANOSCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 36×
+                  - cell: 6,05 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO EIER KL. M-L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 35×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 03.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRS.HIBISKUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 34×
+                  - cell: 19,62 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR. WEIDEMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 32×
+                  - cell: 1,25 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZITRONE PET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 32×
+                  - cell: 7,74 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEIDELBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 31×
+                  - cell: 4,58 €
+                  - cell:
+                    - button: ↓ 23,4%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIMBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 31×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 16,7%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BONBEL BUTTERK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 30×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZOTTARELLA BAS.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 30×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 24.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC CHERRY COKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 29×
+                  - cell: 19,98 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENFL.W.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 29×
+                  - cell: 2,79 €
+                  - cell:
+                    - button: ↓ 53,3%
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GURKE MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 28×
+                  - cell: 0,88 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAND.HINTERSCHIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 28×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AVOCADO VORGER.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 27×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 27×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST GEGR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 26×
+                  - cell: 5,56 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOILETTENPAP.3LG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 26×
+                  - cell: 8,30 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCHSCHNITTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 25×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RED BULL DOSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 25×
+                  - cell: 12,75 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHINKEN NUGGETZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 25×
+                  - cell: 1,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WACHOLDERSCHINKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 25×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CASHEWS PIKANT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 24×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 13.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC MEZZO ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 24×
+                  - cell: 17,98 €
+                  - cell
+                  - cell: 04.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENB HONIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 24×
+                  - cell: 4,47 €
+                  - cell:
+                    - button: ↓ 29,7%
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PESTO ROSSO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 24×
+                  - cell: 3,98 €
+                  - cell:
+                    - button: ↑ 110,6%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBE ROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 24×
+                  - cell: 4,01 €
+                  - cell:
+                    - button: ↓ 8,7%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE ABATE FETE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 23×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DANY D.SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 23×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISTORANTE PIZZA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 23×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNEPUDDING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 23×
+                  - cell: 0,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAERGARDEN GES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 22×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 03.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST M.H.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 22×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZITRONE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 22×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EXTRA GESALZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FARMLANDSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 5,09 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOKOS NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 2,90 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA PASTA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZEWA W&W SPARB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 21×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO H-MILCH 1,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 2,30 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-WEIDEMIL. 1,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 1,39 €
+                  - cell:
+                    - button: ↓ 57,9%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHEN SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 3,87 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAROTTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KESSELSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 3,58 €
+                  - cell:
+                    - button: ↓ 33,3%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POMM.LEBERW.APF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE KOCHSCHINK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 20×
+                  - cell: 4,58 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KRUSTENBRATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 19×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 19×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI BABYBEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 19×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LYONER/FLEISCHW.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 18×
+                  - cell: 2,97 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLBEUTEL 35L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 18×
+                  - cell: 1,15 €
+                  - cell:
+                    - button: ↓ 3,4%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL LAUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 18×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRYROMATOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA TOIPA 3LG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KERRYGOLD CHEDD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 4,47 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWIBEEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA SPECIALE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TASCHENTUECHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 17×
+                  - cell: 3,85 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DIE STREICHZARTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 5,07 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FLAMMKUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 3,76 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOZZARELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLBEUTEL 25L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 0,59 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWIP SCH.O.ZUC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 3,54 €
+                  - cell
+                  - cell: 11.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNENBLUMENOEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 16×
+                  - cell: 2,29 €
+                  - cell:
+                    - button: ↓ 47,7%
+                  - cell: 13.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO WEIDEMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 15×
+                  - cell: 4,05 €
+                  - cell:
+                    - button: ↑ 50,0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KARTOFFELBROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 15×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 29.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOILETTENPAPIER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 15×
+                  - cell: 5,69 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBEN HELL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 15×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 07.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAHNCREME FRISCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 15×
+                  - cell: 3,10 €
+                  - cell:
+                    - button: ↑ 56,6%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRAND DESS. SCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 14×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER RIEGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 14×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 05.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL PINK LADY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 3,49 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AVOCADO BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTER CHICKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 11,16 €
+                  - cell:
+                    - button: ↑ 219,8%
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLA ZERO KOFF.F
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 11,99 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 29.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLA ZERO KOFFEI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 22,24 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 28.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUSILLI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 0,69 €
+                  - cell:
+                    - button: ↓ 56,3%
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOZZARELLA LEICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 3,40 €
+                  - cell:
+                    - button: ↓ 20,0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE CHERRYRIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WAGNER FLAMMK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBELM.KUGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 13×
+                  - cell: 2,76 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMEFINE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 4,47 €
+                  - cell:
+                    - button: ↑ 351,5%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUCHTZWERGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GERAMONT SNACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 12.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KERRYGOLD GESALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROMBACH.RADLER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 10,49 €
+                  - cell
+                  - cell: 02.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCHREIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUEN.WEISSWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 5,38 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROT THAI CURRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNENKERN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNTAGSBROETCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 16.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZERO SUGAR CH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 5,95 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL ROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 12×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERCROISSANTS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 3,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPSA PRODOMO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUFTMUELLBEUTEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! BACKPAPIERZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 1,90 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUECHENTUECHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 2,75 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUFF.STRACC./SCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND 4,25 EURO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 4,25 €
+                  - cell
+                  - cell: 24.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISPENTOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 0,47 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RUEG.TEEW.FEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 7,17 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAHNCREME MF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 11×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BLUMEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 4,90 €
+                  - cell:
+                    - button: ↓ 29,9%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BROT. PAPRIKA&PE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLIN.MIWA CL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCA COLA PET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 3,38 €
+                  - cell:
+                    - button: ↓ 94,4%
+                  - cell: 29.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEL. KOCHSCHINK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 2,98 €
+                  - cell:
+                    - button: ↓ 6,3%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GURKE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-SAHNE Z KOCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 1,38 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LAUGENSTANGEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 3,98 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONE HONIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI WINI KETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 11.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHLAGSAHNE 33%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 1,98 €
+                  - cell:
+                    - button: ↑ 11,2%
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPORT DEOSPRAY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 24.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WAGNER PICCOLINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 10×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AMERICAN SANDWI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 10.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE HAWAII
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE GRUEN BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,89 €
+                  - cell
+                  - cell: 09.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BISTRO FLAMMKUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,10 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAMP. WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,59 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUPLO WHITE 10ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FARMERSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 5,37 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOUDA JUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-SCHLAGSAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,96 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! WEIZENMEHL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,30 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAISER NATRON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPERBROT VOL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 0,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUSSINI 5ER PACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA +75G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 4,59 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OFENKAESE WUERZ.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE ARRABBIATA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHW.SCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG. MORTADELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 30.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WACHOLDERSCHINK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 9×
+                  - cell: 3,80 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL GRANNY SMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 8,07 €
+                  - cell
+                  - cell: 20.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BEEF JERKY ORIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 13,16 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIG SANDWICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOLOGNESE SAUCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAMPIG. BRAUN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CS KIRSCHE-GRANA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 14.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DAEN.GURKENSALAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL.FLEISCHW.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 2,91 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSPEISE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 18.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENBR. GEB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 6,57 €
+                  - cell:
+                    - button: ↓ 21,4%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO TROPI FRU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAERGARDEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER CARDS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KLOSTERSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 5,93 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNACK&BACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOBLAUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 18.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LACHSSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 6,36 €
+                  - cell:
+                    - button: ↓ 5,9%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LAUGENBREZELN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCHBROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPRIKA ROT SP.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFLAUME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 1,28 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PHILADEL.PORTION
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROMARISPENTOM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 37,4%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEISEQUARK MAG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 2,76 €
+                  - cell:
+                    - button: ↑ 33,3%
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TEEWU.FEIN, STA.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 3,13 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIZENMEHL T 405
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 8×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGHURT 3,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL ROT BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 28.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BEEF JERKY SWHT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 36,19 €
+                  - cell
+                  - cell: 11.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BEEF JERKY TERIY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 13,16 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIFI ROLL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAMPIG. WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAMPIGNONS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREME BRULEE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DESSERTSOSSE V
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEST. WASSER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,99 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FROOP HIMBEER 5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FROOP PFIRS.MAR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GERAMONT CLASSIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 03.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GNOCCHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOLD 49 TABS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 15,54 €
+                  - cell
+                  - cell: 20.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRANA PADANO RIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 7,18 €
+                  - cell
+                  - cell: 10.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIMBEEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,99 €
+                  - cell:
+                    - button: ↓ 68,1%
+                  - cell: 05.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! RAFF.ZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPERBR.WEIZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCH CLASSIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 05.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIVEA DEO INVIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OFENKAESE MILD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 19.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PESTO POMODORI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA SALAME MOZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,55 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RED BULL 4ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 4,76 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHUPFNUDELN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESSKARTOFFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,42 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TAGLIATELLE FUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 03.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TEMPO TASCHENT.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLONI FUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 11.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL ROT BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 1,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL SCHALOTT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 7×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO SCHLAGSAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 5,45 €
+                  - cell
+                  - cell: 18.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUENO 6ER WHITE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCA COLA CHERRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,76 €
+                  - cell
+                  - cell: 31.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUSCHDAS DUSCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,07 €
+                  - cell
+                  - cell: 03.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIERSPAETZLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,78 €
+                  - cell:
+                    - button: ↑ 111,2%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEER KONFITUE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA ORANGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,74 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FENCHELSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 7,27 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRI BUTTERBLEATT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFLUEGELFL.WURS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GER. KOCHSCHINKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEROLS MINERALW
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 9,99 €
+                  - cell
+                  - cell: 05.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRANA PADANO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 02.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRIESSPUDDING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HINTERSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOUSE BLEND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 7,38 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA SPEZIALSALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,60 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! TOIPA 3LG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,95 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI GNOCCHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATURJOGHURT 1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA 450G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OVOMALTINE CREAM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 7,18 €
+                  - cell
+                  - cell: 27.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSISCH PET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 11,88 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POLPA FINE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 28.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST GERAE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE ULTRA BINDE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISPENTOMATE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 10.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISTORA.PIZZ.PAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,55 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAKIS NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWIPSCHWAP ZER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 4,14 €
+                  - cell
+                  - cell: 09.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE FLEISCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 3,06 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLINI PESTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBE HELL KL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 1,69 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TROCKENBACKHEFE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 0,99 €
+                  - cell:
+                    - button: ↑ 25,3%
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TWIX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 6×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AIRWAVES MENTHOL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 07.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALWAYS SLIPEINL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL-BANANE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE-SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 5,25 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BI-FI 6ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGHURT 1,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,67 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGHURT 3,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,15 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOURBON VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRYRISPENTOMA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,92 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CIABATTA BROETC.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEOSPR. EXTREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 3,10 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESPRE. RISTRETTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA EXOTIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,38 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRISCHFLEISCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 17,59 €
+                  - cell:
+                    - button: ↑ 558,8%
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FROOP ERDBEER 5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GABELSPAGHETTI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,88 €
+                  - cell
+                  - cell: 14.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRATINKAESE LE.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 3,58 €
+                  - cell:
+                    - button: ↓ 10,1%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRILLSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 4,47 €
+                  - cell
+                  - cell: 02.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-WEIDEMILCH 1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 13.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HACKFLEISCH GEM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 8,87 €
+                  - cell
+                  - cell: 22.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANUTA 10ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEFEWUERFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,15 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEIDELBEERE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 21.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIMBEERE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 13.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,29 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEIBNIZ BUTTERK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEICHTSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 7,77 €
+                  - cell:
+                    - button: ↑ 50,0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LUNGO BELLUNO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONE GALIA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 13.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MERIDOL ZB MITTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 17,94 €
+                  - cell
+                  - cell: 09.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLBEUTEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NEAPOLITANER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PANKO PANIERMEHL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,99 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PASTA BOLOGNESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 16.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRS. HIBISKUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 14.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROCHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSMARINSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 4,60 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCH & FASER 24WL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 3,39 €
+                  - cell
+                  - cell: 01.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCH.SCH ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 10,56 €
+                  - cell:
+                    - button: ↑ 11,4%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKOSOUFFLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKOTROEPFCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWARZW. SCHINK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 4,98 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SMARTIES MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STRACCIATELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TAFT WAX POWER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM.DELIZIOSO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 28,7%
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 19.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRIPLE CHOC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLA PASSION
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG.MUEHLEN METT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZOTTARELLA ROLLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 5×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALWAYS VP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 6,66 €
+                  - cell
+                  - cell: 03.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ANANAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ANANASSCHEIBEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELMUS O. ZU.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKPULVER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,18 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAG. SPECIALE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO FETA 45%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO MOZZARELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BISTRO BAGUETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BLUETENHONIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,59 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BULGURSALAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,76 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRI MULTIVITAM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC Z.KOF.EW4X1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 11,12 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAMPIGNONS BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRY RISPE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 20.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHICKENSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,45 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLEMENTINE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUPL.RIEG.WHI.18
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUPLO RIEGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUSCHE SPORT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERBSEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 8,96 €
+                  - cell
+                  - cell: 14.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FEINER ZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FLAMMKUCHENTEIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR.SCHLAGSAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRECHE FREUNDE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.ERDBEER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEMUESEBRUEHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEMUESEMAULTASCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP.MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 29.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEIDELBEERE 300G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,99 €
+                  - cell:
+                    - button: ↓ 16,7%
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEIDELBEEREN BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: INDIAN STYLE MAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,49 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! MARKENBUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,98 €
+                  - cell:
+                    - button: ↓ 16,8%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JODSALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURTSCHOKOL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER BUENO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER UE-EI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,99 €
+                  - cell:
+                    - button: ↓ 16,8%
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIRI SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 07.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOPFSALAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LION WILD CRUSH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LITSCHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,25 €
+                  - cell
+                  - cell: 09.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: METZGERKOCHSCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 4,07 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI BREZN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 4,46 €
+                  - cell
+                  - cell: 30.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOZZAREL.MAX.45%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATURJOGH. 3,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGE SAFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPRIKA EDELSUES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARMASCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 10,76 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PERWOLL SCHWARZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PLOMBIR EISKREM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 24.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAHM SPINAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAVIOLI TOM.MOZ.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 5,38 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,76 €
+                  - cell
+                  - cell: 24.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI M.PARMES.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI NO.5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,37 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPITZPAPRIKA BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,77 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPORTLER SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,47 €
+                  - cell
+                  - cell: 30.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPRITE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPUELM. PFLEGER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,50 €
+                  - cell
+                  - cell: 20.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPUELMASCHINENPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM. CHERRY BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,11 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATEN KETCHUP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATEN STUECKIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 5,96 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATENMARK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 4,76 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLINI TOM-S
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 29.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAD. SCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ULTRABINDE GERU.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG. POMM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 27.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WAFFELBECHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 8,67 €
+                  - cell:
+                    - button: ↑ 50,0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIHENST. BUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 19.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZITRONE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 4×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALLZWECK-U.GEFR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,50 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMOND COCONUT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 12,53 €
+                  - cell:
+                    - button: ↑ 600,0%
+                  - cell: 21.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALWAYS BP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 8,37 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL CRIPPSPINK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL DIREKTSAFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,35 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL ROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 27.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL,BAN.,HIMB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,70 €
+                  - cell
+                  - cell: 27.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELDREIECK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,38 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAERCHEN-SCHLAWI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTESALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO TK HIMBEEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 12,76 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE CONFERENCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,37 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLINEN CLASSI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,49 €
+                  - cell
+                  - cell: 30.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC ZERO EW4X1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 11,12 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRYTOMATE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHOCO KRISPIES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 25.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLEMENTINE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUO SCHOKO CREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 11.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEER JOGH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESN BAR DARK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,37 €
+                  - cell:
+                    - button: ↑ 200,0%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESSIG ESSENZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EXTRA ERDBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA ORANGE PET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 9,49 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FEINE BUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FINISH SALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FLOTTE BIENE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR.JOG.NATUR 1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 04.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR.SAFTGETRAENK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,29 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FROOP ZITRONE 5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,78 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.KIRSCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEG. KOCHSCHINK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GERAMONT MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP. HIMB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 15.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP. MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOUDA GERIEBEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 24.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOUDA JG SCHEIB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHN.BRUSTFILET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,98 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENBRUSTFI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAUSHALTSSCHERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 07.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HER FIN HAEHN BR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: IRISCHE BUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 7,4%
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! MILCHREIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JAMON SERRANO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 8,86 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JB-ROULADE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,21 €
+                  - cell
+                  - cell: 24.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGH.GR.A.VAN.-M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAERGARD.GESALZE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,78 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAKAO NFP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 11.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAKAOKREMHOERN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAROTTE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 02.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIKOK H.BRUST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 8,63 €
+                  - cell
+                  - cell: 28.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER MAXI EI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERPUNSCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,94 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERSCHOKOLADE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIRI PORTIONEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOKOSRASPEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,90 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KONDENSMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROSSE KRUESTCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUNTERBUNT CHOCO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,29 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LAUGEN-CRACKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEIMER CROUTONS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAULTASCHEN TR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONE WASSER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONE WASSER RO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKA PRALINES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI DONUTS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI MAGDALENAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI MOZZARELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINIS PUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,97 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MIRACEL WHIP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 26.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MIRACOLI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOUSSE SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOZZAR.DI BUFALA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,37 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA B-READY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OFENKAESE CHILI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PENNE SPIN.E POM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 13.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFAND 4,50 EURO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,50 €
+                  - cell
+                  - cell: 30.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PRINZENR. CHOCO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 22.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PROSCIUTTO COTTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,16 €
+                  - cell
+                  - cell: 16.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAHM GESCHNETZEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 30.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RENEW SCHWARZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,29 €
+                  - cell
+                  - cell: 01.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISOTTOREIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 03.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAL.TALER PFEFFE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 6,17 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI GER.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMISTICKS SCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALTLETTS CLAS.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAURE SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,80 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHAELTOMATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKO MILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKO-BROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SEE. SCHOKO PUDD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SEELEN.VAN.PUDD.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SNACK GALA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STILLES WASSER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 5,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 10.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STRAWB. & CREAM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SULTANINEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUPPENMAULTA.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: THOMY LES SAUCES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM. ROMA RISPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 3,33 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM.MARK KONZ.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE EIMER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOPPING EXTR. WE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↑ 25,1%
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORT. TOM-MOZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TULPEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 4,58 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VAN.PUDDINGPUL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLE DRINK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,67 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLEZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG. SCHNI.SCHI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 27.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ver.Sorten
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 3×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 01.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 6 LAUGENBR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AEPFEL+BANANE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AIOLI CREME PIKA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,69 €
+                  - cell:
+                    - button: ↑ 35,2%
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH. MILD BAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH. MILD P.M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,29 €
+                  - cell
+                  - cell: 23.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGHURT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ANANAS EXTRA SWE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 13.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL GALA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL SCIFRESH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APTAM PRONUTRA 1
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 19,99 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AVOCADO ESSREIF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE BOLOGN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE TOM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BANDNUDELN CHAMP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,98 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 18.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BBQ-BROET.CHILI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO BASMATI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 7,58 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO FR.MILCH 1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 17.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO GEMUESE BOUI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO KOKOSMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO MINI-MOZZAR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO SAURE SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE GRUEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,13 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE GRUEN EUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 28.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BISTO BAGUETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 12.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BLAETTERTEIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOLOGNESE FORMAG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 25.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRUZZZLER CHILI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUM BUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRI MONSTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRISUN ORANGEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLINEN NATURE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC CHERRY 0,33DS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,75 €
+                  - cell:
+                    - button: ↓ 5,1%
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHICK.NUGG.IM.BA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHILI PEITSCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 19.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLASSIC BROWNIES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 21.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCKTAILRISPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,44 €
+                  - cell
+                  - cell: 26.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLOR KRAFT GEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 37,98 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COMP.PROT.ZAHNCR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 09.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CORNFLAKES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREME AU CHOCOLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMISSIMO NOGGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CS MANGO-MARAC.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DESSERT M. SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,17 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DISNEY ALBUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DOVE DEOSPRAY SO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,25 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUPLO BIG PACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIS-SWIRL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell:
+                    - button: ↓ 66,7%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERBSEN 370ML
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEERE PREMIUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,05 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEEREN WESTKA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,62 €
+                  - cell
+                  - cell: 14.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEERKUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,29 €
+                  - cell
+                  - cell: 23.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESPRESSO NO.1
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESSIGESSENZ HELL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FA.ORA.ZER0,33DS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,75 €
+                  - cell:
+                    - button: ↓ 5,1%
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FAIRE WEIDEMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FAIRTRADE ROSEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA GRAPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 05.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FEINSTER ZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FK KRAEUTER PORT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FLOTTE BIENE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,99 €
+                  - cell
+                  - cell: 15.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRISCHHEFE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 07.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.HEIDEL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.HIMBEER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.KI.STA.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUCHTJOGHURT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUCHTZWERGE 8ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 20.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUZE TEE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 15,48 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GAZI GRILL PFANN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEBAECKMISCHUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,38 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEF. GNOCCHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 19.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL MORTADELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 26.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFLSALAMI O.PAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFLUEGEL LYONER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,92 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFRIERBEUTEL 3L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,25 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFRIERBEUTEL 6L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,25 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GELBER MULTIMIX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,94 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GER. MEDIUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 17,96 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEWUERZGURKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GNOCCHI SUESSKAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOENRGY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,98 €
+                  - cell:
+                    - button: ↑ 100,0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOLDBAEREN MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GR. DESSERT GR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GR. JOGHURT PUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRIESSP. TRADIT.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRILLKAESE CHILI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GUSTO PUFULETI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-MILCH 1,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 27.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHN.GESCHNETZE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 29.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAFERDRINK UNGE.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HALLOUMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANSANO WEIDEMIL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANUTA RIEGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO BERRIES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO QUAXI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO S. MAEUSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP KAROTTEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,00 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOHES C MILDE.O.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,88 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HS D. GRIFFIGE M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 01.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HYGIENESPRAY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HYGIENESPUELER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,65 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: INGWER BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,94 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ITAL.KRAEUTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! TOIPA 4LG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,84 €
+                  - cell
+                  - cell: 26.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOG.GRIE.ART
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 10.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGH. GRIE. ART
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURT & SMART.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 04.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURT MILD0,1%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 12.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JUNIOR FARM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAESE SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAESE TORTELLONI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAKI ENTBITTERT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,98 €
+                  - cell:
+                    - button: ↑ 261,8%
+                  - cell: 18.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAMINWURZERL SCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KART. DRILLINGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KART.FESTK.BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KART.VORW.FESTK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,96 €
+                  - cell
+                  - cell: 21.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KARTOFFELN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 23.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER RIEGEL BP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,19 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER-PARTY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWI BIO GOLD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWI IN BIRNE-BA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNAE. KAESE KUER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOB.BUTTER BAG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOPPERS NUSSRIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 26.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPERBR.VITAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KR.BUTTERBAGUETT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROM.RADLERAFREI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROMB.RADLER AFG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 10,99 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KRUSTIBROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUERBIS HOKKAIDO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,48 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 02.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUESSCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUESSCHEN WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 30.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LANDLIEBE BUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 21.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LANDSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,50 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEBERW.KALBFLEI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,04 €
+                  - cell
+                  - cell: 21.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LECKERMAEULCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LUFLEE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,54 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LUXUS TOILET.PAP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 8,50 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: M&M S CRISPY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANDARINE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONE CANTALOUP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELONEWASSER BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MGR TABS WLF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,39 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MIKADO ZARTHERB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKY STICKS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKY WAY MINIA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI WIENER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,58 €
+                  - cell:
+                    - button: ↑ 53,2%
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOUSSE SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 10.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLB RC 25L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLB RC 35L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLB. 35L ZB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLSAECKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,18 €
+                  - cell
+                  - cell: 16.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MW BIO JOGH.1,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,35 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MW BIO JOGH.3,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATRON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 19.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIMM2 SOFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OBST-QUETSCHMUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGINA DOSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,37 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OREGANO GEREBELT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OSTSEESCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 6,76 €
+                  - cell
+                  - cell: 18.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPRIKA SP. BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 09.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARAD.CR.SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,79 €
+                  - cell:
+                    - button: ↓ 38,8%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARAD.CR.VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,79 €
+                  - cell:
+                    - button: ↓ 38,8%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARADIESCR. W.S.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,79 €
+                  - cell:
+                    - button: ↓ 38,8%
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFANNEN GNOCCHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFANNER APFELSAF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 14.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSICH PLATT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA SALAME MO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,88 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PLATTPFIRSICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POMELO HONEY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 16.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POMM.LEBERW.GROB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,97 €
+                  - cell
+                  - cell: 17.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PREMIUM KRUESTCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUDDING SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,98 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUMPERNICKEL RO.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RD-HACKFLEISCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE PFLAUMENTR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RFW CHEESECAKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSINENBATZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSTBRATWUERSTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 7,38 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RUEGENW.TEEWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,46 €
+                  - cell
+                  - cell: 07.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAFT-GOLDBAEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 25.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAL.TALER KRAEUT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,74 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI HAUCHFEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SANDW.FUERST PU.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHAELMESSER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 22,95 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 13.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHALOTTEN BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,56 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHASCHLIKSPIESS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 22.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHINKENWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,97 €
+                  - cell:
+                    - button: ↑ 2,4%
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHLAGSAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 18.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SENSITIVE GEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 19,95 €
+                  - cell
+                  - cell: 03.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SH CLASSIC CLEAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SH HAARMIL. NAT.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 12.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNTAGSBROETCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SP GR. 5+ JUNIOR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 7,65 €
+                  - cell
+                  - cell: 28.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SP PANTS GR.6 XL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 7,77 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI BOL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,42 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEISESTAERKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEZI ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 6,90 €
+                  - cell:
+                    - button: ↑ 66,7%
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPRAY AC CLEANC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPUELMASCH.PFL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STRAWB. KIWI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,38 €
+                  - cell
+                  - cell: 31.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESS SAUER ANAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESSES MITBRING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 11.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESSSAUER SAUCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TABS GOLD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 14,98 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TG APFEL KIRSCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,17 €
+                  - cell
+                  - cell: 30.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: THUNFISCHFILETS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOERTCHEN KAKAO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOFFIFEE WHITE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell:
+                    - button: → 0%
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE ROMA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE SNACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATEN PASSIERT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 5,96 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLO.STEINPI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 17.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLONI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLONI PARM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBE BIO DUNKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,83 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBE KERNLOS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 6,65 €
+                  - cell
+                  - cell: 29.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRESOR CHOCO NUT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,93 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ULTRA NACHT BI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLE EXTRAKT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLESCHOTEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLINZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,90 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG POMM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG.MUEHLENWUERS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 02.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VIER JAHRESZ.SAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: W
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,70 €
+                  - cell:
+                    - button: ↓ 50,0%
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WARBURGER MEDIUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,50 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WARSTEINER PILS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 9,99 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIDEMILCH 3,8
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 3,50 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WIENER WUERSTCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 6,98 €
+                  - cell:
+                    - button: ↑ 74,9%
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WUNDERBAR KAKAO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 03.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZB BEUTEL AN-G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 11.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZOO DINKEL&HAFER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWETSCHGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,42 €
+                  - cell
+                  - cell: 11.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 0,52 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBELMETTWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 2×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 11.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 1-2-3 FRITES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 12 ROESTI-STAEB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,89 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 4 FRUCHT NACHF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,60 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 6 GR. BAECKERBR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 6 WIENER WUERST.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 6ER FRUEHSTUEKSB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 9 BAG.BROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 12.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: 9 WEIZEN BROETCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 21.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ACT. GRANATAPFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ACTIMEL JOGH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 08.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AEGYP.GRANATAPF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AGLIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AJVAR MILD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AKTIONSARTIKEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 09.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALL IN 1 EXTRA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 8,35 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH.HIM.PAN.C
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH.MILD APF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH.MILD ZITR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGH.PFI-MA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,33 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGHURT ERD.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,33 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGHURT HEI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,33 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALMIGHURT HIM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,33 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPENGR.PRUSSIEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPENJODSALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPENJODSALZ+F
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,72 €
+                  - cell
+                  - cell: 04.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPENMILCH MILKA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,76 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPENMILCH SCHO.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 27.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALPRO MANDEL O.Z
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ALUMINIUMFOLIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,92 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ANANASSTUECKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ANZUCHT-U.KRAEUT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APEROLSPRITZ 0,2
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,99 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APF.BAN.MUESLIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL BANANE 12M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,16 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL ELSTAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,02 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL GALA BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,74 €
+                  - cell
+                  - cell: 07.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL JONAGOLD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,81 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL KIRSCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 08.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL ROTFL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 26.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL SNACK GALA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL SNACKAPFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL, MANG, PF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,66 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL-BIRNE-BANA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFEL-MANGO SAFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELKOMPOTT 0%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,78 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELMARK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELMUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 16.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELMUS KALTG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APFELSAFT TRUEB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APPLE-CHERRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APRIKOSE EUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: APRIKOSEN KONF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AUFSTR. HAFERDRI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AVOCADO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 28.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: AVOCADO FEINE W.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 06.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: B.BLUEMCH.TORTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,98 €
+                  - cell
+                  - cell: 11.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BABY 1MAL WASCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,97 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKAROMA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKAROMA BITTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 08.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKFISCHSTAEB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BACKIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAD-REINIGER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUE.A LA PROV.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,08 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAGUETTE THUNF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 10.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BAKED ALASKA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,49 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BALSAMICO CREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 30.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BALSAMISSIMO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BANANE/PFIRSICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,17 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BARILLA FARFALLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BASILIKUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BASMATI KB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 15.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BASMATI REIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BECKERS APFELSAF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIFF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 11.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIFF HYGIENE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 11.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIG CITY SYDNEY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,76 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BILTONG ORIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,42 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO AGAR-AGAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO CAMEMBERT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO EIER GLUECKL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,58 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO GEFLUEGELFON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO GEH. TOMATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,33 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO GOUDA JG STK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,58 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO HAFERFLOCKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO HEFEWUERFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH BRATAPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH ERD/HIM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH HEIDELB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH MANGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH PFIR.PA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGH VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO JOGHURT 0,1%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,70 €
+                  - cell
+                  - cell: 05.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO PASSATA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO ROTE LINSEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,65 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO SCHINK.WURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,54 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO TK KAISERG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO WEIDEM 3,8
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO WIENER WUERS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIO ZITRONENSAFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE MIGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,06 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNE NASHI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,56 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIRNENDIREKTSAFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 14.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BISKUIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 20.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BIZZL MIX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BJ SWEET HOT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 13,96 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BLAETTERTEIG XXL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOUNTY EISRIEGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOUNTY MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 26.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOURB.VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOWL ERDBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BOWL MANGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRATEN FOND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRATH.GEWUERZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRATHAEHNCHEN GS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BREF FETT&EINGE.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRENNER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 30.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRESSO VIELFALT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BRIOCHE BUNS 4ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BROMBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BROOKIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,36 €
+                  - cell
+                  - cell: 01.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BROTAUFSTRICH CR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUKO DER SAHNIGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUKO PIK. KRAEUT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 20.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BULGUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUNTE SCHNECKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BURGER FAERSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BURRATA APULIEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 21.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTER CROISSANT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERBLAETTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERKAESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,42 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERMIL.BROET.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERMILCHBATZE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: BUTTERSTOLLEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 06.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CADOR OLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAFFE CREMA 10ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,58 €
+                  - cell
+                  - cell: 10.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAMEMBERT 45%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 04.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CANNELLONI BOL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRI ORANGE PEA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 10.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRI SUN ORANGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,29 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAPRISUN MULTIV.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAREFREE SLIPEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 11.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLI.MIWA MED.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 24.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLI.NATURELLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,49 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CAROLINEN ZITRON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 8,49 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CASHEWS HOT THAI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 11.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CASTELLO CHEDDAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 23.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CC Z.KOF.EW1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,73 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHAI LATTE CALSS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,46 €
+                  - cell
+                  - cell: 08.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRY ROMA BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHERRYRISPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,08 €
+                  - cell
+                  - cell: 26.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHESTER SKS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 07.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHICK.TIKKA TAKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHICKEN TANDOORI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 05.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHINESE STYLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHOCO BROWNIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 13.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHOCO CHUNKS ZB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHOCO PAUSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,46 €
+                  - cell
+                  - cell: 21.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHOKINI-GEBAECK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHR. GROD SAUCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CHURROS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CIABATTA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 07.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CIABATTA PICCOLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CINI MINI CRUSH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CINI MINIS APPLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CINI MINIS CHURR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CINI-MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 08.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CITRUSFRISCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 05.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLA. DOUBLE CHOC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 19.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLASSIC DOUGH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,34 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLASSIC VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 19.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CLEMENTINEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCA-COLA CHERRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 10,32 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COCKTAILWUERST.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLA KOFFEINF.LI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 26,97 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLA LIGHT 1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,14 €
+                  - cell
+                  - cell: 16.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLA ZERO GLAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,81 €
+                  - cell
+                  - cell: 27.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLLEZ.FARFALLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COLOR-GEL 20WL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 19,95 €
+                  - cell
+                  - cell: 03.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COOKIES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,88 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COOKIES EIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COOPERS CIDER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CORNETTOCLASSICO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CORNY SCHOKO-BAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: COVID19SELBSTTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,52 €
+                  - cell
+                  - cell: 03.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CR.FRAICHE NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,32 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREME A LA VANIL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREME FRUCHT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 8,97 €
+                  - cell
+                  - cell: 18.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMEFINE 15%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 15.06.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMISS. VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 20.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMISSIMO SCHOK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CREMISSIMO STRAW
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CRINKLE DELUXE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CRISPIES THAI CH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CROISSANT 4ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CROISSANTS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 13.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CUJA MARA SPLIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 11.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: CURRY PASTE ROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DA. THERMOSTRUMP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,99 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DA.LEGGINGS, SEA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 12,99 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DAS VOLLE KORN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,87 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DATTELTOMATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,33 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEKOR PASTELL M.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEKOR ZUCKER AUG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,69 €
+                  - cell
+                  - cell: 18.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DELI. BACON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,97 €
+                  - cell
+                  - cell: 29.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEO ROLL ON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEO SPRAY BARBER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,78 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DEOSPRAY AC INV
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DESS.SAUCE VAN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 14.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DFB-ALBUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 16.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DIE WEISSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,57 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DINKEL-VOLLKORNM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 13.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DINKELMEHL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 12.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DINO REX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DIVERSE NON-FOOD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DOVE AC G. Z.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DOVE DEOSPR MENC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DR. PEPPER CHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DRESSING JOGHURT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 17.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: DUPLO SUNDAE CHO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 21.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EASYLIFE SOUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,65 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER 10-ER WULF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,78 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER EDEL-VOLLM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 23.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER FH RES S-L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER FH WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,38 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER FREIL.WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIER FREILANDH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,18 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EIERKNOEPFLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EINMALHAND.100ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,95 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EISTEE WILDKIR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EISTEE ZITRONE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EISWUERFELBEUTEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ELICHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,28 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ELICHE TRICOLORE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,78 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERBSEN EINTOPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERBSEN SEHR FEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERBSEN/MOEHREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDB.JOGH.SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,64 €
+                  - cell
+                  - cell: 05.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEER BIRN 12M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,16 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEER JOGHURT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,73 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ERDBEER SIRUP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESN BAR COOKIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESN FUDGE BROWN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESZET VOLLMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ESZET ZARTBITTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EXCELLENCE 100%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 13.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EXPR. ITAL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: EXQUISA SAHNIGE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,75 €
+                  - cell
+                  - cell: 11.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: Erdbeeren
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,40 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: F. HAEHNCHEN T+B
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FAMILIEN PIZZA-T
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FAMILY BOX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA ELDERFLOW
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA MANGO&DRAG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 07.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA O.EW1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA OR.0,33DS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FANTA STRAWBERRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 29.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FARBFANGTUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 20.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FEINSCHM.SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FENCHEL 20ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FETA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FEUCHTTUECHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FILEGRO CRUNCH N
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FINISH ALL IN 1
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,59 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FINISH KLARSP.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 11.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FISCHSTAEB OMEGA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 06.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FIX NUDL.SCHIIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FK SANFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,49 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FL.BIENE WILDBL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FONDANT WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR. FETTARME MIL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,10 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR.JOGH GRANATAP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,43 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FR.KAROTT+KARTOF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,70 €
+                  - cell
+                  - cell: 21.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRANZ.RINGSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,64 €
+                  - cell
+                  - cell: 24.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRED FERKEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FREIX. MIA TINTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRISCH.DOPPELRA.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 12.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FROSCH WC ZITR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 10.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.BIRNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRU.JOGH.PFI.MA.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 20.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUECHTE MINIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 11.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUECHTE TEE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FRUJOG. ERDBEER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUEGO TORTILLAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,89 €
+                  - cell
+                  - cell: 27.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUERST PUECKLER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUET SNACKSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUNCITON. W.EN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUSILLI AL BRONZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 17.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUSILLI GR.ERBSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 10.03.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUSILLI HARTWEIZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: FUZE BLAUBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: G. KART.-AUFLAUF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GALBANI GRANA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 10,47 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEBRANNTE MANDEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEF. KUGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL. HAUCHSCHN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL.FLEISCHWU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL.FLEISCHWURS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,36 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL.LYONER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 28.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFL.MINI.WUERST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 22.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFLUEGEL SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 08.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFRIER-SET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 37,50 €
+                  - cell
+                  - cell: 04.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEFRIERBEUTEL 1L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,85 €
+                  - cell
+                  - cell: 25.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEM.BOUILL.SF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEMUESE ALLERLEI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEMUESE ALLROUND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,89 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEMUESEREIS HUHN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,35 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GENUSS PUR MACCA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GERMETA CLASSIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,25 €
+                  - cell
+                  - cell: 13.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEROLST.NATURELL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,49 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GESCHIRRTABS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,86 €
+                  - cell
+                  - cell: 28.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GETR. TOMATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GEWICK. EIST.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GFL-FLEISCHWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,56 €
+                  - cell
+                  - cell: 04.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GLUECKSWUERF.ZUC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GLUEHWUERMCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP. HIMB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP. WALD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOETTERSP. WALDM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOLDBAEREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOLDKRUESTCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOUDA MA STUECK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GOURMET SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,45 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GR. TEE M.KAM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GR.TEE ING.-ZITR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRANA PADANO DOP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRAND RAFFEALLO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,59 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRAND ROCHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,59 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRILL CIABATTA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 21.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRILLMIX GR-/PF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GRUEN-OHRHASE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 26.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GUARRANA POMEGRA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 02.06.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GUAV.-DRACHENF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: GURKENSALAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H-SCHOKO DRINK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: H2OBST A.Q.-Z.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HA-BRUSTFILET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 20,86 €
+                  - cell
+                  - cell: 11.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHN.FILET FRUC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 07.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHEN PAELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHEN-LYONER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 24.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENBR OFEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAEHNCHENSCHENK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,73 €
+                  - cell
+                  - cell: 11.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAF ERD RIE HIMB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 06.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAFERFLEKSSCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 07.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAFERFLOCKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAK PINK LADY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAMBURGER XXL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 04.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANDCR. SOFORT E
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 08.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANDSCH. L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANDSCH.NITR.100
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,95 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANUTA COOKIES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 12.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HANUTA MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 03.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO PFIRSICHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 26.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO ROULETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,38 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO WACKELGEI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HARIBO WASSERMEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 02.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HASEL. VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 29.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HAUCHSCHN KH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HEINZSAUCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HENDL GEWUERZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP APFEL BANAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP FR.-GET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP KUERB KART
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,90 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP MANGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 28.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIPP MILD APFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HIRSE STANGE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOHES C
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,78 €
+                  - cell
+                  - cell: 18.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOLL. LIGHT +20%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOT & SPICY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HOT CHILI SAUCE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HUEHNERREISTOPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: HYGIENETUECHER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,90 €
+                  - cell
+                  - cell: 27.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: IGLO RAHMS. MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,17 €
+                  - cell
+                  - cell: 07.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: INGWER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,90 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: INGWER TEE 18ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 06.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: IRISCHER CHEDDAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,78 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ITA. LIMONE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ITAL. MORTADELLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA FRISCHHALTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 11.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! BASMATI REIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 03.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! CASHEWKERNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! EIERSPAETZLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 18.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! GELIERZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! KOERN. FRISC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! MIWA CL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,26 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! MIWA STILL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,05 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! SCHLAGSAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,22 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JA! SCHMELZKAESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 25.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JMDE MASCA. KIR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 31.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOG.GRIE.ART 0,1
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGH GRIECH. ART
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 20.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGH.NATURMILD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,76 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURT GRIECH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JOGHURT MILD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: JUNGE BOHNEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,39 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: K-SCHARRN APFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,15 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAESEKUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAESETOERTCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,16 €
+                  - cell
+                  - cell: 28.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAISERGEMUESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 06.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAKAO-MOUSSE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAKI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,96 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAROT.KART.RIND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,32 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAROTTEN MIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,70 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KAROTTEN SNACK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 10.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KART.BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KART.VF.BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 02.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KARTOFFEL-GN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KARTOFFELGEM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,52 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KARTOFFELTOPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KC SWEET CHILI P
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 29.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KEHRGARNITUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KERNRAUCHSCHI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,82 €
+                  - cell
+                  - cell: 01.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KERRYGOLD CHEDD.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,16 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KICHERERBSEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIND. SCHOKOLADE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIND.BUENO EGGS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER BUENO 10
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 27.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER BUENO 6+2
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER BUENO EIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER CHO.FRESH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 31.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER COUNTRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER MAXI KING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 20.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDER SCHOKOLAD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 29.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERBESTECK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 34,95 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERBUENO CONE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERLUNCHBOX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 29,98 €
+                  - cell
+                  - cell: 29.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KINDERZAHNP.FS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KING CORNETTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 8,80 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIPFERL NUSS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIRSCH-COLA VEGG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 10.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIRSCH-GLUEHWEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIRSCHTOMATEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,72 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KIWI BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 28.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KL. WIENER HAEHN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KLARSPUELER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 09.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KLEINER DANK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOBL. GRANUL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOBLAUCHBAGUETT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 02.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOBLAUCHBROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOPPERS 8ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 29.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNOPPERS RIEGEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 06.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUS.JOGH.3,8%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 31.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPER-HAEUSCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,99 €
+                  - cell
+                  - cell: 13.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPER-PUFFREIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 05.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KNUSPERBROT WEIZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 30.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOCHCREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOERNIGER FK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOHLRABI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,55 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOKOS VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 26.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOKOSFETT PLATTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 18.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOKOSMILCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOPIERPAPIER A4
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,98 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOR.STYLE CHICK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KOSMETIKMUELLBTL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,65 €
+                  - cell
+                  - cell: 16.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KR.BUTTER BAG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 20.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KRAEUTERBUTTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROMB PILS 0,0 %
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 14.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROMB.PILS LONGN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 11,99 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KROMBA.RADLER.AF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,29 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KRUSTENBR.TH.HON
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,40 €
+                  - cell
+                  - cell: 09.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUECHENROLLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: KUESSCHEN WHITE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: L&C ROGGEN +125G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 06.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LAKRITZ-PARADE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,96 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LANDANA SAMBAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LAVENDEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 11,10 €
+                  - cell
+                  - cell: 28.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEERDAMMER TRIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,75 €
+                  - cell
+                  - cell: 01.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LEICHTSCHIN. GEW
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LIEFERKOSTEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 10,00 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LIMETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LIMETTE MINZE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LINDOR MISCHUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,19 €
+                  - cell
+                  - cell: 03.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LION 5ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LION MINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 26.10.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LMUV LAUGENSTICK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LU PETIT LUC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 13.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LU TENDRE CHOCO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 12.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LUNGO AZZURRO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 02.06.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: LUNGO NO. 2
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: M&M S CRISYP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: M&MS CRISPY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,18 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAGGI BRUEHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAGGI FIX GRATIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAGGI FIX SCHIN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 26.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAGGI HERZ PILZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAGNUM RUBY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 11.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAIL.SALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,62 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAIS/KART+PUTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,35 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANDELMUS BRAUN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,49 €
+                  - cell
+                  - cell: 16.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANDELN GESTIFT.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 25.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO 7ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 09.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO DIP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 27.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO LASSI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,58 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MANGO MARACUJA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAO MIX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MARMORKUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 02.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MARZI.KARTOFFELN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,44 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MARZIPAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAULTASCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 13.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAXI EI MAEDCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAYO CLASSIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,59 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MAYONNAISE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MEERESFRUECHTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MEHLSCHWITZE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MEISTERSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,35 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MELITTA ORIGINAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MEN EXPERT DEO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 13.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MENTH. & EUCAL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,95 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MEZZO MIX PET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 12,16 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MF ELEFANT KEKSA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MIGNON AA LR6
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCH SU STRAWB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILCHDR. BROWNIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 24.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKA MARZ. EIER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 25.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKA Z. MOMENTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,37 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKANA SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MILKY STICK SCHO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,72 €
+                  - cell
+                  - cell: 13.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI BROET.NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI COFFEE SET
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,99 €
+                  - cell
+                  - cell: 02.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI CONES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI MUFFINS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI-BERLINER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI-SALAMIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MINI-WINI SINGL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 02.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MITTELSCHARF SQ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MIXERY CHERRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 19.01.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOEVENP.ERDBEERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MON CHERI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MORTADELLA PAPR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 12.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOTIV SERVIETTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 12.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOUSSE AU CHOCO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,70 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOUSSE AU CHOCOL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,35 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOUSSE VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 18.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MOZZARELLA 45%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,89 €
+                  - cell
+                  - cell: 27.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MR.PROPER FRUEHL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 05.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLBTL. 35L
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUELLER GRIESS Z
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,39 €
+                  - cell
+                  - cell: 21.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUESLI WEN. ZU.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MUNDSPUELUNG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,75 €
+                  - cell
+                  - cell: 12.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: MZT KEKS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATIV. OLIVENOEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,49 €
+                  - cell
+                  - cell: 17.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NATIV.OLIVENOEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 8,99 €
+                  - cell
+                  - cell: 23.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NEKTARINE GELBFL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,45 €
+                  - cell
+                  - cell: 14.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NEKTARINE PLATT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NEKTARINE WEISSF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,94 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NESQUIK DUO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 12.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NESQUIK ORIGINAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 24.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIC NAC S BIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 08.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIVEA DEO DRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 21.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIVEA DEO SENSIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 20.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIVEA SOFT CREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NIX VURST LEBE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NOGGER CHOC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,00 €
+                  - cell
+                  - cell: 07.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NOISETTE SCHOKO.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,64 €
+                  - cell
+                  - cell: 05.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NOUGAT BITS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUDEL SCHINK.GR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUGAT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUSS NOUGAT CRE.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA 450G+50G
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,44 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA BISCUITS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: NUTELLA TUB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,49 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OBST/GEMUESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 29.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OETK.BACKIN 3ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,18 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OLIVEN ENTST.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OLIVENOEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,18 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OLIVENOEL DOP T.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,29 €
+                  - cell
+                  - cell: 26.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: OLIVENOEL ORIGIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 15.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 14.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGE UEB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGEN 100%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,94 €
+                  - cell
+                  - cell: 02.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORANGINA ORIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,74 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ORIGINAL POPCORN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PALM. FL.SEIFE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 08.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAMPERS BABY DRY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,89 €
+                  - cell
+                  - cell: 16.08.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPPARD. SPINACI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 20.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPPTELLER 23CM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPRI.SWEET PAR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PAPRIKA MI. BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 01.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARADIESCREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PARTYKERZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PASTA SAUCE KLAS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,47 €
+                  - cell
+                  - cell: 26.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PASTINAKEN BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 13.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PATROS LEICHT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PEACE POP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 20.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PENNE RIGATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 10.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PENNE TOM-MOZZAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PENNE VOLLKORN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PEPPER VANILLA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,58 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PEPSI COLA ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 10,56 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PEPSI Z. MANGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PERLCOUSCOUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PERPETUM VM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,47 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PERSIL COL GEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 14,99 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PERWOLL RENEW
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,99 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PESTO BASIL.MOZ.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFANNEN GNO. TOM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 09.06.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFANNER MULTINEK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,26 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFEFFER SCHWARZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,78 €
+                  - cell
+                  - cell: 18.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFEFFER WEISS G.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,69 €
+                  - cell
+                  - cell: 29.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFEFFERK. SCHW.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,19 €
+                  - cell
+                  - cell: 02.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFEFFERSALAMI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,83 €
+                  - cell
+                  - cell: 18.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSICH APFEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSICH HOLUND.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,09 €
+                  - cell
+                  - cell: 05.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSICH KONFITU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PFIRSICH MAN 12M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,16 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PHILADELPHIA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PICK UP MILK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PILZ PFIFFERLING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,55 €
+                  - cell
+                  - cell: 11.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA BROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 01.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA BUDAPEST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 06.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA KIT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZA SAUCE GEWU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 10.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PIZZATEIG SAUERT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PLUS EISEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 13.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POM BAER ORIGIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 15.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POM.LEB.W.AP.ZW.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: POPCORN MONSTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PRAK.&LECK.ERDBE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,56 €
+                  - cell
+                  - cell: 21.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PRESSEERZEUGNIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,90 €
+                  - cell
+                  - cell: 22.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PRONUTRA PRE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 18,99 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUDDING VANILLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUEREE D.LOCKERE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUNICA FRUCHTIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 16.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUT-CORDON BLEU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,61 €
+                  - cell
+                  - cell: 18.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBR.PAPRIKA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,43 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: PUTENBRUST GEB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,18 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: QUICK FRITES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: R. SPORT MINI BU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RADER ZUCKERFREI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAMA M.BUTTER+ME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 04.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAUPIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 04.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RAVIOLI TOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RB HARTW.FUSSILL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,85 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RB SPRING
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RED BULL 6ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,94 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RED BULL BLUE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RED BULL ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,88 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REIBEKUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REISW.O.SALZZUG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REISWAFF AP-HIM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 14.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE DREI ???
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 11,97 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE ERBSEN U. M
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE GOUDA MA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,64 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE JUNGER SPI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE MIWA CLASS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,34 €
+                  - cell
+                  - cell: 12.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE MIWA CLASSI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,58 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: REWE MIWA MED.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RFW PARMIGIANO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,50 €
+                  - cell
+                  - cell: 11.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RIEGEL SCHOKO ZU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RINDER FOND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RISPENTOMATE DEU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 14.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROHRZUCKER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 14.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROMANA HERZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSEN PR.FRESH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,50 €
+                  - cell
+                  - cell: 13.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSENBROETCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 16.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROSINENBRIOCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROTE B BAELLCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 16.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROTE BETE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROUGETTE OFENK.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ROULADE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RUEG.TEEW.GROB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,23 €
+                  - cell
+                  - cell: 08.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: RUSTI MEDITERR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,38 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAFT MEL.HIMB.LI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,94 €
+                  - cell
+                  - cell: 10.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAGROTAN WASCHM.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHN.J. HIM.PANN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,44 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNEJ.ERDB.PANN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,49 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNEMEERRETTICH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNEPUD. SCHOKO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNESTEIFE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAHNFEST TEWELLS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,29 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAKIS LEICHT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 14.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAKIS NATUR 50
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,12 €
+                  - cell
+                  - cell: 27.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI CIATORE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 16.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI FETTRED
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI M.PFEFFER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAMI MILANO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALAT MAYONNAISE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 17.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SALZSTANGEN JA!
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAMMELALBUM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,50 €
+                  - cell
+                  - cell: 20.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAMMYS SANDW.VOL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAMT ERDB.VAN.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,36 €
+                  - cell
+                  - cell: 04.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE BASILICO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,46 €
+                  - cell
+                  - cell: 04.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE HOLLANDAIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE PECORINO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 12.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE PESTO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE RICOTTA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 25.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCE SICILIANA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,46 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAUCENBINDER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SAURE SAHNE 10%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,26 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SC AVOCADO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 09.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHINKEN HAUCHZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHINKEN M. PF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHMUNZELHASE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,95 €
+                  - cell
+                  - cell: 06.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHNITTBLUMEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,99 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKINO KUCHEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKO LAVA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKO TROEPF.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 01.02.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHOKOLADEN EIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHW.KERNSCHINKE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,04 €
+                  - cell
+                  - cell: 20.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWAMMTUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,95 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWARZE HERREN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,38 €
+                  - cell
+                  - cell: 13.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWARZER TEE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 03.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWERLAST MUELL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,99 €
+                  - cell
+                  - cell: 09.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCHWIP SCHW ZERO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 11.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SCOTTI ABOR REIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SEELEN.SAH.-MAND
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SEELENWAEMER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SEMMELBROESEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SENF MITTELSCH.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,45 €
+                  - cell
+                  - cell: 06.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SERRANO RESERVA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,58 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SESAM WEISS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SIDOLIN CRISTAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 16.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SMOOTHIE REWE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,58 €
+                  - cell
+                  - cell: 09.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SNICKERS WHITE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 28.01.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SOLERO EXOTIC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,77 €
+                  - cell
+                  - cell: 04.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNENB.OEL KALT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,45 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNENBL.KERNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 15.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SONNENBLUMEN OEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SOYA KOKOS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SOYA NATUR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 23.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGH EIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,49 €
+                  - cell
+                  - cell: 18.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGH.M.ARRAB.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI 20% EI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI KLASS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTI TOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,58 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTIGER. TO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPAGHETTINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,30 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPARGEL W/V
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPARGELSCHINKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,18 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEISEQUARK 40%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,90 €
+                  - cell
+                  - cell: 10.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEISEQUARK MG.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,05 €
+                  - cell
+                  - cell: 22.04.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPEZIALSALZ
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 13.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPIRALEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPRITE EW4X1,5
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,56 €
+                  - cell
+                  - cell: 28.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPRITE ZERO DS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,18 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPRIZZERO HUGO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SPUEL/HAUSH.TUCH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,25 €
+                  - cell
+                  - cell: 17.03.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STARBUCKS KAPSEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,79 €
+                  - cell
+                  - cell: 26.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STEINOFEN PIZZA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STEINOFENB.GREEK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 20.07.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STEINOFENPANINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STEINPILZ-CHAMP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STREUSEL SPASS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,29 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STUECKIGE TOMATE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: STYLING GEL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 23.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESSKART. BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,56 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUESSKARTOFFELSU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUP.DICKMANNS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 23.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SUPERFLOSS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SURIG ESSIGSPRAY
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 28.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SW PUTE EI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 04.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SWEET CHILI PEPP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SWEET TOMATO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 04.11.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: SYLTER SALATFR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: Sauce Schokolade
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 05.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TAFELESSIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,59 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TAFT HS CLA. HUS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TAFT SF VOL.F.H.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,95 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TASCHENTUCH BOX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,90 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TEELICHTE 50ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 20.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TEEW.GROB, KLEIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,50 €
+                  - cell
+                  - cell: 01.09.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TEXTILERFR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,59 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: THAI-SUPPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 14.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: THUNF.SALAT ITAL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: THUNFISCH CHILI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 03.12.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TK JUNGE ERBSEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 26.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TK KUERBIS BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TO.MARMANDE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 14.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TODAY WASCHLAPPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,50 €
+                  - cell
+                  - cell: 05.03.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOFFIFEE 15ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 19.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOIPA 3-LAGIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,46 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOIPA 3LG DEKOR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 04.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOLLE ROLLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 30.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM.-MOZZ. TORTE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 19.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOM.CHER.RIS.BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,69 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMAT.MOZZ. WUE.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE CHERRYROM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 24.02.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE HONIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 01.02.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE RISPE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,50 €
+                  - cell
+                  - cell: 10.11.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE SAHNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 03.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATE SANMARZAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,40 €
+                  - cell
+                  - cell: 12.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATENSUPPE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 30.03.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOMATO KETCHUP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 13.10.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLINI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 05.06.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTELLINI KAESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 27.04.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTEN-CREME
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 16.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTILLAS 25CM
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 28.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TORTILLAS WEIZEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 23.09.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TOSKANA KRAEUTER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 29.05.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRANSPARENTFOLIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 15.06.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAU. ROT KL BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 16.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBE BLAU
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,24 €
+                  - cell
+                  - cell: 13.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRAUBEN BICOLOR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,98 €
+                  - cell
+                  - cell: 06.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRESOR MILK CHOC
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,95 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRINKGLAS, 2ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 29,97 €
+                  - cell
+                  - cell: 07.12.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TROPICA POOL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TRUEMANS CHICKEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TULPEN HARMONIE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 9,99 €
+                  - cell
+                  - cell: 23.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TULPEN M.BEIWERK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 03.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: TULPENS.HARLEKIN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,44 €
+                  - cell
+                  - cell: 06.04.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: UNIVERSALMESSER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 22,95 €
+                  - cell
+                  - cell: 03.11.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: UNSER MILDES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 25.10.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: UNTOUCHED STILL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 23.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VAL. ORANGE-MARA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,96 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLE CHOCOL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,85 €
+                  - cell
+                  - cell: 23.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLE CONES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 23.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VANILLE EIS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,22 €
+                  - cell
+                  - cell: 03.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG POMMERSCHE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,98 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG. MUEHLEN FR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 02.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG.MUEHLEN SALA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 26.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG.SCHMALZTOPF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEG.SPICK.PAPRI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,11 €
+                  - cell
+                  - cell: 20.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEGANE BRATW.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 25.05.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEGANE MAULT.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,17 €
+                  - cell
+                  - cell: 04.01.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEGANE SCHUPFNUD
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 17.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VEGANE TEEWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 16.01.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VENUS RASIERER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 7,99 €
+                  - cell
+                  - cell: 01.07.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VIENNETTA
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 20.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VILSA H2OBST APF
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 07.08.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VITAL-BROT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,39 €
+                  - cell
+                  - cell: 19.06.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VKBROT SONNBLUK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 06.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VOESLAUER PRICK
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,00 €
+                  - cell
+                  - cell: 21.07.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VOLL.PUDD.D.SCHO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,98 €
+                  - cell
+                  - cell: 19.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: VOLLKORNKEKS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 15.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: W.SUESS KNUSPER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,99 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WAFFELETTEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,96 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WAFFELETTEN EH
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 28.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WALDBEEREN IN AP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,54 €
+                  - cell
+                  - cell: 21.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WALDMEISTE SIRUP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 29.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WALNUSS REWE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 6,98 €
+                  - cell
+                  - cell: 23.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WASSERGLAS, 2ER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 56,97 €
+                  - cell
+                  - cell: 23.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WC REINIG.OCEAN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,90 €
+                  - cell
+                  - cell: 23.05.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WC-ENTE GEL MAR.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,29 €
+                  - cell
+                  - cell: 09.12.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEI. BURGUNDER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,38 €
+                  - cell
+                  - cell: 16.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIDEBUTTER SUES
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,19 €
+                  - cell
+                  - cell: 27.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIDEMILCH 1,5%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,94 €
+                  - cell
+                  - cell: 17.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEIHNACHTSMANN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,38 €
+                  - cell
+                  - cell: 04.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEISS + CRISP
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,79 €
+                  - cell
+                  - cell: 15.02.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEISSWEINESSIG
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,99 €
+                  - cell
+                  - cell: 09.04.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEISSWURST
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,99 €
+                  - cell
+                  - cell: 17.09.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WEISSWURST 20%
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WESTERN STYLE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,59 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WESTF.LINSENEINT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 25.05.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WHITE EDITION
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 22.07.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WIENER 3 PAAR
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,30 €
+                  - cell
+                  - cell: 28.12.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WILL.CHR.BIRNE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,27 €
+                  - cell
+                  - cell: 03.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WILL.CHRIST BIRN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,96 €
+                  - cell
+                  - cell: 21.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WUERF. MILD&N.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 08.11.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WUNDERLAND RAINB
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,69 €
+                  - cell
+                  - cell: 26.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: WUNDERLAND SAUER
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 28.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: YOGHURT GUMS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,65 €
+                  - cell
+                  - cell: 10.01.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAHN-U.ZAHNFLEI.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,89 €
+                  - cell
+                  - cell: 12.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAHNCREME CLASSI
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,98 €
+                  - cell
+                  - cell: 13.09.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAHNSTOCHER SPEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,79 €
+                  - cell
+                  - cell: 30.12.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZAUBERFLEKS SCHO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 02.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZEWA 8X150BL
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 5,98 €
+                  - cell
+                  - cell: 15.06.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZEWA ULTRA SOFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,43 €
+                  - cell
+                  - cell: 31.08.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZIMMYS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,93 €
+                  - cell
+                  - cell: 23.11.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZITRONENFIX
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,99 €
+                  - cell
+                  - cell: 12.04.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZOO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 02.02.2026
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZOTT.MINI BASIL.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,89 €
+                  - cell
+                  - cell: 14.09.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZUCCHI.MOE.REIBE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 26.11.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZUCCHINI BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,49 €
+                  - cell
+                  - cell: 23.12.2021
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZUCKERAUGEN
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,98 €
+                  - cell
+                  - cell: 28.10.2024
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZUCKERSCHRIFT
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,49 €
+                  - cell
+                  - cell: 18.10.2025
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZUCKERSTICKS
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,49 €
+                  - cell
+                  - cell: 10.08.2023
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWETSCHGE BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,68 €
+                  - cell
+                  - cell: 01.10.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEB.GEMUESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,19 €
+                  - cell
+                  - cell: 03.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL BIO
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 1,29 €
+                  - cell
+                  - cell: 12.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL GEMUESE
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 3,13 €
+                  - cell
+                  - cell: 11.08.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: ZWIEBEL SAHNE H.
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 4,78 €
+                  - cell
+                  - cell: 10.09.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: vers. Sorten
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 0,97 €
+                  - cell
+                  - cell: 20.07.2020
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+                - row:
+                  - cell:
+                    - generic: versch. Sorten
+                  - cell:
+                    - generic:
+                      - button:
+                        - img
+                        - text: Alias setzen
+                  - cell: 1×
+                  - cell: 2,79 €
+                  - cell
+                  - cell: 27.05.2022
+                  - cell:
+                    - switch [checked]
+                  - cell:
+                    - button:
+                      - img
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e6] [cursor=pointer]:
+    - img [ref=e7]
+  - alert
+  - dialog "TRANSPORTBOX ABH" [ref=e11]:
+    - heading "TRANSPORTBOX ABH" [level=2] [ref=e13]
+    - generic [ref=e14]:
+      - combobox [active] [ref=e15] [cursor=pointer]:
+        - text: TRANSPORTBOX ABH
+        - img
+      - application [ref=e19]:
+        - generic [ref=e148]:
+          - generic [ref=e149]:
+            - generic [ref=e151]: 04.11.2020
+            - generic [ref=e153]: 15.11.2021
+            - generic [ref=e155]: 16.11.2022
+            - generic [ref=e157]: 24.06.2023
+            - generic [ref=e159]: 05.12.2023
+            - generic [ref=e161]: 20.08.2024
+            - generic [ref=e163]: 23.02.2026
+          - generic [ref=e164]:
+            - generic [ref=e166]: 0.00 €
+            - generic [ref=e168]: 2.00 €
+            - generic [ref=e170]: 4.00 €
+            - generic [ref=e172]: 6.00 €
+            - generic [ref=e174]: 8.00 €
+      - generic [ref=e175]:
+        - generic [ref=e176]: Normaler Kauf
+        - generic [ref=e178]: Mit Rabatt
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - paragraph [ref=e182]: Niedrigster
+          - paragraph [ref=e183]: 8,00 €
+        - generic [ref=e184]:
+          - paragraph [ref=e185]: Durchschnitt
+          - paragraph [ref=e186]: 8,00 €
+        - generic [ref=e187]:
+          - paragraph [ref=e188]: Höchster
+          - paragraph [ref=e189]: 8,00 €
+      - generic [ref=e190]:
+        - heading "Preisentwicklung" [level=3] [ref=e191]
+        - generic [ref=e192]:
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - text: "Erster Kauf:"
+              - generic [ref=e195]: 8,00 €
+              - generic [ref=e196]: (23.04.2020)
+            - generic [ref=e197]: →
+            - generic [ref=e198]:
+              - text: "Letzter Kauf:"
+              - generic [ref=e199]: 8,00 €
+              - generic [ref=e200]: (23.02.2026)
+          - generic [ref=e201]:
+            - generic [ref=e202]: 0,00 €
+            - generic [ref=e203]: 0,0% seit erstem Kauf
+        - table [ref=e206]:
+          - rowgroup [ref=e207]:
+            - row "Jahr Ø Preis Zum Vorjahr" [ref=e208]:
+              - columnheader "Jahr" [ref=e209]
+              - columnheader "Ø Preis" [ref=e210]
+              - columnheader "Zum Vorjahr" [ref=e211]
+          - rowgroup [ref=e212]:
+            - row "2020 8,00 € —" [ref=e213]:
+              - cell "2020" [ref=e214]
+              - cell "8,00 €" [ref=e215]
+              - cell "—" [ref=e216]
+            - row "2021 8,00 € 0,00 € (0,0%)" [ref=e217]:
+              - cell "2021" [ref=e218]
+              - cell "8,00 €" [ref=e219]
+              - cell "0,00 € (0,0%)" [ref=e220]:
+                - generic [ref=e221]:
+                  - text: 0,00 €
+                  - generic [ref=e222]: (0,0%)
+            - row "2022 8,00 € 0,00 € (0,0%)" [ref=e223]:
+              - cell "2022" [ref=e224]
+              - cell "8,00 €" [ref=e225]
+              - cell "0,00 € (0,0%)" [ref=e226]:
+                - generic [ref=e227]:
+                  - text: 0,00 €
+                  - generic [ref=e228]: (0,0%)
+            - row "2023 8,00 € 0,00 € (0,0%)" [ref=e229]:
+              - cell "2023" [ref=e230]
+              - cell "8,00 €" [ref=e231]
+              - cell "0,00 € (0,0%)" [ref=e232]:
+                - generic [ref=e233]:
+                  - text: 0,00 €
+                  - generic [ref=e234]: (0,0%)
+            - row "2024 8,00 € 0,00 € (0,0%)" [ref=e235]:
+              - cell "2024" [ref=e236]
+              - cell "8,00 €" [ref=e237]
+              - cell "0,00 € (0,0%)" [ref=e238]:
+                - generic [ref=e239]:
+                  - text: 0,00 €
+                  - generic [ref=e240]: (0,0%)
+            - row "2025 8,00 € 0,00 € (0,0%)" [ref=e241]:
+              - cell "2025" [ref=e242]
+              - cell "8,00 €" [ref=e243]
+              - cell "0,00 € (0,0%)" [ref=e244]:
+                - generic [ref=e245]:
+                  - text: 0,00 €
+                  - generic [ref=e246]: (0,0%)
+            - row "2026 8,00 € 0,00 € (0,0%)" [ref=e247]:
+              - cell "2026" [ref=e248]
+              - cell "8,00 €" [ref=e249]
+              - cell "0,00 € (0,0%)" [ref=e250]:
+                - generic [ref=e251]:
+                  - text: 0,00 €
+                  - generic [ref=e252]: (0,0%)
+    - button "Close" [ref=e253] [cursor=pointer]:
+      - img [ref=e254]
+      - generic [ref=e257]: Close
+  - generic: 0.00 €
+```

@@ -17,12 +17,18 @@ import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, Trendin
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
+import { Badge } from "@/components/ui/badge"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface Product {
   raw_name: string
   alias: string | null
   purchase_count: number
+  first_price_cents: number | null
   last_price_cents: number
+  price_trend_pct: number | null
+  trend_from_date: string | null
+  trend_to_date: string | null
   last_purchase_date: string
   excluded_from_stats: boolean
 }
@@ -46,6 +52,59 @@ const FILTER_LABELS: Record<FilterKey, string> = {
   all: "Alle",
   active: "Aktiv",
   excluded: "Ausgeblendet",
+}
+
+function formatMonthYear(isoDate: string): string {
+  const d = new Date(isoDate)
+  return d.toLocaleDateString("de-DE", { month: "short", year: "numeric" })
+}
+
+function PriceTrendBadge({
+  pct,
+  fromDate,
+  toDate,
+  onClick,
+}: {
+  pct: number | null
+  fromDate: string | null
+  toDate: string | null
+  onClick: () => void
+}) {
+  if (pct === null) return null
+
+  const isUp = pct > 0
+  const isDown = pct < 0
+  const arrow = isUp ? "↑" : isDown ? "↓" : "→"
+  const formatted = pct === 0 ? "0%" : `${Math.abs(pct).toFixed(1).replace(".", ",")}%`
+  const colorClass = isUp
+    ? "border-transparent bg-red-100 text-red-700 hover:bg-red-200 cursor-pointer"
+    : isDown
+    ? "border-transparent bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer"
+    : "border-transparent bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
+
+  const tooltipText =
+    fromDate && toDate
+      ? `${formatMonthYear(fromDate)} – ${formatMonthYear(toDate)}`
+      : "letzte 12 Monate"
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge
+            className={colorClass}
+            onClick={onClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && onClick()}
+          >
+            {arrow} {formatted}
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent>{tooltipText}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
 }
 
 export function ProductList() {
@@ -367,6 +426,7 @@ export function ProductList() {
                 <TableHead className="hidden sm:table-cell">Alias</TableHead>
                 <TableHead className="text-right">Käufe</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">Letzter Preis</TableHead>
+                <TableHead className="text-right hidden sm:table-cell">Preistrend</TableHead>
                 <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
                 <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
                   Statistiken
@@ -462,6 +522,19 @@ export function ProductList() {
                   {/* Last price */}
                   <TableCell className="text-right tabular-nums hidden sm:table-cell">
                     {formatEuro(product.last_price_cents)} €
+                  </TableCell>
+
+                  {/* Price trend badge */}
+                  <TableCell className="text-right hidden sm:table-cell">
+                    <PriceTrendBadge
+                      pct={product.price_trend_pct ?? null}
+                      fromDate={product.trend_from_date}
+                      toDate={product.trend_to_date}
+                      onClick={() => {
+                        setChartProduct(product.raw_name)
+                        setChartOpen(true)
+                      }}
+                    />
                   </TableCell>
 
                   {/* Last purchase date */}

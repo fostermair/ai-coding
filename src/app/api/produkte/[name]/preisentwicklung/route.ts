@@ -30,7 +30,7 @@ export async function GET(
       .all(rawName) as PriceRow[]
 
     if (rows.length < 2) {
-      return NextResponse.json({ gesamt: null, jahre: [] })
+      return NextResponse.json({ gesamt: null, jahre: [], inflation_cagr_pct: null })
     }
 
     const first = rows[0]
@@ -50,12 +50,25 @@ export async function GET(
     }
 
     const sortedYears = Array.from(byYear.keys()).sort()
+    const currentYear = new Date().getFullYear()
+
     const jahre = sortedYears.map((jahr, i) => {
       const prices = byYear.get(jahr)!
       const avg = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
 
+      // Determine if this year is partial
+      let is_partial_year = false
       if (i === 0) {
-        return { jahr, avg_preis_cents: avg, veraenderung_cents: null, veraenderung_prozent: null }
+        // First year: partial if first purchase is not on Jan 1
+        is_partial_year = !rows[0].datum.startsWith(`${jahr}-01-01`)
+      }
+      if (jahr === currentYear) {
+        // Current year: always partial (not yet complete)
+        is_partial_year = true
+      }
+
+      if (i === 0) {
+        return { jahr, avg_preis_cents: avg, veraenderung_cents: null, veraenderung_prozent: null, is_partial_year }
       }
 
       const prevJahr = sortedYears[i - 1]
@@ -69,8 +82,27 @@ export async function GET(
         avg_preis_cents: avg,
         veraenderung_cents: diff,
         veraenderung_prozent: Math.round(diffProzent * 10) / 10,
+        is_partial_year,
       }
     })
+
+    // Compute CAGR (Compound Annual Growth Rate)
+    let inflation_cagr_pct: number | null = null
+    if (sortedYears.length >= 2) {
+      const firstYear = sortedYears[0]
+      const lastYear = sortedYears[sortedYears.length - 1]
+      const yearDistance = lastYear - firstYear
+
+      const firstYearPrices = byYear.get(firstYear)!
+      const lastYearPrices = byYear.get(lastYear)!
+
+      const firstYearAvg = firstYearPrices.reduce((a, b) => a + b, 0) / firstYearPrices.length
+      const lastYearAvg = lastYearPrices.reduce((a, b) => a + b, 0) / lastYearPrices.length
+
+      if (yearDistance > 0 && firstYearAvg > 0) {
+        inflation_cagr_pct = Math.round((Math.pow(lastYearAvg / firstYearAvg, 1 / yearDistance) - 1) * 100 * 10) / 10
+      }
+    }
 
     return NextResponse.json({
       gesamt: {
@@ -80,6 +112,7 @@ export async function GET(
         veraenderung_prozent: Math.round(veraenderung_prozent * 10) / 10,
       },
       jahre,
+      inflation_cagr_pct,
     })
   } catch (e) {
     console.error("[/api/produkte/[name]/preisentwicklung] Error:", e)

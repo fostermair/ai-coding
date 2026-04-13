@@ -18,6 +18,13 @@ Eine lokale Web-App zur Analyse von REWE eBons (PDF). Die App extrahiert automat
 | P1 | Preisentwicklungs-Chart | Planned |
 | P1 | Statistik-Dashboard | Planned |
 | P1 | Watch-Folder Auto-Import | Planned |
+| P1 | Produkt-Ausblendung für Statistiken (Pfand) | Planned |
+| P1 | Preissteigerungs-Analyse (Jahr-zu-Jahr + Gesamt) | Planned |
+| P1 | Preistrend-Indikator in Produktliste | Planned |
+| P1 | Preistrend letzte 12 Monate | Planned |
+| P1 | Artikel-Inflation (Jahr-zu-Jahr Preissteigerung) | Planned |
+| P1 | Ausgeblendete Artikel als separater Tab | Planned |
+| P2 | Saisonale Artikel-Markierung | Planned |
 | P2 | Datenexport (Excel & CSV) | Planned |
 
 ## Success Metrics

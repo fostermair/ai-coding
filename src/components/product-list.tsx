@@ -767,8 +767,8 @@ export function ProductList() {
 
             {/* Produkttabelle */}
             {activeProducts.length > 0 && (
-              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-                <Table>
+              <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
+                <Table className="w-full">
                   <ProductTableHeader />
                   <TableBody>
                     {activeProducts.map((product) => (
@@ -820,8 +820,8 @@ export function ProductList() {
 
             {/* Ausgeblendet-Tabelle */}
             {filteredExcluded.length > 0 && (
-              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-                <Table>
+              <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
+                <Table className="w-full">
                   <ProductTableHeader />
                   <TableBody>
                     {filteredExcluded.map((product) => (

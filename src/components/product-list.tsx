@@ -31,6 +31,7 @@ interface Product {
   trend_to_date: string | null
   last_purchase_date: string
   excluded_from_stats: boolean
+  inflation_cagr_pct: number | null
 }
 
 interface ProdukteResponse {
@@ -104,6 +105,30 @@ function PriceTrendBadge({
         <TooltipContent>{tooltipText}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  )
+}
+
+function InflationCAGRBadge({
+  pct,
+}: {
+  pct: number | null
+}) {
+  if (pct === null) return null
+
+  const isUp = pct > 0
+  const isDown = pct < 0
+  const arrow = isUp ? "↑" : isDown ? "↓" : "→"
+  const formatted = pct === 0 ? "0%" : `${Math.abs(pct).toFixed(1).replace(".", ",")}%`
+  const colorClass = isUp
+    ? "border-transparent bg-red-100 text-red-700"
+    : isDown
+    ? "border-transparent bg-green-100 text-green-700"
+    : "border-transparent bg-gray-100 text-gray-500"
+
+  return (
+    <Badge className={colorClass}>
+      {arrow} {formatted} <span className="text-xs ml-0.5">p.a.</span>
+    </Badge>
   )
 }
 
@@ -427,6 +452,7 @@ export function ProductList() {
                 <TableHead className="text-right">Käufe</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">Letzter Preis</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">Preistrend</TableHead>
+                <TableHead className="text-right hidden md:table-cell">Ø Inflation p.a.</TableHead>
                 <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
                 <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
                   Statistiken
@@ -535,6 +561,11 @@ export function ProductList() {
                         setChartOpen(true)
                       }}
                     />
+                  </TableCell>
+
+                  {/* Inflation CAGR badge */}
+                  <TableCell className="text-right hidden md:table-cell">
+                    <InflationCAGRBadge pct={product.inflation_cagr_pct ?? null} />
                   </TableCell>
 
                   {/* Last purchase date */}

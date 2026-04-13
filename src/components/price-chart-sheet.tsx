@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Badge } from "@/components/ui/badge"
 import { ChevronsUpDown, Check } from "lucide-react"
 import {
   LineChart,
@@ -68,6 +69,7 @@ interface JahrStat {
   avg_preis_cents: number
   veraenderung_cents: number | null
   veraenderung_prozent: number | null
+  is_partial_year: boolean
 }
 
 interface PreisentwicklungData {
@@ -78,6 +80,7 @@ interface PreisentwicklungData {
     veraenderung_prozent: number
   }
   jahre: JahrStat[]
+  inflation_cagr_pct: number | null
 }
 
 interface PriceChartSheetProps {
@@ -517,6 +520,29 @@ export function PriceChartSheet({
                     </div>
                   </div>
 
+                  {/* CAGR Summary */}
+                  {preisentwicklung.inflation_cagr_pct !== null && (
+                    <div className="rounded-lg border border-blue-100 bg-blue-50 p-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-blue-900 font-medium">
+                          Ø Inflation p.a.
+                        </span>
+                        <span
+                          className={`text-sm font-semibold ${
+                            preisentwicklung.inflation_cagr_pct > 0
+                              ? "text-red-600"
+                              : preisentwicklung.inflation_cagr_pct < 0
+                              ? "text-green-600"
+                              : "text-gray-500"
+                          }`}
+                        >
+                          {preisentwicklung.inflation_cagr_pct > 0 ? "+" : ""}
+                          {preisentwicklung.inflation_cagr_pct.toFixed(1).replace(".", ",")}%
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Jahr-zu-Jahr table */}
                   {preisentwicklung.jahre.length >= 2 ? (
                     <div className="rounded-lg border border-gray-100 overflow-hidden">
@@ -531,7 +557,16 @@ export function PriceChartSheet({
                         <TableBody>
                           {preisentwicklung.jahre.map((row) => (
                             <TableRow key={row.jahr} className="text-sm">
-                              <TableCell className="font-medium text-gray-900">{row.jahr}</TableCell>
+                              <TableCell className="font-medium text-gray-900">
+                                <div className="flex items-center gap-2">
+                                  {row.jahr}
+                                  {row.is_partial_year && (
+                                    <Badge variant="outline" className="text-xs py-0 px-1.5 h-5 bg-amber-50 border-amber-200 text-amber-700">
+                                      Teiljahr
+                                    </Badge>
+                                  )}
+                                </div>
+                              </TableCell>
                               <TableCell className="text-right text-gray-700">
                                 {formatEuro(row.avg_preis_cents)} &euro;
                               </TableCell>

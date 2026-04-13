@@ -92,4 +92,11 @@ function initSchema(db: Database.Database): void {
       "ALTER TABLE product_aliases ADD COLUMN excluded_from_stats INTEGER NOT NULL DEFAULT 0"
     )
   }
+
+  // Migration: add seasonal column if not present
+  if (!cols.some((c) => c.name === "seasonal")) {
+    db.exec(
+      "ALTER TABLE product_aliases ADD COLUMN seasonal INTEGER NOT NULL DEFAULT 0"
+    )
+  }
 }

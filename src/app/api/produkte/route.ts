@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
           NULLIF(pa.alias, '') AS alias,
           COALESCE(NULLIF(pa.alias, ''), ri.raw_name) AS display_name,
           COALESCE(pa.excluded_from_stats, 0) AS excluded_from_stats,
+          COALESCE(pa.seasonal, 0) AS seasonal,
           COUNT(*) AS purchase_count,
           (SELECT ri2.total_price_cents
            FROM receipt_items ri2
@@ -171,6 +172,7 @@ export async function GET(request: NextRequest) {
       return {
         ...rest,
         excluded_from_stats: p.excluded_from_stats === 1,
+        seasonal: p.seasonal === 1,
         price_trend_pct,
         trend_from_date: (p.trend_from_date as string | null) ?? null,
         trend_to_date: (p.trend_to_date as string | null) ?? null,

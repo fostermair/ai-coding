@@ -1,8 +1,8 @@
 # PROJ-14: Saisonale Artikel-Markierung
 
-## Status: Planned
+## Status: In Progress
 **Created:** 2026-04-12
-**Last Updated:** 2026-04-12
+**Last Updated:** 2026-04-13
 **Feature Folder:** `features/PROJ-14-saisonale-artikel/`
 
 ## Dependencies

@@ -31,6 +31,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ChevronsUpDown, Check } from "lucide-react"
 import {
   LineChart,
@@ -81,6 +82,19 @@ interface PreisentwicklungData {
   }
   jahre: JahrStat[]
   inflation_cagr_pct: number | null
+}
+
+interface SeasonMonth {
+  monat: number
+  avg_preis_cents: number
+  kaufanzahl: number
+}
+
+interface SeasonData {
+  raw_name: string
+  seasonal: boolean
+  monate: SeasonMonth[]
+  warning?: string
 }
 
 interface PriceChartSheetProps {
@@ -147,6 +161,158 @@ function ChartTooltip({
   )
 }
 
+// Season classification function
+type SeasonCategory = "günstig" | "normal" | "teuer" | null
+
+function classifySeasons(monate: SeasonMonth[]): Map<number, SeasonCategory> {
+  const result = new Map<number, SeasonCategory>()
+
+  if (monate.length === 0) return result
+
+  const monatAvgs = monate.map((m) => m.avg_preis_cents)
+  const min = Math.min(...monatAvgs)
+
+  // Calculate median
+  const sorted = [...monatAvgs].sort((a, b) => a - b)
+  const median = sorted.length % 2 === 0
+    ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+    : sorted[Math.floor(sorted.length / 2)]
+
+  // Classify each month
+  // Günstig: avg <= min * 1.1 (within 10% of minimum)
+  // Teuer: avg >= median * 1.1 (at least 10% above median)
+  // Normal: everything else
+  for (const monat of monate) {
+    const avg = monat.avg_preis_cents
+
+    if (avg <= min * 1.1) {
+      result.set(monat.monat, "günstig")
+    } else if (avg >= median * 1.1) {
+      result.set(monat.monat, "teuer")
+    } else {
+      result.set(monat.monat, "normal")
+    }
+  }
+
+  return result
+}
+
+// Inline season calendar component
+function SeasonCalendar({
+  saisonData,
+  isLoading,
+}: {
+  saisonData: SeasonData | null
+  isLoading: boolean
+}) {
+  if (!saisonData || !saisonData.seasonal || saisonData.monate.length === 0) {
+    return null
+  }
+
+  const monthNames = [
+    "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Dez",
+  ]
+
+  const classifications = classifySeasons(saisonData.monate)
+  const monatByNumber = new Map(saisonData.monate.map((m) => [m.monat, m]))
+
+  const currentMonth = new Date().getMonth() + 1
+
+  return (
+    <div className="space-y-4 pt-2 border-t border-gray-100">
+      <h3 className="text-sm font-semibold text-gray-700">Saisonmuster</h3>
+
+      {isLoading && (
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-20 w-full" />
+        </div>
+      )}
+
+      {!isLoading && (
+        <>
+          {/* 12-month calendar grid */}
+          <div className="grid grid-cols-6 gap-2">
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+              const monthData = monatByNumber.get(month)
+              const category = classifications.get(month)
+              const isCurrentMonth = month === currentMonth
+
+              const bgClass =
+                category === "günstig"
+                  ? "bg-green-100"
+                  : category === "teuer"
+                  ? "bg-red-100"
+                  : category === "normal"
+                  ? "bg-gray-100"
+                  : "bg-gray-50"
+
+              const textClass =
+                category === "günstig"
+                  ? "text-green-700"
+                  : category === "teuer"
+                  ? "text-red-700"
+                  : category === "normal"
+                  ? "text-gray-700"
+                  : "text-gray-400"
+
+              return (
+                <TooltipProvider key={month}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div
+                        className={`rounded-lg p-2 text-center text-xs font-medium cursor-help ${bgClass} ${textClass} ${
+                          isCurrentMonth
+                            ? "ring-2 ring-offset-1 ring-blue-400"
+                            : ""
+                        }`}
+                      >
+                        {monthNames[month - 1]}
+                        {isCurrentMonth && (
+                          <div className="text-xs text-blue-600 font-bold mt-0.5">•</div>
+                        )}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {monthData
+                        ? `Ø Preis: ${formatEuro(monthData.avg_preis_cents)} €`
+                        : "Keine Daten"}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )
+            })}
+          </div>
+
+          {/* Legend */}
+          <div className="flex items-center gap-4 text-xs text-gray-500 justify-center pt-2">
+            <div className="flex items-center gap-1.5">
+              <span className="inline-block w-3 h-3 rounded bg-green-100 border border-green-300" />
+              Günstig
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="inline-block w-3 h-3 rounded bg-gray-100 border border-gray-300" />
+              Normal
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="inline-block w-3 h-3 rounded bg-red-100 border border-red-300" />
+              Teuer
+            </div>
+          </div>
+
+          {/* Warning if insufficient data */}
+          {saisonData.warning && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-2 text-xs text-amber-700">
+              {saisonData.warning}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  )
+}
+
 export function PriceChartSheet({
   open,
   onOpenChange,
@@ -160,6 +326,10 @@ export function PriceChartSheet({
   // Price analysis state
   const [preisentwicklung, setPreisentwicklung] = useState<PreisentwicklungData | null>(null)
   const [preisentwicklungLoading, setPreisentwicklungLoading] = useState(false)
+
+  // Season analysis state
+  const [saisonData, setSaisonData] = useState<SeasonData | null>(null)
+  const [saisonDataLoading, setSaisonDataLoading] = useState(false)
 
   // Product search state
   const [searchOpen, setSearchOpen] = useState(false)
@@ -219,6 +389,28 @@ export function PriceChartSheet({
     }
   }, [selectedProduct, open, fetchPreisentwicklung])
 
+  const fetchSaison = useCallback(async (productName: string) => {
+    setSaisonDataLoading(true)
+    try {
+      const res = await fetch(
+        `/api/produkte/${encodeURIComponent(productName)}/saison`
+      )
+      if (!res.ok) throw new Error()
+      const json: SeasonData = await res.json()
+      setSaisonData(json)
+    } catch {
+      setSaisonData(null)
+    } finally {
+      setSaisonDataLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (selectedProduct && open) {
+      fetchSaison(selectedProduct)
+    }
+  }, [selectedProduct, open, fetchSaison])
+
   // Fetch product list for search
   const fetchProducts = useCallback(async () => {
     setProductsLoading(true)
@@ -252,6 +444,7 @@ export function PriceChartSheet({
       setPriceData(null)
       setError(null)
       setPreisentwicklung(null)
+      setSaisonData(null)
     }
     onOpenChange(isOpen)
   }
@@ -604,6 +797,9 @@ export function PriceChartSheet({
                   )}
                 </div>
               )}
+
+              {/* Season calendar section */}
+              <SeasonCalendar saisonData={saisonData} isLoading={saisonDataLoading} />
             </>
           )}
         </div>

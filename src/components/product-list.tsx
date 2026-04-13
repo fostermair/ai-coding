@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff } from "lucide-react"
+import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff, Leaf } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
@@ -33,6 +33,8 @@ interface Product {
   last_purchase_date: string
   excluded_from_stats: boolean
   inflation_cagr_pct: number | null
+  seasonal?: boolean
+  current_month_season?: "günstig" | "normal" | "teuer" | null
 }
 
 interface ProdukteResponse {
@@ -122,6 +124,30 @@ function InflationCAGRBadge({ pct }: { pct: number | null }) {
   )
 }
 
+function SeasonBadge({ season }: { season: "günstig" | "normal" | "teuer" | null | undefined }) {
+  if (!season) return null
+
+  const colorClass =
+    season === "günstig"
+      ? "border-transparent bg-green-100 text-green-700"
+      : season === "teuer"
+      ? "border-transparent bg-red-100 text-red-700"
+      : "border-transparent bg-gray-100 text-gray-500"
+
+  const label =
+    season === "günstig"
+      ? "Günstig"
+      : season === "teuer"
+      ? "Teuer"
+      : "Normal"
+
+  return (
+    <Badge className={colorClass}>
+      {label}
+    </Badge>
+  )
+}
+
 // ── Gemeinsame Tabellenzeile ───────────────────────────────────────────────
 
 function ProductRow({
@@ -131,6 +157,7 @@ function ProductRow({
   saving,
   editInputRef,
   togglingNames,
+  togglingSeasonalNames,
   onStartEdit,
   onCancelEdit,
   onSaveAlias,
@@ -138,6 +165,7 @@ function ProductRow({
   onEditValueChange,
   onEditKeyDown,
   onToggleExclude,
+  onToggleSeasonal,
   onOpenChart,
 }: {
   product: Product
@@ -146,6 +174,7 @@ function ProductRow({
   saving: boolean
   editInputRef: React.RefObject<HTMLInputElement | null>
   togglingNames: Set<string>
+  togglingSeasonalNames: Set<string>
   onStartEdit: (p: Product) => void
   onCancelEdit: () => void
   onSaveAlias: (raw: string) => void
@@ -153,6 +182,7 @@ function ProductRow({
   onEditValueChange: (v: string) => void
   onEditKeyDown: (e: React.KeyboardEvent, raw: string) => void
   onToggleExclude: (p: Product) => void
+  onToggleSeasonal: (p: Product) => void
   onOpenChart: (raw: string) => void
 }) {
   return (
@@ -259,6 +289,31 @@ function ProductRow({
         {formatDate(product.last_purchase_date)}
       </TableCell>
 
+      {/* Saison column */}
+      <TableCell className="text-center hidden sm:table-cell">
+        {product.seasonal ? (
+          <SeasonBadge season={product.current_month_season} />
+        ) : null}
+      </TableCell>
+
+      {/* Seasonal toggle button */}
+      <TableCell className="text-center hidden sm:table-cell">
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-7 w-7 p-0 ${
+            product.seasonal
+              ? "text-green-600 hover:text-green-700"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
+          title={product.seasonal ? "Als nicht-saisonal markieren" : "Als saisonal markieren"}
+          onClick={() => onToggleSeasonal(product)}
+          disabled={togglingSeasonalNames.has(product.raw_name)}
+        >
+          <Leaf className="h-4 w-4" />
+        </Button>
+      </TableCell>
+
       {/* Exclude from stats toggle */}
       <TableCell className="text-center hidden sm:table-cell">
         <Switch
@@ -303,6 +358,10 @@ function ProductTableHeader() {
         <TableHead className="text-right hidden md:table-cell">Ø Inflation p.a.</TableHead>
         <TableHead className="text-right hidden md:table-cell">Letzter Kauf</TableHead>
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
+          Saison
+        </TableHead>
+        <TableHead className="w-10 hidden sm:table-cell"></TableHead>
+        <TableHead className="text-center hidden sm:table-cell whitespace-nowrap">
           Statistiken
         </TableHead>
         <TableHead className="w-10"></TableHead>
@@ -333,6 +392,7 @@ export function ProductList() {
 
   // Tracks which products are currently toggling (for optimistic updates)
   const [togglingNames, setTogglingNames] = useState<Set<string>>(new Set())
+  const [togglingSeasonalNames, setTogglingSeasonalNames] = useState<Set<string>>(new Set())
 
   const fetchProducts = useCallback(async () => {
     setLoading(true)
@@ -481,6 +541,56 @@ export function ProductList() {
     }
   }
 
+  const toggleSeasonal = async (product: Product) => {
+    const newSeasonal = !product.seasonal
+
+    // Optimistic update
+    setTogglingSeasonalNames((prev) => new Set(prev).add(product.raw_name))
+    setData((prev) => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        products: prev.products.map((p) =>
+          p.raw_name === product.raw_name
+            ? { ...p, seasonal: newSeasonal }
+            : p
+        ),
+      }
+    })
+
+    try {
+      const res = await fetch(
+        `/api/produkte/${encodeURIComponent(product.raw_name)}/saison`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ seasonal: newSeasonal }),
+        }
+      )
+      if (!res.ok) throw new Error("Speichern fehlgeschlagen")
+    } catch {
+      // Revert optimistic update on error
+      setData((prev) => {
+        if (!prev) return prev
+        return {
+          ...prev,
+          products: prev.products.map((p) =>
+            p.raw_name === product.raw_name
+              ? { ...p, seasonal: !newSeasonal }
+              : p
+          ),
+        }
+      })
+      setError("Status konnte nicht gespeichert werden")
+    } finally {
+      setTogglingSeasonalNames((prev) => {
+        const next = new Set(prev)
+        next.delete(product.raw_name)
+        return next
+      })
+    }
+  }
+
   const openChart = (rawName: string) => {
     setChartProduct(rawName)
     setChartOpen(true)
@@ -493,6 +603,7 @@ export function ProductList() {
     saving,
     editInputRef,
     togglingNames,
+    togglingSeasonalNames,
     onStartEdit: startEdit,
     onCancelEdit: cancelEdit,
     onSaveAlias: saveAlias,
@@ -500,6 +611,7 @@ export function ProductList() {
     onEditValueChange: setEditValue,
     onEditKeyDown: handleEditKeyDown,
     onToggleExclude: toggleExclude,
+    onToggleSeasonal: toggleSeasonal,
     onOpenChart: openChart,
   }
 

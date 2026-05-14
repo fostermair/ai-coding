@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef, useMemo } from "react"
 import {
   Table,
   TableBody,
@@ -14,12 +14,20 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Package, Search, ArrowUpDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff, Leaf } from "lucide-react"
+import { Package, Search, ArrowUpDown, ChevronUp, ChevronDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff, Leaf, Filter, XCircle } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface Product {
   raw_name: string
@@ -43,13 +51,17 @@ interface ProdukteResponse {
   excluded_count: number
 }
 
-type SortKey = "frequency" | "name" | "last_purchase"
+type SortKey = "frequency" | "name" | "last_purchase" | "last_price" | "price_trend" | "inflation_cagr"
+type SortDir = "asc" | "desc"
 
-const SORT_LABELS: Record<SortKey, string> = {
-  frequency: "Häufigkeit",
-  name: "Name A–Z",
-  last_purchase: "Letzter Kauf",
-}
+type ColumnFilterText = { type: "text"; value: string }
+type ColumnFilterRange = { type: "range"; min: string; max: string }
+type ColumnFilterSelect = { type: "select"; value: string }
+type ColumnFilter = ColumnFilterText | ColumnFilterRange | ColumnFilterSelect
+type ColumnFilterKey = "name" | "alias" | "frequency" | "last_price" | "price_trend" | "inflation_cagr" | "last_purchase" | "season"
+type ColumnFilters = Partial<Record<ColumnFilterKey, ColumnFilter>>
+
+const CLIENT_SORT_KEYS: SortKey[] = ["price_trend", "inflation_cagr"]
 
 function formatMonthYear(isoDate: string): string {
   const d = new Date(isoDate)
@@ -350,24 +362,576 @@ function ProductRow({
 
 // ── Gemeinsamer Tabellen-Header ────────────────────────────────────────────
 
-function ProductTableHeader() {
+interface ProductTableHeaderProps {
+  sort: SortKey
+  sortDir: SortDir
+  onSort: (key: SortKey) => void
+  columnFilters: ColumnFilters
+  onFilterChange: (key: ColumnFilterKey, filter: ColumnFilter | undefined) => void
+}
+
+function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
+  if (!active) return <ArrowUpDown className="h-3 w-3 ml-1 opacity-40 shrink-0" />
+  return dir === "asc"
+    ? <ChevronUp className="h-3 w-3 ml-1 shrink-0" />
+    : <ChevronDown className="h-3 w-3 ml-1 shrink-0" />
+}
+
+function TextFilterPopover({
+  label,
+  value,
+  onChange,
+  onReset,
+}: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  onReset: () => void
+}) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-6 w-6 p-0 ${
+            value.trim() ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
+          }`}
+          title={`${label} filtern`}
+        >
+          <Filter className="h-3.5 w-3.5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-56 p-3" align="start">
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-gray-700">{label}</p>
+          <Input
+            placeholder={`${label} eingeben…`}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="h-8 text-sm"
+          />
+          {value.trim() && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-6 p-0 text-xs text-gray-500"
+              onClick={onReset}
+            >
+              Zurücksetzen
+            </Button>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function RangeFilterPopover({
+  label,
+  unit,
+  min,
+  max,
+  onMinChange,
+  onMaxChange,
+  onReset,
+}: {
+  label: string
+  unit: string
+  min: string
+  max: string
+  onMinChange: (v: string) => void
+  onMaxChange: (v: string) => void
+  onReset: () => void
+}) {
+  const hasValue = min.trim() || max.trim()
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-6 w-6 p-0 ${
+            hasValue ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
+          }`}
+          title={`${label} filtern`}
+        >
+          <Filter className="h-3.5 w-3.5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-56 p-3" align="start">
+        <div className="space-y-3">
+          <p className="text-xs font-medium text-gray-700">{label}</p>
+          <div>
+            <label className="text-xs text-gray-600">Minimum {unit}</label>
+            <Input
+              type="number"
+              placeholder="Min"
+              value={min}
+              onChange={(e) => onMinChange(e.target.value)}
+              className="h-8 text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-600">Maximum {unit}</label>
+            <Input
+              type="number"
+              placeholder="Max"
+              value={max}
+              onChange={(e) => onMaxChange(e.target.value)}
+              className="h-8 text-sm"
+            />
+          </div>
+          {hasValue && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-6 p-0 text-xs text-gray-500"
+              onClick={onReset}
+            >
+              Zurücksetzen
+            </Button>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function DateRangeFilterPopover({
+  label,
+  from,
+  to,
+  onFromChange,
+  onToChange,
+  onReset,
+}: {
+  label: string
+  from: string
+  to: string
+  onFromChange: (v: string) => void
+  onToChange: (v: string) => void
+  onReset: () => void
+}) {
+  const hasValue = from.trim() || to.trim()
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-6 w-6 p-0 ${
+            hasValue ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
+          }`}
+          title={`${label} filtern`}
+        >
+          <Filter className="h-3.5 w-3.5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-56 p-3" align="start">
+        <div className="space-y-3">
+          <p className="text-xs font-medium text-gray-700">{label}</p>
+          <div>
+            <label className="text-xs text-gray-600">Von</label>
+            <Input
+              type="date"
+              value={from}
+              onChange={(e) => onFromChange(e.target.value)}
+              className="h-8 text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-600">Bis</label>
+            <Input
+              type="date"
+              value={to}
+              onChange={(e) => onToChange(e.target.value)}
+              className="h-8 text-sm"
+            />
+          </div>
+          {hasValue && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-6 p-0 text-xs text-gray-500"
+              onClick={onReset}
+            >
+              Zurücksetzen
+            </Button>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function SeasonFilterPopover({
+  value,
+  onChange,
+  onReset,
+}: {
+  value: string
+  onChange: (v: string) => void
+  onReset: () => void
+}) {
+  const hasValue = value !== "all"
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-6 w-6 p-0 ${
+            hasValue ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
+          }`}
+          title="Saison filtern"
+        >
+          <Filter className="h-3.5 w-3.5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-56 p-3" align="start">
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-gray-700">Saison</p>
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger className="h-8 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Alle anzeigen</SelectItem>
+              <SelectItem value="seasonal">Nur saisonal</SelectItem>
+              <SelectItem value="günstig">Günstig (aktuell)</SelectItem>
+              <SelectItem value="normal">Normal (aktuell)</SelectItem>
+              <SelectItem value="teuer">Teuer (aktuell)</SelectItem>
+            </SelectContent>
+          </Select>
+          {hasValue && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-6 p-0 text-xs text-gray-500"
+              onClick={onReset}
+            >
+              Zurücksetzen
+            </Button>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function ProductTableHeader({
+  sort,
+  sortDir,
+  onSort,
+  columnFilters,
+  onFilterChange,
+}: ProductTableHeaderProps) {
+  const sh = (
+    key: SortKey,
+    label: string,
+    cls: string,
+    filterKey?: ColumnFilterKey
+  ) => (
+    <TableHead
+      className={`whitespace-nowrap select-none hover:bg-gray-50 ${cls}`}
+    >
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => onSort(key)}
+          className="cursor-pointer flex items-center"
+        >
+          <span>{label}</span>
+          <SortIcon active={sort === key} dir={sortDir} />
+        </button>
+        {filterKey && (
+          <>
+            {filterKey === "name" && (
+              <TextFilterPopover
+                label={label}
+                value={
+                  (columnFilters[filterKey]?.type === "text"
+                    ? columnFilters[filterKey].value
+                    : "") || ""
+                }
+                onChange={(v) =>
+                  onFilterChange(filterKey, { type: "text", value: v })
+                }
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "alias" && (
+              <TextFilterPopover
+                label={label}
+                value={
+                  (columnFilters[filterKey]?.type === "text"
+                    ? columnFilters[filterKey].value
+                    : "") || ""
+                }
+                onChange={(v) =>
+                  onFilterChange(filterKey, { type: "text", value: v })
+                }
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "frequency" && (
+              <RangeFilterPopover
+                label={label}
+                unit=""
+                min={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].min
+                    : "") || ""
+                }
+                max={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].max
+                    : "") || ""
+                }
+                onMinChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    min: v,
+                  })
+                }}
+                onMaxChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    max: v,
+                  })
+                }}
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "last_price" && (
+              <RangeFilterPopover
+                label={label}
+                unit="€"
+                min={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].min
+                    : "") || ""
+                }
+                max={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].max
+                    : "") || ""
+                }
+                onMinChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    min: v,
+                  })
+                }}
+                onMaxChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    max: v,
+                  })
+                }}
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "price_trend" && (
+              <RangeFilterPopover
+                label={label}
+                unit="%"
+                min={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].min
+                    : "") || ""
+                }
+                max={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].max
+                    : "") || ""
+                }
+                onMinChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    min: v,
+                  })
+                }}
+                onMaxChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    max: v,
+                  })
+                }}
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "inflation_cagr" && (
+              <RangeFilterPopover
+                label={label}
+                unit="%"
+                min={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].min
+                    : "") || ""
+                }
+                max={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].max
+                    : "") || ""
+                }
+                onMinChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    min: v,
+                  })
+                }}
+                onMaxChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    max: v,
+                  })
+                }}
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+            {filterKey === "last_purchase" && (
+              <DateRangeFilterPopover
+                label={label}
+                from={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].min
+                    : "") || ""
+                }
+                to={
+                  (columnFilters[filterKey]?.type === "range"
+                    ? columnFilters[filterKey].max
+                    : "") || ""
+                }
+                onFromChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    min: v,
+                  })
+                }}
+                onToChange={(v) => {
+                  const current =
+                    columnFilters[filterKey]?.type === "range"
+                      ? columnFilters[filterKey]
+                      : { type: "range" as const, min: "", max: "" }
+                  onFilterChange(filterKey, {
+                    ...current,
+                    max: v,
+                  })
+                }}
+                onReset={() => onFilterChange(filterKey, undefined)}
+              />
+            )}
+          </>
+        )}
+      </div>
+    </TableHead>
+  )
+
   return (
     <TableHeader>
       <TableRow className="hover:bg-transparent">
-        <TableHead className="min-w-[200px]">Produkt</TableHead>
-        <TableHead className="hidden sm:table-cell whitespace-nowrap min-w-[180px]">Alias</TableHead>
-        <TableHead className="text-right whitespace-nowrap min-w-[60px]">Käufe</TableHead>
-        <TableHead className="text-right hidden sm:table-cell whitespace-nowrap min-w-[100px]">Letzter Preis</TableHead>
-        <TableHead className="text-right hidden sm:table-cell whitespace-nowrap min-w-[90px]">Preistrend</TableHead>
-        <TableHead className="text-right hidden md:table-cell whitespace-nowrap min-w-[120px]">Ø Inflation p.a.</TableHead>
-        <TableHead className="text-right hidden md:table-cell whitespace-nowrap min-w-[100px]">Letzter Kauf</TableHead>
+        {sh("name", "Produkt", "min-w-[200px]", "name")}
+        <TableHead className="hidden sm:table-cell whitespace-nowrap min-w-[180px]">
+          <div className="flex items-center gap-1">
+            <span>Alias</span>
+            <TextFilterPopover
+              label="Alias"
+              value={
+                (columnFilters.alias?.type === "text"
+                  ? columnFilters.alias.value
+                  : "") || ""
+              }
+              onChange={(v) =>
+                onFilterChange("alias", { type: "text", value: v })
+              }
+              onReset={() => onFilterChange("alias", undefined)}
+            />
+          </div>
+        </TableHead>
+        {sh("frequency", "Käufe", "text-right min-w-[60px]", "frequency")}
+        {sh(
+          "last_price",
+          "Letzter Preis",
+          "text-right hidden sm:table-cell min-w-[100px]",
+          "last_price"
+        )}
+        {sh(
+          "price_trend",
+          "Preistrend",
+          "text-right hidden sm:table-cell min-w-[90px]",
+          "price_trend"
+        )}
+        {sh(
+          "inflation_cagr",
+          "Ø Inflation p.a.",
+          "text-right hidden md:table-cell min-w-[120px]",
+          "inflation_cagr"
+        )}
+        {sh(
+          "last_purchase",
+          "Letzter Kauf",
+          "text-right hidden md:table-cell min-w-[100px]",
+          "last_purchase"
+        )}
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap min-w-[80px]">
-          Saison
+          <div className="flex items-center justify-center gap-1">
+            <span>Saison</span>
+            <SeasonFilterPopover
+              value={
+                (columnFilters.season?.type === "select"
+                  ? columnFilters.season.value
+                  : "") || "all"
+              }
+              onChange={(v) =>
+                onFilterChange("season", { type: "select", value: v })
+              }
+              onReset={() => onFilterChange("season", undefined)}
+            />
+          </div>
         </TableHead>
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap min-w-[100px]">
           Statistiken
         </TableHead>
-        <TableHead className="text-center whitespace-nowrap min-w-[50px]">Chart</TableHead>
+        <TableHead className="text-center whitespace-nowrap min-w-[50px]">
+          Chart
+        </TableHead>
       </TableRow>
     </TableHeader>
   )
@@ -382,6 +946,8 @@ export function ProductList() {
   const [search, setSearch] = useState("")
   const [excludedSearch, setExcludedSearch] = useState("")
   const [sort, setSort] = useState<SortKey>("frequency")
+  const [sortDir, setSortDir] = useState<SortDir>("desc")
+  const [columnFilters, setColumnFilters] = useState<ColumnFilters>({})
 
   // Price chart state
   const [chartOpen, setChartOpen] = useState(false)
@@ -397,13 +963,109 @@ export function ProductList() {
   const [togglingNames, setTogglingNames] = useState<Set<string>>(new Set())
   const [togglingSeasonalNames, setTogglingSeasonalNames] = useState<Set<string>>(new Set())
 
+  const allProducts = useMemo(() => {
+    const products = data?.products ?? []
+    if (!CLIENT_SORT_KEYS.includes(sort)) return products
+    return [...products].sort((a, b) => {
+      const aVal = sort === "price_trend" ? a.price_trend_pct : a.inflation_cagr_pct
+      const bVal = sort === "price_trend" ? b.price_trend_pct : b.inflation_cagr_pct
+      if (aVal == null && bVal == null) return 0
+      if (aVal == null) return 1
+      if (bVal == null) return -1
+      return sortDir === "desc" ? bVal - aVal : aVal - bVal
+    })
+  }, [data, sort, sortDir])
+
+  const filteredProducts = useMemo(() => {
+    return allProducts.filter(p => {
+      const cf = columnFilters
+
+      if (cf.name?.type === "text" && cf.name.value.trim()) {
+        if (!p.raw_name.toLowerCase().includes(cf.name.value.toLowerCase())) return false
+      }
+
+      if (cf.alias?.type === "text" && cf.alias.value.trim()) {
+        if (!(p.alias ?? "").toLowerCase().includes(cf.alias.value.toLowerCase())) return false
+      }
+
+      if (cf.frequency?.type === "range") {
+        const { min, max } = cf.frequency
+        if (min && Number(min) && p.purchase_count < Number(min)) return false
+        if (max && Number(max) && p.purchase_count > Number(max)) return false
+      }
+
+      if (cf.last_price?.type === "range") {
+        const { min, max } = cf.last_price
+        const euros = p.last_price_cents / 100
+        if (min && Number(min) && euros < Number(min)) return false
+        if (max && Number(max) && euros > Number(max)) return false
+      }
+
+      if (cf.price_trend?.type === "range") {
+        const { min, max } = cf.price_trend
+        if (p.price_trend_pct == null) return false
+        if (min && Number(min) && p.price_trend_pct < Number(min)) return false
+        if (max && Number(max) && p.price_trend_pct > Number(max)) return false
+      }
+
+      if (cf.inflation_cagr?.type === "range") {
+        const { min, max } = cf.inflation_cagr
+        if (p.inflation_cagr_pct == null) return false
+        if (min && Number(min) && p.inflation_cagr_pct < Number(min)) return false
+        if (max && Number(max) && p.inflation_cagr_pct > Number(max)) return false
+      }
+
+      if (cf.last_purchase?.type === "range") {
+        const { min, max } = cf.last_purchase
+        if (min && p.last_purchase_date < min) return false
+        if (max && p.last_purchase_date > max) return false
+      }
+
+      if (cf.season?.type === "select" && cf.season.value !== "all") {
+        const v = cf.season.value
+        if (v === "seasonal" && !p.seasonal) return false
+        if ((v === "günstig" || v === "normal" || v === "teuer") && p.current_month_season !== v) return false
+      }
+
+      return true
+    })
+  }, [allProducts, columnFilters])
+
+  const handleSort = (key: SortKey) => {
+    if (sort === key) {
+      setSortDir(d => d === "desc" ? "asc" : "desc")
+    } else {
+      setSort(key)
+      setSortDir(key === "name" ? "asc" : "desc")
+    }
+  }
+
+  const setFilter = (key: ColumnFilterKey, filter: ColumnFilter | undefined) => {
+    setColumnFilters(prev =>
+      filter ? { ...prev, [key]: filter } : Object.fromEntries(Object.entries(prev).filter(([k]) => k !== key))
+    )
+  }
+
+  const activeFilterCount = useMemo(() => {
+    return Object.values(columnFilters).filter(f => {
+      if (!f) return false
+      if (f.type === "text") return f.value.trim() !== ""
+      if (f.type === "select") return f.value !== "all"
+      if (f.type === "range") return f.min.trim() !== "" || f.max.trim() !== ""
+      return false
+    }).length
+  }, [columnFilters])
+
   const fetchProducts = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
       const params = new URLSearchParams()
       if (search.trim()) params.set("q", search.trim())
-      params.set("sort", sort)
+      if (!CLIENT_SORT_KEYS.includes(sort)) {
+        params.set("sort", sort)
+        params.set("dir", sortDir)
+      }
       const res = await fetch(`/api/produkte?${params.toString()}`)
       if (!res.ok) throw new Error("Fehler beim Laden der Produkte")
       const json = await res.json()
@@ -413,7 +1075,7 @@ export function ProductList() {
     } finally {
       setLoading(false)
     }
-  }, [search, sort])
+  }, [search, sort, sortDir])
 
   useEffect(() => {
     const timer = setTimeout(fetchProducts, 200)
@@ -641,13 +1303,12 @@ export function ProductList() {
     )
   }
 
-  const allProducts = data?.products ?? []
   const totalCount = data?.total_count ?? 0
   const excludedCount = data?.excluded_count ?? 0
 
   // Clientseitige Aufteilung in aktiv / ausgeblendet
-  const activeProducts = allProducts.filter((p) => !p.excluded_from_stats)
-  const excludedProducts = allProducts.filter((p) => p.excluded_from_stats)
+  const activeProducts = filteredProducts.filter((p) => !p.excluded_from_stats)
+  const excludedProducts = filteredProducts.filter((p) => p.excluded_from_stats)
 
   // Lokale Suche im Ausgeblendet-Tab (unabhängig von Haupt-Suche)
   const excludedSearchLower = excludedSearch.trim().toLowerCase()
@@ -734,20 +1395,17 @@ export function ProductList() {
                   className="pl-9"
                 />
               </div>
-              <div className="flex items-center gap-1">
-                <ArrowUpDown className="h-4 w-4 text-gray-400" />
-                {(Object.keys(SORT_LABELS) as SortKey[]).map((key) => (
-                  <Button
-                    key={key}
-                    variant={sort === key ? "default" : "ghost"}
-                    size="sm"
-                    className="h-8 text-xs"
-                    onClick={() => setSort(key)}
-                  >
-                    {SORT_LABELS[key]}
-                  </Button>
-                ))}
-              </div>
+              {activeFilterCount > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setColumnFilters({})}
+                  className="flex items-center gap-2"
+                >
+                  <XCircle className="h-4 w-4" />
+                  {activeFilterCount} Filter zurücksetzen
+                </Button>
+              )}
             </div>
 
             {/* Suche ohne Treffer */}
@@ -775,7 +1433,7 @@ export function ProductList() {
             {activeProducts.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
                 <Table className="w-full min-w-max">
-                  <ProductTableHeader />
+                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
                   <TableBody>
                     {activeProducts.map((product) => (
                       <ProductRow key={product.raw_name} product={product} {...rowProps} />
@@ -828,7 +1486,7 @@ export function ProductList() {
             {filteredExcluded.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
                 <Table className="w-full min-w-max">
-                  <ProductTableHeader />
+                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
                   <TableBody>
                     {filteredExcluded.map((product) => (
                       <ProductRow key={product.raw_name} product={product} {...rowProps} />

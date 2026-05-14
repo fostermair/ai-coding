@@ -28,7 +28,8 @@
 | PROJ-12 | Artikel-Inflation (Jahr-zu-Jahr) | Approved | [PROJ-12-artikel-inflation/spec.md](PROJ-12-artikel-inflation/spec.md) | 2026-04-12 |
 | PROJ-13 | Ausgeblendete Artikel als separater Tab | Approved | [PROJ-13-ausgeblendete-artikel-tab/spec.md](PROJ-13-ausgeblendete-artikel-tab/spec.md) | 2026-04-12 |
 | PROJ-14 | Saisonale Artikel-Markierung | Approved | [PROJ-14-saisonale-artikel/spec.md](PROJ-14-saisonale-artikel/spec.md) | 2026-04-12 |
+| PROJ-15 | Spaltenweise Filterung in Produktliste | Approved | [PROJ-15-spaltenfilter.md](PROJ-15-spaltenfilter.md) | 2026-05-14 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-15
+## Next Available ID: PROJ-16

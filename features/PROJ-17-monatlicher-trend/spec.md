@@ -1,8 +1,9 @@
 # PROJ-17: Monatlicher Ausgaben-Langzeittrend
 
-## Status: Planned
+## Status: Architected
 **Created:** 2026-05-17
 **Last Updated:** 2026-05-17
+**Architecture:** ✅ Context map created (`context-map.md`)
 **Feature Folder:** `features/PROJ-17-monatlicher-trend/`
 
 ## Dependencies

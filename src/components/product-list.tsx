@@ -1431,7 +1431,7 @@ export function ProductList() {
 
             {/* Produkttabelle */}
             {activeProducts.length > 0 && (
-              <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
+              <div className="rounded-lg border border-gray-100 bg-white">
                 <Table className="w-full min-w-max">
                   <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
                   <TableBody>
@@ -1484,7 +1484,7 @@ export function ProductList() {
 
             {/* Ausgeblendet-Tabelle */}
             {filteredExcluded.length > 0 && (
-              <div className="rounded-lg border border-gray-100 bg-white overflow-x-auto">
+              <div className="rounded-lg border border-gray-100 bg-white">
                 <Table className="w-full min-w-max">
                   <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
                   <TableBody>

@@ -52,6 +52,19 @@ interface TopProdukteData {
   }[]
 }
 
+interface InflationProdukt {
+  raw_name: string
+  alias: string | null
+  avg_vorjahr_cents: number
+  avg_aktuell_cents: number
+  aenderung_prozent: number
+}
+
+interface InflationData {
+  teuer: InflationProdukt[]
+  guenstiger: InflationProdukt[]
+}
+
 interface RabatteData {
   gesamt_ersparnis_cents: number
   monatlich: { monat: string; ersparnis_cents: number }[]
@@ -194,6 +207,7 @@ export function StatistikDashboard() {
   const [monatlich, setMonatlich] = useState<MonatlichData | null>(null)
   const [monatlichAlle, setMonatlichAlle] = useState<MonatlichAlleData | null>(null)
   const [topProdukte, setTopProdukte] = useState<TopProdukteData | null>(null)
+  const [inflation, setInflation] = useState<InflationData | null>(null)
   const [rabatte, setRabatte] = useState<RabatteData | null>(null)
   const [mwst, setMwst] = useState<MwstData | null>(null)
   const [einkaufsverbgleichVorjahr, setEinkaufsverbgleichVorjahr] = useState<EinkaufsverbgleichResponse | null>(null)
@@ -206,7 +220,7 @@ export function StatistikDashboard() {
   const [chartOpen, setChartOpen] = useState(false)
   const [chartProduct, setChartProduct] = useState<string | null>(null)
 
-  const [topSort, setTopSort] = useState<"frequency" | "spending">("frequency")
+  const [topSort, setTopSort] = useState<"frequency" | "spending" | "preissteigerung" | "verguenstigung">("frequency")
 
   const fetchAll = useCallback(async () => {
     setLoading(true)
@@ -218,7 +232,7 @@ export function StatistikDashboard() {
     }
 
     try {
-      const [monatRes, monatAlleRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes] = await Promise.all([
+      const [monatRes, monatAlleRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes, inflationRes] = await Promise.all([
         fetch(buildUrl("/api/statistiken/monatlich")),
         fetch("/api/statistiken/monatlich"),
         fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
@@ -227,6 +241,7 @@ export function StatistikDashboard() {
         fetch("/api/produkte?filter=excluded"),
         fetch("/api/statistiken/einkaufskorb-vergleich/vorjahr"),
         fetch("/api/statistiken/einkaufskorb-vergleich/voreinkauf"),
+        fetch("/api/statistiken/inflation"),
       ])
 
       const monatJson: MonatlichData = await monatRes.json()
@@ -237,10 +252,12 @@ export function StatistikDashboard() {
       const excludedJson: { excluded_count: number } = await excludedRes.json()
       const vorjahrJson: EinkaufsverbgleichResponse = await vorjahrRes.json()
       const voreinkaufJson: EinkaufsverbgleichResponse = await voreinkaufRes.json()
+      const inflationJson: InflationData = await inflationRes.json()
 
       setMonatlich(monatJson)
       setMonatlichAlle(monatAlleJson)
       setTopProdukte(topJson)
+      setInflation(inflationJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
       setExcludedCount(excludedJson.excluded_count ?? 0)
@@ -264,6 +281,7 @@ export function StatistikDashboard() {
 
   // Refetch top products when sort changes (without refetching everything)
   const fetchTopProdukte = useCallback(async () => {
+    if (topSort === "preissteigerung" || topSort === "verguenstigung") return
     const params = new URLSearchParams({ sort: topSort })
     if (zeitraum !== "alle") params.set("monate", zeitraum)
     try {
@@ -415,10 +433,12 @@ export function StatistikDashboard() {
               <CardTitle className="text-base font-medium">Top-10 Produkte</CardTitle>
             </CardHeader>
             <CardContent>
-              <Tabs value={topSort} onValueChange={(v) => setTopSort(v as "frequency" | "spending")}>
+              <Tabs value={topSort} onValueChange={(v) => setTopSort(v as "frequency" | "spending" | "preissteigerung" | "verguenstigung")}>
                 <TabsList className="mb-3">
                   <TabsTrigger value="frequency">Häufigste</TabsTrigger>
                   <TabsTrigger value="spending">Teuerste</TabsTrigger>
+                  <TabsTrigger value="preissteigerung">Preissteigerung</TabsTrigger>
+                  <TabsTrigger value="verguenstigung">Vergünstigung</TabsTrigger>
                 </TabsList>
                 <TabsContent value="frequency">
                   <TopProdukteListe
@@ -431,6 +451,20 @@ export function StatistikDashboard() {
                   <TopProdukteListe
                     produkte={topProdukte?.produkte ?? []}
                     mode="spending"
+                    onProductClick={(name) => { setChartProduct(name); setChartOpen(true) }}
+                  />
+                </TabsContent>
+                <TabsContent value="preissteigerung">
+                  <InflationsListe
+                    produkte={inflation?.teuer ?? []}
+                    richtung="teuer"
+                    onProductClick={(name) => { setChartProduct(name); setChartOpen(true) }}
+                  />
+                </TabsContent>
+                <TabsContent value="verguenstigung">
+                  <InflationsListe
+                    produkte={inflation?.guenstiger ?? []}
+                    richtung="guenstiger"
                     onProductClick={(name) => { setChartProduct(name); setChartOpen(true) }}
                   />
                 </TabsContent>
@@ -759,6 +793,51 @@ function TopProdukteListe({
               <span className="text-sm tabular-nums text-gray-600">{formatEuro(p.gesamt_cents)} &euro;</span>
             )}
           </div>
+        </button>
+      ))}
+    </div>
+  )
+}
+
+// ── Sub-Component: Inflations Liste ────────────────────────────────────────
+
+function InflationsListe({
+  produkte,
+  richtung,
+  onProductClick,
+}: {
+  produkte: InflationProdukt[]
+  richtung: "teuer" | "guenstiger"
+  onProductClick: (rawName: string) => void
+}) {
+  if (produkte.length === 0) {
+    return <p className="text-sm text-gray-400 text-center py-6">Keine Jahresvergleichsdaten vorhanden</p>
+  }
+
+  return (
+    <div className="space-y-1.5">
+      {produkte.map((p, i) => (
+        <button
+          key={p.raw_name}
+          className="w-full flex items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-gray-50 text-left transition-colors cursor-pointer"
+          onClick={() => onProductClick(p.raw_name)}
+          title="Preisentwicklung anzeigen"
+        >
+          <span className="text-xs font-medium text-gray-400 w-5 text-right">{i + 1}.</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-900 truncate">
+              {p.alias || p.raw_name}
+            </p>
+            {p.alias && (
+              <p className="text-xs text-gray-400 font-mono truncate">{p.raw_name}</p>
+            )}
+            <p className="text-xs text-gray-400 tabular-nums">
+              {formatEuro(p.avg_vorjahr_cents)} € → {formatEuro(p.avg_aktuell_cents)} €
+            </p>
+          </div>
+          <span className={`text-sm font-semibold tabular-nums shrink-0 ${richtung === "teuer" ? "text-red-600" : "text-green-600"}`}>
+            {p.aenderung_prozent > 0 ? "+" : ""}{p.aenderung_prozent}%
+          </span>
         </button>
       ))}
     </div>

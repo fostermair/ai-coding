@@ -1,6 +1,6 @@
 # PROJ-16: Einkaufskorb-Vergleich
 
-## Status: Planned
+## Status: Architected
 **Created:** 2026-05-17
 **Last Updated:** 2026-05-17
 **Feature Folder:** `features/PROJ-16-einkaufskorb-vergleich/`

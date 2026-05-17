@@ -29,7 +29,7 @@
 | PROJ-13 | Ausgeblendete Artikel als separater Tab | Approved | [PROJ-13-ausgeblendete-artikel-tab/spec.md](PROJ-13-ausgeblendete-artikel-tab/spec.md) | 2026-04-12 |
 | PROJ-14 | Saisonale Artikel-Markierung | Approved | [PROJ-14-saisonale-artikel/spec.md](PROJ-14-saisonale-artikel/spec.md) | 2026-04-12 |
 | PROJ-15 | Spaltenweise Filterung in Produktliste | Approved | [PROJ-15-spaltenfilter.md](PROJ-15-spaltenfilter.md) | 2026-05-14 |
-| PROJ-16 | Einkaufskorb-Vergleich | Planned | [PROJ-16-einkaufskorb-vergleich/spec.md](PROJ-16-einkaufskorb-vergleich/spec.md) | 2026-05-17 |
+| PROJ-16 | Einkaufskorb-Vergleich | Architected | [PROJ-16-einkaufskorb-vergleich/spec.md](PROJ-16-einkaufskorb-vergleich/spec.md) | 2026-05-17 |
 | PROJ-17 | Monatlicher Ausgaben-Langzeittrend | Planned | [PROJ-17-monatlicher-trend/spec.md](PROJ-17-monatlicher-trend/spec.md) | 2026-05-17 |
 
 <!-- Add features above this line -->

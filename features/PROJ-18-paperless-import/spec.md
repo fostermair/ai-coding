@@ -1,6 +1,6 @@
 # PROJ-18: Paperless-ngx eBon Import
 
-**Status:** Planned  
+**Status:** Approved  
 **Created:** 2026-05-17  
 **Priority:** P1  
 

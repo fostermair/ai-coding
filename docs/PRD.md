@@ -26,6 +26,8 @@ Eine lokale Web-App zur Analyse von REWE eBons (PDF). Die App extrahiert automat
 | P1 | Ausgeblendete Artikel als separater Tab | Planned |
 | P2 | Saisonale Artikel-Markierung | Planned |
 | P2 | Datenexport (Excel & CSV) | Planned |
+| P1 | Einkaufskorb-Vergleich (Vorjahr + Voreinkauf) | Planned |
+| P1 | Monatlicher Ausgaben-Langzeittrend | Planned |
 
 ## Success Metrics
 - Alle 3 Beispiel-eBons werden korrekt importiert und geparst (0 Fehler)

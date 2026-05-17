@@ -1,8 +1,9 @@
 # PROJ-17: Monatlicher Ausgaben-Langzeittrend
 
-## Status: In Progress
+## Status: Approved
 **Created:** 2026-05-17
 **Last Updated:** 2026-05-18
+**QA Completed:** 2026-05-18
 **Architecture:** ✅ Context map created (`context-map.md`)
 **Frontend:** 🟡 Implemented (`src/components/statistik-dashboard.tsx`)
 **Feature Folder:** `features/PROJ-17-monatlicher-trend/`

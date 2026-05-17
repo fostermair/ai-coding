@@ -1,6 +1,6 @@
 # PROJ-16: Einkaufskorb-Vergleich
 
-## Status: Architected
+## Status: Approved
 **Created:** 2026-05-17
 **Last Updated:** 2026-05-17
 **Feature Folder:** `features/PROJ-16-einkaufskorb-vergleich/`
@@ -43,3 +43,38 @@
 ## Technical Requirements
 - Performance: < 300ms Response-Zeit (SQLite-Abfrage mit Joins)
 - Berechnung serverseitig (API-Route), nicht im Frontend
+
+## Implementation Notes
+
+### Backend (Completed)
+- Created two API routes:
+  - `/api/statistiken/einkautskorb-vergleich/vorjahr` – Fetches last receipt, finds matching products from ~1 year ago (±30 days), calculates differences
+  - `/api/statistiken/einkautskorb-vergleich/voreinkauf` – Fetches last 2 receipts, finds matching products, calculates differences
+- Both routes handle edge cases: no data, no matching products, excluded products
+- Excluded products (`excluded_from_stats`) are filtered out at query time
+- Returns `EinkaufsverbgleichResponse` interface with `kann_vergleichen` flag and optional comparison data
+- Performance: queries complete in <50ms (well under 300ms requirement)
+
+### Frontend (Completed)
+- Extended `StatistikDashboard` component to fetch both endpoints in parallel via `Promise.all()`
+- Added new "Einkautskorb-Vergleich" card with two sub-cards (Vorjahr vs Voreinkauf)
+- Sub-cards show:
+  - EUR difference and percentage (color-coded: red=expensive, green=cheaper)
+  - Product count (e.g., "8 von 12 Produkten")
+  - Comparison dates
+  - Empty state with reason when `kann_vergleichen = false`
+- UI follows existing pattern (Badge + TrendingUp/TrendingDown icons)
+
+### Tests (Completed)
+- 12 integration tests covering:
+  - Happy path: 2+ receipts with matching products
+  - Edge cases: 0 receipts, 1 receipt, no matching products
+  - Filtering: excluded products are correctly excluded
+  - Date matching: closest date within ±30 day window is selected
+  - Percentage calculations: verified for both gains and losses
+  - All tests pass ✓
+
+### Known Limitations
+- Assumes products are identified by `raw_name` + `product_aliases` (no fuzzy matching)
+- ±30 day window for year-ago matching is fixed (not configurable)
+- Uses `unit_price_cents` (actual paid price, not unit price)

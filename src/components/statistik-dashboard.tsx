@@ -61,6 +61,19 @@ interface MwstData {
   gesamt_cents: number
 }
 
+interface EinkaufsverbgleichResponse {
+  kann_vergleichen: boolean
+  reason?: string
+  letzter_einkauf?: { datum: string; gesamt_cents: number }
+  vergleich?: { datum: string; typ: "vorjahr" | "voreinkauf"; gesamt_cents: number }
+  vergleich_stats?: {
+    differenz_cents: number
+    differenz_prozent: number
+    produkte_gezaehlt: number
+    produkte_gesamt: number
+  }
+}
+
 type Zeitraum = "3" | "6" | "12" | "alle"
 
 const ZEITRAUM_LABELS: Record<Zeitraum, string> = {
@@ -80,6 +93,11 @@ function formatMonat(ym: string): string {
   const [y, m] = ym.split("-")
   const months = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
   return `${months[parseInt(m, 10) - 1]} ${y.slice(2)}`
+}
+
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr + "T00:00:00Z")
+  return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "2-digit" })
 }
 
 // ── Custom Tooltips ────────────────────────────────────────────────────────
@@ -125,6 +143,8 @@ export function StatistikDashboard() {
   const [topProdukte, setTopProdukte] = useState<TopProdukteData | null>(null)
   const [rabatte, setRabatte] = useState<RabatteData | null>(null)
   const [mwst, setMwst] = useState<MwstData | null>(null)
+  const [einkaufsverbgleichVorjahr, setEinkaufsverbgleichVorjahr] = useState<EinkaufsverbgleichResponse | null>(null)
+  const [einkaufsverbgleichVoreinkauf, setEinkaufsverbgleichVoreinkauf] = useState<EinkaufsverbgleichResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [isEmpty, setIsEmpty] = useState(false)
   const [excludedCount, setExcludedCount] = useState(0)
@@ -145,12 +165,14 @@ export function StatistikDashboard() {
     }
 
     try {
-      const [monatRes, topRes, rabattRes, mwstRes, excludedRes] = await Promise.all([
+      const [monatRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes] = await Promise.all([
         fetch(buildUrl("/api/statistiken/monatlich")),
         fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
         fetch(buildUrl("/api/statistiken/rabatte")),
         fetch(buildUrl("/api/statistiken/mwst")),
         fetch("/api/produkte?filter=excluded"),
+        fetch("/api/statistiken/einkaufskorb-vergleich/vorjahr"),
+        fetch("/api/statistiken/einkaufskorb-vergleich/voreinkauf"),
       ])
 
       const monatJson: MonatlichData = await monatRes.json()
@@ -158,12 +180,16 @@ export function StatistikDashboard() {
       const rabattJson: RabatteData = await rabattRes.json()
       const mwstJson: MwstData = await mwstRes.json()
       const excludedJson: { excluded_count: number } = await excludedRes.json()
+      const vorjahrJson: EinkaufsverbgleichResponse = await vorjahrRes.json()
+      const voreinkaufJson: EinkaufsverbgleichResponse = await voreinkaufRes.json()
 
       setMonatlich(monatJson)
       setTopProdukte(topJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
       setExcludedCount(excludedJson.excluded_count ?? 0)
+      setEinkaufsverbgleichVorjahr(vorjahrJson)
+      setEinkaufsverbgleichVoreinkauf(voreinkaufJson)
 
       setIsEmpty(
         monatJson.monate.length === 0 &&
@@ -452,6 +478,104 @@ export function StatistikDashboard() {
                     </div>
                   ))}
                 </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* ── Karte 5: Einkaufskorb-Vergleich: Vorjahr ────────────────── */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium">Einkaufskorb-Vergleich: Vorjahr</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {einkaufsverbgleichVorjahr ? (
+                einkaufsverbgleichVorjahr.kann_vergleichen ? (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">Letzter Einkauf</p>
+                        <p className="text-sm font-medium text-gray-900">{formatDate(einkaufsverbgleichVorjahr.letzter_einkauf!.datum)}</p>
+                        <p className="text-lg font-semibold text-gray-900">{formatEuro(einkaufsverbgleichVorjahr.letzter_einkauf!.gesamt_cents)} &euro;</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">vor ~1 Jahr</p>
+                        <p className="text-sm font-medium text-gray-900">{formatDate(einkaufsverbgleichVorjahr.vergleich!.datum)}</p>
+                        <p className="text-lg font-semibold text-gray-700">{formatEuro(einkaufsverbgleichVorjahr.vergleich!.gesamt_cents)} &euro;</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <span className="text-sm text-gray-600">Differenz:</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-sm font-medium ${einkaufsverbgleichVorjahr.vergleich_stats!.differenz_cents >= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                          {einkaufsverbgleichVorjahr.vergleich_stats!.differenz_cents >= 0 ? '+' : ''}{formatEuro(einkaufsverbgleichVorjahr.vergleich_stats!.differenz_cents)} &euro;
+                        </span>
+                        <Badge variant={einkaufsverbgleichVorjahr.vergleich_stats!.differenz_cents >= 0 ? "destructive" : "secondary"} className="text-xs">
+                          {einkaufsverbgleichVorjahr.vergleich_stats!.differenz_prozent >= 0 ? '+' : ''}{einkaufsverbgleichVorjahr.vergleich_stats!.differenz_prozent}%
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-500">
+                      {einkaufsverbgleichVorjahr.vergleich_stats!.produkte_gezaehlt} von {einkaufsverbgleichVorjahr.vergleich_stats!.produkte_gesamt} Produkten im Vergleich
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <p className="text-sm text-gray-500">{einkaufsverbgleichVorjahr.reason}</p>
+                  </div>
+                )
+              ) : (
+                <Skeleton className="h-[120px] w-full" />
+              )}
+            </CardContent>
+          </Card>
+
+          {/* ── Karte 6: Einkaufskorb-Vergleich: Voreinkauf ─────────────── */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium">Einkaufskorb-Vergleich: Voreinkauf</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {einkaufsverbgleichVoreinkauf ? (
+                einkaufsverbgleichVoreinkauf.kann_vergleichen ? (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">Letzter Einkauf</p>
+                        <p className="text-sm font-medium text-gray-900">{formatDate(einkaufsverbgleichVoreinkauf.letzter_einkauf!.datum)}</p>
+                        <p className="text-lg font-semibold text-gray-900">{formatEuro(einkaufsverbgleichVoreinkauf.letzter_einkauf!.gesamt_cents)} &euro;</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">Vorheriger Einkauf</p>
+                        <p className="text-sm font-medium text-gray-900">{formatDate(einkaufsverbgleichVoreinkauf.vergleich!.datum)}</p>
+                        <p className="text-lg font-semibold text-gray-700">{formatEuro(einkaufsverbgleichVoreinkauf.vergleich!.gesamt_cents)} &euro;</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <span className="text-sm text-gray-600">Differenz:</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-sm font-medium ${einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_cents >= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                          {einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_cents >= 0 ? '+' : ''}{formatEuro(einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_cents)} &euro;
+                        </span>
+                        <Badge variant={einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_cents >= 0 ? "destructive" : "secondary"} className="text-xs">
+                          {einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_prozent >= 0 ? '+' : ''}{einkaufsverbgleichVoreinkauf.vergleich_stats!.differenz_prozent}%
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-500">
+                      {einkaufsverbgleichVoreinkauf.vergleich_stats!.produkte_gezaehlt} von {einkaufsverbgleichVoreinkauf.vergleich_stats!.produkte_gesamt} Produkten im Vergleich
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <p className="text-sm text-gray-500">{einkaufsverbgleichVoreinkauf.reason}</p>
+                  </div>
+                )
+              ) : (
+                <Skeleton className="h-[120px] w-full" />
               )}
             </CardContent>
           </Card>

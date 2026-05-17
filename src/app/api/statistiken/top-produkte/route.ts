@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       .prepare(
         `SELECT
           ri.raw_name,
-          pa.alias,
+          NULLIF(pa.alias, '') AS alias,
           COUNT(*) AS kaufhaeufigkeit,
           SUM(ri.total_price_cents) AS gesamt_cents
         FROM receipt_items ri
@@ -40,8 +40,6 @@ export async function GET(request: NextRequest) {
         WHERE ri.unit_price_cents > 0
           AND (ri.item_type = 'product' OR ri.item_type = 'concession')
           AND COALESCE(pa.excluded_from_stats, 0) = 0
-          AND ri.raw_name IS NOT NULL
-          AND TRIM(ri.raw_name) != ''
           ${dateFilter}
         GROUP BY ri.raw_name
         ORDER BY ${orderBy}

@@ -746,7 +746,7 @@ function TopProdukteListe({
           <span className="text-xs font-medium text-gray-400 w-5 text-right">{i + 1}.</span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">
-              {p.alias ?? p.raw_name}
+              {p.alias || p.raw_name}
             </p>
             {p.alias && (
               <p className="text-xs text-gray-400 font-mono truncate">{p.raw_name}</p>

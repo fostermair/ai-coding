@@ -47,6 +47,13 @@ export async function PUT(
          updated_at = excluded.updated_at`
     ).run(rawName, excludedValue)
 
+    // Clean up: if un-excluding and no real alias exists, delete the row entirely
+    if (!body.excluded) {
+      db.prepare(
+        "DELETE FROM product_aliases WHERE raw_name = ? AND alias = ''"
+      ).run(rawName)
+    }
+
     return NextResponse.json({
       raw_name: rawName,
       excluded_from_stats: body.excluded,

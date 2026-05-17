@@ -4,47 +4,51 @@
 
 | Datei | Aktion | Warum relevant |
 |---|---|---|
-| `src/app/api/paperless/sync/route.ts` | Neu erstellen | Neuer Sync-Endpunkt: paperless API → PDF download → parse → DB insert |
-| `src/components/paperless-sync.tsx` | Neu erstellen | Client Component: Sync-Button, Loading-State, Ergebnis-Anzeige |
-| `src/lib/import-log.ts` | Neu erstellen | `logImport()` aus `import/route.ts` extrahieren — von beiden Routen genutzt |
-| `src/lib/pdfjs-polyfill.ts` | Neu erstellen | pdfjs Node.js-Polyfill-Block aus `import/route.ts` extrahieren |
-| `src/app/import/page.tsx` | Erweitern | `process.env`-Check hinzufügen + `<PaperlessSync isConfigured={...}>` rendern |
-| `src/app/api/import/route.ts` | Erweitern (leicht) | `logImport` + Polyfill durch Imports aus neuen Lib-Dateien ersetzen |
-| `src/lib/parser/rewe.ts` | Nur lesen | `parseReweEbon()` wird direkt importiert — keine Änderungen |
-| `src/lib/db.ts` | Nur lesen | `getDb()` Nutzungsmuster referenzieren |
-| `src/components/import-zone.tsx` | Nur lesen | Visuelles Referenz-Pattern für Status-Farben und ImportSummary-Stil |
+| `src/app/api/paperless/sync/route.ts` | Neu erstellt ✅ | POST-Endpunkt: Paginierter paperless-API-Abruf, PDF-Download, Parsing, Duplikat-Check, DB-Transaktion, Logging |
+| `src/components/import-zone.tsx` | Erweitert ✅ | Neuer Sync-Button, States (isSyncing, syncResult, syncError, paperlessConfigured), Handler, UI-Block mit Detail-Anzeige |
+| `.env.local.example` | Erweitert ✅ | 4 neue Variablen: PAPERLESS_URL, PAPERLESS_TOKEN, PAPERLESS_CORRESPONDENT_ID, PAPERLESS_DOCUMENT_TYPE_ID |
+| `src/app/api/paperless/sync/sync.test.ts` | Neu erstellt ✅ | Vitest Unit-Tests: Config-Check, Duplikat-Detection, Transaction-Integrity, Logging, Response-Structure |
+| `src/app/api/import/route.ts` | Nur lesen | Duplikat-Logik-Query (Zeile 104–108), Transaktion-Pattern (Zeile 117–174), logImport-Funktion (Zeile 193–204) |
+| `src/lib/parser/rewe.ts` | Nur lesen | parseReweEbon(text): ParsedReceipt, formatGermanDate(iso) |
+| `src/lib/db.ts` | Nur lesen | getDb() Singleton, Schema-Initialisierung |
 
 ## Kritische Typen & Interfaces
 
 ### API Response: `POST /api/paperless/sync`
-```ts
-interface PaperlessSyncResponse {
+```typescript
+interface SyncDetail {
+  title: string
+  status: "imported" | "duplicate" | "error"
+  message?: string
+}
+
+interface SyncResult {
   imported: number
   duplicates: number
   errors: number
-  details: Array<{
-    filename: string           // "[paperless] {document.title}"
-    status: "success" | "duplicate" | "error"
-    message?: string           // nur bei error
-  }>
+  details: SyncDetail[]
+  message?: string
 }
 ```
 
-### PaperlessSync Component Props
-```ts
-interface PaperlessSyncProps {
-  isConfigured: boolean  // vom Server Component übergeben
+### Frontend Component (import-zone.tsx)
+```typescript
+interface SyncResult {
+  imported: number
+  duplicates: number
+  errors: number
+  details: Array<{ title: string; status: string; message?: string }>
 }
 ```
 
-### Internes paperless-ngx Dokumentformat (API-Response)
-```ts
+### Internes paperless-ngx API-Response (Dokumentliste)
+```typescript
 interface PaperlessDocument {
   id: number
   title: string
   correspondent: number
   document_type: number
-  created: string  // ISO date
+  created: string
 }
 
 interface PaperlessListResponse {
@@ -54,75 +58,57 @@ interface PaperlessListResponse {
 }
 ```
 
-### logImport Signatur (aus import/route.ts extrahieren)
-```ts
-function logImport(
-  filename: string,
-  status: "success" | "duplicate" | "error",
-  message?: string
-): void
-```
-
 ## paperless-ngx API Endpunkte
 
 ```
-GET {PAPERLESS_URL}/api/documents/
-  ?correspondent__id={PAPERLESS_CORRESPONDENT_ID}
-  &document_type__id={PAPERLESS_DOCUMENT_TYPE_ID}
-  &page_size=100
+GET {PAPERLESS_URL}/api/documents/?correspondent__id=X&document_type__id=Y&page_size=100
   Authorization: Token {PAPERLESS_TOKEN}
-  → PaperlessListResponse
+  → { results: [...], next: "url_for_page_2" | null }
 
 GET {PAPERLESS_URL}/api/documents/{id}/download/
   Authorization: Token {PAPERLESS_TOKEN}
   → PDF binary (Buffer)
 ```
 
-## Env Vars (`.env.local`)
+## Env Vars (`.env.local` — dokumentiert in `.env.local.example`)
+
 ```
 PAPERLESS_URL=http://localhost:8000
-PAPERLESS_TOKEN=your-token-here
+PAPERLESS_TOKEN=your_paperless_api_token_here
 PAPERLESS_CORRESPONDENT_ID=1
 PAPERLESS_DOCUMENT_TYPE_ID=2
 ```
 
-## Wiederverwendbare Logik aus `src/app/api/import/route.ts`
+## Technische Implementierungs-Details
 
-**Duplikat-Check (Zeile ~103):**
-```ts
-const existing = db.prepare(
-  "SELECT id FROM receipts WHERE receipt_nr = ? AND market_nr = ? AND receipt_date = ?"
-).get(parsed.receiptNr, parsed.marketNr, parsed.receiptDate)
-```
+### API-Route (`src/app/api/paperless/sync/route.ts`)
+- **Paginierung:** `while (apiResponse.next) { documentUrl = apiResponse.next }`
+- **Auth-Header:** `{ Authorization: 'Token {PAPERLESS_TOKEN}' }`
+- **PDF-Polyfill:** 1:1 Kopie aus `/api/import/route.ts` Zeilen 8–41 (DOMMatrix, ImageData, Path2D)
+- **Duplikat-Check:** Exakt `receipt_nr + market_nr + receipt_date` (Zeile 104–108 in import/route.ts)
+- **Transaktion:** Identisches Pattern wie import/route.ts Zeilen 117–174
+- **Logging:** Inline logImport()-Funktion (Duplikat von import/route.ts), Filename mit `[paperless]`-Prefix
+- **Error-Handling:** 401 → Auth-Fehler, 502/503 → API nicht erreichbar, 503 → Config fehlt
 
-**pdfjs-Polyfill (Zeilen 8–41):** Block mit `DOMMatrix`, `ImageData`, `Path2D` → extrahieren nach `src/lib/pdfjs-polyfill.ts`
-
-**logImport (Zeilen ~193–204):** Schreibt Row in `import_log` → extrahieren nach `src/lib/import-log.ts`
-
-**DB-Transaktionsmuster:** Receipt + Items + Discounts + Log-Eintrag als atomare Transaktion — identisches Muster in Sync-Route verwenden.
+### Frontend-Komponente (`src/components/import-zone.tsx`)
+- **Config-Check:** POST `/api/paperless/sync` bei Mount, Route gibt `{ configured: false }` zurück wenn Env-Variablen fehlen
+- **States:** `isSyncing`, `syncResult`, `syncError`, `paperlessConfigured`
+- **Detail-Anzeige:** Scrollbar für viele Dokumente (max-h-48 overflow-y-auto), Color-Coding (grün/orange/rot)
 
 ## Nicht-lesen-Liste
 
-- `src/app/api/bons/` — Bon-Ansicht, nicht relevant
-- `src/app/api/produkte/` — Produktdatenbank, nicht relevant
-- `src/app/api/statistiken/` — Statistiken, nicht relevant
-- `src/components/bon-*.tsx` — Bon-Anzeige-Komponenten, nicht relevant
-- `src/components/product-list.tsx` — Produktliste, nicht relevant
-- `src/components/statistik-dashboard.tsx` — Dashboard, nicht relevant
-- `tests/` — Keine bestehenden E2E-Tests betroffen
+- `src/app/api/bons/`, `src/app/api/produkte/`, `src/app/api/statistiken/` — keine Änderungen
+- `src/components/bon-*.tsx`, `product-list.tsx`, `statistik-dashboard.tsx` — keine Änderungen
+- `tests/PROJ-1-ebon-import.spec.ts` — bereits existierend, Regression-Prüfung nach Impl.
 
 ## Tests
 
-### Bestehende Tests
-
-| Datei | Aktion | Grund |
-|---|---|---|
-| `src/app/api/import/route.ts` hat keine .test-Datei | — | Keine bestehenden Tests zu aktualisieren |
+### Bestehende Tests (Regression)
+- `tests/PROJ-1-ebon-import.spec.ts` — E2E manueller Import. **Keine Änderungen nötig.**
 
 ### Neue Tests
-
-| Datei | Typ | Was testen |
+| Datei | Typ | Szenarien |
 |---|---|---|
-| `src/app/api/paperless/sync/route.test.ts` | Unit (Vitest) | 400 bei fehlenden Env Vars, 401-Handling, 502-Handling, Pagination, import/duplicate/error counts, import_log Einträge mit [paperless]-Prefix |
-| `src/lib/import-log.test.ts` | Unit (Vitest) | Schreibt korrekte Row in import_log |
-| `tests/paperless-sync.spec.ts` | E2E (Playwright) | Button disabled ohne Config, Sync-Flow mit Mock, Fehlermeldung bei 401 |
+| `src/app/api/paperless/sync/sync.test.ts` | Unit (Vitest) ✅ | Config-Check (fehlende Env), Duplikat-Detection, Transaction-Integrity, Logging, Response-Structure |
+
+**E2E-Tests:** Optional (könnten mit gemockter paperless-API hinzugefügt werden, sind aber nicht in diesem Sprint)

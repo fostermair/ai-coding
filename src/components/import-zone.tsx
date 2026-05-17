@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
+import { useState, useCallback, useRef, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,7 +12,10 @@ import {
   Upload,
   AlertCircle,
   Circle,
+  RefreshCw,
 } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Separator } from "@/components/ui/separator"
 
 type ImportStatus = "pending" | "uploading" | "success" | "duplicate" | "error"
 
@@ -31,10 +34,28 @@ interface QueueItem {
   error?: string
 }
 
+interface SyncDetail {
+  title: string
+  status: "imported" | "duplicate" | "error"
+  message?: string
+}
+
+interface SyncResult {
+  imported: number
+  duplicates: number
+  errors: number
+  details: SyncDetail[]
+  message?: string
+}
+
 export function ImportZone() {
   const [isDragging, setIsDragging] = useState(false)
   const [queue, setQueue] = useState<QueueItem[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isSyncing, setIsSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState<SyncResult | null>(null)
+  const [syncError, setSyncError] = useState<string | null>(null)
+  const [paperlessConfigured, setPaperlessConfigured] = useState(true)
 
   const updateItem = useCallback((id: string, updates: Partial<QueueItem>) => {
     setQueue((prev) =>
@@ -137,6 +158,46 @@ export function ImportZone() {
       item.status === "error"
   )
 
+  const checkPaperlessConfig = useCallback(async () => {
+    try {
+      const res = await fetch("/api/paperless/sync", { method: "POST" })
+      const data = await res.json()
+      if (data.configured === false) {
+        setPaperlessConfigured(false)
+      } else {
+        setPaperlessConfigured(true)
+      }
+    } catch {
+      setPaperlessConfigured(true)
+    }
+  }, [])
+
+  const handlePaperlessSync = useCallback(async () => {
+    setIsSyncing(true)
+    setSyncResult(null)
+    setSyncError(null)
+
+    try {
+      const res = await fetch("/api/paperless/sync", { method: "POST" })
+      const data: SyncResult = await res.json()
+
+      if (!res.ok) {
+        setSyncError(data.message || "Fehler beim Sync")
+      } else {
+        setSyncResult(data)
+      }
+    } catch (e) {
+      setSyncError("Netzwerkfehler – bitte versuche es später erneut")
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [])
+
+  // Check paperless config on mount
+  useEffect(() => {
+    checkPaperlessConfig()
+  }, [checkPaperlessConfig])
+
   return (
     <div className="space-y-4">
       {/* Drop Zone */}
@@ -173,6 +234,85 @@ export function ImportZone() {
           oder klicken zum Auswählen · REWE eBon PDFs · Mehrfachauswahl möglich
         </p>
       </div>
+
+      {/* Paperless Sync Section */}
+      {paperlessConfigured && (
+        <>
+          <Separator />
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium text-gray-700">paperless-ngx Synchronisierung</h3>
+            </div>
+            <Button
+              onClick={handlePaperlessSync}
+              disabled={isSyncing}
+              className="w-full"
+              variant="outline"
+            >
+              {isSyncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Synchronisiere ...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Aus paperless-ngx synchronisieren
+                </>
+              )}
+            </Button>
+
+            {syncResult && (
+              <div className="mt-3 space-y-2">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                  <p className="text-sm font-medium text-green-800">Sync-Ergebnis</p>
+                  <p className="text-xs text-green-700 mt-1">
+                    {syncResult.imported} importiert
+                    {syncResult.duplicates > 0 && ` · ${syncResult.duplicates} Duplikat${syncResult.duplicates !== 1 ? "e" : ""}`}
+                    {syncResult.errors > 0 && ` · ${syncResult.errors} Fehler`}
+                  </p>
+                </div>
+
+                {syncResult.details.length > 0 && (
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {syncResult.details.map((detail, i) => (
+                      <div
+                        key={i}
+                        className="text-xs p-2 rounded border"
+                        style={{
+                          borderColor:
+                            detail.status === "imported"
+                              ? "#dcfce7"
+                              : detail.status === "duplicate"
+                                ? "#fed7aa"
+                                : "#fee2e2",
+                          backgroundColor:
+                            detail.status === "imported"
+                              ? "#f0fdf4"
+                              : detail.status === "duplicate"
+                                ? "#fffbeb"
+                                : "#fef2f2",
+                        }}
+                      >
+                        <p className="font-medium text-gray-900">{detail.title}</p>
+                        {detail.message && (
+                          <p className="text-gray-600 mt-0.5">{detail.message}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {syncError && (
+              <Alert variant="destructive">
+                <AlertDescription>{syncError}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+        </>
+      )}
 
       {/* Queue */}
       {queue.length > 0 && (

@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de">
+    <html lang="de" suppressHydrationWarning>
       <body className="antialiased bg-gray-50 min-h-screen">
         <Nav />
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">

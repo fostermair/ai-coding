@@ -11,6 +11,8 @@ import Link from "next/link"
 import {
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -20,6 +22,7 @@ import {
   Pie,
   Cell,
   Legend,
+  ReferenceLine,
 } from "recharts"
 import { formatEuro } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
@@ -34,6 +37,10 @@ interface MonatlichData {
     diff_cents: number
     diff_prozent: number
   } | null
+}
+
+interface MonatlichAlleData {
+  monate: { monat: string; ausgaben_cents: number }[]
 }
 
 interface TopProdukteData {
@@ -100,6 +107,40 @@ function formatDate(dateStr: string): string {
   return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "2-digit" })
 }
 
+function fillMonthGaps(monate: { monat: string; ausgaben_cents: number }[]): { monat: string; ausgaben_cents: number }[] {
+  if (monate.length === 0) return []
+
+  const dataMap = new Map(monate.map((m) => [m.monat, m.ausgaben_cents]))
+  const [firstYearMonth, firstMonth] = monate[0].monat.split("-").map(Number)
+  const [lastYearMonth, lastMonth] = monate[monate.length - 1].monat.split("-").map(Number)
+
+  const result: { monat: string; ausgaben_cents: number }[] = []
+  let currentYear = firstYearMonth
+  let currentMonth = firstMonth
+
+  while (currentYear < lastYearMonth || (currentYear === lastYearMonth && currentMonth <= lastMonth)) {
+    const monatStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}`
+    result.push({
+      monat: monatStr,
+      ausgaben_cents: dataMap.get(monatStr) ?? 0,
+    })
+
+    currentMonth++
+    if (currentMonth > 12) {
+      currentMonth = 1
+      currentYear++
+    }
+  }
+
+  return result
+}
+
+function calculateAverage(monate: { ausgaben_cents: number }[]): number {
+  if (monate.length === 0) return 0
+  const total = monate.reduce((sum, m) => sum + m.ausgaben_cents, 0)
+  return total / monate.length
+}
+
 // ── Custom Tooltips ────────────────────────────────────────────────────────
 
 function MonatTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: { monat: string; ausgaben_cents: number } }> }) {
@@ -135,11 +176,23 @@ function MwstTooltip({ active, payload }: { active?: boolean; payload?: Array<{ 
   )
 }
 
+function LangzeitstrendTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: { monat: string; ausgaben_cents: number } }> }) {
+  if (!active || !payload?.length) return null
+  const d = payload[0].payload
+  return (
+    <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-md text-sm">
+      <p className="font-medium">{formatMonat(d.monat)}</p>
+      <p>Ausgaben: <span className="font-semibold">{formatEuro(d.ausgaben_cents)} &euro;</span></p>
+    </div>
+  )
+}
+
 // ── Dashboard ──────────────────────────────────────────────────────────────
 
 export function StatistikDashboard() {
   const [zeitraum, setZeitraum] = useState<Zeitraum>("alle")
   const [monatlich, setMonatlich] = useState<MonatlichData | null>(null)
+  const [monatlichAlle, setMonatlichAlle] = useState<MonatlichAlleData | null>(null)
   const [topProdukte, setTopProdukte] = useState<TopProdukteData | null>(null)
   const [rabatte, setRabatte] = useState<RabatteData | null>(null)
   const [mwst, setMwst] = useState<MwstData | null>(null)
@@ -165,8 +218,9 @@ export function StatistikDashboard() {
     }
 
     try {
-      const [monatRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes] = await Promise.all([
+      const [monatRes, monatAlleRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes] = await Promise.all([
         fetch(buildUrl("/api/statistiken/monatlich")),
+        fetch("/api/statistiken/monatlich"),
         fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
         fetch(buildUrl("/api/statistiken/rabatte")),
         fetch(buildUrl("/api/statistiken/mwst")),
@@ -176,6 +230,7 @@ export function StatistikDashboard() {
       ])
 
       const monatJson: MonatlichData = await monatRes.json()
+      const monatAlleJson: MonatlichAlleData = await monatAlleRes.json()
       const topJson: TopProdukteData = await topRes.json()
       const rabattJson: RabatteData = await rabattRes.json()
       const mwstJson: MwstData = await mwstRes.json()
@@ -184,6 +239,7 @@ export function StatistikDashboard() {
       const voreinkaufJson: EinkaufsverbgleichResponse = await voreinkaufRes.json()
 
       setMonatlich(monatJson)
+      setMonatlichAlle(monatAlleJson)
       setTopProdukte(topJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
@@ -576,6 +632,77 @@ export function StatistikDashboard() {
                 )
               ) : (
                 <Skeleton className="h-[120px] w-full" />
+              )}
+            </CardContent>
+          </Card>
+
+          {/* ── Karte 7: Monatlicher Ausgaben-Langzeittrend ──────────── */}
+          <Card className="md:col-span-2">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium">Monatlicher Ausgaben-Langzeittrend</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {monatlichAlle && monatlichAlle.monate.length > 0 ? (
+                (() => {
+                  const filledData = fillMonthGaps(monatlichAlle.monate)
+                  const chartData = filledData.map((m) => ({
+                    ...m,
+                    euro: centsToEuro(m.ausgaben_cents),
+                    label: formatMonat(m.monat),
+                  }))
+                  const averageCents = calculateAverage(filledData)
+                  const averageEuro = centsToEuro(averageCents)
+
+                  return (
+                    <div className="space-y-4">
+                      <div className="h-[300px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis
+                              dataKey="label"
+                              tick={{ fontSize: 11 }}
+                              tickLine={false}
+                              interval={chartData.length > 12 ? Math.floor(chartData.length / 12) : 0}
+                            />
+                            <YAxis
+                              tick={{ fontSize: 11 }}
+                              tickLine={false}
+                              tickFormatter={(v: number) => `${v.toFixed(0)} €`}
+                              width={60}
+                            />
+                            <RechartsTooltip content={<LangzeitstrendTooltip />} />
+                            <Line
+                              type="monotone"
+                              dataKey="euro"
+                              stroke="#3b82f6"
+                              dot={chartData.length <= 12}
+                              isAnimationActive={false}
+                              strokeWidth={2}
+                            />
+                            <ReferenceLine
+                              y={averageEuro}
+                              stroke="#6b7280"
+                              strokeDasharray="5 5"
+                              label={{
+                                value: `⌀ ${averageEuro.toFixed(2)} €`,
+                                position: "right",
+                                fill: "#6b7280",
+                                fontSize: 11,
+                              }}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <span className="text-sm text-gray-600">Durchschnitt:</span>
+                        <span className="text-lg font-semibold text-gray-900">{formatEuro(averageCents)} &euro;</span>
+                      </div>
+                    </div>
+                  )
+                })()
+              ) : (
+                <p className="text-sm text-gray-400 text-center py-10">Keine Daten vorhanden</p>
               )}
             </CardContent>
           </Card>

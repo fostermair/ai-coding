@@ -62,18 +62,19 @@ export async function GET(request: NextRequest) {
            WHERE ri2.raw_name = ri.raw_name
            ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
            LIMIT 1) AS last_price_cents,
-          (SELECT ri2.total_price_cents
+          (SELECT ri2.unit_price_cents
            FROM receipt_items ri2
            JOIN receipts r2 ON r2.id = ri2.receipt_id
            WHERE ri2.raw_name = ri.raw_name
-             AND ri2.total_price_cents > 0
+             AND ri2.unit_price_cents > 0
              AND r2.receipt_date >= DATE('now', '-12 months')
            ORDER BY r2.receipt_date ASC, r2.receipt_time ASC
            LIMIT 1) AS first_price_cents,
-          (SELECT ri2.total_price_cents
+          (SELECT ri2.unit_price_cents
            FROM receipt_items ri2
            JOIN receipts r2 ON r2.id = ri2.receipt_id
            WHERE ri2.raw_name = ri.raw_name
+             AND ri2.unit_price_cents > 0
              AND r2.receipt_date >= DATE('now', '-12 months')
            ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
            LIMIT 1) AS trend_last_price_cents,
@@ -81,7 +82,7 @@ export async function GET(request: NextRequest) {
            FROM receipt_items ri2
            JOIN receipts r2 ON r2.id = ri2.receipt_id
            WHERE ri2.raw_name = ri.raw_name
-             AND ri2.total_price_cents > 0
+             AND ri2.unit_price_cents > 0
              AND r2.receipt_date >= DATE('now', '-12 months')) AS price_data_count,
           (SELECT r2.receipt_date
            FROM receipt_items ri2

@@ -13,9 +13,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Upload, X, Receipt } from "lucide-react"
+import { Upload, X, Receipt, Download } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
+import { ExportDialog } from "@/components/export-dialog"
 
 interface BonSummary {
   id: number
@@ -42,6 +43,7 @@ export function BonList() {
   const [error, setError] = useState<string | null>(null)
   const [dateFrom, setDateFrom] = useState("")
   const [dateTo, setDateTo] = useState("")
+  const [exportDialogOpen, setExportDialogOpen] = useState(false)
 
   const fetchBons = useCallback(async () => {
     setLoading(true)
@@ -141,34 +143,47 @@ export function BonList() {
       </div>
 
       {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2">
-          <label htmlFor="date-from" className="text-sm text-gray-500">
-            Von
-          </label>
-          <input
-            id="date-from"
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+      <div className="flex flex-wrap items-center gap-3 justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2">
+            <label htmlFor="date-from" className="text-sm text-gray-500">
+              Von
+            </label>
+            <input
+              id="date-from"
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="date-to" className="text-sm text-gray-500">
+              Bis
+            </label>
+            <input
+              id="date-to"
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {hasFilters && (
+            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-400 h-8">
+              <X className="h-4 w-4 mr-1" /> Filter zurücksetzen
+            </Button>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <label htmlFor="date-to" className="text-sm text-gray-500">
-            Bis
-          </label>
-          <input
-            id="date-to"
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        {hasFilters && (
-          <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-400 h-8">
-            <X className="h-4 w-4 mr-1" /> Filter zurücksetzen
+        {bons.length > 0 && (
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setExportDialogOpen(true)}
+            className="gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Exportieren
           </Button>
         )}
       </div>
@@ -232,6 +247,14 @@ export function BonList() {
           </Table>
         </div>
       )}
+
+      {/* Export Dialog */}
+      <ExportDialog
+        open={exportDialogOpen}
+        onOpenChange={setExportDialogOpen}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+      />
     </div>
   )
 }

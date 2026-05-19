@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       params.push(to)
     }
 
-    // Fetch bons with item count
+    // Fetch bons with item count and AVIS status
     const bons = db
       .prepare(
         `SELECT
@@ -42,7 +42,17 @@ export async function GET(request: NextRequest) {
           r.market_nr,
           r.total_amount_cents,
           r.payment_method,
-          (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count
+          (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count,
+          CASE
+            WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id) = 0
+              THEN NULL
+            WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id AND am.status = 'pending') > 0
+              THEN 'pending'
+            WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id AND am.status IN ('confirmed', 'auto_set')) > 0
+              AND (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id AND am.status NOT IN ('confirmed', 'auto_set', 'rejected')) = 0
+              THEN 'complete'
+            ELSE 'no_matches'
+          END AS avis_status
         FROM receipts r
         ${where}
         ORDER BY r.receipt_date DESC, r.receipt_time DESC`

@@ -75,6 +75,19 @@ function initSchema(db: Database.Database): void {
       imported_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS avis_matches (
+      id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+      receipt_id          INTEGER NOT NULL REFERENCES receipts(id) ON DELETE CASCADE,
+      receipt_item_id     INTEGER REFERENCES receipt_items(id) ON DELETE SET NULL,
+      import_log_id       INTEGER NOT NULL REFERENCES import_log(id),
+      avis_item_name      TEXT NOT NULL,
+      avis_unit_price_cents INTEGER NOT NULL,
+      confidence          INTEGER NOT NULL CHECK (confidence >= 0 AND confidence <= 100),
+      status              TEXT NOT NULL DEFAULT 'pending',
+      created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE INDEX IF NOT EXISTS idx_receipts_date
       ON receipts(receipt_date);
     CREATE INDEX IF NOT EXISTS idx_receipts_duplicate
@@ -83,6 +96,12 @@ function initSchema(db: Database.Database): void {
       ON receipt_items(receipt_id);
     CREATE INDEX IF NOT EXISTS idx_items_raw_name
       ON receipt_items(raw_name);
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_avis_matches_dedup
+      ON avis_matches(receipt_id, avis_item_name, import_log_id);
+    CREATE INDEX IF NOT EXISTS idx_avis_matches_receipt_id
+      ON avis_matches(receipt_id);
+    CREATE INDEX IF NOT EXISTS idx_avis_matches_status
+      ON avis_matches(status);
   `)
 
   // Migration: add excluded_from_stats column if not present

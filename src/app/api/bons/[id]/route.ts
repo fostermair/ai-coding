@@ -22,7 +22,7 @@ export async function GET(
       return NextResponse.json({ message: "Bon nicht gefunden" }, { status: 404 })
     }
 
-    // Fetch items with aliases
+    // Fetch items with aliases and AVIS match data
     const items = db
       .prepare(
         `SELECT ri.*, pa.alias
@@ -32,6 +32,23 @@ export async function GET(
          ORDER BY ri.position`
       )
       .all(bonId) as Array<Record<string, unknown>>
+
+    // Fetch AVIS matches for this receipt
+    const avisMatches = db
+      .prepare(
+        `SELECT id, receipt_item_id, avis_item_name, avis_unit_price_cents, confidence, status
+         FROM avis_matches
+         WHERE receipt_id = ?`
+      )
+      .all(bonId) as Array<{ id: number; receipt_item_id: number | null; avis_item_name: string; avis_unit_price_cents: number; confidence: number; status: string }>
+
+    // Create a map of receipt_item_id -> avis_match
+    const avisMatchMap = new Map<number, typeof avisMatches[0]>()
+    for (const match of avisMatches) {
+      if (match.receipt_item_id) {
+        avisMatchMap.set(match.receipt_item_id, match)
+      }
+    }
 
     // Fetch discounts for all items in one query
     const itemIds = items.map((i) => i.id)
@@ -52,11 +69,24 @@ export async function GET(
       }
     }
 
-    // Attach discounts to items
-    const itemsWithDiscounts = items.map((item) => ({
-      ...item,
-      discounts: discountMap.get(item.id as number) ?? [],
-    }))
+    // Attach discounts and AVIS matches to items
+    const itemsWithDiscounts = items.map((item) => {
+      const itemId = item.id as number
+      const avisMatch = avisMatchMap.get(itemId)
+      return {
+        ...item,
+        discounts: discountMap.get(itemId) ?? [],
+        avis_match: avisMatch
+          ? {
+              matchId: avisMatch.id,
+              avisItemName: avisMatch.avis_item_name,
+              avisUnitPriceCents: avisMatch.avis_unit_price_cents,
+              confidence: avisMatch.confidence,
+              status: avisMatch.status,
+            }
+          : undefined,
+      }
+    })
 
     return NextResponse.json({
       ...receipt,

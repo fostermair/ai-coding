@@ -288,8 +288,36 @@ export async function POST(request: NextRequest) {
     const setAliasStmt = db.prepare(
       "INSERT OR IGNORE INTO product_aliases (raw_name, alias, updated_at) VALUES (?, ?, datetime('now'))"
     )
+    const insertMatchStmt = db.prepare(
+      `INSERT INTO avis_matches (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
+    )
 
     const transaction = db.transaction(() => {
+      // Log import first to get the import_log_id
+      const logStmt = db.prepare(
+        "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+      )
+      const logResult = logStmt.run(
+        `[AVIS] ${parsed.orderNumber}`,
+        "success",
+        `${autoSet.length} Aliases automatisch gesetzt, ${pendingMatches.length} zu Überprüfung, ${unmatchedItems.length} nicht gematcht`
+      )
+      const logId = logResult.lastInsertRowid as number
+
+      // Find the receipt_id that matches this AVIS date
+      interface ReceiptInfo {
+        id: number
+      }
+      const receipt = db
+        .prepare("SELECT id FROM receipts WHERE receipt_date = ? LIMIT 1")
+        .get(parsed.pickupDate) as ReceiptInfo | undefined
+
+      if (!receipt) {
+        throw new Error(`Kein Bon für AVIS-Datum ${parsed.pickupDate} gefunden`)
+      }
+
+      // Process auto-set matches
       for (const match of autoSet) {
         // Only set if alias is empty
         const existing = db
@@ -300,19 +328,50 @@ export async function POST(request: NextRequest) {
           setAliasStmt.run(match.ebonRawName, match.avisName)
           autoSetCount++
         }
+
+        // Find receipt_item_id for this match
+        interface ItemInfo {
+          id: number
+        }
+        const item = db
+          .prepare("SELECT id FROM receipt_items WHERE receipt_id = ? AND raw_name = ? LIMIT 1")
+          .get(receipt.id, match.ebonRawName) as ItemInfo | undefined
+
+        // Insert match record
+        insertMatchStmt.run(
+          receipt.id,
+          item?.id ?? null,
+          logId,
+          match.avisName,
+          match.avisPrice,
+          match.confidence,
+          "auto_set"
+        )
       }
 
-      // Log import
-      const logStmt = db.prepare(
-        "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
-      )
-      const logResult = logStmt.run(
-        `[AVIS] ${parsed.orderNumber}`,
-        "success",
-        `${autoSetCount} Aliases automatisch gesetzt, ${pendingMatches.length} zu Überprüfung, ${unmatchedItems.length} nicht gematcht`
-      )
+      // Process pending matches
+      for (const match of pendingMatches) {
+        // Find receipt_item_id for this match
+        interface ItemInfo {
+          id: number
+        }
+        const item = db
+          .prepare("SELECT id FROM receipt_items WHERE receipt_id = ? AND raw_name = ? LIMIT 1")
+          .get(receipt.id, match.ebonRawName) as ItemInfo | undefined
 
-      return logResult.lastInsertRowid
+        // Insert match record
+        insertMatchStmt.run(
+          receipt.id,
+          item?.id ?? null,
+          logId,
+          match.avisName,
+          match.avisPrice,
+          match.confidence,
+          "pending"
+        )
+      }
+
+      return logId
     })
 
     const importLogId = transaction()

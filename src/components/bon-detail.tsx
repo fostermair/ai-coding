@@ -26,7 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { ArrowLeft, Trash2 } from "lucide-react"
+import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 
@@ -35,6 +35,14 @@ interface Discount {
   description: string
   amount_cents: number
   tax_code: string
+}
+
+interface AvisMatch {
+  matchId: number
+  avisItemName: string
+  avisUnitPriceCents: number
+  confidence: number
+  status: "pending" | "confirmed" | "rejected" | "auto_set"
 }
 
 interface ReceiptItem {
@@ -50,6 +58,7 @@ interface ReceiptItem {
   concessionaire_code: string | null
   position: number
   discounts: Discount[]
+  avis_match?: AvisMatch
 }
 
 interface BonDetail {
@@ -299,36 +308,155 @@ export function BonDetailView({ bonId }: { bonId: string }) {
 }
 
 function ItemRows({ item }: { item: ReceiptItem }) {
+  const [confirming, setConfirming] = useState(false)
+  const [rejecting, setRejecting] = useState(false)
+  const [itemState, setItemState] = useState<ReceiptItem>(item)
+
+  const handleConfirm = async () => {
+    if (!itemState.avis_match) return
+    setConfirming(true)
+    try {
+      const res = await fetch(`/api/avis/matches/${itemState.avis_match.matchId}/confirm`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmed_alias: itemState.avis_match.avisItemName }),
+      })
+      if (!res.ok) throw new Error("Bestätigung fehlgeschlagen")
+      const data = await res.json()
+      setItemState((prev) => ({
+        ...prev,
+        avis_match: prev.avis_match
+          ? { ...prev.avis_match, status: "confirmed" }
+          : undefined,
+        alias: data.alias,
+      }))
+    } catch (e) {
+      console.error("Confirm failed:", e)
+    } finally {
+      setConfirming(false)
+    }
+  }
+
+  const handleReject = async () => {
+    if (!itemState.avis_match) return
+    setRejecting(true)
+    try {
+      const res = await fetch(`/api/avis/matches/${itemState.avis_match.matchId}/reject`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      })
+      if (!res.ok) throw new Error("Ablehnung fehlgeschlagen")
+      setItemState((prev) => ({
+        ...prev,
+        avis_match: prev.avis_match
+          ? { ...prev.avis_match, status: "rejected" }
+          : undefined,
+      }))
+    } catch (e) {
+      console.error("Reject failed:", e)
+    } finally {
+      setRejecting(false)
+    }
+  }
+
+  const avisMatch = itemState.avis_match
+
   return (
     <>
       <TableRow>
         <TableCell className="font-medium">
-          {item.alias ?? item.raw_name}
-          {item.concessionaire_code && (
+          <div className="flex items-center gap-2">
+            {/* AVIS match status indicator */}
+            {avisMatch && (
+              <>
+                {avisMatch.status === "confirmed" || avisMatch.status === "auto_set" ? (
+                  <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+                ) : avisMatch.status === "rejected" ? (
+                  <XCircle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                ) : null}
+              </>
+            )}
+            <span>
+              {itemState.alias ?? itemState.raw_name}
+              {avisMatch && avisMatch.status === "rejected" && (
+                <span className="text-gray-400 text-xs ml-1">(kein Match)</span>
+              )}
+            </span>
+          </div>
+          {itemState.concessionaire_code && (
             <Badge variant="outline" className="ml-2 text-xs font-normal">
-              {item.concessionaire_code}
+              {itemState.concessionaire_code}
             </Badge>
           )}
-          {item.bonus_excluded && (
+          {itemState.bonus_excluded && (
             <span className="text-gray-400 ml-1">*</span>
           )}
         </TableCell>
         <TableCell className="text-right hidden sm:table-cell">
-          {item.quantity > 1 ? `${item.quantity} Stk` : ""}
+          {itemState.quantity > 1 ? `${itemState.quantity} Stk` : ""}
         </TableCell>
         <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
-          {item.quantity > 1 ? `${formatEuro(item.unit_price_cents)} €` : ""}
+          {itemState.quantity > 1 ? `${formatEuro(itemState.unit_price_cents)} €` : ""}
         </TableCell>
         <TableCell className="text-right tabular-nums font-medium">
-          {formatEuro(item.total_price_cents)} €
+          {formatEuro(itemState.total_price_cents)} €
         </TableCell>
         <TableCell className="text-center">
           <Badge variant="outline" className="text-xs font-normal">
-            {item.tax_code}
+            {itemState.tax_code}
           </Badge>
         </TableCell>
+        <TableCell className="text-center text-xs">
+          {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
+            <span className="text-green-600 font-medium">✓</span>
+          ) : avisMatch?.status === "rejected" ? (
+            <span className="text-gray-400">⊗</span>
+          ) : null}
+        </TableCell>
       </TableRow>
-      {item.discounts.map((d) => (
+
+      {/* AVIS match pending review row */}
+      {avisMatch && avisMatch.status === "pending" && (
+        <TableRow className="bg-blue-50 hover:bg-blue-50">
+          <TableCell colSpan={5} className="py-3">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">
+                  AVIS: <span className="text-blue-700">{avisMatch.avisItemName}</span>
+                </p>
+                <p className="text-xs text-gray-600 mt-0.5">
+                  Konfidenz: {avisMatch.confidence}% • Preis: {formatEuro(avisMatch.avisUnitPriceCents)} €
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="default"
+                  onClick={handleConfirm}
+                  disabled={confirming || rejecting}
+                  className="gap-1 h-8"
+                >
+                  {confirming ? <Loader2 className="h-3 w-3 animate-spin" /> : <CheckCircle2 className="h-3 w-3" />}
+                  Bestätigen
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleReject}
+                  disabled={confirming || rejecting}
+                  className="gap-1 h-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                >
+                  {rejecting ? <Loader2 className="h-3 w-3 animate-spin" /> : <XCircle className="h-3 w-3" />}
+                  Ablehnen
+                </Button>
+              </div>
+            </div>
+          </TableCell>
+        </TableRow>
+      )}
+
+      {itemState.discounts.map((d) => (
         <TableRow key={d.id} className="hover:bg-transparent">
           <TableCell className="pl-8 text-sm text-red-500 py-1">
             ↳ {d.description}
@@ -343,6 +471,7 @@ function ItemRows({ item }: { item: ReceiptItem }) {
               {d.tax_code}
             </Badge>
           </TableCell>
+          <TableCell />
         </TableRow>
       ))}
     </>

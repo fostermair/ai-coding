@@ -17,6 +17,7 @@ import { Upload, X, Receipt, Download } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
+import { AvisStatusBadge } from "@/components/avis-status-badge"
 
 interface BonSummary {
   id: number
@@ -28,6 +29,7 @@ interface BonSummary {
   item_count: number
   total_amount_cents: number
   payment_method: string
+  avis_status?: "complete" | "pending" | "no_matches" | null
 }
 
 interface BonsResponse {
@@ -211,6 +213,7 @@ export function BonList() {
                 <TableHead className="text-right">Artikel</TableHead>
                 <TableHead className="text-right">Summe</TableHead>
                 <TableHead className="hidden sm:table-cell">Zahlung</TableHead>
+                <TableHead className="text-center">AVIS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -240,6 +243,9 @@ export function BonList() {
                     <Badge variant="secondary" className="font-normal text-xs">
                       {bon.payment_method}
                     </Badge>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <AvisStatusBadge status={bon.avis_status} />
                   </TableCell>
                 </TableRow>
               ))}

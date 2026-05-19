@@ -199,6 +199,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
                 <TableHead className="text-right">Gesamt</TableHead>
                 <TableHead className="text-center w-12">MwSt</TableHead>
+                <TableHead className="text-center w-8">AVIS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -419,7 +420,7 @@ function ItemRows({ item }: { item: ReceiptItem }) {
       {/* AVIS match pending review row */}
       {avisMatch && avisMatch.status === "pending" && (
         <TableRow className="bg-blue-50 hover:bg-blue-50">
-          <TableCell colSpan={5} className="py-3">
+          <TableCell colSpan={6} className="py-3">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">

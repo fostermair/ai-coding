@@ -17,6 +17,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { AvisConfirmationDialog } from "@/components/avis-confirmation-dialog"
+import { AvisDuplicateDialog } from "@/components/avis-duplicate-dialog"
 
 type ImportStatus = "pending" | "uploading" | "success" | "duplicate" | "error"
 
@@ -90,6 +91,12 @@ export function ImportZone() {
     Array<{ name: string; price: number; date: string }>
   >([])
   const [avisImportLogId, setAvisImportLogId] = useState<string | null>(null)
+  const [avisDuplicateDialog, setAvisDuplicateDialog] = useState<{
+    open: boolean
+    itemId: string | null
+    file: File | null
+    orderNumber: string | null
+  }>({ open: false, itemId: null, file: null, orderNumber: null })
 
   const updateItem = useCallback((id: string, updates: Partial<QueueItem>) => {
     setQueue((prev) =>
@@ -240,20 +247,29 @@ export function ImportZone() {
   }, [])
 
   const uploadAvisFile = useCallback(
-    async (item: QueueItem, file: File) => {
+    async (item: QueueItem, file: File, forceReImport = false) => {
       updateAvisItem(item.id, { status: "uploading" })
 
       const formData = new FormData()
       formData.append("file", file)
 
+      const url = forceReImport ? "/api/avis/import?forceReImport=true" : "/api/avis/import"
+
       try {
-        const res = await fetch("/api/avis/import", { method: "POST", body: formData })
+        const res = await fetch(url, { method: "POST", body: formData })
         const data = await res.json()
 
-        if (res.status === 409) {
+        if (res.status === 409 && (data as any).isDuplicate) {
+          // Show duplicate confirmation dialog instead of marking as error
+          setAvisDuplicateDialog({
+            open: true,
+            itemId: item.id,
+            file,
+            orderNumber: (data as any).orderNumber,
+          })
           updateAvisItem(item.id, {
             status: "duplicate",
-            error: "AVIS bereits importiert",
+            error: data.message || "AVIS bereits importiert",
           })
         } else if (!res.ok) {
           updateAvisItem(item.id, {
@@ -286,6 +302,20 @@ export function ImportZone() {
       }
     },
     [updateAvisItem]
+  )
+
+  const handleAvisDuplicateConfirm = useCallback(
+    (shouldReImport: boolean) => {
+      if (shouldReImport && avisDuplicateDialog.itemId && avisDuplicateDialog.file) {
+        uploadAvisFile(
+          { id: avisDuplicateDialog.itemId, filename: avisDuplicateDialog.file.name, status: "pending" },
+          avisDuplicateDialog.file,
+          true // forceReImport
+        )
+      }
+      setAvisDuplicateDialog({ open: false, itemId: null, file: null, orderNumber: null })
+    },
+    [avisDuplicateDialog, uploadAvisFile]
   )
 
   const addAvisFiles = useCallback(
@@ -679,6 +709,13 @@ export function ImportZone() {
         matches={pendingAvisMatches}
         unmatched={pendingAvisUnmatched}
         onConfirm={handleAvisConfirmation}
+      />
+
+      {/* AVIS Duplicate Dialog */}
+      <AvisDuplicateDialog
+        open={avisDuplicateDialog.open}
+        orderNumber={avisDuplicateDialog.orderNumber || ""}
+        onConfirm={handleAvisDuplicateConfirm}
       />
     </div>
   )

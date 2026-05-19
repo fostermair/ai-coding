@@ -25,10 +25,11 @@ function toIsoDate(s: string): string {
 }
 
 function normalizeProductName(name: string): string {
+  const umlauts: Record<string, string> = { ä: "ae", ö: "oe", ü: "ue", ß: "ss" }
   return name
     .toLowerCase()
-    .replace(/[äöüß]/g, (c) => ({ ä: "ae", ö: "oe", ü: "ue", ß: "ss" }[c]))
-    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st)\b/gi, "")
+    .replace(/[äöüß]/g, (c) => umlauts[c] || c)
+    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st|pack|stück)\b/gi, "")
     .replace(/\s+/g, " ")
     .trim()
 }

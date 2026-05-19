@@ -88,9 +88,10 @@ function levenshteinDistance(s1: string, s2: string): number {
 }
 
 function normalizeProductName(name: string): string {
+  const umlauts: Record<string, string> = { ä: "ae", ö: "oe", ü: "ue", ß: "ss" }
   return name
     .toLowerCase()
-    .replace(/[äöüß]/g, (c) => ({ ä: "ae", ö: "oe", ü: "ue", ß: "ss" }[c]))
+    .replace(/[äöüß]/g, (c) => umlauts[c] || c)
     .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st|pack|stück)\b/gi, "")
     .replace(/\s+/g, " ")
     .trim()
@@ -233,10 +234,20 @@ export async function POST(request: NextRequest) {
       .prepare("SELECT id FROM import_log WHERE filename LIKE ? AND status = 'success'")
       .get(`%[AVIS] ${parsed.orderNumber}%`) as { id: number } | undefined
 
-    if (existingImport) {
-      const msg = `AVIS bereits importiert (Bestellnummer ${parsed.orderNumber})`
-      logImport(file.name, "duplicate", msg)
-      return NextResponse.json({ message: msg }, { status: 409 })
+    // Check if user wants to force re-import
+    const urlParams = new URL(request.url || "http://localhost").searchParams
+    const forceReImport = urlParams.get("forceReImport") === "true"
+
+    if (existingImport && !forceReImport) {
+      // Return 409 with isDuplicate flag - let frontend ask user
+      return NextResponse.json(
+        {
+          isDuplicate: true,
+          message: `AVIS mit Bestellnummer ${parsed.orderNumber} wurde bereits importiert. Erneut importieren?`,
+          orderNumber: parsed.orderNumber,
+        },
+        { status: 409 }
+      )
     }
 
     // Fetch all eBon items from DB to match against

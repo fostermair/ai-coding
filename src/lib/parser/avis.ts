@@ -43,9 +43,9 @@ export function parseAvis(text: string): ParsedAvis {
       }
     }
 
-    // Look for order number - must be 6+ digits
+    // Look for order number - can be alphanumeric (e.g. "B-CB9-EWJ-LXD")
     if (line.includes("Bestellnummer") || line.includes("Bestell-Nummer")) {
-      const match = line.match(/(\d{6,})/)
+      const match = line.match(/([A-Z0-9\-]{6,})/)
       if (match) {
         orderNumber = match[1]
       }

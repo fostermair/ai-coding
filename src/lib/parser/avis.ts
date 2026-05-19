@@ -24,6 +24,19 @@ function toIsoDate(s: string): string {
   return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`
 }
 
+function normalizeProductName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[äöüß]/g, (c) => ({ ä: "ae", ö: "oe", ü: "ue", ß: "ss" }[c]))
+    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function isWeightItemLine(nameRaw: string): boolean {
+  return /\d+\s*(?:gg|kg|g)\s*$/.test(nameRaw) || /\d+\s*(?:ml|l)\s*$/.test(nameRaw)
+}
+
 export function parseAvis(text: string): ParsedAvis {
   const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0)
 
@@ -105,9 +118,29 @@ export function parseAvis(text: string): ParsedAvis {
     const prices = line.match(/([\d,\.]+)\s*€/g)
     if (!prices || prices.length < 2) continue
 
-    // Extract the prices from the matches
-    const unitPriceMatch = prices[0].replace(/\s*€/, "").trim()
-    const totalPriceMatch = prices[1].replace(/\s*€/, "").trim()
+    // Extract all prices and validate them
+    const allPrices = prices.map((p) => parseCents(p.replace(/\s*€/, "").trim()))
+    if (allPrices.length < 2) continue
+
+    // Determine unit price vs total price
+    // If both prices are equal, assume first is unit price and second is also unit (not total)
+    // This might indicate an invalid format
+    const price1 = allPrices[0]
+    const price2 = allPrices[1]
+
+    let unitPrice: number
+    let totalPrice: number
+
+    // If prices differ significantly, smaller is unit, larger is total
+    if (Math.abs(price1 - price2) > 10) {
+      unitPrice = Math.min(price1, price2)
+      totalPrice = Math.max(price1, price2)
+    } else {
+      // Prices are similar or identical - could be unit price or invalid
+      // Use the first price as unit price
+      unitPrice = price1
+      totalPrice = price2 || price1
+    }
 
     // Find where the prices are in the line to extract name
     const firstPriceIdx = line.indexOf(prices[0])
@@ -116,19 +149,17 @@ export function parseAvis(text: string): ParsedAvis {
     const nameRaw = line.substring(0, firstPriceIdx).trim()
     if (!nameRaw || nameRaw.length < 2) continue
 
-    // Extract name - remove trailing numbers (quantity)
-    const name = nameRaw.replace(/\s+\d+(?:gg)?\s*$/, "").trim()
+    // Extract name - remove trailing weight/quantity
+    const name = nameRaw.replace(/\s+\d+(?:gg|kg|g|ml|l)?\s*$/, "").trim()
     if (!name || name.length < 2) continue
 
     // Parse quantity - look for number before first price
     let qty = 1
-    let isWeightItem = false
 
-    // Check for weight notation (gg)
-    const weightMatch = nameRaw.match(/(\d+)\s*gg\s*$/)
+    // Check for weight notation (gg, g, kg, ml, l)
+    const weightMatch = nameRaw.match(/(\d+)\s*(?:gg|kg|g|ml|l)\s*$/)
     if (weightMatch) {
       qty = parseInt(weightMatch[1])
-      isWeightItem = true
     } else {
       // Look for trailing number in name
       const qtyMatch = nameRaw.match(/\s+(\d+(?:[,\.]\d+)?)\s*$/)
@@ -137,29 +168,32 @@ export function parseAvis(text: string): ParsedAvis {
       }
     }
 
-    // Parse delivery qty (often after second price)
-    let deliveryQty = qty
-    if (prices.length > 2) {
-      const delMatch = line.substring(line.indexOf(prices[1])).match(/(\d+)\s*gg?\s*$/)
-      if (delMatch) {
-        deliveryQty = parseInt(delMatch[1])
+    // Validate prices against quantity: totalPrice should be ≈ unitPrice × qty
+    // Allow ±30% tolerance for rounding and errors, but skip obvious mismatches
+    if (qty > 1 && totalPrice > 0) {
+      const expectedTotal = unitPrice * qty
+      const tolerance = Math.max(expectedTotal * 0.30, 50) // At least ±50 cents tolerance
+      if (Math.abs(totalPrice - expectedTotal) > tolerance) {
+        // Prices don't match quantity, skip this item (probably parsing error)
+        continue
       }
-    } else {
-      // Look for trailing number at end of line
-      const delMatch = line.match(/(\d+)\s*gg?\s*$/)
-      if (delMatch) {
-        const val = parseInt(delMatch[1])
-        if (val !== qty) {
-          deliveryQty = val
-        }
+    }
+
+    // Parse delivery qty (often at end of line)
+    let deliveryQty = qty
+    const delMatch = line.match(/(\d+)\s*(?:gg)?\s*$/)
+    if (delMatch) {
+      const val = parseInt(delMatch[1])
+      if (val !== qty && val > 0) {
+        deliveryQty = val
       }
     }
 
     items.push({
       name: name.trim(),
       qty,
-      unitPrice: parseCents(unitPriceMatch),
-      totalPrice: parseCents(totalPriceMatch),
+      unitPrice,
+      totalPrice,
       deliveryQty,
       section: currentSection,
       status:

@@ -87,6 +87,15 @@ function levenshteinDistance(s1: string, s2: string): number {
   return costs[s2.length]
 }
 
+function normalizeProductName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[äöüß]/g, (c) => ({ ä: "ae", ö: "oe", ü: "ue", ß: "ss" }[c]))
+    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st|pack|stück)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
 function calculateMatchConfidence(
   avisItem: { qty: number; unitPrice: number; name: string },
   ebonItem: { qty: number; unitPrice: number; rawName: string; date: string },
@@ -94,42 +103,76 @@ function calculateMatchConfidence(
 ): number {
   let confidence = 0
 
-  // Date matching: ±1 day (40 points)
+  // 1. NAME MATCHING: This is the primary filter (0-40 points)
+  const avisNameNormalized = normalizeProductName(avisItem.name)
+  const ebonNameNormalized = normalizeProductName(ebonItem.rawName)
+  const nameSimilarity = levenshteinSimilarity(avisNameNormalized, ebonNameNormalized)
+
+  // Names must match reasonably well; disqualify poor matches
+  if (nameSimilarity > 0.75) {
+    confidence += 40
+  } else if (nameSimilarity > 0.65) {
+    confidence += 25
+  } else if (nameSimilarity > 0.55) {
+    confidence += 10
+  } else {
+    // Poor name match = disqualify (return early)
+    return 0
+  }
+
+  // 2. DATE MATCHING: ±3 days is realistic (20-40 points)
   const avisDateObj = new Date(avisDate)
   const ebonDateObj = new Date(ebonItem.date)
   const dayDiff = Math.abs((avisDateObj.getTime() - ebonDateObj.getTime()) / (1000 * 60 * 60 * 24))
+
   if (dayDiff <= 1) {
     confidence += 40
+  } else if (dayDiff <= 3) {
+    confidence += 30
+  } else if (dayDiff <= 7) {
+    confidence += 15
+  } else {
+    // More than 7 days apart is too much
+    return 0
   }
 
-  // Price matching: ±2 cents (40 points)
+  // 3. PRICE MATCHING: ±5 cents for tolerance (15-30 points)
   const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
   if (priceDiff <= 2) {
-    confidence += 40
+    confidence += 30
+  } else if (priceDiff <= 5) {
+    confidence += 20
+  } else if (priceDiff <= 10) {
+    confidence += 10
+  } else {
+    // Price differs too much
+    return 0
   }
 
-  // Quantity matching (20 points)
-  // Check if it's a weight item (quantity < 10 usually means weight in grams)
-  const isWeightItem = avisItem.qty < 10 && avisItem.unitPrice > 50 // Heuristic: weight items have higher unit prices
+  // 4. QUANTITY MATCHING (0-20 points)
+  // Weight items (qty > 100) need different handling
+  const isWeightItem = avisItem.qty > 10 || ebonItem.qty > 10
+
   if (!isWeightItem) {
+    // For normal items, exact quantity match is strong
     if (avisItem.qty === ebonItem.qty) {
       confidence += 20
-    } else if (Math.abs(avisItem.qty - ebonItem.qty) / ebonItem.qty <= 0.1) {
-      confidence += 10
+    } else if (avisItem.qty > 0 && ebonItem.qty > 0) {
+      const qtyDiff = Math.abs(avisItem.qty - ebonItem.qty) / Math.max(avisItem.qty, ebonItem.qty)
+      if (qtyDiff <= 0.1) {
+        confidence += 15
+      } else if (qtyDiff <= 0.25) {
+        confidence += 10
+      }
     }
   } else {
-    // For weight items, only use price match
-    if (priceDiff <= 2) {
-      confidence += 10
+    // Weight items: only apply quantity points if very close
+    if (avisItem.qty > 0 && ebonItem.qty > 0) {
+      const qtyDiff = Math.abs(avisItem.qty - ebonItem.qty) / Math.max(avisItem.qty, ebonItem.qty)
+      if (qtyDiff <= 0.05) {
+        confidence += 15
+      }
     }
-  }
-
-  // Fuzzy name matching: tiebreaker (0-20 points)
-  const similarity = levenshteinSimilarity(avisItem.name.toLowerCase(), ebonItem.rawName.toLowerCase())
-  if (similarity > 0.7) {
-    confidence += 20
-  } else if (similarity > 0.5) {
-    confidence += 10
   }
 
   return Math.min(100, confidence)
@@ -221,6 +264,14 @@ export async function POST(request: NextRequest) {
     const unmatchedItems: Array<{ name: string; price: number; date: string }> = []
     let errors = 0
 
+    // Filter eBon items to realistic time window (±14 days from AVIS)
+    const avisDateObj = new Date(parsed.pickupDate)
+    const ebonItemsInWindow = ebonItems.filter((item) => {
+      const ebonDateObj = new Date(item.date)
+      const dayDiff = Math.abs((avisDateObj.getTime() - ebonDateObj.getTime()) / (1000 * 60 * 60 * 24))
+      return dayDiff <= 14
+    })
+
     for (const avisItem of parsed.items) {
       // Skip non-available items for matching (but still include in results)
       if (avisItem.status !== "available") {
@@ -232,11 +283,11 @@ export async function POST(request: NextRequest) {
         continue
       }
 
-      // Find best match among eBon items
+      // Find best match among eBon items in the window
       let bestMatch: (typeof ebonItems)[0] | null = null
       let bestConfidence = 0
 
-      for (const ebonItem of ebonItems) {
+      for (const ebonItem of ebonItemsInWindow) {
         const confidence = calculateMatchConfidence(
           {
             qty: avisItem.qty,
@@ -258,7 +309,7 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (!bestMatch || bestConfidence < 50) {
+      if (!bestMatch || bestConfidence < 55) {
         // No match found or confidence too low
         unmatchedItems.push({
           name: avisItem.name,
@@ -280,10 +331,18 @@ export async function POST(request: NextRequest) {
         ebonItemId: bestMatch.id,
       }
 
-      if (bestConfidence >= 80) {
+      // Only auto-set with very high confidence AND good name match
+      // Requires: excellent name match (>75%) + good date/price/qty combo
+      if (bestConfidence >= 85) {
         autoSet.push(match)
-      } else {
+      } else if (bestConfidence >= 60) {
         pendingMatches.push(match)
+      } else {
+        unmatchedItems.push({
+          name: avisItem.name,
+          price: avisItem.unitPrice,
+          date: parsed.pickupDate,
+        })
       }
     }
 

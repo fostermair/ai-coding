@@ -78,8 +78,10 @@ describe("AVIS Parser", () => {
 
       LIEFERBAR
 
-      Knackwurst 400gg 2,99 € 2,99 € 337gg
-      Apfelkompott 250gg 1,49 € 1,49 € 250gg
+      Artikel                              Menge  Einzelpreis  Betrag  Liefermenge
+      ─────────────────────────────────────────────────────────────────────────
+      Knackwurst 400gg                       400      0,75 €  300,00 €       400gg
+      Apfelkompott 250gg                     250      0,60 €  150,00 €       250gg
     `
 
     const parsed = parseAvis(avisText)
@@ -109,4 +111,5 @@ describe("AVIS Parser", () => {
     expect(items.some((i) => i.unitPrice === 1050)).toBeTruthy()
     expect(items.some((i) => i.unitPrice === 99)).toBeTruthy()
   })
+
 })

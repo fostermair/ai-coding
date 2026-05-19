@@ -74,6 +74,7 @@ interface BonDetail {
   payment_method: string
   total_amount_cents: number
   needs_reparse: number
+  paperless_doc_id: number | null
   items: ReceiptItem[]
 }
 
@@ -104,14 +105,18 @@ export function BonDetailView({ bonId }: { bonId: string }) {
     load()
   }, [bonId])
 
-  const handleMarkReparse = async () => {
+  const handleSync = async () => {
     setMarking(true)
+    setError(null)
     try {
-      const res = await fetch(`/api/bons/${bonId}/reparse`, { method: "POST" })
-      if (!res.ok) throw new Error("Markierung fehlgeschlagen")
-      setBon((prev) => prev ? { ...prev, needs_reparse: 1 } : prev)
-    } catch {
-      setError("Markierung fehlgeschlagen")
+      const res = await fetch(`/api/bons/${bonId}/sync`, { method: "POST" })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message ?? "Sync fehlgeschlagen")
+      // Reload bon with updated items
+      const bonRes = await fetch(`/api/bons/${bonId}`)
+      if (bonRes.ok) setBon(await bonRes.json())
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sync fehlgeschlagen")
     } finally {
       setMarking(false)
     }
@@ -291,25 +296,18 @@ export function BonDetailView({ bonId }: { bonId: string }) {
 
       {/* Actions */}
       <div className="flex justify-between items-center">
-        <div>
-          {bon.needs_reparse ? (
-            <Badge variant="outline" className="text-amber-600 border-amber-300 bg-amber-50 gap-1.5">
-              <RefreshCw className="h-3 w-3" />
-              Wird beim nächsten Sync neu eingelesen
-            </Badge>
-          ) : null}
-        </div>
+        <div />
         <div className="flex gap-2">
-          {!bon.needs_reparse && (
+          {bon.paperless_doc_id && (
             <Button
               variant="outline"
               size="sm"
-              onClick={handleMarkReparse}
+              onClick={handleSync}
               disabled={marking}
               className="text-gray-600"
             >
               {marking ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
-              Neu einlesen
+              {marking ? "Wird synchronisiert …" : "Aus Paperless neu einlesen"}
             </Button>
           )}
           <AlertDialog>

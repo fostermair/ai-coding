@@ -232,8 +232,9 @@ export async function POST(request: NextRequest) {
                 }
               }
 
-              db.prepare("UPDATE receipts SET needs_reparse = 0, filename = ? WHERE id = ?").run(
+              db.prepare("UPDATE receipts SET needs_reparse = 0, filename = ?, paperless_doc_id = ? WHERE id = ?").run(
                 `[paperless] ${docTitle}`,
+                docId,
                 existing.id
               )
 
@@ -259,8 +260,8 @@ export async function POST(request: NextRequest) {
           const insertReceipt = db.prepare(`
             INSERT INTO receipts
               (filename, store_name, store_address, store_uid, market_nr, receipt_nr,
-               receipt_date, receipt_time, payment_method, total_amount_cents)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+               receipt_date, receipt_time, payment_method, total_amount_cents, paperless_doc_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           `)
 
           const insertItem = db.prepare(`
@@ -290,7 +291,8 @@ export async function POST(request: NextRequest) {
               parsed.receiptDate,
               parsed.receiptTime,
               parsed.paymentMethod,
-              parsed.totalAmountCents
+              parsed.totalAmountCents,
+              docId
             )
 
             for (const item of parsed.items) {

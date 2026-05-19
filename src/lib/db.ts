@@ -129,7 +129,7 @@ function initSchema(db: Database.Database): void {
     )
   }
 
-  // Migration: add needs_reparse column to receipts
+  // Migration: add needs_reparse and paperless_doc_id columns to receipts
   const receiptCols = db
     .prepare("PRAGMA table_info(receipts)")
     .all() as Array<{ name: string }>
@@ -143,5 +143,8 @@ function initSchema(db: Database.Database): void {
         WHERE raw_name GLOB '[0-9]' OR raw_name GLOB '[0-9][0-9]'
       )
     `)
+  }
+  if (!receiptCols.some((c) => c.name === "paperless_doc_id")) {
+    db.exec("ALTER TABLE receipts ADD COLUMN paperless_doc_id INTEGER")
   }
 }

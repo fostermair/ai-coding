@@ -99,6 +99,33 @@ TSE-Signatur: xyz
  Markt:6862 Kasse:1 Bed.:353535
 `
 
+const EBON4_MULTILINE_NAME_TEXT = `
+ * Elsen - Mein Dorf *
+ Rewe Markt Saal
+ Dionysius Str. 5-13
+ 33106 Paderborn-Elsen
+ * Heimatshopping *
+**************************************
+ UID Nr.: DE233937214
+ EUR
+HEFE-WEIZEN BIO
+0 7,99 A
+ 2 Stk x 3,99
+KÄSE GOUDA
+1 4,50 B
+CHOCOLATE BAR DARK
+2 2,99 B
+ 3 Stk x 0,99
+ --------------------------------------
+ SUMME EUR 26,48
+ ======================================
+ Geg. BAR EUR 26,48
+
+TSE-Signatur: abc
+ 29.12.2025 14:30 Bon-Nr.:5555
+ Markt:6857 Kasse:3 Bed.:171717
+`
+
 // ── formatGermanDate ──────────────────────────────────────────────────────────
 
 describe("formatGermanDate", () => {
@@ -227,6 +254,46 @@ describe("parseReweEbon – ebon3 (Getränkemarkt, Pfand, VISA)", () => {
     const withQty = items.find((i) => i.quantity === 2)
     expect(withQty).toBeDefined()
     expect(withQty!.unitPriceCents).toBe(799)
+  })
+})
+
+// ── Error handling ────────────────────────────────────────────────────────────
+
+// ── parseReweEbon – ebon4 (multiline names with numeric placeholders) ───────
+
+describe("parseReweEbon – ebon4 (product names on separate lines from price)", () => {
+  const result = parseReweEbon(EBON4_MULTILINE_NAME_TEXT)
+
+  it("correctly parses name when separated from price line", () => {
+    const hefe = result.items.find((i) => i.rawName === "HEFE-WEIZEN BIO")
+    expect(hefe).toBeDefined()
+    expect(hefe!.totalPriceCents).toBe(799)
+    expect(hefe!.quantity).toBe(2)
+    expect(hefe!.unitPriceCents).toBe(399)
+  })
+
+  it("does not store numeric placeholder '0' as product name", () => {
+    const badItem = result.items.find((i) => i.rawName === "0")
+    expect(badItem).toBeUndefined()
+  })
+
+  it("parses second product correctly", () => {
+    const kaese = result.items.find((i) => i.rawName === "KÄSE GOUDA")
+    expect(kaese).toBeDefined()
+    expect(kaese!.totalPriceCents).toBe(450)
+    expect(kaese!.taxCode).toBe("B")
+  })
+
+  it("parses third product with quantity", () => {
+    const chocolate = result.items.find((i) => i.rawName === "CHOCOLATE BAR DARK")
+    expect(chocolate).toBeDefined()
+    expect(chocolate!.quantity).toBe(3)
+    expect(chocolate!.unitPriceCents).toBe(99)
+    expect(chocolate!.totalPriceCents).toBe(299)
+  })
+
+  it("total items count is correct", () => {
+    expect(result.items).toHaveLength(3)
   })
 })
 

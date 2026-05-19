@@ -137,6 +137,7 @@ function extractStoreUid(headerLines: string[]): string {
 function parseItemLines(lines: string[]): ParsedItem[] {
   const items: ParsedItem[] = []
   let position = 0
+  let pendingName: string | null = null
 
   for (const line of lines) {
     const trimmed = line.trim()
@@ -174,6 +175,7 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       /^PFAND\s+\d+,\d{2}\s+EUR\s+(-?\d+,\d{2})\s+([AB])\s*(\*)?$/
     )
     if (pfandM) {
+      pendingName = null
       const cents = parseCents(pfandM[1])
       items.push({
         rawName: "PFAND",
@@ -197,6 +199,15 @@ function parseItemLines(lines: string[]): ParsedItem[] {
     const prodM = trimmed.match(/^(.+?)\s+(-?\d+,\d{2})\s+([AB])\s*(\*)?$/)
     if (prodM) {
       let rawName = prodM[1].trim()
+
+      // If rawName is purely numeric and we have a pending name from the previous line,
+      // use the pending name instead (handles PDF layout where product name and price
+      // appear on separate lines, with a numeric placeholder on the price line)
+      if (/^\d+$/.test(rawName) && pendingName) {
+        rawName = pendingName
+      }
+      pendingName = null
+
       const totalCents = parseCents(prodM[2])
       const taxCode = prodM[3]
       const bonusExcluded = !!prodM[4]
@@ -237,6 +248,13 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       const last = items[items.length - 1]
       last.quantity = parseInt(bareQtyM[1], 10)
       last.unitPriceCents = parseCents(bareQtyM[2])
+      continue
+    }
+
+    // If this is an unindented line that didn't match any pattern, save it as
+    // a pending name for the next product line (in case it's a name without price)
+    if (!isIndented) {
+      pendingName = trimmed
     }
   }
 

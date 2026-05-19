@@ -128,4 +128,20 @@ function initSchema(db: Database.Database): void {
       "ALTER TABLE product_aliases ADD COLUMN seasonal INTEGER NOT NULL DEFAULT 0"
     )
   }
+
+  // Migration: add needs_reparse column to receipts
+  const receiptCols = db
+    .prepare("PRAGMA table_info(receipts)")
+    .all() as Array<{ name: string }>
+  if (!receiptCols.some((c) => c.name === "needs_reparse")) {
+    db.exec("ALTER TABLE receipts ADD COLUMN needs_reparse INTEGER NOT NULL DEFAULT 0")
+    // Mark existing receipts with numeric-only raw_name items as needing reparse
+    db.exec(`
+      UPDATE receipts SET needs_reparse = 1
+      WHERE id IN (
+        SELECT DISTINCT receipt_id FROM receipt_items
+        WHERE raw_name GLOB '[0-9]' OR raw_name GLOB '[0-9][0-9]'
+      )
+    `)
+  }
 }

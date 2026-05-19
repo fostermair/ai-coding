@@ -41,7 +41,7 @@ const pdfParse = require("pdf-parse") as (buf: Buffer) => Promise<{ text: string
 
 interface SyncDetail {
   title: string
-  status: "imported" | "duplicate" | "error"
+  status: "imported" | "duplicate" | "error" | "reparsed"
   message?: string
 }
 
@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
     let imported = 0
     let duplicates = 0
     let errors = 0
+    let reparsed = 0
     const details: SyncDetail[] = []
 
     let documentUrl = `${baseUrl}/api/documents/?page_size=100`
@@ -177,19 +178,79 @@ export async function POST(request: NextRequest) {
             continue
           }
 
-          // ── Duplicate check ──────────────────────────────────────────────
+          // ── Duplicate check / needs_reparse handling ──────────────────────
           const existing = db
             .prepare(
-              "SELECT id FROM receipts WHERE receipt_nr = ? AND market_nr = ? AND receipt_date = ?"
+              "SELECT id, needs_reparse FROM receipts WHERE receipt_nr = ? AND market_nr = ? AND receipt_date = ?"
             )
-            .get(parsed.receiptNr, parsed.marketNr, parsed.receiptDate)
+            .get(parsed.receiptNr, parsed.marketNr, parsed.receiptDate) as
+            | { id: number; needs_reparse: number }
+            | undefined
 
           if (existing) {
-            duplicates++
-            logImport(`[paperless] ${docTitle}`, "duplicate", `Bon-Nr. ${parsed.receiptNr}`)
+            if (!existing.needs_reparse) {
+              // Normal duplicate — skip
+              duplicates++
+              logImport(`[paperless] ${docTitle}`, "duplicate", `Bon-Nr. ${parsed.receiptNr}`)
+              details.push({
+                title: docTitle,
+                status: "duplicate",
+              })
+              continue
+            }
+
+            // needs_reparse=1 — delete old items and re-insert with new parser
+            const doReparse = db.transaction(() => {
+              db.prepare("DELETE FROM avis_matches WHERE receipt_id = ?").run(existing.id)
+              db.prepare("DELETE FROM receipt_items WHERE receipt_id = ?").run(existing.id)
+
+              const insertItem = db.prepare(`
+                INSERT INTO receipt_items
+                  (receipt_id, raw_name, item_type, quantity, unit_price_cents,
+                   total_price_cents, tax_code, bonus_excluded, concessionaire_code, position)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+              `)
+              const insertDiscount = db.prepare(
+                "INSERT INTO item_discounts (receipt_item_id, description, amount_cents, tax_code) VALUES (?, ?, ?, ?)"
+              )
+
+              for (const item of parsed.items) {
+                const { lastInsertRowid: itemId } = insertItem.run(
+                  existing.id,
+                  item.rawName,
+                  item.itemType,
+                  item.quantity,
+                  item.unitPriceCents,
+                  item.totalPriceCents,
+                  item.taxCode,
+                  item.bonusExcluded ? 1 : 0,
+                  item.concessionaireCode ?? null,
+                  item.position
+                )
+                for (const d of item.discounts) {
+                  insertDiscount.run(itemId, d.description, d.amountCents, d.taxCode)
+                }
+              }
+
+              db.prepare("UPDATE receipts SET needs_reparse = 0, filename = ? WHERE id = ?").run(
+                `[paperless] ${docTitle}`,
+                existing.id
+              )
+
+              db.prepare(
+                "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+              ).run(
+                `[paperless] ${docTitle}`,
+                "reparsed",
+                `${parsed.items.length} Positionen neu geparst`
+              )
+            })
+
+            doReparse()
+            reparsed++
             details.push({
               title: docTitle,
-              status: "duplicate",
+              status: "reparsed",
             })
             continue
           }
@@ -285,10 +346,11 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Return summary ─────────────────────────────────────────────────────
-    if (imported === 0 && duplicates === 0 && errors === 0) {
+    if (imported === 0 && duplicates === 0 && errors === 0 && reparsed === 0) {
       return NextResponse.json({
         imported: 0,
         duplicates: 0,
+        reparsed: 0,
         errors: 0,
         details: [],
         message: "Keine neuen eBons gefunden",
@@ -298,6 +360,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       imported,
       duplicates,
+      reparsed,
       errors,
       details,
     })

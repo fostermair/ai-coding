@@ -221,7 +221,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 {pfandLeergut.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell className="font-medium">
-                      {item.alias ?? item.raw_name}
+                      {item.alias ?? (/^\d+$/.test(item.raw_name) ? "(unbekannt)" : item.raw_name)}
                       {item.bonus_excluded && (
                         <span className="text-gray-400 ml-1">*</span>
                       )}
@@ -379,7 +379,7 @@ function ItemRows({ item }: { item: ReceiptItem }) {
               </>
             )}
             <span>
-              {itemState.alias ?? itemState.raw_name}
+              {itemState.alias ?? (/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name)}
               {avisMatch && avisMatch.status === "rejected" && (
                 <span className="text-gray-400 text-xs ml-1">(kein Match)</span>
               )}

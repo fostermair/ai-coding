@@ -1,15 +1,21 @@
-import { describe, it, expect, beforeEach } from "vitest"
-import { getDb } from "@/lib/db"
+import { describe, it, expect, beforeEach, afterEach } from "vitest"
+import { getDb, closeDb } from "@/lib/db"
 import * as fs from "fs"
 import * as path from "path"
 
 describe("PUT /api/avis/matches/[matchId]/reject", () => {
   beforeEach(() => {
     const testDbPath = path.join(process.cwd(), "data", "test-reject.db")
+    closeDb()
     if (fs.existsSync(testDbPath)) {
       fs.unlinkSync(testDbPath)
     }
     process.env.DB_PATH = testDbPath
+  })
+
+  afterEach(() => {
+    closeDb()
+    delete process.env.DB_PATH
   })
 
   it("should reject a pending match", () => {

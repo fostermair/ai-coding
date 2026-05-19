@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest"
-import { getDb } from "@/lib/db"
+import { describe, it, expect, beforeEach, afterEach } from "vitest"
+import { getDb, closeDb } from "@/lib/db"
 import * as fs from "fs"
 import * as path from "path"
 
@@ -7,10 +7,16 @@ describe("PUT /api/avis/matches/[matchId]/confirm", () => {
   beforeEach(() => {
     // Fresh DB for each test
     const testDbPath = path.join(process.cwd(), "data", "test-confirm.db")
+    closeDb()
     if (fs.existsSync(testDbPath)) {
       fs.unlinkSync(testDbPath)
     }
     process.env.DB_PATH = testDbPath
+  })
+
+  afterEach(() => {
+    closeDb()
+    delete process.env.DB_PATH
   })
 
   it("should confirm a pending match and save alias", () => {

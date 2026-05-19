@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest"
-import { getDb } from "@/lib/db"
+import { describe, it, expect, beforeEach, afterEach } from "vitest"
+import { getDb, closeDb } from "@/lib/db"
 import * as fs from "fs"
 import * as path from "path"
 
@@ -9,10 +9,16 @@ describe("GET /api/bons avis_status calculation", () => {
   beforeEach(() => {
     testNum++
     const testDbPath = path.join(process.cwd(), "data", `test-avis-${testNum}.db`)
+    closeDb()
     if (fs.existsSync(testDbPath)) {
       fs.unlinkSync(testDbPath)
     }
     process.env.DB_PATH = testDbPath
+  })
+
+  afterEach(() => {
+    closeDb()
+    delete process.env.DB_PATH
   })
 
   const fetchBonStatus = (db: any, bonId: number) => {

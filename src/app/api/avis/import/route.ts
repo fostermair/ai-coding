@@ -48,6 +48,7 @@ interface MatchResult {
   ebonPrice: number
   ebonDate: string
   confidence: number
+  ebonItemId: number
 }
 
 interface AvisImportResponse {
@@ -197,6 +198,8 @@ export async function POST(request: NextRequest) {
 
     // Fetch all eBon items from DB to match against
     interface EbonItem {
+      id: number
+      receipt_id: number
       raw_name: string
       quantity: number
       unit_price_cents: number
@@ -204,7 +207,7 @@ export async function POST(request: NextRequest) {
     }
     const ebonItems = db
       .prepare(
-        `SELECT raw_name, quantity, unit_price_cents,
+        `SELECT id, receipt_id, raw_name, quantity, unit_price_cents,
                 (SELECT receipt_date FROM receipts WHERE receipts.id = receipt_items.receipt_id) as date
          FROM receipt_items
          WHERE item_type = 'product'
@@ -274,6 +277,7 @@ export async function POST(request: NextRequest) {
         ebonPrice: bestMatch.unit_price_cents,
         ebonDate: bestMatch.date,
         confidence: Math.round(bestConfidence),
+        ebonItemId: bestMatch.id,
       }
 
       if (bestConfidence >= 80) {
@@ -329,18 +333,10 @@ export async function POST(request: NextRequest) {
           autoSetCount++
         }
 
-        // Find receipt_item_id for this match
-        interface ItemInfo {
-          id: number
-        }
-        const item = db
-          .prepare("SELECT id FROM receipt_items WHERE receipt_id = ? AND raw_name = ? LIMIT 1")
-          .get(receipt.id, match.ebonRawName) as ItemInfo | undefined
-
         // Insert match record
         insertMatchStmt.run(
           receipt.id,
-          item?.id ?? null,
+          match.ebonItemId,
           logId,
           match.avisName,
           match.avisPrice,
@@ -351,18 +347,10 @@ export async function POST(request: NextRequest) {
 
       // Process pending matches
       for (const match of pendingMatches) {
-        // Find receipt_item_id for this match
-        interface ItemInfo {
-          id: number
-        }
-        const item = db
-          .prepare("SELECT id FROM receipt_items WHERE receipt_id = ? AND raw_name = ? LIMIT 1")
-          .get(receipt.id, match.ebonRawName) as ItemInfo | undefined
-
         // Insert match record
         insertMatchStmt.run(
           receipt.id,
-          item?.id ?? null,
+          match.ebonItemId,
           logId,
           match.avisName,
           match.avisPrice,

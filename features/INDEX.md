@@ -32,7 +32,8 @@
 | PROJ-16 | Einkaufskorb-Vergleich | Approved | [PROJ-16-einkaufskorb-vergleich/spec.md](PROJ-16-einkaufskorb-vergleich/spec.md) | 2026-05-17 |
 | PROJ-17 | Monatlicher Ausgaben-Langzeittrend | Approved | [PROJ-17-monatlicher-trend/spec.md](PROJ-17-monatlicher-trend/spec.md) | 2026-05-17 |
 | PROJ-18 | Paperless-ngx eBon Import | Approved | [PROJ-18-paperless-import/spec.md](PROJ-18-paperless-import/spec.md) | 2026-05-17 |
+| PROJ-19 | AVIS-Import & automatische Alias-Zuweisung | In Progress | [PROJ-19-avis-alias-import/spec.md](PROJ-19-avis-alias-import/spec.md) | 2026-05-19 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-19
+## Next Available ID: PROJ-20

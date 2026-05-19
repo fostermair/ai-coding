@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
+import { AvisConfirmationDialog } from "@/components/avis-confirmation-dialog"
 
 type ImportStatus = "pending" | "uploading" | "success" | "duplicate" | "error"
 
@@ -24,6 +25,27 @@ interface ImportResult {
   store?: string
   items?: number
   total?: string
+}
+
+interface MatchResult {
+  avisName: string
+  avisQty: number
+  avisPrice: number
+  ebonRawName: string
+  ebonQty: number
+  ebonPrice: number
+  ebonDate: string
+  confidence: number
+}
+
+interface AvisImportResult {
+  auto_set: number
+  pending_approval: number
+  unmatched: number
+  errors: number
+  pending_matches: MatchResult[]
+  unmatched_items: Array<{ name: string; price: number; date: string }>
+  import_log_id: string
 }
 
 interface QueueItem {
@@ -56,6 +78,18 @@ export function ImportZone() {
   const [syncResult, setSyncResult] = useState<SyncResult | null>(null)
   const [syncError, setSyncError] = useState<string | null>(null)
   const [paperlessConfigured, setPaperlessConfigured] = useState(true)
+
+  // AVIS state
+  const [isAvisDragging, setIsAvisDragging] = useState(false)
+  const [avisQueue, setAvisQueue] = useState<QueueItem[]>([])
+  const avisFileInputRef = useRef<HTMLInputElement>(null)
+  const [isAvisSyncing, setIsAvisSyncing] = useState(false)
+  const [avisConfirmationOpen, setAvisConfirmationOpen] = useState(false)
+  const [pendingAvisMatches, setPendingAvisMatches] = useState<MatchResult[]>([])
+  const [pendingAvisUnmatched, setPendingAvisUnmatched] = useState<
+    Array<{ name: string; price: number; date: string }>
+  >([])
+  const [avisImportLogId, setAvisImportLogId] = useState<string | null>(null)
 
   const updateItem = useCallback((id: string, updates: Partial<QueueItem>) => {
     setQueue((prev) =>
@@ -197,6 +231,197 @@ export function ImportZone() {
   useEffect(() => {
     checkPaperlessConfig()
   }, [checkPaperlessConfig])
+
+  // AVIS handlers
+  const updateAvisItem = useCallback((id: string, updates: Partial<QueueItem>) => {
+    setAvisQueue((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    )
+  }, [])
+
+  const uploadAvisFile = useCallback(
+    async (item: QueueItem, file: File) => {
+      updateAvisItem(item.id, { status: "uploading" })
+
+      const formData = new FormData()
+      formData.append("file", file)
+
+      try {
+        const res = await fetch("/api/avis/import", { method: "POST", body: formData })
+        const data = await res.json()
+
+        if (res.status === 409) {
+          updateAvisItem(item.id, {
+            status: "duplicate",
+            error: "AVIS bereits importiert",
+          })
+        } else if (!res.ok) {
+          updateAvisItem(item.id, {
+            status: "error",
+            error: (data as any).message ?? "Unbekannter Fehler",
+          })
+        } else {
+          const avisResult = data as AvisImportResult
+          updateAvisItem(item.id, {
+            status: "success",
+            result: {
+              items: avisResult.auto_set + avisResult.pending_approval,
+              total: `${avisResult.auto_set} automatisch, ${avisResult.pending_approval} zu überprüfen`,
+            },
+          })
+
+          // Show confirmation dialog if there are pending matches
+          if (avisResult.pending_approval > 0) {
+            setPendingAvisMatches(avisResult.pending_matches)
+            setPendingAvisUnmatched(avisResult.unmatched_items)
+            setAvisImportLogId(avisResult.import_log_id)
+            setAvisConfirmationOpen(true)
+          }
+        }
+      } catch {
+        updateAvisItem(item.id, {
+          status: "error",
+          error: "Backend noch nicht verfügbar – bitte /backend ausführen",
+        })
+      }
+    },
+    [updateAvisItem]
+  )
+
+  const addAvisFiles = useCallback(
+    (files: File[]) => {
+      const pdfs = files.filter(
+        (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
+      )
+      if (pdfs.length === 0) return
+
+      const newItems: QueueItem[] = pdfs.map((f) => ({
+        id: `avis-${f.name}-${Date.now()}-${Math.random()}`,
+        filename: f.name,
+        status: "pending" as ImportStatus,
+      }))
+
+      setAvisQueue((prev) => [...prev, ...newItems])
+
+      newItems.forEach((item, i) => {
+        setTimeout(() => uploadAvisFile(item, pdfs[i]), i * 150)
+      })
+    },
+    [uploadAvisFile]
+  )
+
+  const onAvisDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setIsAvisDragging(false)
+      addAvisFiles(Array.from(e.dataTransfer.files))
+    },
+    [addAvisFiles]
+  )
+
+  const onAvisDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsAvisDragging(true)
+  }
+
+  const onAvisDragLeave = (e: React.DragEvent) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsAvisDragging(false)
+    }
+  }
+
+  const onAvisFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) addAvisFiles(Array.from(e.target.files))
+    e.target.value = ""
+  }
+
+  const clearAvisCompleted = () => {
+    setAvisQueue((prev) =>
+      prev.filter(
+        (item) => item.status === "pending" || item.status === "uploading"
+      )
+    )
+  }
+
+  const hasAvisCompleted = avisQueue.some(
+    (item) =>
+      item.status === "success" ||
+      item.status === "duplicate" ||
+      item.status === "error"
+  )
+
+  const handleAvisPaperlessSync = useCallback(async () => {
+    setIsAvisSyncing(true)
+
+    try {
+      const res = await fetch("/api/paperless/avis-sync", { method: "POST" })
+      const data = await res.json()
+
+      if (!res.ok) {
+        alert("Fehler beim AVIS-Sync: " + (data.message || "Unbekannter Fehler"))
+      } else {
+        alert(
+          `AVIS-Sync abgeschlossen: ${data.auto_set} automatisch, ${data.pending_approval} zu überprüfen`
+        )
+      }
+    } catch {
+      alert("Netzwerkfehler – bitte versuche es später erneut")
+    } finally {
+      setIsAvisSyncing(false)
+    }
+  }, [])
+
+  const handleAvisConfirmation = useCallback(
+    async (confirmedKeys: string[], rejectedKeys: string[]) => {
+      if (!avisImportLogId) return
+
+      // Map keys back to match objects
+      const confirmedMatches = confirmedKeys
+        .map((key) => {
+          const index = parseInt(key.split("-")[1])
+          return pendingAvisMatches[index]
+        })
+        .filter((m) => m)
+
+      const rejectedMatches = rejectedKeys
+        .map((key) => {
+          const index = parseInt(key.split("-")[1])
+          return pendingAvisMatches[index]
+        })
+        .filter((m) => m)
+
+      try {
+        const res = await fetch("/api/avis/confirm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            import_log_id: avisImportLogId,
+            confirmed_matches: confirmedMatches.map((m) => ({
+              ebonRawName: m.ebonRawName,
+              avisName: m.avisName,
+            })),
+            rejected_matches: rejectedMatches.map((m) => ({
+              ebonRawName: m.ebonRawName,
+              avisName: m.avisName,
+            })),
+          }),
+        })
+
+        if (!res.ok) {
+          alert("Fehler beim Speichern: " + (await res.text()))
+          return
+        }
+
+        setPendingAvisMatches([])
+        setPendingAvisUnmatched([])
+        setAvisImportLogId(null)
+        alert(`${confirmedMatches.length} Zuordnung(en) gespeichert`)
+      } catch (e) {
+        alert("Netzwerkfehler beim Speichern")
+      }
+    },
+    [avisImportLogId, pendingAvisMatches]
+  )
 
   return (
     <div className="space-y-4">
@@ -345,6 +570,116 @@ export function ImportZone() {
           )}
         </div>
       )}
+
+      {/* AVIS Section */}
+      <Separator className="my-6" />
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          REWE Abholavis importieren
+        </h2>
+        <p className="text-sm text-gray-600">
+          AVIS-PDFs ermöglichen automatische Zuordnung von Produktnamen zu deinen eBon-Artikeln.
+        </p>
+
+        {/* AVIS Drop Zone */}
+        <div
+          onDrop={onAvisDrop}
+          onDragOver={onAvisDragOver}
+          onDragLeave={onAvisDragLeave}
+          onClick={() => avisFileInputRef.current?.click()}
+          className={cn(
+            "border-2 border-dashed rounded-xl p-14 text-center cursor-pointer transition-all select-none",
+            isAvisDragging
+              ? "border-blue-400 bg-blue-50 scale-[1.01]"
+              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/50"
+          )}
+        >
+          <input
+            ref={avisFileInputRef}
+            type="file"
+            accept=".pdf,application/pdf"
+            multiple
+            className="hidden"
+            onChange={onAvisFileChange}
+          />
+          <Upload
+            className={cn(
+              "mx-auto h-10 w-10 mb-3 transition-colors",
+              isAvisDragging ? "text-blue-400" : "text-gray-300"
+            )}
+          />
+          <p className="font-medium text-gray-700">
+            {isAvisDragging ? "Loslassen zum Importieren" : "AVIS-PDFs hier ablegen"}
+          </p>
+          <p className="text-sm text-gray-400 mt-1">
+            oder klicken zum Auswählen · REWE Abholavis PDFs · Mehrfachauswahl möglich
+          </p>
+        </div>
+
+        {/* AVIS Paperless Sync */}
+        {paperlessConfigured && (
+          <div className="space-y-2">
+            <Button
+              onClick={handleAvisPaperlessSync}
+              disabled={isAvisSyncing}
+              className="w-full"
+              variant="outline"
+            >
+              {isAvisSyncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  AVIS synchronisiere ...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  AVIS aus paperless-ngx synchronisieren
+                </>
+              )}
+            </Button>
+          </div>
+        )}
+
+        {/* AVIS Queue */}
+        {avisQueue.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-gray-600">
+                {avisQueue.length} AVIS-Datei{avisQueue.length !== 1 ? "en" : ""}
+              </p>
+              {hasAvisCompleted && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearAvisCompleted}
+                  className="text-gray-400 hover:text-gray-600 h-7 text-xs"
+                >
+                  Abgeschlossene ausblenden
+                </Button>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              {avisQueue.map((item) => (
+                <QueueItemCard key={item.id} item={item} />
+              ))}
+            </div>
+
+            {avisQueue.length > 1 && (
+              <ImportSummary queue={avisQueue} />
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* AVIS Confirmation Dialog */}
+      <AvisConfirmationDialog
+        open={avisConfirmationOpen}
+        onOpenChange={setAvisConfirmationOpen}
+        matches={pendingAvisMatches}
+        unmatched={pendingAvisUnmatched}
+        onConfirm={handleAvisConfirmation}
+      />
     </div>
   )
 }

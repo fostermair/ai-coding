@@ -95,6 +95,7 @@ interface EinkaufsverbgleichResponse {
 }
 
 type Zeitraum = "3" | "6" | "12" | "alle"
+type TopSort = "frequency" | "spending" | "preissteigerung" | "verguenstigung"
 
 const ZEITRAUM_LABELS: Record<Zeitraum, string> = {
   "3": "3M",
@@ -220,7 +221,7 @@ export function StatistikDashboard() {
   const [chartOpen, setChartOpen] = useState(false)
   const [chartProduct, setChartProduct] = useState<string | null>(null)
 
-  const [topSort, setTopSort] = useState<"frequency" | "spending" | "preissteigerung" | "verguenstigung">("frequency")
+  const [topSort, setTopSort] = useState<TopSort>("frequency")
 
   const fetchAll = useCallback(async () => {
     setLoading(true)
@@ -232,10 +233,9 @@ export function StatistikDashboard() {
     }
 
     try {
-      const [monatRes, monatAlleRes, topRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes, inflationRes] = await Promise.all([
+      const [monatRes, monatAlleRes, rabattRes, mwstRes, excludedRes, vorjahrRes, voreinkaufRes, inflationRes] = await Promise.all([
         fetch(buildUrl("/api/statistiken/monatlich")),
         fetch("/api/statistiken/monatlich"),
-        fetch(buildUrl("/api/statistiken/top-produkte", `sort=${topSort}`)),
         fetch(buildUrl("/api/statistiken/rabatte")),
         fetch(buildUrl("/api/statistiken/mwst")),
         fetch("/api/produkte?filter=excluded"),
@@ -246,7 +246,6 @@ export function StatistikDashboard() {
 
       const monatJson: MonatlichData = await monatRes.json()
       const monatAlleJson: MonatlichAlleData = await monatAlleRes.json()
-      const topJson: TopProdukteData = await topRes.json()
       const rabattJson: RabatteData = await rabattRes.json()
       const mwstJson: MwstData = await mwstRes.json()
       const excludedJson: { excluded_count: number } = await excludedRes.json()
@@ -256,7 +255,6 @@ export function StatistikDashboard() {
 
       setMonatlich(monatJson)
       setMonatlichAlle(monatAlleJson)
-      setTopProdukte(topJson)
       setInflation(inflationJson)
       setRabatte(rabattJson)
       setMwst(mwstJson)
@@ -264,24 +262,19 @@ export function StatistikDashboard() {
       setEinkaufsverbgleichVorjahr(vorjahrJson)
       setEinkaufsverbgleichVoreinkauf(voreinkaufJson)
 
-      setIsEmpty(
-        monatJson.monate.length === 0 &&
-        topJson.produkte.length === 0
-      )
+      setIsEmpty(monatJson.monate.length === 0)
     } catch {
       // silently fail — individual cards show empty states
     } finally {
       setLoading(false)
     }
-  }, [zeitraum, topSort])
+  }, [zeitraum])
 
   useEffect(() => {
     fetchAll()
   }, [fetchAll])
 
-  // Refetch top products when sort changes (without refetching everything)
   const fetchTopProdukte = useCallback(async () => {
-    if (topSort === "preissteigerung" || topSort === "verguenstigung") return
     const params = new URLSearchParams({ sort: topSort })
     if (zeitraum !== "alle") params.set("monate", zeitraum)
     try {
@@ -293,13 +286,11 @@ export function StatistikDashboard() {
     }
   }, [zeitraum, topSort])
 
-  // When only topSort changes, just refetch top products
   useEffect(() => {
-    if (!loading) {
+    if (topSort === "frequency" || topSort === "spending") {
       fetchTopProdukte()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topSort])
+  }, [fetchTopProdukte])
 
   // ── Empty state ────────────────────────────────────────────────────────
   if (!loading && isEmpty) {
@@ -433,7 +424,7 @@ export function StatistikDashboard() {
               <CardTitle className="text-base font-medium">Top-10 Produkte</CardTitle>
             </CardHeader>
             <CardContent>
-              <Tabs value={topSort} onValueChange={(v) => setTopSort(v as "frequency" | "spending" | "preissteigerung" | "verguenstigung")}>
+              <Tabs value={topSort} onValueChange={(v) => setTopSort(v as TopSort)}>
                 <TabsList className="mb-3">
                   <TabsTrigger value="frequency">Häufigste</TabsTrigger>
                   <TabsTrigger value="spending">Teuerste</TabsTrigger>

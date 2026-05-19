@@ -70,10 +70,33 @@ function levenshteinSimilarity(a: string, b: string): number {
   return (longer.length - editDistance) / longer.length
 }
 
+// Token-based similarity: splits into words and scores each eBon token against AVIS tokens.
+// Handles the case where AVIS has full brand names and eBon has short abbreviations.
+function tokenBasedSimilarity(avisNorm: string, ebonNorm: string): number {
+  const tokenize = (s: string) => s.split(/[\s\-.!,&+]+/).filter((t) => t.length >= 3)
+  const avisTokens = tokenize(avisNorm)
+  const ebonTokens = tokenize(ebonNorm)
+
+  if (ebonTokens.length === 0 || avisTokens.length === 0) return 0
+
+  let totalScore = 0
+  for (const et of ebonTokens) {
+    let bestScore = 0
+    for (const at of avisTokens) {
+      // Containment check: catches prefix abbreviations ("gefl" in "gefluegel"),
+      // suffix abbreviations ("spray" in "deospray"), and exact substrings.
+      const score = at.includes(et) || et.includes(at) ? 1.0 : levenshteinSimilarity(et, at)
+      if (score > bestScore) bestScore = score
+    }
+    totalScore += bestScore
+  }
+
+  return totalScore / ebonTokens.length
+}
+
 function levenshteinDistance(s1: string, s2: string): number {
   const costs: number[] = []
   for (let k = 0; k <= s2.length; k++) costs[k] = k
-  let prevDiag = 0
   for (let i = 1; i <= s1.length; i++) {
     let subs = costs[0]
     costs[0] = i
@@ -82,7 +105,6 @@ function levenshteinDistance(s1: string, s2: string): number {
       costs[j] = Math.min(costs[j] + 1, costs[j - 1] + 1, subs + (s1[i - 1] === s2[j - 1] ? 0 : 1))
       subs = tmp
     }
-    prevDiag = subs
   }
   return costs[s2.length]
 }
@@ -105,19 +127,25 @@ function calculateMatchConfidence(
   let confidence = 0
 
   // 1. NAME MATCHING: This is the primary filter (0-40 points)
+  // AVIS has full brand names; eBon has short abbreviations — use token-based matching
+  // as the primary score and fall back to full-string Levenshtein.
   const avisNameNormalized = normalizeProductName(avisItem.name)
   const ebonNameNormalized = normalizeProductName(ebonItem.rawName)
-  const nameSimilarity = levenshteinSimilarity(avisNameNormalized, ebonNameNormalized)
+  const lev = levenshteinSimilarity(avisNameNormalized, ebonNameNormalized)
+  const tok = tokenBasedSimilarity(avisNameNormalized, ebonNameNormalized)
+  const nameSimilarity = Math.max(lev, tok * 0.9)
 
-  // Names must match reasonably well; disqualify poor matches
   if (nameSimilarity > 0.75) {
     confidence += 40
-  } else if (nameSimilarity > 0.65) {
-    confidence += 25
   } else if (nameSimilarity > 0.55) {
+    confidence += 25
+  } else if (nameSimilarity > 0.35) {
     confidence += 10
+  } else if (nameSimilarity > 0.15) {
+    // Very low name similarity — allow price/qty/date to carry the match
+    confidence += 0
   } else {
-    // Poor name match = disqualify (return early)
+    // Truly hopeless name match — disqualify
     return 0
   }
 
@@ -435,7 +463,7 @@ export async function POST(request: NextRequest) {
     const importLogId = transaction()
 
     return NextResponse.json({
-      auto_set: autoSetCount,
+      auto_set: autoSet.length,
       pending_approval: pendingMatches.length,
       unmatched: unmatchedItems.length,
       errors,

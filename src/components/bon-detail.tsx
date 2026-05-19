@@ -26,7 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2 } from "lucide-react"
+import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 
@@ -73,6 +73,7 @@ interface BonDetail {
   receipt_time: string
   payment_method: string
   total_amount_cents: number
+  needs_reparse: number
   items: ReceiptItem[]
 }
 
@@ -82,6 +83,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [marking, setMarking] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -101,6 +103,19 @@ export function BonDetailView({ bonId }: { bonId: string }) {
     }
     load()
   }, [bonId])
+
+  const handleMarkReparse = async () => {
+    setMarking(true)
+    try {
+      const res = await fetch(`/api/bons/${bonId}/reparse`, { method: "POST" })
+      if (!res.ok) throw new Error("Markierung fehlgeschlagen")
+      setBon((prev) => prev ? { ...prev, needs_reparse: 1 } : prev)
+    } catch {
+      setError("Markierung fehlgeschlagen")
+    } finally {
+      setMarking(false)
+    }
+  }
 
   const handleDelete = async () => {
     setDeleting(true)
@@ -274,9 +289,30 @@ export function BonDetailView({ bonId }: { bonId: string }) {
         </div>
       </div>
 
-      {/* Delete action */}
-      <div className="flex justify-end">
-        <AlertDialog>
+      {/* Actions */}
+      <div className="flex justify-between items-center">
+        <div>
+          {bon.needs_reparse ? (
+            <Badge variant="outline" className="text-amber-600 border-amber-300 bg-amber-50 gap-1.5">
+              <RefreshCw className="h-3 w-3" />
+              Wird beim nächsten Sync neu eingelesen
+            </Badge>
+          ) : null}
+        </div>
+        <div className="flex gap-2">
+          {!bon.needs_reparse && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleMarkReparse}
+              disabled={marking}
+              className="text-gray-600"
+            >
+              {marking ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
+              Neu einlesen
+            </Button>
+          )}
+          <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50">
               <Trash2 className="h-4 w-4 mr-1.5" />
@@ -303,6 +339,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        </div>
       </div>
     </div>
   )

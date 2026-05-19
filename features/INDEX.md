@@ -33,7 +33,7 @@
 | PROJ-17 | Monatlicher Ausgaben-Langzeittrend | Approved | [PROJ-17-monatlicher-trend/spec.md](PROJ-17-monatlicher-trend/spec.md) | 2026-05-17 |
 | PROJ-18 | Paperless-ngx eBon Import | Approved | [PROJ-18-paperless-import/spec.md](PROJ-18-paperless-import/spec.md) | 2026-05-17 |
 | PROJ-19 | AVIS-Import & automatische Alias-Zuweisung | Approved | [PROJ-19-avis-alias-import/spec.md](PROJ-19-avis-alias-import/spec.md) | 2026-05-19 |
-| PROJ-20 | AVIS-Status & Alias-Review in Bon-Ansicht | In Progress | [PROJ-20-avis-bon-review/spec.md](PROJ-20-avis-bon-review/spec.md) | 2026-05-19 |
+| PROJ-20 | AVIS-Status & Alias-Review in Bon-Ansicht | Approved | [PROJ-20-avis-bon-review/spec.md](PROJ-20-avis-bon-review/spec.md) | 2026-05-19 |
 
 <!-- Add features above this line -->
 

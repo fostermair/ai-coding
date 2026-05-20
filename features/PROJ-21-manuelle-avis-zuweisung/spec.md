@@ -19,13 +19,16 @@
   - Extended `BonDetail` interface with `has_avis: boolean` flag
 - TypeScript compilation successful, no build errors
 
-### Backend (Pending)
-- Need to implement 3 new API endpoints:
-  - `GET /api/avis/matches/candidates?receipt_id=X`
-  - `GET /api/avis/suggestions?raw_name=X`
-  - `POST /api/avis/matches/manual-assign`
-- Need to modify import route to save unmatched items (confidence < 60%)
-- Need to add `match_source` column to `avis_matches` table
+### Backend (Completed)
+- ✅ Added `match_source` column to `avis_matches` table via migration
+- ✅ Extracted fuzzy matching utilities to `src/lib/avis-matching.ts` for reuse
+- ✅ Modified import route to save AVIS items with confidence < 60% as status='unmatched'
+- ✅ Implemented 3 new API endpoints:
+  - `GET /api/avis/matches/candidates?receipt_id=X` - returns all AVIS items for a receipt with assignment info
+  - `GET /api/avis/suggestions?raw_name=X` - returns best fuzzy match from global database
+  - `POST /api/avis/matches/manual-assign` - saves manual assignment with match_source tracking
+- ✅ Updated `GET /api/bons/[id]` to include `match_source` field and `has_avis` flag
+- ✅ All existing AVIS tests pass, build succeeds with no errors
 
 ---
 

@@ -36,11 +36,11 @@ export async function GET(
     // Fetch AVIS matches for this receipt
     const avisMatches = db
       .prepare(
-        `SELECT id, receipt_item_id, avis_item_name, avis_unit_price_cents, confidence, status
+        `SELECT id, receipt_item_id, avis_item_name, avis_unit_price_cents, confidence, status, match_source
          FROM avis_matches
          WHERE receipt_id = ?`
       )
-      .all(bonId) as Array<{ id: number; receipt_item_id: number | null; avis_item_name: string; avis_unit_price_cents: number; confidence: number; status: string }>
+      .all(bonId) as Array<{ id: number; receipt_item_id: number | null; avis_item_name: string; avis_unit_price_cents: number; confidence: number; status: string; match_source: string | null }>
 
     // Create a map of receipt_item_id -> avis_match
     const avisMatchMap = new Map<number, typeof avisMatches[0]>()
@@ -83,14 +83,19 @@ export async function GET(
               avisUnitPriceCents: avisMatch.avis_unit_price_cents,
               confidence: avisMatch.confidence,
               status: avisMatch.status,
+              matchSource: avisMatch.match_source,
             }
           : undefined,
       }
     })
 
+    // Check if this receipt has any AVIS matches (for showing edit button)
+    const hasAvis = avisMatches.length > 0
+
     return NextResponse.json({
       ...receipt,
       items: itemsWithDiscounts,
+      has_avis: hasAvis,
     })
   } catch (e) {
     console.error("[/api/bons/[id]] GET Error:", e)

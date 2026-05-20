@@ -147,4 +147,12 @@ function initSchema(db: Database.Database): void {
   if (!receiptCols.some((c) => c.name === "paperless_doc_id")) {
     db.exec("ALTER TABLE receipts ADD COLUMN paperless_doc_id INTEGER")
   }
+
+  // Migration: add match_source column to avis_matches
+  const avisMatchesCols = db
+    .prepare("PRAGMA table_info(avis_matches)")
+    .all() as Array<{ name: string }>
+  if (!avisMatchesCols.some((c) => c.name === "match_source")) {
+    db.exec("ALTER TABLE avis_matches ADD COLUMN match_source TEXT")
+  }
 }

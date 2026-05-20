@@ -85,6 +85,8 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [error, setError] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [marking, setMarking] = useState(false)
+  const [avisSyncing, setAvisSyncing] = useState(false)
+  const [avisSyncMessage, setAvisSyncMessage] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -119,6 +121,30 @@ export function BonDetailView({ bonId }: { bonId: string }) {
       setError(e instanceof Error ? e.message : "Sync fehlgeschlagen")
     } finally {
       setMarking(false)
+    }
+  }
+
+  const handleAvisSync = async () => {
+    setAvisSyncing(true)
+    setAvisSyncMessage(null)
+    try {
+      const res = await fetch("/api/paperless/avis-sync", { method: "POST" })
+      const data = await res.json()
+      if (!res.ok) {
+        setAvisSyncMessage(data.message || "AVIS-Sync fehlgeschlagen")
+      } else {
+        const count = data.imported ?? 0
+        setAvisSyncMessage(
+          count > 0 ? `${count} AVIS importiert` : (data.message || "Keine neuen AVISe gefunden")
+        )
+        // Bon neu laden, damit neue Aliases in der Tabelle erscheinen
+        const bonRes = await fetch(`/api/bons/${bonId}`)
+        if (bonRes.ok) setBon(await bonRes.json())
+      }
+    } catch {
+      setAvisSyncMessage("Netzwerkfehler")
+    } finally {
+      setAvisSyncing(false)
     }
   }
 
@@ -241,8 +267,8 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 {pfandLeergut.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell className="font-medium">
-                      {item.alias ?? (/^\d+$/.test(item.raw_name) ? "(unbekannt)" : item.raw_name)}
-                      {item.bonus_excluded && (
+                      {(item.alias || null) ?? (/^\d+$/.test(item.raw_name) ? "(unbekannt)" : item.raw_name)}
+                      {!!item.bonus_excluded && (
                         <span className="text-gray-400 ml-1">*</span>
                       )}
                     </TableCell>
@@ -295,22 +321,33 @@ export function BonDetailView({ bonId }: { bonId: string }) {
       </div>
 
       {/* Actions */}
-      <div className="flex justify-between items-center">
-        <div />
-        <div className="flex gap-2">
-          {bon.paperless_doc_id && (
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <div />
+          <div className="flex gap-2">
+            {bon.paperless_doc_id && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSync}
+                disabled={marking}
+                className="text-gray-600"
+              >
+                {marking ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
+                {marking ? "Wird synchronisiert …" : "Aus Paperless neu einlesen"}
+              </Button>
+            )}
             <Button
               variant="outline"
               size="sm"
-              onClick={handleSync}
-              disabled={marking}
+              onClick={handleAvisSync}
+              disabled={avisSyncing}
               className="text-gray-600"
             >
-              {marking ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
-              {marking ? "Wird synchronisiert …" : "Aus Paperless neu einlesen"}
+              {avisSyncing ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
+              {avisSyncing ? "AVIS wird abgeholt …" : "AVIS neu einlesen"}
             </Button>
-          )}
-          <AlertDialog>
+            <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50">
               <Trash2 className="h-4 w-4 mr-1.5" />
@@ -336,8 +373,13 @@ export function BonDetailView({ bonId }: { bonId: string }) {
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
-        </AlertDialog>
+            </AlertDialog>
+          </div>
         </div>
+
+        {avisSyncMessage && (
+          <p className="text-xs text-gray-500 text-right">{avisSyncMessage}</p>
+        )}
       </div>
     </div>
   )
@@ -414,7 +456,7 @@ function ItemRows({ item }: { item: ReceiptItem }) {
               </>
             )}
             <span>
-              {itemState.alias ?? (/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name)}
+              {(itemState.alias || null) ?? (/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name)}
               {avisMatch && avisMatch.status === "rejected" && (
                 <span className="text-gray-400 text-xs ml-1">(kein Match)</span>
               )}
@@ -425,7 +467,7 @@ function ItemRows({ item }: { item: ReceiptItem }) {
               {itemState.concessionaire_code}
             </Badge>
           )}
-          {itemState.bonus_excluded && (
+          {!!itemState.bonus_excluded && (
             <span className="text-gray-400 ml-1">*</span>
           )}
         </TableCell>

@@ -84,6 +84,8 @@ export function ImportZone() {
   const [avisQueue, setAvisQueue] = useState<QueueItem[]>([])
   const avisFileInputRef = useRef<HTMLInputElement>(null)
   const [isAvisSyncing, setIsAvisSyncing] = useState(false)
+  const [avisSyncResult, setAvisSyncResult] = useState<SyncResult | null>(null)
+  const [avisSyncError, setAvisSyncError] = useState<string | null>(null)
   const [avisDuplicateDialog, setAvisDuplicateDialog] = useState<{
     open: boolean
     itemId: string | null
@@ -367,16 +369,26 @@ export function ImportZone() {
 
   const handleAvisPaperlessSync = useCallback(async () => {
     setIsAvisSyncing(true)
+    setAvisSyncResult(null)
+    setAvisSyncError(null)
 
     try {
       const res = await fetch("/api/paperless/avis-sync", { method: "POST" })
       const data = await res.json()
 
       if (!res.ok) {
-        console.error("AVIS-Sync Error:", data.message || "Unbekannter Fehler")
+        setAvisSyncError(data.message || "Fehler beim AVIS-Sync")
+      } else {
+        setAvisSyncResult({
+          imported: data.imported ?? 0,
+          duplicates: data.duplicates ?? 0,
+          errors: data.errors ?? 0,
+          details: data.details ?? [],
+          message: data.message,
+        })
       }
-    } catch (e) {
-      console.error("AVIS-Sync Network Error:", e)
+    } catch {
+      setAvisSyncError("Netzwerkfehler – bitte versuche es später erneut")
     } finally {
       setIsAvisSyncing(false)
     }
@@ -597,6 +609,59 @@ export function ImportZone() {
                 </>
               )}
             </Button>
+
+            {avisSyncResult && (
+              <div className="mt-3 space-y-2">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                  <p className="text-sm font-medium text-green-800">AVIS Sync-Ergebnis</p>
+                  {avisSyncResult.imported + avisSyncResult.duplicates + avisSyncResult.errors > 0 ? (
+                    <p className="text-xs text-green-700 mt-1">
+                      {avisSyncResult.imported} importiert
+                      {avisSyncResult.duplicates > 0 && ` · ${avisSyncResult.duplicates} Duplikat${avisSyncResult.duplicates !== 1 ? "e" : ""}`}
+                      {avisSyncResult.errors > 0 && ` · ${avisSyncResult.errors} Fehler`}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-green-700 mt-1">{avisSyncResult.message || "Keine neuen AVISe gefunden"}</p>
+                  )}
+                </div>
+
+                {avisSyncResult.details.length > 0 && (
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {avisSyncResult.details.map((detail, i) => (
+                      <div
+                        key={i}
+                        className="text-xs p-2 rounded border"
+                        style={{
+                          borderColor:
+                            detail.status === "imported"
+                              ? "#dcfce7"
+                              : detail.status === "duplicate"
+                                ? "#fed7aa"
+                                : "#fee2e2",
+                          backgroundColor:
+                            detail.status === "imported"
+                              ? "#f0fdf4"
+                              : detail.status === "duplicate"
+                                ? "#fffbeb"
+                                : "#fef2f2",
+                        }}
+                      >
+                        <p className="font-medium text-gray-900">{detail.title}</p>
+                        {detail.message && (
+                          <p className="text-gray-600 mt-0.5">{detail.message}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {avisSyncError && (
+              <Alert variant="destructive">
+                <AlertDescription>{avisSyncError}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 

@@ -194,6 +194,8 @@ export async function POST(request: NextRequest) {
 
           // Get eBon items for matching
           interface EbonItem {
+            id: number
+            receipt_id: number
             raw_name: string
             quantity: number
             unit_price_cents: number
@@ -201,7 +203,7 @@ export async function POST(request: NextRequest) {
           }
           const ebonItems = db
             .prepare(
-              `SELECT raw_name, quantity, unit_price_cents,
+              `SELECT id, receipt_id, raw_name, quantity, unit_price_cents,
                       (SELECT receipt_date FROM receipts WHERE receipts.id = receipt_items.receipt_id) as date
                FROM receipt_items
                WHERE item_type = 'product'
@@ -222,8 +224,27 @@ export async function POST(request: NextRequest) {
           const setAliasStmt = db.prepare(
             "INSERT OR IGNORE INTO product_aliases (raw_name, alias, updated_at) VALUES (?, ?, datetime('now'))"
           )
+          const insertMatchStmt = db.prepare(
+            `INSERT OR IGNORE INTO avis_matches
+             (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`
+          )
+          let logId = isDuplicate ? existingImport!.id : 0
 
           const transaction = db.transaction(() => {
+            // Create import_log at start (only for new AVIS)
+            if (!isDuplicate) {
+              const logStmt = db.prepare(
+                "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+              )
+              const result = logStmt.run(
+                `[AVIS] ${parsed.orderNumber}`,
+                "success",
+                `Aliases automatisch gesetzt (via Paperless)`
+              )
+              logId = result.lastInsertRowid as number
+            }
+
             for (const avisItem of parsed.items) {
               if (avisItem.status !== "available") continue
 
@@ -261,19 +282,18 @@ export async function POST(request: NextRequest) {
                   setAliasStmt.run(bestMatch.raw_name, avisItem.name)
                   autoSetCount++
                 }
-              }
-            }
 
-            // Log import only for new AVIS (not duplicates)
-            if (!isDuplicate) {
-              const logStmt = db.prepare(
-                "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
-              )
-              logStmt.run(
-                `[AVIS] ${parsed.orderNumber}`,
-                "success",
-                `${autoSetCount} Aliases automatisch gesetzt (via Paperless)`
-              )
+                // Insert AVIS match for UI display
+                insertMatchStmt.run(
+                  bestMatch.receipt_id,
+                  bestMatch.id,
+                  logId,
+                  avisItem.name,
+                  avisItem.unitPrice,
+                  Math.round(bestConfidence),
+                  "auto_set"
+                )
+              }
             }
           })
 

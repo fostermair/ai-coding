@@ -7,6 +7,16 @@
 
 ## Implementation Notes
 
+### Post-Import UX Streamline (2026-05-20)
+
+Post-AVIS-import flow simplified to reduce friction:
+- ✅ Removed post-import confirmation dialog (AvisConfirmationDialog)
+- ✅ Removed success alerts after import
+- ✅ Import completes silently — queue card shows result inline
+- ✅ Items with 60-85% confidence (pending matches) are silently ignored post-import
+- ✅ Manual assignment workflow remains available only in Bon-Detailansicht (PROJ-20 review UI)
+- ✅ Paperless sync errors logged to console (no alert dialogs)
+
 ### Matching Algorithm Improvements (2026-05-19)
 
 To fix issues with name matching and price extraction, the AVIS matching logic has been significantly improved:

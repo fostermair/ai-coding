@@ -16,7 +16,6 @@ import {
 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
-import { AvisConfirmationDialog } from "@/components/avis-confirmation-dialog"
 import { AvisDuplicateDialog } from "@/components/avis-duplicate-dialog"
 
 type ImportStatus = "pending" | "uploading" | "success" | "duplicate" | "error"
@@ -85,12 +84,6 @@ export function ImportZone() {
   const [avisQueue, setAvisQueue] = useState<QueueItem[]>([])
   const avisFileInputRef = useRef<HTMLInputElement>(null)
   const [isAvisSyncing, setIsAvisSyncing] = useState(false)
-  const [avisConfirmationOpen, setAvisConfirmationOpen] = useState(false)
-  const [pendingAvisMatches, setPendingAvisMatches] = useState<MatchResult[]>([])
-  const [pendingAvisUnmatched, setPendingAvisUnmatched] = useState<
-    Array<{ name: string; price: number; date: string }>
-  >([])
-  const [avisImportLogId, setAvisImportLogId] = useState<string | null>(null)
   const [avisDuplicateDialog, setAvisDuplicateDialog] = useState<{
     open: boolean
     itemId: string | null
@@ -285,14 +278,6 @@ export function ImportZone() {
               total: `${avisResult.auto_set} automatisch, ${avisResult.pending_approval} zu überprüfen`,
             },
           })
-
-          // Show confirmation dialog if there are pending matches
-          if (avisResult.pending_approval > 0) {
-            setPendingAvisMatches(avisResult.pending_matches)
-            setPendingAvisUnmatched(avisResult.unmatched_items)
-            setAvisImportLogId(avisResult.import_log_id)
-            setAvisConfirmationOpen(true)
-          }
         }
       } catch {
         updateAvisItem(item.id, {
@@ -388,70 +373,15 @@ export function ImportZone() {
       const data = await res.json()
 
       if (!res.ok) {
-        alert("Fehler beim AVIS-Sync: " + (data.message || "Unbekannter Fehler"))
-      } else {
-        alert(
-          `AVIS-Sync abgeschlossen: ${data.auto_set} automatisch, ${data.pending_approval} zu überprüfen`
-        )
+        console.error("AVIS-Sync Error:", data.message || "Unbekannter Fehler")
       }
-    } catch {
-      alert("Netzwerkfehler – bitte versuche es später erneut")
+    } catch (e) {
+      console.error("AVIS-Sync Network Error:", e)
     } finally {
       setIsAvisSyncing(false)
     }
   }, [])
 
-  const handleAvisConfirmation = useCallback(
-    async (confirmedKeys: string[], rejectedKeys: string[]) => {
-      if (!avisImportLogId) return
-
-      // Map keys back to match objects
-      const confirmedMatches = confirmedKeys
-        .map((key) => {
-          const index = parseInt(key.split("-")[1])
-          return pendingAvisMatches[index]
-        })
-        .filter((m) => m)
-
-      const rejectedMatches = rejectedKeys
-        .map((key) => {
-          const index = parseInt(key.split("-")[1])
-          return pendingAvisMatches[index]
-        })
-        .filter((m) => m)
-
-      try {
-        const res = await fetch("/api/avis/confirm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            import_log_id: avisImportLogId,
-            confirmed_matches: confirmedMatches.map((m) => ({
-              ebonRawName: m.ebonRawName,
-              avisName: m.avisName,
-            })),
-            rejected_matches: rejectedMatches.map((m) => ({
-              ebonRawName: m.ebonRawName,
-              avisName: m.avisName,
-            })),
-          }),
-        })
-
-        if (!res.ok) {
-          alert("Fehler beim Speichern: " + (await res.text()))
-          return
-        }
-
-        setPendingAvisMatches([])
-        setPendingAvisUnmatched([])
-        setAvisImportLogId(null)
-        alert(`${confirmedMatches.length} Zuordnung(en) gespeichert`)
-      } catch (e) {
-        alert("Netzwerkfehler beim Speichern")
-      }
-    },
-    [avisImportLogId, pendingAvisMatches]
-  )
 
   return (
     <div className="space-y-4">
@@ -701,15 +631,6 @@ export function ImportZone() {
           </div>
         )}
       </div>
-
-      {/* AVIS Confirmation Dialog */}
-      <AvisConfirmationDialog
-        open={avisConfirmationOpen}
-        onOpenChange={setAvisConfirmationOpen}
-        matches={pendingAvisMatches}
-        unmatched={pendingAvisUnmatched}
-        onConfirm={handleAvisConfirmation}
-      />
 
       {/* AVIS Duplicate Dialog */}
       <AvisDuplicateDialog

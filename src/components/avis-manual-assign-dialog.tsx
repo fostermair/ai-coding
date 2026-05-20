@@ -60,16 +60,24 @@ export function AvisManualAssignDialog({
   const [suggestion, setSuggestion] = useState<Suggestion | null>(null)
   const [loadingCandidates, setLoadingCandidates] = useState(false)
   const [loadingSuggestion, setLoadingSuggestion] = useState(false)
+
+  // Global search states
+  const [globalSearchText, setGlobalSearchText] = useState(rawName)
+  const [globalResults, setGlobalResults] = useState<Suggestion[]>([])
+  const [loadingGlobal, setLoadingGlobal] = useState(false)
+  const [selectedGlobal, setSelectedGlobal] = useState<Suggestion | null>(null)
+  const [globalDebounceTimer, setGlobalDebounceTimer] = useState<NodeJS.Timeout | null>(null)
+
   const [error, setError] = useState<string | null>(null)
   const [assigning, setAssigning] = useState(false)
 
-  // Load candidates and suggestion when dialog opens
+  // Load candidates and initial global suggestions when dialog opens
   useEffect(() => {
     if (!open) return
 
     const loadData = async () => {
       setLoadingCandidates(true)
-      setLoadingSuggestion(true)
+      setLoadingGlobal(true)
       setError(null)
 
       try {
@@ -89,23 +97,63 @@ export function AvisManualAssignDialog({
       }
 
       try {
-        // Load suggestion from global database
-        const suggRes = await fetch(
-          `/api/avis/suggestions?raw_name=${encodeURIComponent(rawName)}`
+        // Load initial global suggestions (top 10 fuzzy matches)
+        const globalRes = await fetch(
+          `/api/avis/suggestions?raw_name=${encodeURIComponent(rawName)}&limit=10`
         )
-        if (suggRes.ok) {
-          const data = await suggRes.json()
-          setSuggestion(data.suggestion)
+        if (globalRes.ok) {
+          const data = await globalRes.json()
+          setGlobalResults(data.suggestions || [])
+          // Also set singular suggestion for backward compatibility if exists
+          if (data.suggestions?.length > 0) {
+            setSuggestion(data.suggestions[0])
+          }
         }
       } catch (e) {
-        console.error("Failed to load suggestion:", e)
+        console.error("Failed to load global suggestions:", e)
       } finally {
-        setLoadingSuggestion(false)
+        setLoadingGlobal(false)
       }
     }
 
     loadData()
   }, [open, receiptId, rawName])
+
+  // Debounced global search
+  useEffect(() => {
+    if (!open) return
+
+    // Clear existing timer
+    if (globalDebounceTimer) {
+      clearTimeout(globalDebounceTimer)
+    }
+
+    // Set up new timer
+    const timer = setTimeout(async () => {
+      if (!globalSearchText.trim()) return
+
+      setLoadingGlobal(true)
+      try {
+        const globalRes = await fetch(
+          `/api/avis/suggestions?raw_name=${encodeURIComponent(rawName)}&search=${encodeURIComponent(globalSearchText)}&limit=20`
+        )
+        if (globalRes.ok) {
+          const data = await globalRes.json()
+          setGlobalResults(data.suggestions || [])
+        }
+      } catch (e) {
+        console.error("Failed to search global suggestions:", e)
+      } finally {
+        setLoadingGlobal(false)
+      }
+    }, 300) // 300ms debounce
+
+    setGlobalDebounceTimer(timer)
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [globalSearchText, open, rawName])
 
   // Filter candidates by search text
   const filteredCandidates = candidates.filter((c) =>
@@ -114,33 +162,35 @@ export function AvisManualAssignDialog({
 
   const handleSelectCandidate = (candidate: Candidate) => {
     setSelectedCandidate(candidate)
+    setSelectedGlobal(null)
+  }
+
+  const handleSelectGlobal = (result: Suggestion) => {
+    setSelectedGlobal(result)
+    setSelectedCandidate(null)
   }
 
   const handleAssign = async () => {
-    if (!selectedCandidate) return
-
-    setAssigning(true)
-    try {
-      await onAssign(selectedCandidate.avis_item_name, "avis_document")
-      onOpenChange(false)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Fehler beim Zuweisen")
-    } finally {
-      setAssigning(false)
-    }
-  }
-
-  const handleAssignSuggestion = async () => {
-    if (!suggestion) return
-
-    setAssigning(true)
-    try {
-      await onAssign(suggestion.avis_item_name, "global_database")
-      onOpenChange(false)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Fehler beim Zuweisen")
-    } finally {
-      setAssigning(false)
+    if (selectedCandidate) {
+      setAssigning(true)
+      try {
+        await onAssign(selectedCandidate.avis_item_name, "avis_document")
+        onOpenChange(false)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Fehler beim Zuweisen")
+      } finally {
+        setAssigning(false)
+      }
+    } else if (selectedGlobal) {
+      setAssigning(true)
+      try {
+        await onAssign(selectedGlobal.avis_item_name, "global_database")
+        onOpenChange(false)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Fehler beim Zuweisen")
+      } finally {
+        setAssigning(false)
+      }
     }
   }
 
@@ -234,49 +284,68 @@ export function AvisManualAssignDialog({
 
           <Separator />
 
-          {/* Suggestion from global database */}
+          {/* Global database search */}
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-2">
-              Vorschlag aus Gesamtdatenbank
+              Suche in Gesamtdatenbank
             </h3>
 
-            {loadingSuggestion ? (
+            {/* Search input */}
+            <div className="relative mb-3">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Namen suchen..."
+                value={globalSearchText}
+                onChange={(e) => {
+                  setGlobalSearchText(e.target.value)
+                  setSelectedGlobal(null)
+                }}
+                className="pl-8 h-8 text-sm"
+              />
+            </div>
+
+            {/* Global results list */}
+            {loadingGlobal ? (
               <div className="flex items-center justify-center py-6">
                 <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
               </div>
-            ) : suggestion && suggestion.score >= 60 ? (
-              <Card className="border-blue-200 bg-blue-50">
-                <CardContent className="pt-3 pb-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Zap className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {suggestion.avis_item_name}
-                        </p>
-                      </div>
-                      <p className="text-xs text-gray-600">
-                        Ähnlichkeit: {suggestion.score}%
-                      </p>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={handleAssignSuggestion}
-                      disabled={assigning}
-                      className="flex-shrink-0"
+            ) : globalResults.length > 0 ? (
+              <ScrollArea className="h-40 border rounded-lg bg-white">
+                <div className="space-y-1 p-3">
+                  {globalResults.map((result, index) => (
+                    <div
+                      key={`${result.avis_item_name}-${index}`}
+                      onClick={() => handleSelectGlobal(result)}
+                      className={`p-2 rounded cursor-pointer transition-colors ${
+                        selectedGlobal?.avis_item_name === result.avis_item_name &&
+                        selectedGlobal?.score === result.score
+                          ? "bg-blue-100 border border-blue-300"
+                          : "hover:bg-gray-50 border border-transparent"
+                      }`}
                     >
-                      {assigning ? (
-                        <Loader2 className="h-3 w-3 animate-spin mr-1.5" />
-                      ) : null}
-                      Übernehmen
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1">
+                            {index === 0 && (
+                              <Zap className="h-3 w-3 text-blue-600 flex-shrink-0" />
+                            )}
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {result.avis_item_name}
+                            </p>
+                          </div>
+                          <p className="text-xs text-gray-600 mt-0.5">
+                            {result.score}% Ähnlichkeit
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
             ) : (
               <div className="text-center py-6 text-sm text-gray-500">
-                Kein Vorschlag verfügbar
+                Kein Treffer
               </div>
             )}
           </div>
@@ -294,7 +363,7 @@ export function AvisManualAssignDialog({
           </Button>
           <Button
             onClick={handleAssign}
-            disabled={!selectedCandidate || assigning || isLoading}
+            disabled={(!selectedCandidate && !selectedGlobal) || assigning || isLoading}
             className="bg-blue-600 hover:bg-blue-700"
           >
             {assigning ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}

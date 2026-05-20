@@ -6,6 +6,9 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const rawName = searchParams.get("raw_name")
+    const searchText = searchParams.get("search")
+    const limitStr = searchParams.get("limit")
+    const limit = limitStr ? Math.min(parseInt(limitStr, 10), 100) : 1
 
     if (!rawName || rawName.trim().length === 0) {
       return NextResponse.json({ message: "raw_name erforderlich" }, { status: 400 })
@@ -20,40 +23,42 @@ export async function GET(request: NextRequest) {
       import_log_id: number
     }
 
-    const allAvisItems = db
-      .prepare(
-        `SELECT DISTINCT avis_item_name, receipt_id, import_log_id
-         FROM avis_matches
-         ORDER BY avis_item_name`
-      )
-      .all() as AvisItemRow[]
+    // Apply text filter if search parameter provided
+    let query = `SELECT DISTINCT avis_item_name, receipt_id, import_log_id FROM avis_matches`
+    const params: (string | number)[] = []
+
+    if (searchText && searchText.trim().length > 0) {
+      query += ` WHERE avis_item_name LIKE ?`
+      params.push(`%${searchText}%`)
+    }
+
+    query += ` ORDER BY avis_item_name`
+
+    const allAvisItems = db.prepare(query).all(...params) as AvisItemRow[]
 
     // Compute fuzzy match scores for each item
-    let bestScore = 0
-    let bestMatch: AvisItemRow | null = null
+    const scored = allAvisItems.map((item) => ({
+      ...item,
+      score: computeMatchScore(item.avis_item_name, rawName),
+    }))
 
-    for (const item of allAvisItems) {
-      const score = computeMatchScore(item.avis_item_name, rawName)
-      if (score > bestScore) {
-        bestScore = score
-        bestMatch = item
-      }
-    }
+    // Sort by score descending, then by name
+    scored.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score
+      return a.avis_item_name.localeCompare(b.avis_item_name)
+    })
 
-    // Only return a suggestion if score is >= 60
-    if (bestMatch && bestScore >= 60) {
-      return NextResponse.json({
-        suggestion: {
-          avis_item_name: bestMatch.avis_item_name,
-          score: Math.round(bestScore),
-          receipt_id: bestMatch.receipt_id,
-          import_log_id: bestMatch.import_log_id,
-        },
-      })
-    }
+    // Take top results
+    const suggestions = scored
+      .slice(0, limit)
+      .map((item) => ({
+        avis_item_name: item.avis_item_name,
+        score: Math.round(item.score),
+        receipt_id: item.receipt_id,
+        import_log_id: item.import_log_id,
+      }))
 
-    // No good match found
-    return NextResponse.json({ suggestion: null })
+    return NextResponse.json({ suggestions })
   } catch (e) {
     console.error("[/api/avis/suggestions] Error:", e)
     return NextResponse.json({ message: "Interner Fehler" }, { status: 500 })

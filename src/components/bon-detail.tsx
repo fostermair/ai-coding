@@ -510,12 +510,7 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
   }
 
   const avisMatch = itemState.avis_match
-  const showEditButton =
-    hasAvis && avisMatch && avisMatch.status === "rejected"
-      ? true
-      : !avisMatch && hasAvis
-        ? true
-        : false
+  const showEditButton = avisMatch?.status === "rejected" || !avisMatch
 
   return (
     <>

@@ -19,12 +19,10 @@ export async function GET(request: NextRequest) {
     // Get all unique AVIS item names from the entire avis_matches table
     interface AvisItemRow {
       avis_item_name: string
-      receipt_id: number
-      import_log_id: number
     }
 
     // Apply text filter if search parameter provided
-    let query = `SELECT DISTINCT avis_item_name, receipt_id, import_log_id FROM avis_matches`
+    let query = `SELECT DISTINCT avis_item_name FROM avis_matches`
     const params: (string | number)[] = []
 
     if (searchText && searchText.trim().length > 0) {
@@ -54,8 +52,6 @@ export async function GET(request: NextRequest) {
       .map((item) => ({
         avis_item_name: item.avis_item_name,
         score: Math.round(item.score),
-        receipt_id: item.receipt_id,
-        import_log_id: item.import_log_id,
       }))
 
     return NextResponse.json({ suggestions })

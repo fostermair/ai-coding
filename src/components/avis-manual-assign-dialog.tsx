@@ -31,8 +31,6 @@ interface Candidate {
 interface Suggestion {
   avis_item_name: string
   score: number
-  receipt_id?: number
-  import_log_id?: number
 }
 
 interface AvisManualAssignDialogProps {
@@ -315,7 +313,7 @@ export function AvisManualAssignDialog({
                 <div className="space-y-1 p-3">
                   {globalResults.map((result, index) => (
                     <div
-                      key={`${result.avis_item_name}-${index}`}
+                      key={result.avis_item_name}
                       onClick={() => handleSelectGlobal(result)}
                       className={`p-2 rounded cursor-pointer transition-colors ${
                         selectedGlobal?.avis_item_name === result.avis_item_name &&

@@ -57,7 +57,39 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json({ candidates: candidatesWithAssignment })
+    // Deduplicate by avis_item_name: prefer assigned items (receipt_item_id != null),
+    // then highest confidence
+    interface Candidate {
+      id: number
+      avis_item_name: string
+      avis_unit_price_cents: number
+      confidence: number
+      status: string
+      import_log_id: number
+      receipt_item_id: number | null
+      assigned_to_raw_name: string | null
+    }
+
+    const byName = new Map<string, Candidate>()
+    for (const c of candidatesWithAssignment) {
+      const existing = byName.get(c.avis_item_name)
+      if (!existing) {
+        byName.set(c.avis_item_name, c)
+      } else {
+        // Score: prefer assigned (receipt_item_id != null), then by confidence
+        const existingScore = (existing.receipt_item_id !== null ? 1000 : 0) + existing.confidence
+        const newScore = (c.receipt_item_id !== null ? 1000 : 0) + c.confidence
+        if (newScore > existingScore) {
+          byName.set(c.avis_item_name, c)
+        }
+      }
+    }
+
+    const deduplicatedCandidates = Array.from(byName.values()).sort((a, b) =>
+      a.avis_item_name.localeCompare(b.avis_item_name)
+    )
+
+    return NextResponse.json({ candidates: deduplicatedCandidates })
   } catch (e) {
     console.error("[/api/avis/matches/candidates] Error:", e)
     return NextResponse.json({ message: "Interner Fehler" }, { status: 500 })

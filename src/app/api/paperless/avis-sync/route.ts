@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
     const token = process.env.PAPERLESS_TOKEN
     const avisTag = process.env.PAPERLESS_AVIS_TAG
     const avisCorrespondentId = process.env.PAPERLESS_AVIS_CORRESPONDENT_ID
+    const avisDocumentTypeId = process.env.PAPERLESS_AVIS_DOCUMENT_TYPE_ID
 
     if (!baseUrl || !token) {
       return NextResponse.json(
@@ -83,6 +84,9 @@ export async function POST(request: NextRequest) {
     }
     if (avisCorrespondentId) {
       documentUrl += `&correspondent__id=${avisCorrespondentId}`
+    }
+    if (avisDocumentTypeId) {
+      documentUrl += `&document_type__id=${avisDocumentTypeId}`
     }
 
     // Fetch documents

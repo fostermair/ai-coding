@@ -35,7 +35,9 @@
 | PROJ-19 | AVIS-Import & automatische Alias-Zuweisung | Approved | [PROJ-19-avis-alias-import/spec.md](PROJ-19-avis-alias-import/spec.md) | 2026-05-19 |
 | PROJ-20 | AVIS-Status & Alias-Review in Bon-Ansicht | Approved | [PROJ-20-avis-bon-review/spec.md](PROJ-20-avis-bon-review/spec.md) | 2026-05-19 |
 | PROJ-21 | Manuelle AVIS-Zuweisung für nicht gematchte Artikel | Approved | [PROJ-21-manuelle-avis-zuweisung/spec.md](PROJ-21-manuelle-avis-zuweisung/spec.md) | 2026-05-20 |
+| PROJ-22 | Konfigurations-Menü (AVIS-DB & Alias löschen) | Approved | [PROJ-22-konfigurations-menu/spec.md](PROJ-22-konfigurations-menu/spec.md) | 2026-05-20 |
+| PROJ-23 | Multi-Supermarkt eBon Import (Lidl & Kaufland) | Approved | [PROJ-23-multi-supermarkt-import/spec.md](PROJ-23-multi-supermarkt-import/spec.md) | 2026-05-20 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-22
+## Next Available ID: PROJ-24

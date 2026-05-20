@@ -28,6 +28,7 @@ export interface ParsedReceipt {
   paymentMethod: string
   totalAmountCents: number
   items: ParsedItem[]
+  storeChain: "rewe" | "lidl" | "kaufland"
 }
 
 // "5,59" → 559  |  "-2,80" → -280
@@ -81,6 +82,7 @@ export function parseReweEbon(text: string): ParsedReceipt {
     paymentMethod,
     totalAmountCents,
     items,
+    storeChain: "rewe",
   }
 }
 

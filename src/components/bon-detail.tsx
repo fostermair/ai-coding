@@ -32,6 +32,31 @@ import { formatEuro, formatDate } from "@/lib/format"
 import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
 import { Edit } from "lucide-react"
 
+function ChainBadge({ chain }: { chain?: string }) {
+  if (!chain || chain === "rewe") {
+    return (
+      <Badge variant="secondary" className="bg-red-100 text-red-700 font-normal text-xs">
+        REWE
+      </Badge>
+    )
+  }
+  if (chain === "lidl") {
+    return (
+      <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 font-normal text-xs">
+        Lidl
+      </Badge>
+    )
+  }
+  if (chain === "kaufland") {
+    return (
+      <Badge variant="secondary" className="bg-gray-800 text-white font-normal text-xs">
+        Kaufland
+      </Badge>
+    )
+  }
+  return null
+}
+
 interface Discount {
   id: number
   description: string
@@ -78,6 +103,7 @@ interface BonDetail {
   total_amount_cents: number
   needs_reparse: number
   paperless_doc_id: number | null
+  store_chain?: string
   has_avis: boolean
   items: ReceiptItem[]
 }
@@ -129,10 +155,11 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   }
 
   const handleAvisSync = async () => {
+    if (!bon) return
     setAvisSyncing(true)
     setAvisSyncMessage(null)
     try {
-      const res = await fetch("/api/paperless/avis-sync", { method: "POST" })
+      const res = await fetch(`/api/paperless/avis-sync?receipt_id=${bon.id}`, { method: "POST" })
       const data = await res.json()
       if (!res.ok) {
         setAvisSyncMessage(data.message || "AVIS-Sync fehlgeschlagen")
@@ -214,9 +241,12 @@ export function BonDetailView({ bonId }: { bonId: string }) {
         <CardContent className="py-5 px-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
-                {bon.store_name}
-              </h2>
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {bon.store_name}
+                </h2>
+                <ChainBadge chain={bon.store_chain} />
+              </div>
               {bon.store_address && (
                 <p className="text-sm text-gray-500 mt-0.5">{bon.store_address}</p>
               )}
@@ -244,12 +274,15 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="w-full">Produkt</TableHead>
+                <TableHead className="w-1/2">Produkt</TableHead>
+                <TableHead className="w-1/2">Alias</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
                 <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
                 <TableHead className="text-right">Gesamt</TableHead>
                 <TableHead className="text-center w-12">MwSt</TableHead>
-                <TableHead className="text-center w-8">AVIS</TableHead>
+                {bon.store_chain === "rewe" && (
+                  <TableHead className="text-center w-8">AVIS</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -259,6 +292,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                   item={item}
                   receiptId={bon.id}
                   hasAvis={bon.has_avis}
+                  storeChain={bon.store_chain}
                   onItemUpdate={() => {
                     // Reload bon to refresh item states
                     fetch(`/api/bons/${bonId}`).then((res) => {
@@ -352,16 +386,18 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 {marking ? "Wird synchronisiert …" : "Aus Paperless neu einlesen"}
               </Button>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleAvisSync}
-              disabled={avisSyncing}
-              className="text-gray-600"
-            >
-              {avisSyncing ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
-              {avisSyncing ? "AVIS wird abgeholt …" : "AVIS neu einlesen"}
-            </Button>
+            {bon.store_chain === "rewe" && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAvisSync}
+                disabled={avisSyncing}
+                className="text-gray-600"
+              >
+                {avisSyncing ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
+                {avisSyncing ? "AVIS wird abgeholt …" : "AVIS neu einlesen"}
+              </Button>
+            )}
             <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50">
@@ -404,13 +440,18 @@ interface ItemRowsProps {
   item: ReceiptItem
   receiptId: number
   hasAvis: boolean
+  storeChain?: string
   onItemUpdate: () => void
 }
 
-function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
+function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRowsProps) {
+  const TABLE_COLUMNS = storeChain === "rewe" ? 7 : 6 // Produkt, Alias, Menge (hidden sm), Einzelpreis (hidden sm), Gesamt, MwSt, [AVIS]
+
   const [confirming, setConfirming] = useState(false)
   const [rejecting, setRejecting] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [deleteAliasDialogOpen, setDeleteAliasDialogOpen] = useState(false)
+  const [deletingAlias, setDeletingAlias] = useState(false)
   const [itemState, setItemState] = useState<ReceiptItem>(item)
 
   const handleConfirm = async () => {
@@ -509,6 +550,31 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
     }
   }
 
+  const handleDeleteAlias = async () => {
+    if (!itemState.alias) return
+    setDeletingAlias(true)
+    try {
+      const res = await fetch(`/api/produkte/${encodeURIComponent(itemState.raw_name)}/alias`, {
+        method: "DELETE",
+      })
+      if (!res.ok) throw new Error("Löschen fehlgeschlagen")
+
+      // Update local state — Alias entfernen
+      setItemState((prev) => ({
+        ...prev,
+        alias: null,
+      }))
+
+      // Trigger parent reload
+      onItemUpdate()
+      setDeleteAliasDialogOpen(false)
+    } catch (e) {
+      console.error("Delete alias failed:", e)
+    } finally {
+      setDeletingAlias(false)
+    }
+  }
+
   const avisMatch = itemState.avis_match
   const showEditButton = avisMatch?.status === "rejected" || !avisMatch
 
@@ -518,22 +584,23 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
         <TableCell className="font-medium">
           <div className="flex items-center gap-2">
             {/* AVIS match status indicator */}
-            {avisMatch && (
-              <>
-                {avisMatch.status === "confirmed" || avisMatch.status === "auto_set" ? (
-                  <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
-                ) : avisMatch.status === "rejected" ? (
-                  <XCircle className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                ) : null}
-              </>
-            )}
+            {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
+              <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+            ) : avisMatch?.status === "rejected" ? (
+              <XCircle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+            ) : itemState.alias ? (
+              <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+            ) : null}
             <span>
-              {(itemState.alias || null) ?? (/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name)}
+              {/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name}
+              {!!itemState.bonus_excluded && (
+                <span className="text-gray-400 text-xs ml-0.5">*</span>
+              )}
               {avisMatch && avisMatch.status === "rejected" && (
                 <span className="text-gray-400 text-xs ml-1">(kein Match)</span>
               )}
             </span>
-            {showEditButton && (
+            {storeChain === "rewe" && showEditButton && (
               <Button
                 size="sm"
                 variant="ghost"
@@ -550,9 +617,22 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
               {itemState.concessionaire_code}
             </Badge>
           )}
-          {!!itemState.bonus_excluded && (
-            <span className="text-gray-400 ml-1">*</span>
-          )}
+        </TableCell>
+        <TableCell className="text-sm text-gray-500">
+          <div className="flex items-center gap-2">
+            <span>{itemState.alias ?? ""}</span>
+            {itemState.alias && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-5 w-5 p-0 text-gray-500 hover:text-red-600"
+                onClick={() => setDeleteAliasDialogOpen(true)}
+                title="Alias löschen"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </TableCell>
         <TableCell className="text-right hidden sm:table-cell">
           {itemState.quantity > 1 ? `${itemState.quantity} Stk` : ""}
@@ -568,31 +648,33 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
             {itemState.tax_code}
           </Badge>
         </TableCell>
-        <TableCell className="text-center text-xs">
-          {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
-            <div className="flex items-center justify-center gap-1">
-              <span className="text-green-600 font-medium">✓</span>
-              {avisMatch.status === "confirmed" && avisMatch.match_source === "avis_document" && (
-                <Badge variant="outline" className="text-xs font-normal bg-green-50 border-green-200 text-green-700">
-                  AVIS
-                </Badge>
-              )}
-              {avisMatch.status === "confirmed" && avisMatch.match_source === "global_database" && (
-                <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
-                  Global
-                </Badge>
-              )}
-            </div>
-          ) : avisMatch?.status === "rejected" ? (
-            <span className="text-gray-400">⊗</span>
-          ) : null}
-        </TableCell>
+        {storeChain === "rewe" && (
+          <TableCell className="text-center text-xs">
+            {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
+              <div className="flex items-center justify-center gap-1">
+                <span className="text-green-600 font-medium">✓</span>
+                {avisMatch.status === "confirmed" && avisMatch.match_source === "avis_document" && (
+                  <Badge variant="outline" className="text-xs font-normal bg-green-50 border-green-200 text-green-700">
+                    AVIS
+                  </Badge>
+                )}
+                {avisMatch.status === "confirmed" && avisMatch.match_source === "global_database" && (
+                  <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
+                    Global
+                  </Badge>
+                )}
+              </div>
+            ) : avisMatch?.status === "rejected" ? (
+              <span className="text-gray-400">⊗</span>
+            ) : null}
+          </TableCell>
+        )}
       </TableRow>
 
       {/* AVIS match pending review row */}
-      {avisMatch && avisMatch.status === "pending" && (
+      {storeChain === "rewe" && avisMatch && avisMatch.status === "pending" && (
         <TableRow className="bg-blue-50 hover:bg-blue-50">
-          <TableCell colSpan={6} className="py-3">
+          <TableCell colSpan={TABLE_COLUMNS} className="py-3">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">
@@ -634,6 +716,7 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
           <TableCell className="pl-8 text-sm text-red-500 py-1">
             ↳ {d.description}
           </TableCell>
+          <TableCell />
           <TableCell className="hidden sm:table-cell" />
           <TableCell className="hidden sm:table-cell" />
           <TableCell className="text-right tabular-nums text-red-500 py-1 text-sm">
@@ -647,6 +730,28 @@ function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
           <TableCell />
         </TableRow>
       ))}
+
+      {/* Delete alias confirmation dialog */}
+      <AlertDialog open={deleteAliasDialogOpen} onOpenChange={setDeleteAliasDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Alias löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Der Alias "{itemState.alias}" wird gelöscht. Der Artikel wird wieder mit dem Namen "{itemState.raw_name}" angezeigt.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAlias}
+              disabled={deletingAlias}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {deletingAlias ? "Löscht …" : "Alias löschen"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Manual assign dialog */}
       <AvisManualAssignDialog

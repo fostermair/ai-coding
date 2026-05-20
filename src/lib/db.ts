@@ -155,4 +155,10 @@ function initSchema(db: Database.Database): void {
   if (!avisMatchesCols.some((c) => c.name === "match_source")) {
     db.exec("ALTER TABLE avis_matches ADD COLUMN match_source TEXT")
   }
+
+  // Migration: add store_chain column to receipts for multi-supermarket support
+  if (!receiptCols.some((c) => c.name === "store_chain")) {
+    db.exec("ALTER TABLE receipts ADD COLUMN store_chain TEXT NOT NULL DEFAULT 'rewe'")
+    db.exec("CREATE INDEX IF NOT EXISTS idx_receipts_store_chain ON receipts(store_chain)")
+  }
 }

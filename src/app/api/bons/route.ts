@@ -42,6 +42,7 @@ export async function GET(request: NextRequest) {
           r.market_nr,
           r.total_amount_cents,
           r.payment_method,
+          r.store_chain,
           (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count,
           CASE
             WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id) = 0

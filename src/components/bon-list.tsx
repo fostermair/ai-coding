@@ -29,6 +29,7 @@ interface BonSummary {
   item_count: number
   total_amount_cents: number
   payment_method: string
+  store_chain?: string
   avis_status?: "complete" | "pending" | "no_matches" | null
 }
 
@@ -36,6 +37,31 @@ interface BonsResponse {
   bons: BonSummary[]
   total_count: number
   total_spent_cents: number
+}
+
+function ChainBadge({ chain }: { chain?: string }) {
+  if (!chain || chain === "rewe") {
+    return (
+      <Badge variant="secondary" className="bg-red-100 text-red-700 font-normal text-xs">
+        REWE
+      </Badge>
+    )
+  }
+  if (chain === "lidl") {
+    return (
+      <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 font-normal text-xs">
+        Lidl
+      </Badge>
+    )
+  }
+  if (chain === "kaufland") {
+    return (
+      <Badge variant="secondary" className="bg-gray-800 text-white font-normal text-xs">
+        Kaufland
+      </Badge>
+    )
+  }
+  return null
 }
 
 export function BonList() {
@@ -115,7 +141,7 @@ export function BonList() {
           Noch keine Bons importiert
         </h2>
         <p className="text-sm text-gray-400 mb-6 max-w-sm">
-          Importiere deine ersten REWE eBon PDFs um die Auswertung zu starten.
+          Importiere deine ersten eBon PDFs (REWE, Lidl, Kaufland) um die Auswertung zu starten.
         </p>
         <Button asChild>
           <Link href="/import">Ersten eBon importieren</Link>
@@ -209,6 +235,7 @@ export function BonList() {
                 <TableHead>Datum</TableHead>
                 <TableHead className="hidden sm:table-cell">Uhrzeit</TableHead>
                 <TableHead>Markt</TableHead>
+                <TableHead>Kette</TableHead>
                 <TableHead className="hidden md:table-cell">Bon-Nr.</TableHead>
                 <TableHead className="text-right">Artikel</TableHead>
                 <TableHead className="text-right">Summe</TableHead>
@@ -232,6 +259,9 @@ export function BonList() {
                   <TableCell className="max-w-[200px] truncate">
                     {bon.store_name}
                   </TableCell>
+                  <TableCell>
+                    <ChainBadge chain={bon.store_chain} />
+                  </TableCell>
                   <TableCell className="hidden md:table-cell text-gray-500">
                     {bon.receipt_nr}
                   </TableCell>
@@ -245,7 +275,7 @@ export function BonList() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-center">
-                    <AvisStatusBadge status={bon.avis_status} />
+                    {bon.store_chain === "rewe" && <AvisStatusBadge status={bon.avis_status} />}
                   </TableCell>
                 </TableRow>
               ))}

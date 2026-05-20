@@ -29,6 +29,8 @@ import {
 import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
+import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
+import { Edit } from "lucide-react"
 
 interface Discount {
   id: number
@@ -42,7 +44,8 @@ interface AvisMatch {
   avisItemName: string
   avisUnitPriceCents: number
   confidence: number
-  status: "pending" | "confirmed" | "rejected" | "auto_set"
+  status: "pending" | "confirmed" | "rejected" | "auto_set" | "unmatched"
+  match_source?: "avis_document" | "global_database" | null
 }
 
 interface ReceiptItem {
@@ -75,6 +78,7 @@ interface BonDetail {
   total_amount_cents: number
   needs_reparse: number
   paperless_doc_id: number | null
+  has_avis: boolean
   items: ReceiptItem[]
 }
 
@@ -250,7 +254,18 @@ export function BonDetailView({ bonId }: { bonId: string }) {
             </TableHeader>
             <TableBody>
               {products.map((item) => (
-                <ItemRows key={item.id} item={item} />
+                <ItemRows
+                  key={item.id}
+                  item={item}
+                  receiptId={bon.id}
+                  hasAvis={bon.has_avis}
+                  onItemUpdate={() => {
+                    // Reload bon to refresh item states
+                    fetch(`/api/bons/${bonId}`).then((res) => {
+                      if (res.ok) res.json().then((data) => setBon(data))
+                    })
+                  }}
+                />
               ))}
             </TableBody>
           </Table>
@@ -385,9 +400,17 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   )
 }
 
-function ItemRows({ item }: { item: ReceiptItem }) {
+interface ItemRowsProps {
+  item: ReceiptItem
+  receiptId: number
+  hasAvis: boolean
+  onItemUpdate: () => void
+}
+
+function ItemRows({ item, receiptId, hasAvis, onItemUpdate }: ItemRowsProps) {
   const [confirming, setConfirming] = useState(false)
   const [rejecting, setRejecting] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [itemState, setItemState] = useState<ReceiptItem>(item)
 
   const handleConfirm = async () => {
@@ -438,7 +461,61 @@ function ItemRows({ item }: { item: ReceiptItem }) {
     }
   }
 
+  const handleManualAssign = async (
+    avisItemName: string,
+    matchSource: "avis_document" | "global_database"
+  ) => {
+    try {
+      const res = await fetch("/api/avis/matches/manual-assign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receipt_item_id: itemState.id,
+          receipt_id: receiptId,
+          avis_item_name: avisItemName,
+          match_source: matchSource,
+          existing_match_id: itemState.avis_match?.matchId,
+        }),
+      })
+      if (!res.ok) throw new Error("Zuweisung fehlgeschlagen")
+
+      // Update local state
+      setItemState((prev) => ({
+        ...prev,
+        alias: avisItemName,
+        avis_match: prev.avis_match
+          ? {
+              ...prev.avis_match,
+              avisItemName,
+              status: "confirmed",
+              match_source: matchSource,
+            }
+          : {
+              matchId: 0, // Will be replaced after refetch
+              avisItemName,
+              avisUnitPriceCents: 0,
+              confidence: 0,
+              status: "confirmed",
+              match_source: matchSource,
+            },
+      }))
+
+      // Trigger parent reload
+      onItemUpdate()
+      setEditDialogOpen(false)
+    } catch (e) {
+      console.error("Manual assign failed:", e)
+      throw e
+    }
+  }
+
   const avisMatch = itemState.avis_match
+  const showEditButton =
+    hasAvis && avisMatch && avisMatch.status === "rejected"
+      ? true
+      : !avisMatch && hasAvis
+        ? true
+        : false
 
   return (
     <>
@@ -461,6 +538,17 @@ function ItemRows({ item }: { item: ReceiptItem }) {
                 <span className="text-gray-400 text-xs ml-1">(kein Match)</span>
               )}
             </span>
+            {showEditButton && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-5 w-5 p-0 text-gray-500 hover:text-gray-700"
+                onClick={() => setEditDialogOpen(true)}
+                title="AVIS-Name manuell zuweisen"
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+            )}
           </div>
           {itemState.concessionaire_code && (
             <Badge variant="outline" className="ml-2 text-xs font-normal">
@@ -487,7 +575,19 @@ function ItemRows({ item }: { item: ReceiptItem }) {
         </TableCell>
         <TableCell className="text-center text-xs">
           {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
-            <span className="text-green-600 font-medium">✓</span>
+            <div className="flex items-center justify-center gap-1">
+              <span className="text-green-600 font-medium">✓</span>
+              {avisMatch.status === "confirmed" && avisMatch.match_source === "avis_document" && (
+                <Badge variant="outline" className="text-xs font-normal bg-green-50 border-green-200 text-green-700">
+                  AVIS
+                </Badge>
+              )}
+              {avisMatch.status === "confirmed" && avisMatch.match_source === "global_database" && (
+                <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
+                  Global
+                </Badge>
+              )}
+            </div>
           ) : avisMatch?.status === "rejected" ? (
             <span className="text-gray-400">⊗</span>
           ) : null}
@@ -552,6 +652,16 @@ function ItemRows({ item }: { item: ReceiptItem }) {
           <TableCell />
         </TableRow>
       ))}
+
+      {/* Manual assign dialog */}
+      <AvisManualAssignDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        receiptId={receiptId}
+        receiptItemId={itemState.id}
+        rawName={itemState.raw_name}
+        onAssign={handleManualAssign}
+      />
     </>
   )
 }

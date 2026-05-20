@@ -141,12 +141,11 @@ function calculateMatchConfidence(
     confidence += 25
   } else if (nameSimilarity > 0.35) {
     confidence += 10
-  } else if (nameSimilarity > 0.15) {
-    // Very low name similarity — allow price/qty/date to carry the match
-    confidence += 0
   } else {
-    // Truly hopeless name match — disqualify
-    return 0
+    // Very low name similarity — allow price/qty/date to carry the match.
+    // No early return: three exact matches on date+price+qty (max 90 pts) is
+    // strong enough evidence even without a name signal.
+    confidence += 0
   }
 
   // 2. DATE MATCHING: ±3 days is realistic (20-40 points)

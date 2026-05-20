@@ -24,19 +24,6 @@ function toIsoDate(s: string): string {
   return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`
 }
 
-function normalizeProductName(name: string): string {
-  const umlauts: Record<string, string> = { ä: "ae", ö: "oe", ü: "ue", ß: "ss" }
-  return name
-    .toLowerCase()
-    .replace(/[äöüß]/g, (c) => umlauts[c] || c)
-    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st|pack|stück)\b/gi, "")
-    .replace(/\s+/g, " ")
-    .trim()
-}
-
-function isWeightItemLine(nameRaw: string): boolean {
-  return /\d+\s*(?:gg|kg|g)\s*$/.test(nameRaw) || /\d+\s*(?:ml|l)\s*$/.test(nameRaw)
-}
 
 export function parseAvis(text: string): ParsedAvis {
   const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0)
@@ -113,81 +100,68 @@ export function parseAvis(text: string): ParsedAvis {
 
     if (!currentSection) continue
 
-    // Parse item line - look for pattern with amounts in €
-    // Format varies but typically: "Name ... QTY ... PRICE € ... TOTAL € ... DELIVERY_QTY"
+    // Parse item line.
+    // AVIS PDFs concatenate table columns without spaces, so a line like:
+    //   "Geflügel-Mortadella 100g  7  1,19 €  8,33 €  7"
+    // becomes: "Geflügel-Mortadella 100g71,19 €8,33 €7"
+    // where order-qty "7" is merged into the unit-price "1,19 €" → "71,19 €".
+    // Strategy: use the delivery qty at line-end as the real qty and derive
+    // unit price from total ÷ qty. The "first merged price" is not used directly.
 
     const prices = line.match(/([\d,\.]+)\s*€/g)
     if (!prices || prices.length < 2) continue
 
-    // Extract all prices and validate them
     const allPrices = prices.map((p) => parseCents(p.replace(/\s*€/, "").trim()))
     if (allPrices.length < 2) continue
 
-    // Determine unit price vs total price
-    // If both prices are equal, assume first is unit price and second is also unit (not total)
-    // This might indicate an invalid format
-    const price1 = allPrices[0]
-    const price2 = allPrices[1]
+    // Delivery qty (Liefermenge) is at the end of the line, optionally followed by "gg"
+    const delMatch = line.match(/(\d+)\s*(?:gg)?\s*$/)
+    const isWeightItem = /\d+\s*gg\s*$/.test(line.trim())
+    const rawDeliveryQty = delMatch ? parseInt(delMatch[1]) : null
 
-    let unitPrice: number
-    let totalPrice: number
-
-    // If prices differ significantly, smaller is unit, larger is total
-    if (Math.abs(price1 - price2) > 10) {
-      unitPrice = Math.min(price1, price2)
-      totalPrice = Math.max(price1, price2)
-    } else {
-      // Prices are similar or identical - could be unit price or invalid
-      // Use the first price as unit price
-      unitPrice = price1
-      totalPrice = price2 || price1
-    }
-
-    // Find where the prices are in the line to extract name
+    // Find where the first price starts — everything before it is the product name
     const firstPriceIdx = line.indexOf(prices[0])
     if (firstPriceIdx < 0) continue
 
     const nameRaw = line.substring(0, firstPriceIdx).trim()
     if (!nameRaw || nameRaw.length < 2) continue
 
-    // Extract name - remove trailing weight/quantity
+    // Remove trailing package-size suffix (e.g. "100g", "125g") from the name
     const name = nameRaw.replace(/\s+\d+(?:gg|kg|g|ml|l)?\s*$/, "").trim()
     if (!name || name.length < 2) continue
 
-    // Parse quantity - look for number before first price
-    let qty = 1
+    let unitPrice: number
+    let totalPrice: number
+    let qty: number
+    let deliveryQty: number
 
-    // Check for weight notation (gg, g, kg, ml, l)
-    const weightMatch = nameRaw.match(/(\d+)\s*(?:gg|kg|g|ml|l)\s*$/)
-    if (weightMatch) {
-      qty = parseInt(weightMatch[1])
+    if (!isWeightItem && rawDeliveryQty !== null && rawDeliveryQty > 0) {
+      // Regular (count-based) item: delivery qty = order qty; last € amount = Betrag.
+      // Unit price derived as Betrag ÷ qty avoids the column-merging confusion.
+      qty = rawDeliveryQty
+      deliveryQty = rawDeliveryQty
+      totalPrice = allPrices[allPrices.length - 1]
+      unitPrice = qty > 0 ? Math.round(totalPrice / qty) : totalPrice
     } else {
-      // Look for trailing number in name
-      const qtyMatch = nameRaw.match(/\s+(\d+(?:[,\.]\d+)?)\s*$/)
-      if (qtyMatch) {
-        qty = parseFloat(qtyMatch[1].replace(",", "."))
+      // Weight item or fallback: prices as-found (old logic)
+      const price1 = allPrices[0]
+      const price2 = allPrices[1]
+      if (Math.abs(price1 - price2) > 10) {
+        unitPrice = Math.min(price1, price2)
+        totalPrice = Math.max(price1, price2)
+      } else {
+        unitPrice = price1
+        totalPrice = price2 || price1
       }
-    }
-
-    // Validate prices against quantity: totalPrice should be ≈ unitPrice × qty
-    // Allow ±30% tolerance for rounding and errors, but skip obvious mismatches
-    if (qty > 1 && totalPrice > 0) {
-      const expectedTotal = unitPrice * qty
-      const tolerance = Math.max(expectedTotal * 0.30, 50) // At least ±50 cents tolerance
-      if (Math.abs(totalPrice - expectedTotal) > tolerance) {
-        // Prices don't match quantity, skip this item (probably parsing error)
-        continue
+      // For weight items qty comes from the nameRaw weight suffix
+      const weightMatch = nameRaw.match(/(\d+)\s*(?:gg|kg|g|ml|l)\s*$/)
+      if (weightMatch) {
+        qty = parseInt(weightMatch[1])
+      } else {
+        const qtyMatch = nameRaw.match(/\s+(\d+(?:[,\.]\d+)?)\s*$/)
+        qty = qtyMatch ? parseFloat(qtyMatch[1].replace(",", ".")) : 1
       }
-    }
-
-    // Parse delivery qty (often at end of line)
-    let deliveryQty = qty
-    const delMatch = line.match(/(\d+)\s*(?:gg)?\s*$/)
-    if (delMatch) {
-      const val = parseInt(delMatch[1])
-      if (val !== qty && val > 0) {
-        deliveryQty = val
-      }
+      deliveryQty = rawDeliveryQty ?? qty
     }
 
     items.push({

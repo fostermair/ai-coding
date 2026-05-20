@@ -83,7 +83,7 @@ export async function GET(
               avisUnitPriceCents: avisMatch.avis_unit_price_cents,
               confidence: avisMatch.confidence,
               status: avisMatch.status,
-              matchSource: avisMatch.match_source,
+              match_source: avisMatch.match_source,
             }
           : undefined,
       }

@@ -34,7 +34,7 @@
 | PROJ-18 | Paperless-ngx eBon Import | Approved | [PROJ-18-paperless-import/spec.md](PROJ-18-paperless-import/spec.md) | 2026-05-17 |
 | PROJ-19 | AVIS-Import & automatische Alias-Zuweisung | Approved | [PROJ-19-avis-alias-import/spec.md](PROJ-19-avis-alias-import/spec.md) | 2026-05-19 |
 | PROJ-20 | AVIS-Status & Alias-Review in Bon-Ansicht | Approved | [PROJ-20-avis-bon-review/spec.md](PROJ-20-avis-bon-review/spec.md) | 2026-05-19 |
-| PROJ-21 | Manuelle AVIS-Zuweisung für nicht gematchte Artikel | In Review | [PROJ-21-manuelle-avis-zuweisung/spec.md](PROJ-21-manuelle-avis-zuweisung/spec.md) | 2026-05-20 |
+| PROJ-21 | Manuelle AVIS-Zuweisung für nicht gematchte Artikel | Approved | [PROJ-21-manuelle-avis-zuweisung/spec.md](PROJ-21-manuelle-avis-zuweisung/spec.md) | 2026-05-20 |
 
 <!-- Add features above this line -->
 

@@ -1,7 +1,8 @@
 # PROJ-21: Manuelle AVIS-Zuweisung für nicht gematchte Artikel
 
-**Status:** In Progress  
+**Status:** Approved  
 **Created:** 2026-05-20  
+**QA Completed:** 2026-05-20  
 **Dependencies:** PROJ-20 (AVIS-Status & Alias-Review in Bon-Ansicht)
 
 ## Implementation Notes

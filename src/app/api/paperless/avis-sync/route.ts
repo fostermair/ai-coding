@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
           // Download PDF
           let pdfBuffer
           try {
-            const pdfRes = await fetch(`${baseUrl}/api/documents/${docId}/download/`, {
+            const pdfRes = await fetch(`${baseUrl}/api/documents/${docId}/download/?original=true`, {
               headers: { Authorization: `Token ${token}` },
             })
 

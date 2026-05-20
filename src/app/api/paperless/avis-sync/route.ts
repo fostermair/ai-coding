@@ -185,20 +185,12 @@ export async function POST(request: NextRequest) {
             continue
           }
 
-          // Check for duplicate
+          // Check for duplicate (but still run matching)
           const existingImport = db
             .prepare("SELECT id FROM import_log WHERE filename LIKE ? AND status = 'success'")
             .get(`%[AVIS] ${parsed.orderNumber}%`) as { id: number } | undefined
 
-          if (existingImport) {
-            duplicates++
-            details.push({
-              title: docTitle,
-              status: "duplicate",
-              message: `Bestellnummer ${parsed.orderNumber}`,
-            })
-            continue
-          }
+          const isDuplicate = !!existingImport
 
           // Get eBon items for matching
           interface EbonItem {
@@ -272,24 +264,33 @@ export async function POST(request: NextRequest) {
               }
             }
 
-            // Log import
-            const logStmt = db.prepare(
-              "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
-            )
-            logStmt.run(
-              `[AVIS] ${parsed.orderNumber}`,
-              "success",
-              `${autoSetCount} Aliases automatisch gesetzt (via Paperless)`
-            )
+            // Log import only for new AVIS (not duplicates)
+            if (!isDuplicate) {
+              const logStmt = db.prepare(
+                "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+              )
+              logStmt.run(
+                `[AVIS] ${parsed.orderNumber}`,
+                "success",
+                `${autoSetCount} Aliases automatisch gesetzt (via Paperless)`
+              )
+            }
           })
 
           transaction()
 
-          imported++
+          if (!isDuplicate) {
+            imported++
+          } else {
+            duplicates++
+          }
+
           details.push({
             title: docTitle,
             status: "imported",
-            message: `${autoSetCount} Aliases gesetzt`,
+            message: isDuplicate
+              ? `${autoSetCount} Aliases gesetzt (bereits importiert)`
+              : `${autoSetCount} Aliases gesetzt`,
           })
         } catch (e) {
           errors++

@@ -217,6 +217,14 @@ export async function POST(request: NextRequest) {
             )
             .all() as EbonItem[]
 
+          // Filter eBon items to realistic time window (±14 days from AVIS)
+          const avisDateObj = new Date(parsed.pickupDate)
+          const ebonItemsInWindow = ebonItems.filter((item) => {
+            if (!item.date) return false
+            const dayDiff = Math.abs((avisDateObj.getTime() - new Date(item.date).getTime()) / (1000 * 60 * 60 * 24))
+            return dayDiff <= 14
+          })
+
           // Match and set aliases (same logic as /api/avis/import)
           let autoSetCount = 0
           const setAliasStmt = db.prepare(
@@ -231,15 +239,28 @@ export async function POST(request: NextRequest) {
               let bestMatch = null
               let bestConfidence = 0
 
-              for (const ebonItem of ebonItems) {
-                const confidence = calculateConfidence(avisItem, ebonItem, parsed.pickupDate)
+              for (const ebonItem of ebonItemsInWindow) {
+                const confidence = calculateMatchConfidence(
+                  {
+                    qty: avisItem.qty,
+                    unitPrice: avisItem.unitPrice,
+                    name: avisItem.name,
+                  },
+                  {
+                    qty: ebonItem.quantity,
+                    unitPrice: ebonItem.unit_price_cents,
+                    rawName: ebonItem.raw_name,
+                    date: ebonItem.date,
+                  },
+                  parsed.pickupDate
+                )
                 if (confidence > bestConfidence) {
                   bestConfidence = confidence
                   bestMatch = ebonItem
                 }
               }
 
-              if (bestMatch && bestConfidence >= 80) {
+              if (bestMatch && bestConfidence >= 85) {
                 const existing = db
                   .prepare("SELECT alias FROM product_aliases WHERE raw_name = ?")
                   .get(bestMatch.raw_name) as { alias: string } | undefined
@@ -306,32 +327,107 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function calculateConfidence(avisItem: any, ebonItem: any, avisDate: string): number {
+function normalizeProductName(name: string): string {
+  const umlauts: Record<string, string> = { ä: "ae", ö: "oe", ü: "ue", ß: "ss" }
+  return name
+    .toLowerCase()
+    .replace(/[äöüß]/g, (c) => umlauts[c] || c)
+    .replace(/\b(gr|g|ml|l|kg|gg|stk|stueck|st|pack|stück)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function tokenBasedSimilarity(avisNorm: string, ebonNorm: string): number {
+  const tokenize = (s: string) => s.split(/[\s\-.!,&+]+/).filter((t) => t.length >= 3)
+  const avisTokens = tokenize(avisNorm)
+  const ebonTokens = tokenize(ebonNorm)
+
+  if (ebonTokens.length === 0 || avisTokens.length === 0) return 0
+
+  let totalScore = 0
+  for (const et of ebonTokens) {
+    let bestScore = 0
+    for (const at of avisTokens) {
+      const score = at.includes(et) || et.includes(at) ? 1.0 : levenshteinSimilarity(et, at)
+      if (score > bestScore) bestScore = score
+    }
+    totalScore += bestScore
+  }
+
+  return totalScore / ebonTokens.length
+}
+
+function calculateMatchConfidence(
+  avisItem: { qty: number; unitPrice: number; name: string },
+  ebonItem: { qty: number; unitPrice: number; rawName: string; date: string },
+  avisDate: string
+): number {
   let confidence = 0
 
-  // Date matching
+  // 1. NAME MATCHING (0-40 points)
+  const avisNameNormalized = normalizeProductName(avisItem.name)
+  const ebonNameNormalized = normalizeProductName(ebonItem.rawName)
+  const lev = levenshteinSimilarity(avisNameNormalized, ebonNameNormalized)
+  const tok = tokenBasedSimilarity(avisNameNormalized, ebonNameNormalized)
+  const nameSimilarity = Math.max(lev, tok * 0.9)
+
+  if (nameSimilarity > 0.75) {
+    confidence += 40
+  } else if (nameSimilarity > 0.55) {
+    confidence += 25
+  } else if (nameSimilarity > 0.35) {
+    confidence += 10
+  }
+
+  // 2. DATE MATCHING (0-40 points)
   const avisDateObj = new Date(avisDate)
   const ebonDateObj = new Date(ebonItem.date)
   const dayDiff = Math.abs((avisDateObj.getTime() - ebonDateObj.getTime()) / (1000 * 60 * 60 * 24))
-  if (dayDiff <= 1) confidence += 40
 
-  // Price matching
-  const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unit_price_cents)
-  if (priceDiff <= 2) confidence += 40
-
-  // Quantity matching
-  const isWeightItem = avisItem.qty < 10 && avisItem.unitPrice > 50
-  if (!isWeightItem) {
-    if (avisItem.qty === ebonItem.quantity) confidence += 20
-    else if (Math.abs(avisItem.qty - ebonItem.quantity) / ebonItem.quantity <= 0.1) confidence += 10
+  if (dayDiff <= 1) {
+    confidence += 40
+  } else if (dayDiff <= 3) {
+    confidence += 30
+  } else if (dayDiff <= 7) {
+    confidence += 15
   } else {
-    if (priceDiff <= 2) confidence += 10
+    return 0
   }
 
-  // Fuzzy name match
-  const similarity = levenshteinSimilarity(avisItem.name.toLowerCase(), ebonItem.raw_name.toLowerCase())
-  if (similarity > 0.7) confidence += 20
-  else if (similarity > 0.5) confidence += 10
+  // 3. PRICE MATCHING (0-30 points)
+  const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
+  if (priceDiff <= 2) {
+    confidence += 30
+  } else if (priceDiff <= 5) {
+    confidence += 20
+  } else if (priceDiff <= 10) {
+    confidence += 10
+  } else {
+    return 0
+  }
+
+  // 4. QUANTITY MATCHING (0-20 points)
+  const isWeightItem = avisItem.qty > 10 || ebonItem.qty > 10
+
+  if (!isWeightItem) {
+    if (avisItem.qty === ebonItem.qty) {
+      confidence += 20
+    } else if (avisItem.qty > 0 && ebonItem.qty > 0) {
+      const qtyDiff = Math.abs(avisItem.qty - ebonItem.qty) / Math.max(avisItem.qty, ebonItem.qty)
+      if (qtyDiff <= 0.1) {
+        confidence += 15
+      } else if (qtyDiff <= 0.25) {
+        confidence += 10
+      }
+    }
+  } else {
+    if (avisItem.qty > 0 && ebonItem.qty > 0) {
+      const qtyDiff = Math.abs(avisItem.qty - ebonItem.qty) / Math.max(avisItem.qty, ebonItem.qty)
+      if (qtyDiff <= 0.05) {
+        confidence += 15
+      }
+    }
+  }
 
   return Math.min(100, confidence)
 }

@@ -10,8 +10,9 @@
 ### Frontend (Completed)
 - Created `src/components/avis-manual-assign-dialog.tsx` - modal dialog with:
   - Searchable list of candidates from the same AVIS
-  - Suggestion from global database with similarity score
-  - Assign buttons for each candidate + suggestion
+  - **NEW:** Full searchable list for global database (not just single suggestion)
+  - Mutual exclusive selection between AVIS candidates and global search results
+  - Assign buttons support both candidates + global results
 - Updated `src/components/bon-detail.tsx`:
   - Added edit button (pencil icon) for rejected/unmatched items
   - Added match source badges ([AVIS] green / [Global] blue)
@@ -26,10 +27,19 @@
 - ✅ Modified import route to save AVIS items with confidence < 60% as status='unmatched'
 - ✅ Implemented 3 new API endpoints:
   - `GET /api/avis/matches/candidates?receipt_id=X` - returns all AVIS items for a receipt with assignment info
-  - `GET /api/avis/suggestions?raw_name=X` - returns best fuzzy match from global database
+  - `GET /api/avis/suggestions?raw_name=X` - **ENHANCED:** now supports `?search=` and `?limit=` parameters for global database search
   - `POST /api/avis/matches/manual-assign` - saves manual assignment with match_source tracking
 - ✅ Updated `GET /api/bons/[id]` to include `match_source` field and `has_avis` flag
 - ✅ All existing AVIS tests pass, build succeeds with no errors
+
+### Recent Enhancements (2026-05-20)
+- Extended global database search from single "best suggestion" to full searchable list:
+  - Dialog loads initial Top-10 fuzzy-matches when opened (pre-filtered by raw_name)
+  - User can refine search with text input (debounced 300ms)
+  - Results shown in scrollable list, sorted by similarity score (best match marked with Zap icon)
+  - Supports up to 100 results per query (limited to 20 displayed, configurable)
+  - Results show similarity score % for user reference
+- API `/api/avis/suggestions` response format changed from `{ suggestion: {...} }` to `{ suggestions: [...] }` (plural)
 
 ---
 

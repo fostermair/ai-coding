@@ -191,6 +191,13 @@ describe("parseReweEbon – ebon1 (basic, discounts, leergut)", () => {
     expect(box).toBeDefined()
     expect(box!.bonusExcluded).toBe(true)
   })
+
+  it("recognises transportbox items as pfand type", () => {
+    const boxes = result.items.filter((i) => i.itemType === "pfand")
+    const transportbox = boxes.find((i) => i.rawName === "TRANSPORTBOX ABH")
+    expect(transportbox).toBeDefined()
+    expect(transportbox!.itemType).toBe("pfand")
+  })
 })
 
 // ── parseReweEbon – ebon2 (concession) ───────────────────────────────────────

@@ -176,9 +176,14 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       const totalPrice = itemMatch[4]
       const taxCode = itemMatch[5]
 
+      let itemType: "product" | "pfand" | "leergut" | "concession" = "product"
+      if (name.toLowerCase().includes("transportbox")) {
+        itemType = "pfand"
+      }
+
       items.push({
         rawName: name,
-        itemType: "product",
+        itemType,
         quantity,
         unitPriceCents: parseCents(unitPrice),
         totalPriceCents: parseCents(totalPrice),
@@ -199,9 +204,14 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       const price = singleMatch[2]
       const taxCode = singleMatch[3]
 
+      let itemType: "product" | "pfand" | "leergut" | "concession" = "product"
+      if (name.toLowerCase().includes("transportbox")) {
+        itemType = "pfand"
+      }
+
       items.push({
         rawName: name,
-        itemType: "product",
+        itemType,
         quantity: 1,
         unitPriceCents: parseCents(price),
         totalPriceCents: parseCents(price),

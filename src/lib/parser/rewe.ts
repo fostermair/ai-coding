@@ -227,6 +227,8 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       // Determine type from name prefix
       if (rawName.startsWith("LEERG.") || rawName.startsWith("LEERGUT")) {
         itemType = "leergut"
+      } else if (rawName.startsWith("TRANSPORTBOX")) {
+        itemType = "pfand"
       }
 
       items.push({

@@ -69,4 +69,26 @@ Filiale: 100 Kasse: 1`
     const invalidText = "This is not a Kaufland eBon"
     expect(() => parseKauflandEbon(invalidText)).toThrow()
   })
+
+  it("should parse items in two-line format (name on one line, qty * price on next)", () => {
+    const text = `Riemekestraße 37
+33102 Paderborn
+Preis EUR
+Produktname A
+ 2 * 1,29 2,58 B
+Twix Aufstrich 2,99 B
+Summe 5,57
+Kartenzahlung 5,57
+Datum:17.04.26 Zeit: 17:07 Uhr Bon:72310
+Filiale: 1663 Kasse: 7`
+
+    const result = parseKauflandEbon(text)
+
+    expect(result.items).toHaveLength(2)
+    expect(result.items[0].rawName).toBe("Produktname A")
+    expect(result.items[0].quantity).toBe(2)
+    expect(result.items[0].unitPriceCents).toBe(129)
+    expect(result.items[0].totalPriceCents).toBe(258)
+    expect(result.items[1].rawName).toBe("Twix Aufstrich")
+  })
 })

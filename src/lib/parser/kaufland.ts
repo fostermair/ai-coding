@@ -209,6 +209,31 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       continue
     }
 
+    // Standalone multiplier line: "2 * 1,29 2,58 B" (two-line format, product name on previous line)
+    const standaloneMultiMatch = line.match(/^(\d+)\s+\*\s+([\d,]+)\s+([\d,]+)\s+([A-Z])$/)
+    if (standaloneMultiMatch) {
+      const qty = parseInt(standaloneMultiMatch[1], 10)
+      const unitPrice = standaloneMultiMatch[2]
+      const totalPrice = standaloneMultiMatch[3]
+      const taxCode = standaloneMultiMatch[4]
+      const name = currentItemName || "(Unbekannt)"
+
+      items.push({
+        rawName: name,
+        itemType: detectItemType(name),
+        quantity: qty,
+        unitPriceCents: parseCents(unitPrice),
+        totalPriceCents: parseCents(totalPrice),
+        taxCode,
+        bonusExcluded: false,
+        concessionaireCode: null,
+        position: position++,
+        discounts: [],
+      })
+      currentItemName = ""
+      continue
+    }
+
     // Format without multiplication: "Name price taxcode"
     // e.g., "Gutsleberwurst 2,69 B"
     const singleMatch = line.match(/^(.+?)\s+([\d,]+)\s+([A-Z])$/)
@@ -233,8 +258,8 @@ function parseItemLines(lines: string[]): ParsedItem[] {
       continue
     }
 
-    // Otherwise, it could be a product name that spans multiple lines
-    // We don't have multi-line parsing in the simple test data, so we skip it
+    // Unmatched line: store as potential product name for next line (two-line format)
+    currentItemName = line
   }
 
   return items

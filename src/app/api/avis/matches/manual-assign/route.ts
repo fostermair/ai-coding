@@ -61,57 +61,90 @@ export async function POST(request: NextRequest) {
           throw new Error(`Match status ist '${existingMatch.status}', kann nur 'rejected' aktualisiert werden`)
         }
       } else {
-        // Create a new avis_matches entry
-        // First, find an unmatched AVIS item with the same name, or create one
-        const existingAvisMatch = db
+        // 3-step lookup: handle reassignments and new assignments
+
+        // Step 1: Check if this receipt_item already has any non-rejected match
+        const existingItemMatch = db
           .prepare(
             `SELECT id, import_log_id FROM avis_matches
-             WHERE receipt_id = ? AND avis_item_name = ? AND status IN ('unmatched', 'pending')
+             WHERE receipt_item_id = ? AND status != 'rejected'
              LIMIT 1`
           )
-          .get(receipt_id, avis_item_name) as { id: number; import_log_id: number } | undefined
+          .get(receipt_item_id) as { id: number; import_log_id: number } | undefined
 
-        if (existingAvisMatch) {
-          // Use existing unmatched/pending match
-          matchId = existingAvisMatch.id
+        if (existingItemMatch) {
+          // Reassignment: update existing match to new AVIS item name
+          matchId = existingItemMatch.id
           db.prepare(
             `UPDATE avis_matches
-             SET receipt_item_id = ?, status = 'confirmed', match_source = ?, updated_at = datetime('now')
+             SET avis_item_name = ?, status = 'confirmed', match_source = ?, updated_at = datetime('now')
              WHERE id = ?`
-          ).run(receipt_item_id, match_source, matchId)
+          ).run(avis_item_name, match_source, matchId)
         } else {
-          // Create a new entry - need to find the import_log_id
-          const lastImport = db
+          // Step 2: Look for unmatched/pending match by AVIS item name
+          const existingAvisMatch = db
             .prepare(
-              `SELECT import_log_id FROM avis_matches
-               WHERE receipt_id = ?
-               ORDER BY import_log_id DESC
+              `SELECT id, import_log_id FROM avis_matches
+               WHERE receipt_id = ? AND avis_item_name = ? AND status IN ('unmatched', 'pending')
                LIMIT 1`
             )
-            .get(receipt_id) as { import_log_id: number } | undefined
+            .get(receipt_id, avis_item_name) as { id: number; import_log_id: number } | undefined
 
-          if (!lastImport) {
-            throw new Error("Kein Import-Log für diesen Bon gefunden")
+          if (existingAvisMatch) {
+            // Use existing unmatched/pending match
+            matchId = existingAvisMatch.id
+            db.prepare(
+              `UPDATE avis_matches
+               SET receipt_item_id = ?, status = 'confirmed', match_source = ?, updated_at = datetime('now')
+               WHERE id = ?`
+            ).run(receipt_item_id, match_source, matchId)
+          } else {
+            // Step 3: Create new entry - need import_log_id
+            let importLogId: number | undefined
+
+            // Try to find import_log_id from existing avis_matches for this receipt
+            const lastImport = db
+              .prepare(
+                `SELECT import_log_id FROM avis_matches
+                 WHERE receipt_id = ?
+                 ORDER BY import_log_id DESC
+                 LIMIT 1`
+              )
+              .get(receipt_id) as { import_log_id: number } | undefined
+
+            importLogId = lastImport?.import_log_id
+
+            // Fallback: use most recent import_log entry globally
+            if (!importLogId) {
+              const latestImportLog = db
+                .prepare(`SELECT id FROM import_log ORDER BY id DESC LIMIT 1`)
+                .get() as { id: number } | undefined
+              importLogId = latestImportLog?.id
+            }
+
+            if (!importLogId) {
+              throw new Error("Bitte zuerst eine AVIS-Datei importieren")
+            }
+
+            const insertResult = db
+              .prepare(
+                `INSERT INTO avis_matches
+                 (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status, match_source)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+              )
+              .run(
+                receipt_id,
+                receipt_item_id,
+                importLogId,
+                avis_item_name,
+                0, // price unknown for manual assignments
+                100, // confidence is high for manual assignments
+                "confirmed",
+                match_source
+              )
+
+            matchId = insertResult.lastInsertRowid as number
           }
-
-          const insertResult = db
-            .prepare(
-              `INSERT INTO avis_matches
-               (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status, match_source)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-            )
-            .run(
-              receipt_id,
-              receipt_item_id,
-              lastImport.import_log_id,
-              avis_item_name,
-              0, // price unknown for manual assignments
-              100, // confidence is high for manual assignments
-              "confirmed",
-              match_source
-            )
-
-          matchId = insertResult.lastInsertRowid as number
         }
       }
 

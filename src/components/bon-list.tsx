@@ -40,28 +40,58 @@ interface BonsResponse {
 }
 
 function ChainBadge({ chain }: { chain?: string }) {
-  if (!chain || chain === "rewe") {
+  const src =
+    chain === "lidl"
+      ? "/badges/lidl.jpg"
+      : chain === "kaufland"
+        ? "/badges/kaufland.jpg"
+        : "/badges/rewe.png"
+
+  const label =
+    chain === "lidl"
+      ? "Lidl"
+      : chain === "kaufland"
+        ? "Kaufland"
+        : "REWE"
+
+  return <img src={src} alt={label} className="h-5 w-auto object-contain" />
+}
+
+function PaymentBadge({ method }: { method?: string }) {
+  if (!method) return null
+  const m = method.toLowerCase()
+  if (m.includes("mastercard")) {
     return (
-      <Badge variant="secondary" className="bg-red-100 text-red-700 font-normal text-xs">
-        REWE
-      </Badge>
+      <img
+        src="/badges/mastercard.png"
+        alt="Mastercard"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  if (chain === "lidl") {
+  if (m.includes("visa")) {
     return (
-      <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 font-normal text-xs">
-        Lidl
-      </Badge>
+      <img
+        src="/badges/visa.png"
+        alt="Visa"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  if (chain === "kaufland") {
+  if (m.includes("bar") || m.includes("bargeld")) {
     return (
-      <Badge variant="secondary" className="bg-gray-800 text-white font-normal text-xs">
-        Kaufland
-      </Badge>
+      <img
+        src="/badges/bar.png"
+        alt="Barzahlung"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  return null
+  return (
+    <Badge variant="secondary" className="font-normal text-xs">
+      {method}
+    </Badge>
+  )
 }
 
 export function BonList() {
@@ -270,9 +300,7 @@ export function BonList() {
                     {formatEuro(bon.total_amount_cents)} €
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    <Badge variant="secondary" className="font-normal text-xs">
-                      {bon.payment_method}
-                    </Badge>
+                    <PaymentBadge method={bon.payment_method} />
                   </TableCell>
                   <TableCell className="text-center">
                     {bon.store_chain === "rewe" && <AvisStatusBadge status={bon.avis_status} />}

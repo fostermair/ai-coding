@@ -257,11 +257,6 @@ export function AvisManualAssignDialog({
                                 {candidate.status}
                               </p>
                             </div>
-                            {candidate.receipt_item_id && (
-                              <Badge variant="secondary" className="text-xs flex-shrink-0">
-                                bereits zugeordnet
-                              </Badge>
-                            )}
                           </div>
                         </div>
                       ))

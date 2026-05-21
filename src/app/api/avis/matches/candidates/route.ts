@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
+import { FILTER_MATCHED_AVIS_ITEMS } from "@/lib/avis-matching"
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest) {
         `SELECT id, avis_item_name, avis_unit_price_cents, confidence, status, import_log_id, receipt_item_id
          FROM avis_matches
          WHERE receipt_id = ?
+           AND ${FILTER_MATCHED_AVIS_ITEMS}
          ORDER BY avis_item_name`
       )
       .all(receiptId) as AvisMatchRow[]

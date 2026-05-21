@@ -72,7 +72,7 @@ function extractFooter(lines: string[]): {
   // Look for Summe line: "Summe X,XX"
   const summeLine = lines.find((l) => /^Summe\s+([\d,]+)/.test(l.trim()))
   if (summeLine) {
-    const match = summeLine.match(/^Summe\s+([\d,]+)/)
+    const match = summeLine.trim().match(/^Summe\s+([\d,]+)/)
     if (match) {
       totalAmountCents = parseCents(match[1])
     }
@@ -114,7 +114,15 @@ function extractFooter(lines: string[]): {
     return /kartenzahlung|bargeld|karte/i.test(t) && t.length < 100
   })
   if (paymentLine) {
-    paymentMethod = paymentLine.trim()
+    paymentMethod = paymentLine.trim().replace(/\s+[\d,.]+.*$/, "").trim()
+  }
+
+  // Fallback: if totalAmountCents is still 0, extract from payment line
+  if (totalAmountCents === 0 && paymentLine) {
+    const amtMatch = paymentLine.trim().match(/([\d]+,[\d]{2})$/)
+    if (amtMatch) {
+      totalAmountCents = parseCents(amtMatch[1])
+    }
   }
 
   return {

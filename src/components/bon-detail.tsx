@@ -33,28 +33,58 @@ import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
 import { Edit } from "lucide-react"
 
 function ChainBadge({ chain }: { chain?: string }) {
-  if (!chain || chain === "rewe") {
+  const src =
+    chain === "lidl"
+      ? "/badges/lidl.jpg"
+      : chain === "kaufland"
+        ? "/badges/kaufland.jpg"
+        : "/badges/rewe.png"
+
+  const label =
+    chain === "lidl"
+      ? "Lidl"
+      : chain === "kaufland"
+        ? "Kaufland"
+        : "REWE"
+
+  return <img src={src} alt={label} className="h-5 w-auto object-contain" />
+}
+
+function PaymentBadge({ method }: { method?: string }) {
+  if (!method) return null
+  const m = method.toLowerCase()
+  if (m.includes("mastercard")) {
     return (
-      <Badge variant="secondary" className="bg-red-100 text-red-700 font-normal text-xs">
-        REWE
-      </Badge>
+      <img
+        src="/badges/mastercard.png"
+        alt="Mastercard"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  if (chain === "lidl") {
+  if (m.includes("visa")) {
     return (
-      <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 font-normal text-xs">
-        Lidl
-      </Badge>
+      <img
+        src="/badges/visa.png"
+        alt="Visa"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  if (chain === "kaufland") {
+  if (m.includes("bar") || m.includes("bargeld")) {
     return (
-      <Badge variant="secondary" className="bg-gray-800 text-white font-normal text-xs">
-        Kaufland
-      </Badge>
+      <img
+        src="/badges/bar.png"
+        alt="Barzahlung"
+        className="h-5 w-auto object-contain"
+      />
     )
   }
-  return null
+  return (
+    <Badge variant="secondary" className="font-normal text-xs">
+      {method}
+    </Badge>
+  )
 }
 
 interface Discount {
@@ -260,9 +290,9 @@ export function BonDetailView({ bonId }: { bonId: string }) {
               <p className="text-2xl font-semibold tabular-nums text-gray-900">
                 {formatEuro(bon.total_amount_cents)} €
               </p>
-              <Badge variant="secondary" className="mt-1 font-normal text-xs">
-                {bon.payment_method}
-              </Badge>
+              <div className="mt-1">
+                <PaymentBadge method={bon.payment_method} />
+              </div>
             </div>
           </div>
         </CardContent>
@@ -515,7 +545,9 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
           receipt_id: receiptId,
           avis_item_name: avisItemName,
           match_source: matchSource,
-          existing_match_id: itemState.avis_match?.matchId,
+          existing_match_id: itemState.avis_match?.status === "rejected"
+            ? itemState.avis_match.matchId
+            : undefined,
         }),
       })
       if (!res.ok) throw new Error("Zuweisung fehlgeschlagen")

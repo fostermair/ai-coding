@@ -1,0 +1,55 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "eBon Analyzer" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - text: eBon Analyzer
+      - generic [ref=e9]:
+        - link "Bons" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "Import" [ref=e11] [cursor=pointer]:
+          - /url: /import
+        - link "Produkte" [ref=e12] [cursor=pointer]:
+          - /url: /produkte
+        - link "Statistiken" [ref=e13] [cursor=pointer]:
+          - /url: /statistiken
+      - button "Konfiguration" [ref=e15] [cursor=pointer]:
+        - img
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - heading "eBon importieren" [level=1] [ref=e19]
+        - paragraph [ref=e20]: REWE eBon PDFs hochladen – einzeln oder als Batch
+      - generic [ref=e21]:
+        - generic [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+          - paragraph [ref=e26]: PDFs hier ablegen
+          - paragraph [ref=e27]: oder klicken zum Auswählen · REWE eBon PDFs · Mehrfachauswahl möglich
+        - generic [ref=e28]:
+          - heading "paperless-ngx Synchronisierung" [level=3] [ref=e30]
+          - button "Aus paperless-ngx synchronisieren" [ref=e31] [cursor=pointer]:
+            - img
+            - text: Aus paperless-ngx synchronisieren
+        - generic [ref=e32]:
+          - heading "REWE Abholavis importieren" [level=2] [ref=e33]
+          - paragraph [ref=e34]: AVIS-PDFs ermöglichen automatische Zuordnung von Produktnamen zu deinen eBon-Artikeln.
+          - generic [ref=e35] [cursor=pointer]:
+            - img [ref=e36]
+            - paragraph [ref=e39]: AVIS-PDFs hier ablegen
+            - paragraph [ref=e40]: oder klicken zum Auswählen · REWE Abholavis PDFs · Mehrfachauswahl möglich
+          - button "AVIS aus paperless-ngx synchronisieren" [ref=e42] [cursor=pointer]:
+            - img
+            - text: AVIS aus paperless-ngx synchronisieren
+      - generic [ref=e44]:
+        - img [ref=e45]
+        - generic [ref=e47]:
+          - paragraph [ref=e48]: Watch-Folder
+          - paragraph [ref=e49]: Automatischer Import aus einem Ordner wird in PROJ-6 implementiert. Bis dahin PDFs oben manuell hochladen.
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e55] [cursor=pointer]:
+    - img [ref=e56]
+```

@@ -245,7 +245,9 @@ export async function POST(request: NextRequest) {
     // Auto-set aliases for high-confidence matches
     let autoSetCount = 0
     const setAliasStmt = db.prepare(
-      "INSERT OR IGNORE INTO product_aliases (raw_name, alias, updated_at) VALUES (?, ?, datetime('now'))"
+      `INSERT INTO product_aliases (raw_name, alias, updated_at) VALUES (?, ?, datetime('now'))
+       ON CONFLICT(raw_name) DO UPDATE SET alias = excluded.alias, updated_at = datetime('now')
+       WHERE product_aliases.alias = ''`
     )
     const insertMatchStmt = db.prepare(
       `INSERT INTO avis_matches (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status)

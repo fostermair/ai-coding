@@ -1,0 +1,70 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "eBon Analyzer" [ref=e5]:
+        - /url: /
+        - img [ref=e6]
+        - text: eBon Analyzer
+      - generic [ref=e9]:
+        - link "Bons" [ref=e10]:
+          - /url: /
+        - link "Import" [ref=e11]:
+          - /url: /import
+        - link "Produkte" [ref=e12]:
+          - /url: /produkte
+        - link "Statistiken" [ref=e13]:
+          - /url: /statistiken
+      - button "Konfiguration" [ref=e15] [cursor=pointer]:
+        - img
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - heading "Bon-Übersicht" [level=1] [ref=e19]
+        - paragraph [ref=e20]: Alle importierten REWE eBons
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - img [ref=e24]
+            - generic [ref=e27]:
+              - paragraph [ref=e28]: "1"
+              - paragraph [ref=e29]: Bon
+          - generic [ref=e31]:
+            - paragraph [ref=e32]: 15,42 EUR
+            - paragraph [ref=e33]: Gesamtausgaben
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - generic [ref=e37]: Von
+              - textbox "Von" [ref=e38]
+            - generic [ref=e39]:
+              - generic [ref=e40]: Bis
+              - textbox "Bis" [ref=e41]
+          - button "Exportieren" [ref=e42] [cursor=pointer]:
+            - img
+            - text: Exportieren
+        - table [ref=e45]:
+          - rowgroup [ref=e46]:
+            - row "Datum Markt Kette Artikel Summe AVIS" [ref=e47]:
+              - columnheader "Datum" [ref=e48]
+              - columnheader "Markt" [ref=e49]
+              - columnheader "Kette" [ref=e50]
+              - columnheader "Artikel" [ref=e51]
+              - columnheader "Summe" [ref=e52]
+              - columnheader "AVIS" [ref=e53]
+          - rowgroup [ref=e54]:
+            - row "24.01.2026 KAUFLAND Kaufland 2 15,42 €" [ref=e55] [cursor=pointer]:
+              - cell "24.01.2026" [ref=e56]
+              - cell "KAUFLAND" [ref=e57]
+              - cell "Kaufland" [ref=e58]:
+                - img "Kaufland" [ref=e59]
+              - cell "2" [ref=e60]
+              - cell "15,42 €" [ref=e61]
+              - cell [ref=e62]
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e74]
+```

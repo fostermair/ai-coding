@@ -1,5 +1,8 @@
 // Fuzzy matching utilities for AVIS-to-eBon matching and global database suggestions
 
+// SQL fragment to filter out already-matched AVIS items (those that exist as aliases)
+export const FILTER_MATCHED_AVIS_ITEMS = `NOT EXISTS (SELECT 1 FROM product_aliases WHERE product_aliases.alias = avis_matches.avis_item_name)`
+
 export function levenshteinSimilarity(a: string, b: string): number {
   const longer = a.length > b.length ? a : b
   const shorter = a.length > b.length ? b : a

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { parseReweEbon } from "@/lib/parser/rewe"
+import { parseLidlEbon } from "@/lib/parser/lidl"
+import { parseKauflandEbon } from "@/lib/parser/kaufland"
 
 // ── pdfjs polyfill (same as in /api/import) ────────────────────────────────
 if (typeof globalThis.DOMMatrix === "undefined") {
@@ -63,8 +65,8 @@ export async function POST(
     const db = getDb()
 
     const receipt = db
-      .prepare("SELECT id, paperless_doc_id, filename FROM receipts WHERE id = ?")
-      .get(bonId) as { id: number; paperless_doc_id: number | null; filename: string } | undefined
+      .prepare("SELECT id, paperless_doc_id, filename, store_chain FROM receipts WHERE id = ?")
+      .get(bonId) as { id: number; paperless_doc_id: number | null; filename: string; store_chain: string } | undefined
 
     if (!receipt) {
       return NextResponse.json({ message: "Bon nicht gefunden" }, { status: 404 })
@@ -108,9 +110,16 @@ export async function POST(
     }
 
     // ── Parse ──────────────────────────────────────────────────────────────
+    const parserMap: Record<string, (text: string) => ReturnType<typeof parseReweEbon>> = {
+      rewe: parseReweEbon,
+      lidl: parseLidlEbon,
+      kaufland: parseKauflandEbon,
+    }
+    const parser = parserMap[receipt.store_chain] ?? parseReweEbon
+
     let parsed
     try {
-      parsed = parseReweEbon(pdfText)
+      parsed = parser(pdfText)
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Format nicht erkannt"
       return NextResponse.json({ message: msg }, { status: 422 })

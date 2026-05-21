@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
-import { computeMatchScore } from "@/lib/avis-matching"
+import { computeMatchScore, FILTER_MATCHED_AVIS_ITEMS } from "@/lib/avis-matching"
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,11 +22,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Apply text filter if search parameter provided
-    let query = `SELECT DISTINCT avis_item_name FROM avis_matches`
+    let query = `SELECT DISTINCT avis_item_name FROM avis_matches WHERE ${FILTER_MATCHED_AVIS_ITEMS}`
     const params: (string | number)[] = []
 
     if (searchText && searchText.trim().length > 0) {
-      query += ` WHERE avis_item_name LIKE ?`
+      query += ` AND avis_item_name LIKE ?`
       params.push(`%${searchText}%`)
     }
 

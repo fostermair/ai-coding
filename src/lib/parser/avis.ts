@@ -24,6 +24,23 @@ function toIsoDate(s: string): string {
   return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`
 }
 
+function isSkipLine(line: string): boolean {
+  return (
+    /^(Artikel|Menge|Einzelpreis|Betrag|Liefermenge)/.test(line) ||
+    line.includes("─") ||
+    line.includes("PFAND") ||
+    line.includes("Servicegebühr") ||
+    line.includes("Einweg") ||
+    line.includes("Mehrweg") ||
+    line.includes("Summe") ||
+    line.includes("Total") ||
+    line.includes("EUR") ||
+    line.startsWith("Herkunftsland") ||
+    line.startsWith("Gebühren") ||
+    /^[A-Z ]+$/.test(line)
+  )
+}
+
 
 export function parseAvis(text: string): ParsedAvis {
   const lines = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0)
@@ -67,7 +84,9 @@ export function parseAvis(text: string): ParsedAvis {
   const items: ParsedAvisItem[] = []
   let currentSection: "Lieferbar" | "Nicht lieferbar" | "Ersatzartikel" | null = null
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i]
+
     // Section detection
     if (/^\s*(Lieferbar|LIEFERBAR)\s*$/.test(line)) {
       currentSection = "Lieferbar"
@@ -83,18 +102,7 @@ export function parseAvis(text: string): ParsedAvis {
     }
 
     // Skip header rows and non-item lines
-    if (
-      /^(Artikel|Menge|Einzelpreis|Betrag|Liefermenge)/.test(line) ||
-      line.includes("─") ||
-      line.includes("PFAND") ||
-      line.includes("Servicegebühr") ||
-      line.includes("Einweg") ||
-      line.includes("Mehrweg") ||
-      line.includes("Summe") ||
-      line.includes("Total") ||
-      line.includes("EUR") ||
-      /^[A-Z ]+$/.test(line) // All caps single line (section headers)
-    ) {
+    if (isSkipLine(line)) {
       continue
     }
 
@@ -108,7 +116,27 @@ export function parseAvis(text: string): ParsedAvis {
     // Strategy: use the delivery qty at line-end as the real qty and derive
     // unit price from total ÷ qty. The "first merged price" is not used directly.
 
-    const prices = line.match(/([\d,\.]+)\s*€/g)
+    let prices = line.match(/([\d,\.]+)\s*€/g)
+
+    // Look-ahead: if this line has no prices, try merging with next lines until prices found
+    // This handles multi-line items where product name and price are on separate lines
+    if (!prices || prices.length < 2) {
+      for (let lookahead = 1; lookahead <= 2 && i + lookahead < lines.length; lookahead++) {
+        const nextLine = lines[i + lookahead]
+        const nextPrices = nextLine.match(/([\d,\.]+)\s*€/g)
+
+        // Merge current line with next line
+        line = line + " " + nextLine
+
+        if (nextPrices && nextPrices.length >= 2) {
+          // Found prices, stop merging
+          prices = nextPrices
+          i += lookahead // Skip the merged lines
+          break
+        }
+      }
+    }
+
     if (!prices || prices.length < 2) continue
 
     const allPrices = prices.map((p) => parseCents(p.replace(/\s*€/, "").trim()))
@@ -117,7 +145,23 @@ export function parseAvis(text: string): ParsedAvis {
     // Delivery qty (Liefermenge) is at the end of the line, optionally followed by "gg"
     const delMatch = line.match(/(\d+)\s*(?:gg)?\s*$/)
     const isWeightItem = /\d+\s*gg\s*$/.test(line.trim())
-    const rawDeliveryQty = delMatch ? parseInt(delMatch[1]) : null
+    let rawDeliveryQty = delMatch ? parseInt(delMatch[1]) : null
+
+    // If no inline delivery qty, look ahead past note lines (Einweg, Herkunftsland, etc.)
+    // for a lone integer on its own line — that's the detached delivery qty
+    if (rawDeliveryQty === null) {
+      for (let dq = 1; dq <= 3; dq++) {
+        if (i + dq >= lines.length) break
+        const peek = lines[i + dq]
+        if (isSkipLine(peek)) continue
+        const loneNum = peek.match(/^(\d+)\s*(?:gg)?\s*$/)
+        if (loneNum) {
+          rawDeliveryQty = parseInt(loneNum[1])
+          i += dq
+        }
+        break
+      }
+    }
 
     // Find where the first price starts — everything before it is the product name
     const firstPriceIdx = line.indexOf(prices[0])
@@ -126,8 +170,15 @@ export function parseAvis(text: string): ParsedAvis {
     const nameRaw = line.substring(0, firstPriceIdx).trim()
     if (!nameRaw || nameRaw.length < 2) continue
 
+    // Clean up page numbers ("1 von2") and embedded table headers from PDF parsing
+    const nameCleaned = nameRaw
+      .replace(/^\d+\s+von\s*\d+\s*/i, "")
+      .replace(/ArtikelbezeichnungBestellmengeEinzelpreisBetragLiefermenge\s*/gi, "")
+      .trim()
+    if (!nameCleaned || nameCleaned.length < 2) continue
+
     // Remove trailing package-size suffix (e.g. "100g", "125g") from the name
-    const name = nameRaw.replace(/\s+\d+(?:gg|kg|g|ml|l)?\s*$/, "").trim()
+    const name = nameCleaned.replace(/\s+\d+(?:gg|kg|g|ml|l)?\s*$/, "").trim()
     if (!name || name.length < 2) continue
 
     let unitPrice: number

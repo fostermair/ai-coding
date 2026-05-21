@@ -72,6 +72,30 @@ export async function POST(request: NextRequest) {
     }
 
     const db = getDb()
+    const searchParams = request.nextUrl.searchParams
+    const receiptId = searchParams.get("receipt_id")
+
+    // If receipt_id provided, get the AVIS order numbers already matched to this receipt
+    let targetOrderNumbers: string[] = []
+    if (receiptId) {
+      interface MatchRow {
+        filename: string
+      }
+      const existingMatches = db
+        .prepare(
+          `SELECT DISTINCT il.filename FROM import_log il
+           INNER JOIN avis_matches am ON am.import_log_id = il.id
+           WHERE am.receipt_id = ? AND il.filename LIKE '%[AVIS]%'`
+        )
+        .all(receiptId) as MatchRow[]
+
+      for (const row of existingMatches) {
+        const match = row.filename.match(/\[AVIS\]\s*([^\]]+)/)
+        if (match) {
+          targetOrderNumbers.push(match[1].trim())
+        }
+      }
+    }
     let imported = 0
     let duplicates = 0
     let errors = 0
@@ -125,6 +149,12 @@ export async function POST(request: NextRequest) {
       for (const doc of documents) {
         const docTitle = doc.title || `Document ${doc.id}`
         const docId = doc.id
+
+        // If receipt_id filter active, skip documents not matching target order numbers
+        if (receiptId && targetOrderNumbers.length > 0) {
+          const shouldProcess = targetOrderNumbers.some((orderNum) => docTitle.includes(orderNum))
+          if (!shouldProcess) continue
+        }
 
         try {
           // Download PDF
@@ -327,8 +357,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (imported + duplicates + errors === 0) {
+      const msg = receiptId
+        ? targetOrderNumbers.length === 0
+          ? "Diesem Bon sind noch keine AVIS zugeordnet"
+          : "Keine neuen AVISe für diesen Bon gefunden"
+        : "Keine neuen AVISe gefunden"
       return NextResponse.json({
-        message: "Keine neuen AVISe gefunden",
+        message: msg,
         auto_set: 0,
         pending_approval: 0,
       })

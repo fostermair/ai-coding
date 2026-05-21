@@ -45,14 +45,20 @@ export async function POST(request: NextRequest) {
           .prepare("SELECT status FROM avis_matches WHERE id = ?")
           .get(existing_match_id) as { status: string } | undefined
 
-        if (existingMatch && existingMatch.status === "rejected") {
+        if (!existingMatch) {
+          throw new Error("Bestehender Match nicht gefunden")
+        }
+
+        if (existingMatch.status === "rejected") {
           db.prepare(
             `UPDATE avis_matches
              SET status = 'confirmed', match_source = ?, updated_at = datetime('now')
              WHERE id = ?`
           ).run(match_source, existing_match_id)
         } else {
-          throw new Error("Bestehender Match kann nicht aktualisiert werden")
+          // Match exists but is not rejected - cannot update in-place
+          // Let the transaction fail so the caller can handle it
+          throw new Error(`Match status ist '${existingMatch.status}', kann nur 'rejected' aktualisiert werden`)
         }
       } else {
         // Create a new avis_matches entry
@@ -129,6 +135,8 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     console.error("[/api/avis/matches/manual-assign] Error:", e)
     const message = e instanceof Error ? e.message : "Interner Fehler"
-    return NextResponse.json({ message }, { status: 500 })
+    // Return 409 Conflict for state-related errors, 500 for others
+    const status = message.includes("Match status") ? 409 : 500
+    return NextResponse.json({ message }, { status })
   }
 }

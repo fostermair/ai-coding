@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Circle,
   RefreshCw,
+  CreditCard,
 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
@@ -68,6 +69,14 @@ interface SyncResult {
   errors: number
   details: SyncDetail[]
   message?: string
+}
+
+interface KontoImportResult {
+  imported: number
+  duplicates: number
+  errors: number
+  periode: string
+  status: string
 }
 
 export function ImportZone() {
@@ -366,6 +375,128 @@ export function ImportZone() {
       item.status === "duplicate" ||
       item.status === "error"
   )
+
+  // ── Kontoauszug state ─────────────────────────────────────────────────────
+  const [isKontoDragging, setIsKontoDragging] = useState(false)
+  const [kontoQueue, setKontoQueue] = useState<QueueItem[]>([])
+  const kontoFileInputRef = useRef<HTMLInputElement>(null)
+  const [isKontoSyncing, setIsKontoSyncing] = useState(false)
+  const [kontoSyncResult, setKontoSyncResult] = useState<SyncResult | null>(null)
+  const [kontoSyncError, setKontoSyncError] = useState<string | null>(null)
+
+  const updateKontoItem = useCallback((id: string, updates: Partial<QueueItem>) => {
+    setKontoQueue((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    )
+  }, [])
+
+  const uploadKontoFile = useCallback(
+    async (item: QueueItem, file: File) => {
+      updateKontoItem(item.id, { status: "uploading" })
+      const formData = new FormData()
+      formData.append("file", file)
+      try {
+        const res = await fetch("/api/konto/import", { method: "POST", body: formData })
+        const data = await res.json()
+        if (res.status === 409) {
+          updateKontoItem(item.id, { status: "duplicate", error: data.message })
+        } else if (!res.ok) {
+          updateKontoItem(item.id, { status: "error", error: data.message ?? "Unbekannter Fehler" })
+        } else {
+          const r = data as KontoImportResult
+          updateKontoItem(item.id, {
+            status: "success",
+            result: {
+              items: r.imported,
+              total: `${r.imported} Transaktionen · ${r.periode}`,
+            },
+          })
+        }
+      } catch {
+        updateKontoItem(item.id, { status: "error", error: "Backend nicht verfügbar" })
+      }
+    },
+    [updateKontoItem]
+  )
+
+  const addKontoFiles = useCallback(
+    (files: File[]) => {
+      const pdfs = files.filter(
+        (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
+      )
+      if (pdfs.length === 0) return
+      const newItems: QueueItem[] = pdfs.map((f) => ({
+        id: `konto-${f.name}-${Date.now()}-${Math.random()}`,
+        filename: f.name,
+        status: "pending" as ImportStatus,
+      }))
+      setKontoQueue((prev) => [...prev, ...newItems])
+      newItems.forEach((item, i) => {
+        setTimeout(() => uploadKontoFile(item, pdfs[i]), i * 150)
+      })
+    },
+    [uploadKontoFile]
+  )
+
+  const onKontoDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setIsKontoDragging(false)
+      addKontoFiles(Array.from(e.dataTransfer.files))
+    },
+    [addKontoFiles]
+  )
+
+  const onKontoDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsKontoDragging(true)
+  }
+
+  const onKontoDragLeave = (e: React.DragEvent) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsKontoDragging(false)
+    }
+  }
+
+  const onKontoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) addKontoFiles(Array.from(e.target.files))
+    e.target.value = ""
+  }
+
+  const clearKontoCompleted = () => {
+    setKontoQueue((prev) =>
+      prev.filter((item) => item.status === "pending" || item.status === "uploading")
+    )
+  }
+
+  const hasKontoCompleted = kontoQueue.some(
+    (item) => item.status === "success" || item.status === "duplicate" || item.status === "error"
+  )
+
+  const handleKontoPaperlessSync = useCallback(async () => {
+    setIsKontoSyncing(true)
+    setKontoSyncResult(null)
+    setKontoSyncError(null)
+    try {
+      const res = await fetch("/api/konto/paperless-sync", { method: "POST" })
+      const data = await res.json()
+      if (!res.ok) {
+        setKontoSyncError(data.message || "Fehler beim Kontoauszug-Sync")
+      } else {
+        setKontoSyncResult({
+          imported: data.imported ?? 0,
+          duplicates: data.duplicates ?? 0,
+          errors: data.errors ?? 0,
+          details: data.details ?? [],
+          message: data.message,
+        })
+      }
+    } catch {
+      setKontoSyncError("Netzwerkfehler – bitte versuche es später erneut")
+    } finally {
+      setIsKontoSyncing(false)
+    }
+  }, [])
 
   const handleAvisPaperlessSync = useCallback(async () => {
     setIsAvisSyncing(true)
@@ -693,6 +824,120 @@ export function ImportZone() {
             {avisQueue.length > 1 && (
               <ImportSummary queue={avisQueue} />
             )}
+          </div>
+        )}
+      </div>
+
+      {/* Kontoauszug Section */}
+      <Separator className="my-6" />
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">Kontoauszug importieren</h2>
+          <p className="text-sm text-gray-600 mt-1">
+            Importiere Kontoauszüge (N3/Volksbank-Format) um Ausgaben mit eBons abzugleichen.
+          </p>
+        </div>
+
+        {/* Kontoauszug Drop Zone */}
+        <div
+          onDrop={onKontoDrop}
+          onDragOver={onKontoDragOver}
+          onDragLeave={onKontoDragLeave}
+          onClick={() => kontoFileInputRef.current?.click()}
+          className={cn(
+            "border-2 border-dashed rounded-xl p-14 text-center cursor-pointer transition-all select-none",
+            isKontoDragging
+              ? "border-blue-400 bg-blue-50 scale-[1.01]"
+              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/50"
+          )}
+        >
+          <input
+            ref={kontoFileInputRef}
+            type="file"
+            accept=".pdf,application/pdf"
+            multiple
+            className="hidden"
+            onChange={onKontoFileChange}
+          />
+          <CreditCard
+            className={cn(
+              "mx-auto h-10 w-10 mb-3 transition-colors",
+              isKontoDragging ? "text-blue-400" : "text-gray-300"
+            )}
+          />
+          <p className="font-medium text-gray-700">
+            {isKontoDragging ? "Loslassen zum Importieren" : "Kontoauszug-PDFs hier ablegen"}
+          </p>
+          <p className="text-sm text-gray-400 mt-1">
+            oder klicken zum Auswählen · N3/Volksbank-Format
+          </p>
+        </div>
+
+        {/* Paperless Kontoauszug Sync — always shown; shows error if PAPERLESS_KONTO_DOCUMENT_TYPE_ID not set */}
+        <div className="space-y-2">
+            <Button
+              onClick={handleKontoPaperlessSync}
+              disabled={isKontoSyncing}
+              className="w-full"
+              variant="outline"
+            >
+              {isKontoSyncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Kontoauszug synchronisiere …
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Kontoauszüge aus paperless-ngx synchronisieren
+                </>
+              )}
+            </Button>
+
+            {kontoSyncResult && (
+              <div className="mt-3 space-y-2">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                  <p className="text-sm font-medium text-green-800">Kontoauszug Sync-Ergebnis</p>
+                  <p className="text-xs text-green-700 mt-1">
+                    {kontoSyncResult.imported} importiert
+                    {kontoSyncResult.duplicates > 0 && ` · ${kontoSyncResult.duplicates} Duplikat${kontoSyncResult.duplicates !== 1 ? "e" : ""}`}
+                    {kontoSyncResult.errors > 0 && ` · ${kontoSyncResult.errors} Fehler`}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {kontoSyncError && (
+              <Alert variant="destructive">
+                <AlertDescription>{kontoSyncError}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+
+        {/* Kontoauszug Queue */}
+        {kontoQueue.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-gray-600">
+                {kontoQueue.length} Datei{kontoQueue.length !== 1 ? "en" : ""}
+              </p>
+              {hasKontoCompleted && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearKontoCompleted}
+                  className="text-gray-400 hover:text-gray-600 h-7 text-xs"
+                >
+                  Abgeschlossene ausblenden
+                </Button>
+              )}
+            </div>
+            <div className="space-y-2">
+              {kontoQueue.map((item) => (
+                <QueueItemCard key={item.id} item={item} />
+              ))}
+            </div>
+            {kontoQueue.length > 1 && <ImportSummary queue={kontoQueue} />}
           </div>
         )}
       </div>

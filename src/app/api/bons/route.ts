@@ -43,6 +43,7 @@ export async function GET(request: NextRequest) {
           r.total_amount_cents,
           r.payment_method,
           r.store_chain,
+          r.is_virtual,
           (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count,
           CASE
             WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id) = 0
@@ -60,10 +61,13 @@ export async function GET(request: NextRequest) {
       )
       .all(...params)
 
-    // Total stats (unfiltered)
+    // Total stats (unfiltered) — real bons only for count; all receipts (incl. virtual) for total spend
     const stats = db
       .prepare(
-        "SELECT COUNT(*) AS total_count, COALESCE(SUM(total_amount_cents), 0) AS total_spent_cents FROM receipts"
+        `SELECT
+          (SELECT COUNT(*) FROM receipts WHERE is_virtual = 0) AS total_count,
+          COALESCE(SUM(total_amount_cents), 0) AS total_spent_cents
+         FROM receipts`
       )
       .get() as { total_count: number; total_spent_cents: number }
 

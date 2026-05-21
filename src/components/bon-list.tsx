@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Upload, X, Receipt, Download } from "lucide-react"
+import { Upload, X, Receipt, Download, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
@@ -31,6 +31,7 @@ interface BonSummary {
   payment_method: string
   store_chain?: string
   avis_status?: "complete" | "pending" | "no_matches" | null
+  is_virtual?: number
 }
 
 interface BonsResponse {
@@ -85,6 +86,27 @@ function PaymentBadge({ method }: { method?: string }) {
         alt="Barzahlung"
         className="h-5 w-auto object-contain"
       />
+    )
+  }
+  if (m === "kartenzahlung") {
+    return (
+      <Badge variant="secondary" className="font-normal text-xs text-blue-700 bg-blue-50 border-blue-200">
+        Kartenzahlung
+      </Badge>
+    )
+  }
+  if (m === "überweisung") {
+    return (
+      <Badge variant="secondary" className="font-normal text-xs text-purple-700 bg-purple-50 border-purple-200">
+        Überweisung
+      </Badge>
+    )
+  }
+  if (m === "gutschrift") {
+    return (
+      <Badge variant="secondary" className="font-normal text-xs text-green-700 bg-green-50 border-green-200">
+        Gutschrift
+      </Badge>
     )
   }
   return (
@@ -277,8 +299,8 @@ export function BonList() {
               {bons.map((bon) => (
                 <TableRow
                   key={bon.id}
-                  className="cursor-pointer"
-                  onClick={() => router.push(`/bon/${bon.id}`)}
+                  className={bon.is_virtual ? "border-dashed opacity-80" : "cursor-pointer"}
+                  onClick={bon.is_virtual ? undefined : () => router.push(`/bon/${bon.id}`)}
                 >
                   <TableCell className="font-medium">
                     {formatDate(bon.receipt_date)}
@@ -287,15 +309,20 @@ export function BonList() {
                     {bon.receipt_time}
                   </TableCell>
                   <TableCell className="max-w-[200px] truncate">
-                    {bon.store_name}
+                    <div className="flex items-center gap-1.5">
+                      {bon.is_virtual ? (
+                        <CreditCard className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+                      ) : null}
+                      <span>{bon.store_name}</span>
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <ChainBadge chain={bon.store_chain} />
+                    {!bon.is_virtual && <ChainBadge chain={bon.store_chain} />}
                   </TableCell>
                   <TableCell className="hidden md:table-cell text-gray-500">
                     {bon.receipt_nr}
                   </TableCell>
-                  <TableCell className="text-right">{bon.item_count}</TableCell>
+                  <TableCell className="text-right">{bon.is_virtual ? "–" : bon.item_count}</TableCell>
                   <TableCell className="text-right font-medium tabular-nums">
                     {formatEuro(bon.total_amount_cents)} €
                   </TableCell>
@@ -303,7 +330,7 @@ export function BonList() {
                     <PaymentBadge method={bon.payment_method} />
                   </TableCell>
                   <TableCell className="text-center">
-                    {bon.store_chain === "rewe" && <AvisStatusBadge status={bon.avis_status} />}
+                    {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}
                   </TableCell>
                 </TableRow>
               ))}

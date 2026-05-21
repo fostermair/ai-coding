@@ -117,7 +117,7 @@ function extractFooter(lines: string[]): {
   if (zahlenIdx !== -1 && zahlenIdx + 1 < lines.length) {
     const paymentLine = lines[zahlenIdx + 1].trim()
     if (paymentLine && !paymentLine.match(/^\d/)) {
-      paymentMethod = paymentLine
+      paymentMethod = paymentLine.replace(/\s+[\d.,]+$/, "").trim()
     }
   }
 

@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/import", label: "Import" },
   { href: "/produkte", label: "Produkte" },
   { href: "/statistiken", label: "Statistiken" },
+  { href: "/transaktionen", label: "Transaktionen" },
 ]
 
 export function Nav() {

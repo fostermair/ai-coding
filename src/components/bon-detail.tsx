@@ -30,6 +30,7 @@ import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw } from "lu
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
+import { BankTransactionBadge } from "@/components/bank-transaction-badge"
 import { Edit } from "lucide-react"
 
 function ChainBadge({ chain }: { chain?: string }) {
@@ -135,6 +136,13 @@ interface BonDetail {
   paperless_doc_id: number | null
   store_chain?: string
   has_avis: boolean
+  is_virtual?: number
+  bank_transaction_id?: number | null
+  bank_transaction?: {
+    betrag_cents: number
+    buchungsdatum: string
+    match_source: 'auto' | 'manual'
+  } | null
   items: ReceiptItem[]
 }
 
@@ -295,6 +303,13 @@ export function BonDetailView({ bonId }: { bonId: string }) {
               </div>
             </div>
           </div>
+          {bon.bank_transaction && (
+            <BankTransactionBadge
+              betrag_cents={bon.bank_transaction.betrag_cents}
+              buchungsdatum={bon.bank_transaction.buchungsdatum}
+              match_source={bon.bank_transaction.match_source}
+            />
+          )}
         </CardContent>
       </Card>
 

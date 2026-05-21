@@ -28,12 +28,14 @@ interface ConfigDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-type ConfirmType = "avis" | "alias" | null
+type ConfirmType = "avis" | "alias" | "konto" | "bons" | null
 
 export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const [confirmType, setConfirmType] = useState<ConfirmType>(null)
   const [avisLoading, setAvisLoading] = useState(false)
   const [aliasLoading, setAliasLoading] = useState(false)
+  const [kontoLoading, setKontoLoading] = useState(false)
+  const [bonsLoading, setBonsLoading] = useState(false)
   const [message, setMessage] = useState<{
     type: "success" | "error"
     text: string
@@ -69,6 +71,55 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
       })
     } finally {
       setAvisLoading(false)
+      setConfirmType(null)
+    }
+  }
+
+  const handleDeleteBons = async () => {
+    setBonsLoading(true)
+    setMessage(null)
+    try {
+      const res = await fetch("/api/bons/reset", { method: "DELETE" })
+      const data = await res.json()
+
+      if (!res.ok) {
+        setMessage({ type: "error", text: data.message || "Fehler beim Löschen der Bons-Datenbank" })
+        return
+      }
+
+      setMessage({ type: "success", text: data.message })
+      toast.success(data.message)
+      setTimeout(() => setMessage(null), 3000)
+    } catch {
+      setMessage({ type: "error", text: "Netzwerkfehler beim Löschen aufgetreten" })
+    } finally {
+      setBonsLoading(false)
+      setConfirmType(null)
+    }
+  }
+
+  const handleDeleteKonto = async () => {
+    setKontoLoading(true)
+    setMessage(null)
+    try {
+      const res = await fetch("/api/konto/statements", { method: "DELETE" })
+      const data = await res.json()
+
+      if (!res.ok) {
+        setMessage({
+          type: "error",
+          text: data.message || "Fehler beim Löschen der Kontoauszüge",
+        })
+        return
+      }
+
+      setMessage({ type: "success", text: data.message })
+      toast.success(data.message)
+      setTimeout(() => setMessage(null), 3000)
+    } catch {
+      setMessage({ type: "error", text: "Netzwerkfehler beim Löschen aufgetreten" })
+    } finally {
+      setKontoLoading(false)
       setConfirmType(null)
     }
   }
@@ -136,6 +187,28 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
             </Alert>
           )}
 
+          {/* Bons DB Reset */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">Bons-Datenbank zurücksetzen</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Löscht alle Bons, Artikel, AVIS-Matches, Produktaliase und den Import-Log — kompletter Reset
+              </p>
+            </div>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setConfirmType("bons")}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              className="w-full gap-2"
+            >
+              {bonsLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {bonsLoading ? "Wird gelöscht..." : "Bons-Datenbank löschen"}
+            </Button>
+          </div>
+
+          <Separator />
+
           {/* AVIS Database Management */}
           <div className="space-y-3">
             <div>
@@ -148,11 +221,33 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("avis")}
-              disabled={avisLoading || aliasLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
               className="w-full gap-2"
             >
               {avisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
               {avisLoading ? "Wird gelöscht..." : "AVIS-Datenbank löschen"}
+            </Button>
+          </div>
+
+          <Separator />
+
+          {/* Kontoauszug Management */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">Kontoauszüge Verwaltung</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Löscht alle importierten Kontoauszüge, Transaktionen und deren Verknüpfungen zu Bons
+              </p>
+            </div>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setConfirmType("konto")}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              className="w-full gap-2"
+            >
+              {kontoLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {kontoLoading ? "Wird gelöscht..." : "Alle Kontoauszüge löschen"}
             </Button>
           </div>
 
@@ -168,7 +263,7 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("alias")}
-              disabled={avisLoading || aliasLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
               className="w-full gap-2"
             >
               {aliasLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -208,6 +303,48 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
             className="bg-red-600 hover:bg-red-700"
           >
             {avisLoading ? "Wird gelöscht..." : "Ja, löschen"}
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Bons Reset Confirmation Dialog */}
+      <AlertDialog open={confirmType === "bons"} onOpenChange={(open) => !open && setConfirmType(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Bons-Datenbank komplett löschen?</AlertDialogTitle>
+            <AlertDialogDescription className="text-red-600 font-medium">
+              ⚠️ Dies löscht ALLE Bons, Artikel, AVIS-Matches, Produktaliase und den Import-Log.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <p className="text-sm text-gray-700 px-4">Diese Aktion kann nicht rückgängig gemacht werden.</p>
+          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDeleteBons}
+            disabled={bonsLoading}
+            className="bg-red-600 hover:bg-red-700"
+          >
+            {bonsLoading ? "Wird gelöscht..." : "Ja, alles löschen"}
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Konto Confirmation Dialog */}
+      <AlertDialog open={confirmType === "konto"} onOpenChange={(open) => !open && setConfirmType(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Alle Kontoauszüge löschen?</AlertDialogTitle>
+            <AlertDialogDescription className="text-red-600 font-medium">
+              ⚠️ Dies löscht ALLE importierten Kontoauszüge, Transaktionen und deren Verknüpfungen zu Bons.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <p className="text-sm text-gray-700 px-4">Diese Aktion kann nicht rückgängig gemacht werden.</p>
+          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDeleteKonto}
+            disabled={kontoLoading}
+            className="bg-red-600 hover:bg-red-700"
+          >
+            {kontoLoading ? "Wird gelöscht..." : "Ja, löschen"}
           </AlertDialogAction>
         </AlertDialogContent>
       </AlertDialog>

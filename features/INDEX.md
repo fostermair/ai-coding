@@ -38,6 +38,9 @@
 | PROJ-22 | Konfigurations-Menü (AVIS-DB & Alias löschen) | Approved | [PROJ-22-konfigurations-menu/spec.md](PROJ-22-konfigurations-menu/spec.md) | 2026-05-20 |
 | PROJ-23 | Multi-Supermarkt eBon Import (Lidl & Kaufland) | Approved | [PROJ-23-multi-supermarkt-import/spec.md](PROJ-23-multi-supermarkt-import/spec.md) | 2026-05-20 |
 
+| PROJ-24 | Kontoauszug-Import & Parser | Approved | [PROJ-24-kontoauszug-import/spec.md](PROJ-24-kontoauszug-import/spec.md) | 2026-05-21 |
+| PROJ-25 | Bon-Kontoauszug Abgleich & Visualisierung | Approved | [PROJ-25-bon-kontoauszug-abgleich/spec.md](PROJ-25-bon-kontoauszug-abgleich/spec.md) | 2026-05-21 |
+
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-24
+## Next Available ID: PROJ-26

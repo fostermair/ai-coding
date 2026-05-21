@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { parseReweEbon, formatGermanDate } from "@/lib/parser/rewe"
+import { rematchAfterBonImport } from "@/lib/konto-matching"
 
 // ── pdfjs-dist (used internally by pdf-parse) requires browser globals that
 //    don't exist in Node.js. Polyfill them before require() is called. ──────
@@ -174,6 +175,20 @@ export async function POST(request: NextRequest) {
     })
 
     const receiptId = doInsert()
+
+    // Re-match open Kontoauszug transactions against the new bon
+    try {
+      const db2 = getDb()
+      rematchAfterBonImport(
+        db2,
+        receiptId as number,
+        parsed.receiptDate,
+        parsed.totalAmountCents,
+        "rewe"
+      )
+    } catch {
+      // Non-critical
+    }
 
     return NextResponse.json({
       id: receiptId,

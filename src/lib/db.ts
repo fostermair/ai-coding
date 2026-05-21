@@ -161,4 +161,54 @@ function initSchema(db: Database.Database): void {
     db.exec("ALTER TABLE receipts ADD COLUMN store_chain TEXT NOT NULL DEFAULT 'rewe'")
     db.exec("CREATE INDEX IF NOT EXISTS idx_receipts_store_chain ON receipts(store_chain)")
   }
+
+  // PROJ-24: bank_transactions + bank_statement_log tables
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS bank_transactions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      buchungsdatum TEXT NOT NULL,
+      valutadatum TEXT,
+      typ TEXT NOT NULL,
+      beschreibung TEXT NOT NULL,
+      haendler_name TEXT,
+      empfaenger_name TEXT,
+      verwendungszweck TEXT,
+      iban TEXT,
+      bic TEXT,
+      betrag_cents INTEGER NOT NULL,
+      kontoauszug_datei TEXT,
+      periode TEXT NOT NULL,
+      konto_iban TEXT NOT NULL,
+      importiert_am TEXT NOT NULL DEFAULT (datetime('now')),
+      match_status TEXT NOT NULL DEFAULT 'unmatched',
+      matched_receipt_id INTEGER REFERENCES receipts(id),
+      match_source TEXT
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_bank_tx_unique
+      ON bank_transactions(konto_iban, buchungsdatum, betrag_cents, beschreibung);
+    CREATE INDEX IF NOT EXISTS idx_bank_tx_status
+      ON bank_transactions(match_status);
+
+    CREATE TABLE IF NOT EXISTS bank_statement_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      konto_iban TEXT NOT NULL,
+      periode TEXT NOT NULL,
+      dateiname TEXT,
+      importiert_am TEXT NOT NULL DEFAULT (datetime('now')),
+      transaktion_count INTEGER
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_bank_stmt_unique
+      ON bank_statement_log(konto_iban, periode);
+  `)
+
+  // PROJ-25: is_virtual + bank_transaction_id on receipts
+  const receiptCols2 = db.prepare("PRAGMA table_info(receipts)").all() as Array<{ name: string }>
+  if (!receiptCols2.some((c) => c.name === "is_virtual")) {
+    db.exec("ALTER TABLE receipts ADD COLUMN is_virtual INTEGER NOT NULL DEFAULT 0")
+  }
+  if (!receiptCols2.some((c) => c.name === "bank_transaction_id")) {
+    db.exec(
+      "ALTER TABLE receipts ADD COLUMN bank_transaction_id INTEGER REFERENCES bank_transactions(id)"
+    )
+  }
 }

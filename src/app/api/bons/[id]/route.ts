@@ -92,10 +92,25 @@ export async function GET(
     // Check if this receipt has any AVIS matches (for showing edit button)
     const hasAvis = avisMatches.length > 0
 
+    // Fetch linked bank transaction if any
+    let bankTransaction = null
+    if (receipt.bank_transaction_id) {
+      bankTransaction = db
+        .prepare(
+          "SELECT betrag_cents, buchungsdatum, match_source FROM bank_transactions WHERE id = ?"
+        )
+        .get(receipt.bank_transaction_id as number) as {
+          betrag_cents: number
+          buchungsdatum: string
+          match_source: 'auto' | 'manual'
+        } | null
+    }
+
     return NextResponse.json({
       ...receipt,
       items: itemsWithDiscounts,
       has_avis: hasAvis,
+      bank_transaction: bankTransaction,
     })
   } catch (e) {
     console.error("[/api/bons/[id]] GET Error:", e)

@@ -552,7 +552,6 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
       })
       if (!res.ok) {
         const error = await res.json().catch(() => ({ message: "Unbekannter Fehler" }))
-        console.error("[handleManualAssign] Server error:", { status: res.status, ...error })
         throw new Error(error.message || "Zuweisung fehlgeschlagen")
       }
 

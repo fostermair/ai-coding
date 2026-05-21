@@ -75,6 +75,23 @@ export async function POST(request: NextRequest) {
         if (existingItemMatch) {
           // Reassignment: update existing match to new AVIS item name
           matchId = existingItemMatch.id
+
+          // Conflict check: is there ANOTHER row with the same (receipt_id, avis_item_name, import_log_id)?
+          const conflictRow = db
+            .prepare(
+              `SELECT id FROM avis_matches
+               WHERE receipt_id = ? AND avis_item_name = ? AND import_log_id = ? AND id != ?
+               LIMIT 1`
+            )
+            .get(receipt_id, avis_item_name, existingItemMatch.import_log_id, matchId) as
+            | { id: number }
+            | undefined
+
+          if (conflictRow) {
+            // Free up the conflicting row to avoid UNIQUE constraint violation
+            db.prepare(`DELETE FROM avis_matches WHERE id = ?`).run(conflictRow.id)
+          }
+
           db.prepare(
             `UPDATE avis_matches
              SET avis_item_name = ?, status = 'confirmed', match_source = ?, updated_at = datetime('now')
@@ -126,24 +143,43 @@ export async function POST(request: NextRequest) {
               throw new Error("Bitte zuerst eine AVIS-Datei importieren")
             }
 
-            const insertResult = db
+            // Conflict check: reuse existing row if (receipt_id, avis_item_name, import_log_id) already exists
+            const conflictRow = db
               .prepare(
-                `INSERT INTO avis_matches
-                 (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status, match_source)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+                `SELECT id FROM avis_matches
+                 WHERE receipt_id = ? AND avis_item_name = ? AND import_log_id = ?
+                 LIMIT 1`
               )
-              .run(
-                receipt_id,
-                receipt_item_id,
-                importLogId,
-                avis_item_name,
-                0, // price unknown for manual assignments
-                100, // confidence is high for manual assignments
-                "confirmed",
-                match_source
-              )
+              .get(receipt_id, avis_item_name, importLogId) as { id: number } | undefined
 
-            matchId = insertResult.lastInsertRowid as number
+            if (conflictRow) {
+              // Reuse the existing row: update it to point to our receipt_item_id
+              matchId = conflictRow.id
+              db.prepare(
+                `UPDATE avis_matches
+                 SET receipt_item_id = ?, status = 'confirmed', match_source = ?, updated_at = datetime('now')
+                 WHERE id = ?`
+              ).run(receipt_item_id, match_source, matchId)
+            } else {
+              const insertResult = db
+                .prepare(
+                  `INSERT INTO avis_matches
+                   (receipt_id, receipt_item_id, import_log_id, avis_item_name, avis_unit_price_cents, confidence, status, match_source)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+                )
+                .run(
+                  receipt_id,
+                  receipt_item_id,
+                  importLogId,
+                  avis_item_name,
+                  0, // price unknown for manual assignments
+                  100, // confidence is high for manual assignments
+                  "confirmed",
+                  match_source
+                )
+
+              matchId = insertResult.lastInsertRowid as number
+            }
           }
         }
       }

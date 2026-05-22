@@ -42,7 +42,7 @@
 | PROJ-25 | Bon-Kontoauszug Abgleich & Visualisierung | Approved | [PROJ-25-bon-kontoauszug-abgleich/spec.md](PROJ-25-bon-kontoauszug-abgleich/spec.md) | 2026-05-21 |
 | PROJ-26 | Transaktions-Anreicherung (Alias, Logo, Ausblenden) | Approved | [PROJ-26-transaktions-anreicherung/spec.md](PROJ-26-transaktions-anreicherung/spec.md) | 2026-05-22 |
 
-| PROJ-27 | UX-Verbesserungen Bon- & Transaktionsübersicht | In Progress | [PROJ-27-ux-verbesserungen/spec.md](PROJ-27-ux-verbesserungen/spec.md) | 2026-05-22 |
+| PROJ-27 | UX-Verbesserungen Bon- & Transaktionsübersicht | Approved | [PROJ-27-ux-verbesserungen/spec.md](PROJ-27-ux-verbesserungen/spec.md) | 2026-05-22 |
 
 <!-- Add features above this line -->
 

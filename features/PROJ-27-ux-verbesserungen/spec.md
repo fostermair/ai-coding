@@ -1,6 +1,6 @@
 # PROJ-27 – UX-Verbesserungen Bon- & Transaktionsübersicht
 
-**Status:** In Progress  
+**Status:** Approved  
 **Created:** 2026-05-22  
 **Dependencies:** PROJ-2 (Bon-Übersicht), PROJ-25/26 (Transaktionsübersicht)
 

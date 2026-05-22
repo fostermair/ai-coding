@@ -162,6 +162,17 @@ function initSchema(db: Database.Database): void {
     db.exec("CREATE INDEX IF NOT EXISTS idx_receipts_store_chain ON receipts(store_chain)")
   }
 
+  // PROJ-26: transaction_aliases table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS transaction_aliases (
+      beschreibung TEXT PRIMARY KEY,
+      alias        TEXT NOT NULL,
+      logo_path    TEXT,
+      updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_tx_aliases_alias ON transaction_aliases(alias);
+  `)
+
   // PROJ-24: bank_transactions + bank_statement_log tables
   db.exec(`
     CREATE TABLE IF NOT EXISTS bank_transactions (
@@ -210,5 +221,67 @@ function initSchema(db: Database.Database): void {
     db.exec(
       "ALTER TABLE receipts ADD COLUMN bank_transaction_id INTEGER REFERENCES bank_transactions(id)"
     )
+  }
+
+  // Migration: korrigiere falsch als 'rewe' gesetzte store_chain-Werte (idempotent).
+  // Runs after is_virtual is guaranteed to exist (moved from above PROJ-24 tables).
+  db.exec(`
+    UPDATE receipts SET store_chain = 'lidl'     WHERE store_chain = 'rewe' AND LOWER(store_name) LIKE '%lidl%';
+    UPDATE receipts SET store_chain = 'kaufland'  WHERE store_chain = 'rewe' AND LOWER(store_name) LIKE '%kaufland%';
+    UPDATE receipts SET store_chain = 'edeka'     WHERE store_chain = 'rewe' AND LOWER(store_name) LIKE '%edeka%';
+    UPDATE receipts SET store_chain = 'sonstige'
+      WHERE store_chain = 'rewe' AND is_virtual = 1 AND LOWER(store_name) NOT LIKE '%rewe%';
+  `)
+
+  // PROJ-26: add hidden column to bank_transactions
+  const bankTxCols = db.prepare("PRAGMA table_info(bank_transactions)").all() as Array<{ name: string }>
+  if (!bankTxCols.some((c) => c.name === "hidden")) {
+    db.exec("ALTER TABLE bank_transactions ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0")
+    db.exec("CREATE INDEX IF NOT EXISTS idx_bank_tx_hidden ON bank_transactions(hidden)")
+  }
+
+  // Migration: clean up duplicate virtual bons (caused by inconsistent beschreibung
+  // field between parsing runs), then add UNIQUE index as guard
+  const hasUniqBankTxIdx = (db
+    .prepare("SELECT name FROM sqlite_master WHERE type='index' AND name='idx_receipts_bank_tx_id'")
+    .get()) != null
+
+  if (!hasUniqBankTxIdx) {
+    // Step 1: keep only the oldest virtual bon per bank_transaction_id
+    db.exec(`
+      DELETE FROM receipts
+      WHERE is_virtual = 1
+        AND bank_transaction_id IS NOT NULL
+        AND id NOT IN (
+          SELECT MIN(id) FROM receipts
+          WHERE is_virtual = 1 AND bank_transaction_id IS NOT NULL
+          GROUP BY bank_transaction_id
+        )
+    `)
+
+    // Step 2: remove duplicate bank_transactions (same konto_iban + date + amount),
+    // keeping the row with the longest (most complete) beschreibung
+    db.exec(`
+      DELETE FROM bank_transactions
+      WHERE id NOT IN (
+        SELECT id FROM bank_transactions t1
+        WHERE NOT EXISTS (
+          SELECT 1 FROM bank_transactions t2
+          WHERE t2.konto_iban = t1.konto_iban
+            AND t2.buchungsdatum = t1.buchungsdatum
+            AND t2.betrag_cents = t1.betrag_cents
+            AND (
+              LENGTH(t2.beschreibung) > LENGTH(t1.beschreibung)
+              OR (LENGTH(t2.beschreibung) = LENGTH(t1.beschreibung) AND t2.id < t1.id)
+            )
+        )
+      )
+    `)
+
+    // Step 3: add UNIQUE index — prevents duplicate virtual bons at DB level
+    db.exec(`
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_receipts_bank_tx_id
+        ON receipts(bank_transaction_id) WHERE bank_transaction_id IS NOT NULL
+    `)
   }
 }

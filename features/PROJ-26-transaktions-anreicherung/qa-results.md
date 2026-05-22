@@ -137,15 +137,11 @@
 - **Actual:** Server prüft nur Dateigröße, nicht den MIME-Typ
 - **Priority:** Nice to have
 
-### BUG-4 (Medium): Fresh-DB-Initialisierung schlägt fehl – Migration-Reihenfolge in `db.ts`
-- **Severity:** Medium
-- **Steps to Reproduce:**
-  1. Leere/frische Datenbankdatei anlegen
-  2. `getDb()` aufrufen → `initSchema()` wirft `SqliteError: no such column: is_virtual`
-- **Root Cause:** Die "korrigiere store_chain"-Migration (Zeile 165–172 in `db.ts`) referenziert `is_virtual` in einer WHERE-Klausel, bevor die `is_virtual`-Spalten-Migration (Zeile 225–231) die Spalte hinzufügt
-- **Impact:** Betrifft Neu-Installationen und Test-Environments
-- **Fix:** Korrigiere-Migration nach Zeile 231 verschieben (nach Hinzufügen von `is_virtual`)
-- **Priority:** Fix before deployment (betrifft Neu-Installation)
+### BUG-4 (Medium): ~~Fresh-DB-Initialisierung schlägt fehl – Migration-Reihenfolge in `db.ts`~~ FIXED
+- **Severity:** Medium → **Behoben**
+- **Root Cause:** "korrigiere store_chain"-Migration referenzierte `is_virtual` vor der entsprechenden ALTER-Migration
+- **Fix:** Korrigiere-Migration wurde in `db.ts` nach die `is_virtual`-Migration verschoben (nach Zeile 233)
+- **Verified:** Unit-Tests laufen auf frischen DBs durch (13/13 bestanden)
 
 ### BUG-5 (Low): Logo-Größenvalidierung nicht testbar via Vitest/NextRequest
 - **Severity:** Low (Test-Infrastruktur, nicht Produktionscode)
@@ -172,7 +168,7 @@
 | Metrik | Ergebnis |
 |---|---|
 | Akzeptanzkriterien | 17 / 17 bestanden |
-| Bugs gefunden | 5 total (0 critical, 0 high, 1 medium, 4 low) |
+| Bugs gefunden | 5 total (0 critical, 0 high, 0 medium, 4 low) — BUG-4 behoben |
 | Security | Bestanden — keine kritischen Findings |
-| Production Ready | **JA** — nach Fix von BUG-4 |
-| Empfehlung | BUG-4 (Medium) vor Deployment fixen, Low-Bugs im nächsten Sprint |
+| Production Ready | **JA** |
+| Empfehlung | Deployment bereit. Low-Bugs optional im nächsten Sprint |

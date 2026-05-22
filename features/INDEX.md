@@ -40,7 +40,7 @@
 
 | PROJ-24 | Kontoauszug-Import & Parser | Approved | [PROJ-24-kontoauszug-import/spec.md](PROJ-24-kontoauszug-import/spec.md) | 2026-05-21 |
 | PROJ-25 | Bon-Kontoauszug Abgleich & Visualisierung | Approved | [PROJ-25-bon-kontoauszug-abgleich/spec.md](PROJ-25-bon-kontoauszug-abgleich/spec.md) | 2026-05-21 |
-| PROJ-26 | Transaktions-Anreicherung (Alias, Logo, Ausblenden) | In Review | [PROJ-26-transaktions-anreicherung/spec.md](PROJ-26-transaktions-anreicherung/spec.md) | 2026-05-22 |
+| PROJ-26 | Transaktions-Anreicherung (Alias, Logo, Ausblenden) | Approved | [PROJ-26-transaktions-anreicherung/spec.md](PROJ-26-transaktions-anreicherung/spec.md) | 2026-05-22 |
 
 <!-- Add features above this line -->
 

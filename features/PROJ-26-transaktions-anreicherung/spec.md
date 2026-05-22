@@ -1,6 +1,6 @@
 # PROJ-26: Transaktions-Anreicherung
 
-**Status:** In Review  
+**Status:** Approved  
 **Created:** 2026-05-22  
 **Dependencies:** PROJ-24 (Kontoauszug-Import), PROJ-25 (Bon-Kontoauszug-Abgleich)
 

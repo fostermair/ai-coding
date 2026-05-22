@@ -327,7 +327,7 @@ export function BonList() {
                           <PaymentBadge method={bon.payment_method} />
                         </TableCell>
                         <TableCell className="text-center text-gray-600 font-bold">
-                          {bon.has_bank_match && bon.bank_match_source === "auto" && "€"}
+                          {bon.has_bank_match === 1 && bon.bank_match_source === "auto" && "€"}
                         </TableCell>
                         <TableCell className="text-center">
                           {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}

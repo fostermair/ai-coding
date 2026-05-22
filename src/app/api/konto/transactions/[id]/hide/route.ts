@@ -5,7 +5,7 @@ interface RouteContext {
   params: Promise<{ id: string }>
 }
 
-export async function PATCH(_request: NextRequest, context: RouteContext) {
+export async function PATCH(request: NextRequest, context: RouteContext) {
   try {
     const { id } = await context.params
     const txId = parseInt(id)
@@ -13,20 +13,22 @@ export async function PATCH(_request: NextRequest, context: RouteContext) {
       return NextResponse.json({ message: "Ungültige Transaktions-ID" }, { status: 400 })
     }
 
+    const body = await request.json().catch(() => null)
+    if (!body || typeof body.hidden !== "boolean") {
+      return NextResponse.json({ message: "{ hidden: boolean } erforderlich" }, { status: 400 })
+    }
+    const hiddenValue = body.hidden ? 1 : 0
+
     const db = getDb()
+    const result = db
+      .prepare("UPDATE bank_transactions SET hidden = ? WHERE id = ?")
+      .run(hiddenValue, txId)
 
-    const tx = db
-      .prepare("SELECT hidden FROM bank_transactions WHERE id = ?")
-      .get(txId) as { hidden: number } | undefined
-
-    if (!tx) {
+    if (result.changes === 0) {
       return NextResponse.json({ message: "Transaktion nicht gefunden" }, { status: 404 })
     }
 
-    const newHidden = tx.hidden === 0 ? 1 : 0
-    db.prepare("UPDATE bank_transactions SET hidden = ? WHERE id = ?").run(newHidden, txId)
-
-    return NextResponse.json({ success: true, hidden: newHidden })
+    return NextResponse.json({ success: true, hidden: hiddenValue })
   } catch (e) {
     console.error("[/api/konto/transactions/[id]/hide PATCH] Error:", e)
     return NextResponse.json({ message: "Interner Fehler" }, { status: 500 })

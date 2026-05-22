@@ -1,15 +1,25 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { getDb } from "@/lib/db"
+
+const HIDDEN_FILTERS: Record<string, string> = {
+  "0": "AND bt.hidden = 0",
+  "1": "AND bt.hidden = 1",
+  all: "",
+}
+
+const querySchema = z.object({
+  hidden: z.enum(["0", "1", "all"]).default("0"),
+})
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const hiddenParam = searchParams.get("hidden") ?? "0"
-
-    let hiddenFilter: string
-    if (hiddenParam === "1") hiddenFilter = "AND bt.hidden = 1"
-    else if (hiddenParam === "all") hiddenFilter = ""
-    else hiddenFilter = "AND bt.hidden = 0"
+    const parsed = querySchema.safeParse({ hidden: searchParams.get("hidden") ?? "0" })
+    if (!parsed.success) {
+      return NextResponse.json({ message: "Ungültiger hidden-Parameter" }, { status: 400 })
+    }
+    const hiddenFilter = HIDDEN_FILTERS[parsed.data.hidden]
 
     const db = getDb()
 

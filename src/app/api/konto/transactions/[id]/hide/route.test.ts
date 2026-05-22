@@ -67,12 +67,17 @@ describe("PROJ-26: PATCH /api/konto/transactions/[id]/hide", () => {
     return result.lastInsertRowid as number
   }
 
-  it("toggles hidden from 0 to 1", async () => {
-    const txId = insertTransaction(0)
-    const req = new NextRequest(`http://localhost/api/konto/transactions/${txId}/hide`, {
+  function patchHide(txId: number | string, body: unknown) {
+    return new NextRequest(`http://localhost/api/konto/transactions/${txId}/hide`, {
       method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     })
-    const res = await PATCH(req, makeContext(String(txId)))
+  }
+
+  it("sets hidden to true", async () => {
+    const txId = insertTransaction(0)
+    const res = await PATCH(patchHide(txId, { hidden: true }), makeContext(String(txId)))
     const data = await res.json()
 
     expect(res.status).toBe(200)
@@ -86,12 +91,9 @@ describe("PROJ-26: PATCH /api/konto/transactions/[id]/hide", () => {
     expect(row.hidden).toBe(1)
   })
 
-  it("toggles hidden from 1 to 0", async () => {
+  it("sets hidden to false", async () => {
     const txId = insertTransaction(1)
-    const req = new NextRequest(`http://localhost/api/konto/transactions/${txId}/hide`, {
-      method: "PATCH",
-    })
-    const res = await PATCH(req, makeContext(String(txId)))
+    const res = await PATCH(patchHide(txId, { hidden: false }), makeContext(String(txId)))
     const data = await res.json()
 
     expect(res.status).toBe(200)
@@ -106,20 +108,23 @@ describe("PROJ-26: PATCH /api/konto/transactions/[id]/hide", () => {
   })
 
   it("returns 400 for non-numeric ID", async () => {
-    const req = new NextRequest("http://localhost/api/konto/transactions/abc/hide", {
-      method: "PATCH",
-    })
-    const res = await PATCH(req, makeContext("abc"))
+    const res = await PATCH(patchHide("abc", { hidden: true }), makeContext("abc"))
     expect(res.status).toBe(400)
     const data = await res.json()
     expect(data.message).toContain("Ungültige")
   })
 
-  it("returns 404 when transaction does not exist", async () => {
-    const req = new NextRequest("http://localhost/api/konto/transactions/99999/hide", {
+  it("returns 400 when body is missing or malformed", async () => {
+    const txId = insertTransaction(0)
+    const req = new NextRequest(`http://localhost/api/konto/transactions/${txId}/hide`, {
       method: "PATCH",
     })
-    const res = await PATCH(req, makeContext("99999"))
+    const res = await PATCH(req, makeContext(String(txId)))
+    expect(res.status).toBe(400)
+  })
+
+  it("returns 404 when transaction does not exist", async () => {
+    const res = await PATCH(patchHide(99999, { hidden: true }), makeContext("99999"))
     expect(res.status).toBe(404)
     const data = await res.json()
     expect(data.message).toContain("nicht gefunden")

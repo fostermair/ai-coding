@@ -11,8 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Upload, X, Receipt, Download, CreditCard, ChevronRight } from "lucide-react"
+import { Upload, X, Receipt, Download, CreditCard, ChevronRight, Search } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
@@ -52,8 +53,7 @@ export function BonList() {
   const [data, setData] = useState<BonsResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [dateFrom, setDateFrom] = useState("")
-  const [dateTo, setDateTo] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
   const [expandedYears, setExpandedYears] = useState<Set<string>>(new Set())
   const didInitYears = useRef(false)
@@ -62,11 +62,7 @@ export function BonList() {
     setLoading(true)
     setError(null)
     try {
-      const params = new URLSearchParams()
-      if (dateFrom) params.set("from", dateFrom)
-      if (dateTo) params.set("to", dateTo)
-      const qs = params.toString()
-      const res = await fetch(`/api/bons${qs ? `?${qs}` : ""}`)
+      const res = await fetch("/api/bons")
       if (!res.ok) throw new Error("Fehler beim Laden der Bons")
       const json = await res.json()
       setData(json)
@@ -75,7 +71,7 @@ export function BonList() {
     } finally {
       setLoading(false)
     }
-  }, [dateFrom, dateTo])
+  }, [])
 
   useEffect(() => {
     fetchBons()
@@ -94,6 +90,21 @@ export function BonList() {
       .map(([year, items]) => ({ year, items }))
   }, [data])
 
+  const filteredGroups = useMemo(() => {
+    if (!searchQuery.trim()) return groups
+    const q = searchQuery.toLowerCase()
+    return groups
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((bon) => {
+          const storeName = bon.store_name?.toLowerCase() ?? ""
+          const dateStr = bon.receipt_date
+          return storeName.includes(q) || dateStr.includes(q)
+        }),
+      }))
+      .filter((group) => group.items.length > 0)
+  }, [groups, searchQuery])
+
   useEffect(() => {
     if (!didInitYears.current && groups.length > 0) {
       setExpandedYears(new Set([groups[0].year]))
@@ -103,19 +114,10 @@ export function BonList() {
 
   const toggleYear = useCallback((year: string) => {
     setExpandedYears((prev) => {
-      const next = new Set(prev)
-      if (next.has(year)) next.delete(year)
-      else next.add(year)
-      return next
+      if (prev.has(year)) return new Set()
+      return new Set([year])
     })
   }, [])
-
-  const clearFilters = () => {
-    setDateFrom("")
-    setDateTo("")
-  }
-
-  const hasFilters = dateFrom || dateTo
 
   // ── Loading state ─────────────────────────────────────────────────────────
   if (loading && !data) {
@@ -145,7 +147,7 @@ export function BonList() {
   const totalSpent = data?.total_spent_cents ?? 0
 
   // ── Empty state (no bons at all) ──────────────────────────────────────────
-  if (totalCount === 0 && !hasFilters) {
+  if (totalCount === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white py-20 text-center">
         <div className="rounded-full bg-gray-100 p-4 mb-4">
@@ -184,37 +186,23 @@ export function BonList() {
         </div>
       </div>
 
-      {/* Filter bar */}
+      {/* Search + Export bar */}
       <div className="flex flex-wrap items-center gap-3 justify-between">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2">
-            <label htmlFor="date-from" className="text-sm text-gray-500">
-              Von
-            </label>
-            <input
-              id="date-from"
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <label htmlFor="date-to" className="text-sm text-gray-500">
-              Bis
-            </label>
-            <input
-              id="date-to"
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="rounded-md border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          {hasFilters && (
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-400 h-8">
-              <X className="h-4 w-4 mr-1" /> Filter zurücksetzen
-            </Button>
+        <div className="flex-1 min-w-[200px] relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Markt oder Datum suchen …"
+            className="pl-9 pr-9"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              <X className="h-4 w-4" />
+            </button>
           )}
         </div>
         {bons.length > 0 && (
@@ -230,18 +218,18 @@ export function BonList() {
         )}
       </div>
 
-      {/* Filter empty state */}
-      {bons.length === 0 && hasFilters && (
+      {/* Search empty state */}
+      {searchQuery.trim() && filteredGroups.length === 0 && (
         <div className="rounded-lg border border-gray-100 bg-white p-10 text-center">
-          <p className="text-gray-500">Keine Bons im gewählten Zeitraum gefunden.</p>
-          <Button variant="link" size="sm" onClick={clearFilters} className="mt-2">
-            Filter zurücksetzen
+          <p className="text-gray-500">Keine Bons für „{searchQuery}" gefunden.</p>
+          <Button variant="link" size="sm" onClick={() => setSearchQuery("")} className="mt-2">
+            Suche löschen
           </Button>
         </div>
       )}
 
       {/* Bon table */}
-      {bons.length > 0 && (
+      {bons.length > 0 && filteredGroups.length > 0 && (
         <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
           <Table>
             <TableHeader>
@@ -259,8 +247,8 @@ export function BonList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {groups.map((group) => {
-                const isExpanded = expandedYears.has(group.year)
+              {filteredGroups.map((group) => {
+                const isExpanded = searchQuery.trim() ? true : expandedYears.has(group.year)
                 const yearTotal = group.items.reduce((s, b) => s + b.total_amount_cents, 0)
                 return (
                   <React.Fragment key={`year-${group.year}`}>
@@ -346,8 +334,6 @@ export function BonList() {
       <ExportDialog
         open={exportDialogOpen}
         onOpenChange={setExportDialogOpen}
-        dateFrom={dateFrom}
-        dateTo={dateTo}
       />
     </div>
   )

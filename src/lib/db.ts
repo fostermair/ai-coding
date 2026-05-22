@@ -173,6 +173,17 @@ function initSchema(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_tx_aliases_alias ON transaction_aliases(alias);
   `)
 
+  // PROJ-27: market_aliases table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS market_aliases (
+      store_name  TEXT PRIMARY KEY,
+      alias       TEXT NOT NULL,
+      logo_path   TEXT,
+      updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_market_aliases_alias ON market_aliases(alias);
+  `)
+
   // PROJ-24: bank_transactions + bank_statement_log tables
   db.exec(`
     CREATE TABLE IF NOT EXISTS bank_transactions (

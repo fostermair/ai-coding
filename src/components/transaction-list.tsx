@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import {
   Table,
   TableBody,
@@ -12,9 +12,11 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { RefreshCw, Link2, Link2Off, ChevronRight, Pencil, Eye, EyeOff } from "lucide-react"
+import { RefreshCw, ChevronRight, Pencil, Eye, EyeOff, Search, X } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { ChainBadge } from "@/components/chain-badge"
+import { detectChain } from "@/lib/chain"
 import { formatEuro, formatDate } from "@/lib/format"
-import { TransactionAssignDialog } from "@/components/transaction-assign-dialog"
 import { TransactionAliasDialog } from "@/components/transaction-alias-dialog"
 
 interface Transaction {
@@ -70,10 +72,9 @@ export function TransactionList() {
   const [matching, setMatching] = useState(false)
   const [showHidden, setShowHidden] = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
-  const [assignDialog, setAssignDialog] = useState<{
-    open: boolean
-    tx: Transaction | null
-  }>({ open: false, tx: null })
+  const didInitGroups = useRef(false)
+  const [searchQuery, setSearchQuery] = useState("")
+
   const [aliasDialog, setAliasDialog] = useState<{
     open: boolean
     tx: Transaction | null
@@ -91,20 +92,32 @@ export function TransactionList() {
       .map(([key, txs]) => ({ key, txs, periode: txs[0].periode }))
   }, [transactions])
 
+  const filteredGroups = useMemo(() => {
+    if (!searchQuery.trim()) return groups
+    const q = searchQuery.toLowerCase()
+    return groups
+      .map((group) => ({
+        ...group,
+        txs: group.txs.filter((tx) =>
+          [tx.alias, tx.haendler_name, tx.empfaenger_name, tx.beschreibung]
+            .some((field) => field?.toLowerCase().includes(q))
+        ),
+      }))
+      .filter((group) => group.txs.length > 0)
+  }, [groups, searchQuery])
+
   const toggleGroup = useCallback((key: string) => {
     setExpandedGroups((prev) => {
-      const next = new Set(prev)
-      if (next.has(key)) next.delete(key)
-      else next.add(key)
-      return next
+      if (prev.has(key)) return new Set()
+      return new Set([key])
     })
   }, [])
 
-  const fetchTransactions = useCallback(async (hidden: boolean) => {
+  const fetchTransactions = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/konto/transactions?hidden=${hidden ? "1" : "0"}`)
+      const res = await fetch(`/api/konto/transactions?hidden=${showHidden ? "1" : "0"}`)
       if (!res.ok) throw new Error("Fehler beim Laden")
       const data = await res.json()
       setTransactions(data.transactions ?? [])
@@ -113,43 +126,48 @@ export function TransactionList() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [showHidden])
 
   useEffect(() => {
-    fetchTransactions(showHidden)
-  }, [fetchTransactions, showHidden])
+    fetchTransactions()
+  }, [fetchTransactions])
 
   useEffect(() => {
-    if (groups.length > 0) {
+    if (!didInitGroups.current && groups.length > 0) {
       setExpandedGroups(new Set([groups[0].key]))
+      didInitGroups.current = true
     }
-  }, [groups.length]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [groups])
 
   const handleRunMatching = async () => {
     setMatching(true)
     try {
       await fetch("/api/konto/match", { method: "POST" })
-      await fetchTransactions(showHidden)
+      await fetchTransactions()
     } finally {
       setMatching(false)
     }
   }
 
-  const handleUnassign = async (tx: Transaction) => {
-    try {
-      await fetch(`/api/konto/transactions/${tx.id}/assign`, { method: "DELETE" })
-      await fetchTransactions(showHidden)
-    } catch {
-      // ignore
-    }
-  }
-
   const handleToggleHide = async (tx: Transaction) => {
-    try {
-      await fetch(`/api/konto/transactions/${tx.id}/hide`, { method: "PATCH" })
-      await fetchTransactions(showHidden)
-    } catch {
-      // ignore
+    const nextHidden = tx.hidden ? 0 : 1
+    const res = await fetch(`/api/konto/transactions/${tx.id}/hide`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ hidden: nextHidden === 1 }),
+    })
+    if (!res.ok) {
+      await fetchTransactions()
+      return
+    }
+    if (nextHidden === 1 && !showHidden) {
+      setTransactions((prev) => prev.filter((t) => t.id !== tx.id))
+    } else if (nextHidden === 0 && showHidden) {
+      setTransactions((prev) => prev.filter((t) => t.id !== tx.id))
+    } else {
+      setTransactions((prev) =>
+        prev.map((t) => (t.id === tx.id ? { ...t, hidden: nextHidden } : t)),
+      )
     }
   }
 
@@ -166,7 +184,7 @@ export function TransactionList() {
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
         <p className="text-red-600">{error}</p>
-        <Button variant="outline" size="sm" className="mt-3" onClick={() => fetchTransactions(showHidden)}>
+        <Button variant="outline" size="sm" className="mt-3" onClick={() => fetchTransactions()}>
           Erneut versuchen
         </Button>
       </div>
@@ -237,6 +255,25 @@ export function TransactionList() {
         </div>
       </div>
 
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+        <Input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Transaktionen suchen …"
+          className="pl-9 pr-9"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
       {/* Empty hidden state */}
       {transactions.length === 0 && showHidden && (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white py-16 text-center">
@@ -244,13 +281,21 @@ export function TransactionList() {
         </div>
       )}
 
+      {/* No search results */}
+      {searchQuery.trim() && filteredGroups.length === 0 && transactions.length > 0 && (
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white py-16 text-center">
+          <p className="text-gray-500 font-medium">Keine Transaktionen für „{searchQuery}" gefunden</p>
+        </div>
+      )}
+
       {/* Table */}
-      {transactions.length > 0 && (
+      {transactions.length > 0 && filteredGroups.length > 0 && (
         <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead>Datum</TableHead>
+                <TableHead />
                 <TableHead>Beschreibung</TableHead>
                 <TableHead className="hidden md:table-cell">Kontoauszug</TableHead>
                 <TableHead className="hidden sm:table-cell">Typ</TableHead>
@@ -260,21 +305,23 @@ export function TransactionList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {groups.map((group) => {
-                const isExpanded = expandedGroups.has(group.key)
+              {filteredGroups.map((group) => {
+                const isExpanded = searchQuery.trim() ? true : expandedGroups.has(group.key)
                 const totalCents = group.txs.reduce((s, t) => s + t.betrag_cents, 0)
                 const matched = group.txs.filter((t) => t.match_status === 'matched').length
                 const pending = group.txs.filter((t) => t.match_status === 'pending').length
                 const virtual_ = group.txs.filter((t) => t.match_status === 'virtual').length
                 const unmatched = group.txs.filter((t) => t.match_status === 'unmatched').length
-                const statusParts = showHidden
+                const statusSummary = showHidden
                   ? `${group.txs.length} ausgeblendet`
                   : [
-                      matched > 0 && `${matched} gematcht`,
-                      virtual_ > 0 && `${virtual_} virtuell`,
-                      pending > 0 && `${pending} ausstehend`,
-                      unmatched > 0 && `${unmatched} offen`,
-                    ].filter(Boolean).join(" · ")
+                      matched > 0 ? `${matched} gematcht` : null,
+                      virtual_ > 0 ? `${virtual_} virtuell` : null,
+                      pending > 0 ? `${pending} ausstehend` : null,
+                      unmatched > 0 ? `${unmatched} offen` : null,
+                    ]
+                      .filter((s): s is string => s !== null)
+                      .join(" · ")
 
                 return (
                   <React.Fragment key={`frag-${group.key}`}>
@@ -282,7 +329,7 @@ export function TransactionList() {
                       className="bg-gray-50 hover:bg-gray-100 cursor-pointer select-none border-t border-gray-200"
                       onClick={() => toggleGroup(group.key)}
                     >
-                      <TableCell colSpan={showHidden ? 6 : 7}>
+                      <TableCell colSpan={showHidden ? 7 : 8}>
                         <div className="flex items-center gap-2">
                           <ChevronRight
                             className={`h-4 w-4 text-gray-400 shrink-0 transition-transform duration-150 ${isExpanded ? "rotate-90" : ""}`}
@@ -294,7 +341,7 @@ export function TransactionList() {
                             {stripPaperlessPrefix(group.key) ?? group.key}
                           </span>
                           <span className="text-xs text-gray-500 ml-auto shrink-0">
-                            {statusParts}
+                            {statusSummary}
                           </span>
                           <span className={`text-sm font-medium tabular-nums shrink-0 w-24 text-right ${totalCents < 0 ? "text-red-600" : "text-green-600"}`}>
                             {totalCents < 0 ? "-" : "+"}{formatEuro(Math.abs(totalCents))} €
@@ -309,20 +356,18 @@ export function TransactionList() {
                           <TableCell className="font-medium tabular-nums">
                             {formatDate(tx.buchungsdatum)}
                           </TableCell>
+                          <TableCell className="w-24">
+                            {tx.logo_path ? (
+                              <img src={tx.logo_path} alt="Logo" className="h-4 w-auto object-contain" />
+                            ) : (
+                              <ChainBadge chain={detectChain(tx.alias ?? tx.haendler_name ?? tx.empfaenger_name ?? tx.beschreibung)} className="h-4 w-auto object-contain" />
+                            )}
+                          </TableCell>
                           <TableCell className="max-w-[220px] text-sm">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              {tx.logo_path && (
-                                <img
-                                  src={tx.logo_path}
-                                  alt="Logo"
-                                  className="h-4 w-auto object-contain flex-shrink-0"
-                                />
-                              )}
+                            <div className="flex flex-col min-w-0">
                               <span className="truncate">{displayName}</span>
-                              {tx.alias && (
-                                <span className="text-xs text-gray-400 shrink-0 truncate hidden lg:inline">
-                                  {tx.beschreibung !== displayName && `(${tx.beschreibung.slice(0, 30)}…)`}
-                                </span>
+                              {tx.alias && tx.beschreibung !== displayName && (
+                                <span className="text-xs text-gray-400 truncate">{tx.beschreibung}</span>
                               )}
                             </div>
                           </TableCell>
@@ -351,7 +396,6 @@ export function TransactionList() {
                           )}
                           <TableCell>
                             <div className="flex items-center gap-1">
-                              {/* Alias-Edit */}
                               <Button
                                 size="sm"
                                 variant="ghost"
@@ -361,7 +405,6 @@ export function TransactionList() {
                               >
                                 <Pencil className="h-3.5 w-3.5" />
                               </Button>
-                              {/* Hide toggle */}
                               <Button
                                 size="sm"
                                 variant="ghost"
@@ -371,29 +414,6 @@ export function TransactionList() {
                               >
                                 {tx.hidden ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                               </Button>
-                              {/* Assign / unassign */}
-                              {!showHidden && (tx.match_status === 'unmatched' || tx.match_status === 'pending' || tx.match_status === 'virtual') && (
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  className="h-7 w-7 p-0 text-gray-400 hover:text-blue-600"
-                                  title="Bon manuell zuordnen"
-                                  onClick={() => setAssignDialog({ open: true, tx })}
-                                >
-                                  <Link2 className="h-4 w-4" />
-                                </Button>
-                              )}
-                              {!showHidden && tx.match_status === 'matched' && tx.match_source === 'manual' && (
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  className="h-7 w-7 p-0 text-gray-400 hover:text-red-500"
-                                  title="Zuordnung aufheben"
-                                  onClick={() => handleUnassign(tx)}
-                                >
-                                  <Link2Off className="h-4 w-4" />
-                                </Button>
-                              )}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -407,28 +427,15 @@ export function TransactionList() {
         </div>
       )}
 
-      {/* Assign dialog */}
-      {assignDialog.tx && (
-        <TransactionAssignDialog
-          open={assignDialog.open}
-          onOpenChange={(open) => setAssignDialog({ open, tx: open ? assignDialog.tx : null })}
-          transactionId={assignDialog.tx.id}
-          buchungsdatum={assignDialog.tx.buchungsdatum}
-          beschreibung={assignDialog.tx.alias || assignDialog.tx.haendler_name || assignDialog.tx.beschreibung}
-          betrag_cents={assignDialog.tx.betrag_cents}
-          onAssigned={() => fetchTransactions(showHidden)}
-        />
-      )}
-
-      {/* Alias dialog */}
       {aliasDialog.tx && (
         <TransactionAliasDialog
+          key={aliasDialog.tx.beschreibung}
           open={aliasDialog.open}
           onOpenChange={(open) => setAliasDialog({ open, tx: open ? aliasDialog.tx : null })}
           beschreibung={aliasDialog.tx.beschreibung}
           currentAlias={aliasDialog.tx.alias}
           currentLogoPath={aliasDialog.tx.logo_path}
-          onSaved={() => fetchTransactions(showHidden)}
+          onSaved={() => fetchTransactions()}
         />
       )}
     </div>

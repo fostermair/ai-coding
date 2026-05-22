@@ -31,68 +31,10 @@ import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
 import { BankTransactionBadge } from "@/components/bank-transaction-badge"
+import { ChainBadge, PaymentBadge } from "@/components/chain-badge"
+import { detectChain } from "@/lib/chain"
 import { Edit } from "lucide-react"
-
-const CHAIN_CONFIG: Record<string, { src: string; label: string }> = {
-  rewe:     { src: "/badges/rewe.png",     label: "REWE" },
-  lidl:     { src: "/badges/lidl.jpg",     label: "Lidl" },
-  kaufland: { src: "/badges/kaufland.jpg", label: "Kaufland" },
-  edeka:    { src: "/badges/edeka.png",    label: "EDEKA" },
-}
-
-function chainFromBeschreibung(desc?: string | null): string | undefined {
-  if (!desc) return undefined
-  const d = desc.toLowerCase()
-  if (d.includes("rewe")) return "rewe"
-  if (d.includes("lidl")) return "lidl"
-  if (d.includes("kaufland")) return "kaufland"
-  if (d.includes("edeka")) return "edeka"
-  return undefined
-}
-
-function ChainBadge({ chain }: { chain?: string }) {
-  if (!chain) return null
-  const entry = CHAIN_CONFIG[chain]
-  if (!entry) return null
-  return <img src={entry.src} alt={entry.label} className="h-5 w-auto object-contain" />
-}
-
-function PaymentBadge({ method }: { method?: string }) {
-  if (!method) return null
-  const m = method.toLowerCase()
-  if (m.includes("mastercard") || m.includes("kartenzahlung") || m.includes("karte")) {
-    return (
-      <img
-        src="/badges/mastercard.png"
-        alt="Mastercard"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  if (m.includes("visa")) {
-    return (
-      <img
-        src="/badges/visa.png"
-        alt="Visa"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  if (m.includes("bar") || m.includes("bargeld")) {
-    return (
-      <img
-        src="/badges/bar.png"
-        alt="Barzahlung"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  return (
-    <Badge variant="secondary" className="font-normal text-xs">
-      {method}
-    </Badge>
-  )
-}
+import { MarketAliasDialog } from "@/components/market-alias-dialog"
 
 interface Discount {
   id: number
@@ -152,6 +94,8 @@ interface BonDetail {
     alias?: string | null
     logo_path?: string | null
   } | null
+  market_alias?: string | null
+  market_logo_path?: string | null
   items: ReceiptItem[]
 }
 
@@ -164,6 +108,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [marking, setMarking] = useState(false)
   const [avisSyncing, setAvisSyncing] = useState(false)
   const [avisSyncMessage, setAvisSyncMessage] = useState<string | null>(null)
+  const [marketAliasDialogOpen, setMarketAliasDialogOpen] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -276,6 +221,10 @@ export function BonDetailView({ bonId }: { bonId: string }) {
     .filter((i) => i.tax_code === "B")
     .reduce((sum, i) => sum + i.total_price_cents, 0)
 
+  const hasTransactionAlias = !!(bon.bank_transaction?.alias)
+  const displayName = bon.bank_transaction?.alias ?? bon.market_alias ?? bon.store_name
+  const displayLogoPath = bon.bank_transaction?.logo_path ?? bon.market_logo_path ?? null
+
   return (
     <div className="space-y-6">
       {/* Back link */}
@@ -289,10 +238,28 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
+                {displayLogoPath && (
+                  <img
+                    src={displayLogoPath}
+                    alt="Händler-Logo"
+                    className="h-6 w-auto object-contain flex-shrink-0"
+                  />
+                )}
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {bon.store_name}
+                  {displayName}
                 </h2>
-                <ChainBadge chain={bon.store_chain ?? chainFromBeschreibung(bon.bank_transaction?.beschreibung)} />
+                {!hasTransactionAlias && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-6 w-6 p-0 text-gray-400 hover:text-gray-700"
+                    onClick={() => setMarketAliasDialogOpen(true)}
+                    title="Markt-Alias bearbeiten"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                )}
+                <ChainBadge chain={bon.store_chain ?? detectChain(bon.bank_transaction?.beschreibung)} />
               </div>
               {bon.store_address && (
                 <p className="text-sm text-gray-500 mt-0.5">{bon.store_address}</p>
@@ -318,6 +285,8 @@ export function BonDetailView({ bonId }: { bonId: string }) {
               buchungsdatum={bon.bank_transaction.buchungsdatum}
               match_source={bon.bank_transaction.match_source}
               logo_path={bon.bank_transaction.logo_path}
+              alias={bon.bank_transaction.alias}
+              beschreibung={bon.bank_transaction.beschreibung}
             />
           )}
         </CardContent>
@@ -487,6 +456,19 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           <p className="text-xs text-gray-500 text-right">{avisSyncMessage}</p>
         )}
       </div>
+
+      <MarketAliasDialog
+        open={marketAliasDialogOpen}
+        onOpenChange={setMarketAliasDialogOpen}
+        storeName={bon.store_name}
+        currentAlias={bon.market_alias ?? null}
+        currentLogoPath={bon.market_logo_path ?? null}
+        onSaved={() =>
+          fetch(`/api/bons/${bonId}`)
+            .then((r) => r.json())
+            .then(setBon)
+        }
+      />
     </div>
   )
 }

@@ -13,23 +13,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Trash2, Upload } from "lucide-react"
 
-interface TransactionAliasDialogProps {
+interface MarketAliasDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  beschreibung: string
+  storeName: string
   currentAlias?: string | null
   currentLogoPath?: string | null
   onSaved: () => void
 }
 
-export function TransactionAliasDialog({
+export function MarketAliasDialog({
   open,
   onOpenChange,
-  beschreibung,
+  storeName,
   currentAlias,
   currentLogoPath,
   onSaved,
-}: TransactionAliasDialogProps) {
+}: MarketAliasDialogProps) {
   const [alias, setAlias] = useState(currentAlias ?? "")
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [blobPreview, setBlobPreview] = useState<string | null>(null)
@@ -47,6 +47,14 @@ export function TransactionAliasDialog({
     setBlobPreview(url)
     return () => URL.revokeObjectURL(url)
   }, [logoFile])
+
+  useEffect(() => {
+    if (open) {
+      setAlias(currentAlias ?? "")
+      setLogoFile(null)
+      setError(null)
+    }
+  }, [open, currentAlias])
 
   const logoPreview = blobPreview ?? currentLogoPath ?? null
 
@@ -70,11 +78,11 @@ export function TransactionAliasDialog({
     setError(null)
     try {
       const formData = new FormData()
-      formData.append("beschreibung", beschreibung)
+      formData.append("store_name", storeName)
       formData.append("alias", alias.trim())
       if (logoFile) formData.append("logo", logoFile)
 
-      const res = await fetch("/api/konto/transactions/alias", {
+      const res = await fetch("/api/bons/market-alias", {
         method: "POST",
         body: formData,
       })
@@ -95,10 +103,10 @@ export function TransactionAliasDialog({
     setDeleting(true)
     setError(null)
     try {
-      const res = await fetch("/api/konto/transactions/alias", {
+      const res = await fetch("/api/bons/market-alias", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ beschreibung }),
+        body: JSON.stringify({ store_name: storeName }),
       })
       if (!res.ok) throw new Error("Löschen fehlgeschlagen")
       onSaved()
@@ -114,14 +122,14 @@ export function TransactionAliasDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Transaktions-Alias</DialogTitle>
+          <DialogTitle>Markt-Alias</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-1">
-            <Label className="text-xs text-gray-500">Originalbeschreibung</Label>
+            <Label className="text-xs text-gray-500">Marktname</Label>
             <p className="text-sm font-mono text-gray-700 bg-gray-50 rounded px-3 py-2 break-all">
-              {beschreibung}
+              {storeName}
             </p>
           </div>
 
@@ -131,7 +139,7 @@ export function TransactionAliasDialog({
               id="alias"
               value={alias}
               onChange={(e) => setAlias(e.target.value)}
-              placeholder="z.B. REWE Schöneberg"
+              placeholder="z.B. Mein REWE"
               autoFocus
             />
           </div>

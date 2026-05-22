@@ -21,13 +21,13 @@ function extFromMime(mime: string, name: string): ".png" | ".jpg" {
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
-    const beschreibung = formData.get("beschreibung") as string | null
+    const store_name = formData.get("store_name") as string | null
     const alias = (formData.get("alias") as string | null)?.trim()
     const logo = formData.get("logo") as File | null
 
-    if (!beschreibung || !alias) {
+    if (!store_name || !alias) {
       return NextResponse.json(
-        { message: "beschreibung und alias sind erforderlich" },
+        { message: "store_name und alias sind erforderlich" },
         { status: 400 }
       )
     }
@@ -52,36 +52,36 @@ export async function POST(request: NextRequest) {
     const db = getDb()
     const row = db
       .prepare(
-        `INSERT INTO transaction_aliases (beschreibung, alias, logo_path, updated_at)
+        `INSERT INTO market_aliases (store_name, alias, logo_path, updated_at)
          VALUES (?, ?, ?, datetime('now'))
-         ON CONFLICT(beschreibung) DO UPDATE SET
+         ON CONFLICT(store_name) DO UPDATE SET
            alias = excluded.alias,
-           logo_path = COALESCE(excluded.logo_path, transaction_aliases.logo_path),
+           logo_path = COALESCE(excluded.logo_path, market_aliases.logo_path),
            updated_at = datetime('now')
          RETURNING logo_path`
       )
-      .get(beschreibung, alias, logo_path) as { logo_path: string | null } | undefined
+      .get(store_name, alias, logo_path) as { logo_path: string | null } | undefined
 
     return NextResponse.json({ success: true, logo_path: row?.logo_path ?? null })
   } catch (e) {
-    console.error("[/api/konto/transactions/alias POST] Error:", e)
+    console.error("[/api/bons/market-alias POST] Error:", e)
     return NextResponse.json({ message: "Interner Fehler" }, { status: 500 })
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { beschreibung } = await request.json()
-    if (!beschreibung) {
-      return NextResponse.json({ message: "beschreibung fehlt" }, { status: 400 })
+    const { store_name } = await request.json()
+    if (!store_name) {
+      return NextResponse.json({ message: "store_name fehlt" }, { status: 400 })
     }
 
     const db = getDb()
-    db.prepare("DELETE FROM transaction_aliases WHERE beschreibung = ?").run(beschreibung)
+    db.prepare("DELETE FROM market_aliases WHERE store_name = ?").run(store_name)
 
     return NextResponse.json({ success: true })
   } catch (e) {
-    console.error("[/api/konto/transactions/alias DELETE] Error:", e)
+    console.error("[/api/bons/market-alias DELETE] Error:", e)
     return NextResponse.json({ message: "Interner Fehler" }, { status: 500 })
   }
 }

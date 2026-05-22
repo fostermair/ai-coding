@@ -92,7 +92,14 @@ export async function GET(
     // Check if this receipt has any AVIS matches (for showing edit button)
     const hasAvis = avisMatches.length > 0
 
-    // Fetch linked bank transaction if any (with alias/logo from transaction_aliases)
+    const marketAliasRow = db
+      .prepare(
+        `SELECT alias AS market_alias, logo_path AS market_logo_path
+         FROM market_aliases WHERE store_name = ?`
+      )
+      .get(receipt.store_name as string) as
+      { market_alias: string; market_logo_path: string | null } | undefined
+
     let bankTransaction = null
     if (receipt.bank_transaction_id) {
       bankTransaction = db
@@ -115,6 +122,8 @@ export async function GET(
 
     return NextResponse.json({
       ...receipt,
+      market_alias: marketAliasRow?.market_alias ?? null,
+      market_logo_path: marketAliasRow?.market_logo_path ?? null,
       items: itemsWithDiscounts,
       has_avis: hasAvis,
       bank_transaction: bankTransaction,

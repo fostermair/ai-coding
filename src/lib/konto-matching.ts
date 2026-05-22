@@ -1,4 +1,5 @@
 import type Database from "better-sqlite3"
+import { detectChain } from "@/lib/chain"
 
 export interface MatchResult {
   transactionId: number
@@ -30,25 +31,6 @@ interface ReceiptCandidate {
   id: number
   store_chain: string
   total_amount_cents: number
-}
-
-// Supermarket chains recognizable in bank descriptions
-const CHAIN_KEYWORDS: Record<string, string> = {
-  REWE: 'rewe',
-  LIDL: 'lidl',
-  KAUFLAND: 'kaufland',
-  EDEKA: 'edeka',
-  ALDI: 'aldi',
-  PENNY: 'penny',
-  NETTO: 'netto',
-}
-
-function detectChain(beschreibung: string): string | null {
-  const upper = beschreibung.toUpperCase()
-  for (const [keyword, chain] of Object.entries(CHAIN_KEYWORDS)) {
-    if (upper.includes(keyword)) return chain
-  }
-  return null
 }
 
 export function runMatching(db: Database.Database): MatchingSummary {

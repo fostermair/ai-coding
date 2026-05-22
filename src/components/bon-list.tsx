@@ -326,7 +326,7 @@ export function BonList() {
                         <TableCell className="hidden sm:table-cell">
                           <PaymentBadge method={bon.payment_method} />
                         </TableCell>
-                        <TableCell className="text-center text-gray-600 text-sm font-medium">
+                        <TableCell className="text-center text-gray-600 font-bold">
                           {bon.has_bank_match && bon.bank_match_source === "auto" && "€"}
                         </TableCell>
                         <TableCell className="text-center">

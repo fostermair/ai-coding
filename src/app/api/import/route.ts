@@ -118,8 +118,8 @@ export async function POST(request: NextRequest) {
     const insertReceipt = db.prepare(`
       INSERT INTO receipts
         (filename, store_name, store_address, store_uid, market_nr, receipt_nr,
-         receipt_date, receipt_time, payment_method, total_amount_cents)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         receipt_date, receipt_time, payment_method, total_amount_cents, store_chain)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `)
 
     const insertItem = db.prepare(`
@@ -149,7 +149,8 @@ export async function POST(request: NextRequest) {
         parsed.receiptDate,
         parsed.receiptTime,
         parsed.paymentMethod,
-        parsed.totalAmountCents
+        parsed.totalAmountCents,
+        parsed.storeChain
       )
 
       for (const item of parsed.items) {

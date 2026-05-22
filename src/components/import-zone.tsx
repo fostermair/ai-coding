@@ -904,6 +904,36 @@ export function ImportZone() {
                     {kontoSyncResult.errors > 0 && ` · ${kontoSyncResult.errors} Fehler`}
                   </p>
                 </div>
+
+                {kontoSyncResult.details.length > 0 && (
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {kontoSyncResult.details.map((detail, i) => (
+                      <div
+                        key={i}
+                        className="text-xs p-2 rounded border"
+                        style={{
+                          borderColor:
+                            detail.status === "imported"
+                              ? "#dcfce7"
+                              : detail.status === "duplicate"
+                                ? "#fed7aa"
+                                : "#fee2e2",
+                          backgroundColor:
+                            detail.status === "imported"
+                              ? "#f0fdf4"
+                              : detail.status === "duplicate"
+                                ? "#fffbeb"
+                                : "#fef2f2",
+                        }}
+                      >
+                        <p className="font-medium text-gray-900">{detail.title}</p>
+                        {detail.message && (
+                          <p className="text-gray-600 mt-0.5">{detail.message}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

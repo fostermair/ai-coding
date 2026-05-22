@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import {
   Table,
@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Upload, X, Receipt, Download, CreditCard } from "lucide-react"
+import { Upload, X, Receipt, Download, CreditCard, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
@@ -40,28 +40,34 @@ interface BonsResponse {
   total_spent_cents: number
 }
 
+const CHAIN_CONFIG: Record<string, { src: string; label: string }> = {
+  rewe:     { src: "/badges/rewe.png",     label: "REWE" },
+  lidl:     { src: "/badges/lidl.jpg",     label: "Lidl" },
+  kaufland: { src: "/badges/kaufland.jpg", label: "Kaufland" },
+  edeka:    { src: "/badges/edeka.png",    label: "EDEKA" },
+}
+
+function chainFromText(text?: string | null): string | undefined {
+  if (!text) return undefined
+  const t = text.toLowerCase()
+  if (t.includes("rewe")) return "rewe"
+  if (t.includes("lidl")) return "lidl"
+  if (t.includes("kaufland")) return "kaufland"
+  if (t.includes("edeka")) return "edeka"
+  return undefined
+}
+
 function ChainBadge({ chain }: { chain?: string }) {
-  const src =
-    chain === "lidl"
-      ? "/badges/lidl.jpg"
-      : chain === "kaufland"
-        ? "/badges/kaufland.jpg"
-        : "/badges/rewe.png"
-
-  const label =
-    chain === "lidl"
-      ? "Lidl"
-      : chain === "kaufland"
-        ? "Kaufland"
-        : "REWE"
-
-  return <img src={src} alt={label} className="h-5 w-auto object-contain" />
+  if (!chain) return null
+  const entry = CHAIN_CONFIG[chain]
+  if (!entry) return null
+  return <img src={entry.src} alt={entry.label} className="h-5 w-auto object-contain" />
 }
 
 function PaymentBadge({ method }: { method?: string }) {
   if (!method) return null
   const m = method.toLowerCase()
-  if (m.includes("mastercard")) {
+  if (m.includes("mastercard") || m.includes("kartenzahlung") || m.includes("karte")) {
     return (
       <img
         src="/badges/mastercard.png"
@@ -86,13 +92,6 @@ function PaymentBadge({ method }: { method?: string }) {
         alt="Barzahlung"
         className="h-5 w-auto object-contain"
       />
-    )
-  }
-  if (m === "kartenzahlung") {
-    return (
-      <Badge variant="secondary" className="font-normal text-xs text-blue-700 bg-blue-50 border-blue-200">
-        Kartenzahlung
-      </Badge>
     )
   }
   if (m === "überweisung") {
@@ -124,6 +123,7 @@ export function BonList() {
   const [dateFrom, setDateFrom] = useState("")
   const [dateTo, setDateTo] = useState("")
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
+  const [expandedYears, setExpandedYears] = useState<Set<string>>(new Set())
 
   const fetchBons = useCallback(async () => {
     setLoading(true)
@@ -147,6 +147,32 @@ export function BonList() {
   useEffect(() => {
     fetchBons()
   }, [fetchBons])
+
+  const groups = useMemo(() => {
+    const bons = data?.bons ?? []
+    const map = new Map<string, BonSummary[]>()
+    for (const bon of bons) {
+      const year = bon.receipt_date.substring(0, 4)
+      if (!map.has(year)) map.set(year, [])
+      map.get(year)!.push(bon)
+    }
+    return [...map.entries()]
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([year, items]) => ({ year, items }))
+  }, [data])
+
+  useEffect(() => {
+    if (groups.length > 0) setExpandedYears(new Set([groups[0].year]))
+  }, [groups.length]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggleYear = useCallback((year: string) => {
+    setExpandedYears((prev) => {
+      const next = new Set(prev)
+      if (next.has(year)) next.delete(year)
+      else next.add(year)
+      return next
+    })
+  }, [])
 
   const clearFilters = () => {
     setDateFrom("")
@@ -285,9 +311,9 @@ export function BonList() {
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead>Datum</TableHead>
-                <TableHead className="hidden sm:table-cell">Uhrzeit</TableHead>
-                <TableHead>Markt</TableHead>
+                <TableHead className="hidden sm:table-cell text-center">Uhrzeit</TableHead>
                 <TableHead>Kette</TableHead>
+                <TableHead>Markt</TableHead>
                 <TableHead className="hidden md:table-cell">Bon-Nr.</TableHead>
                 <TableHead className="text-right">Artikel</TableHead>
                 <TableHead className="text-right">Summe</TableHead>
@@ -296,44 +322,71 @@ export function BonList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {bons.map((bon) => (
-                <TableRow
-                  key={bon.id}
-                  className={bon.is_virtual ? "border-dashed opacity-80" : "cursor-pointer"}
-                  onClick={bon.is_virtual ? undefined : () => router.push(`/bon/${bon.id}`)}
-                >
-                  <TableCell className="font-medium">
-                    {formatDate(bon.receipt_date)}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell text-gray-500">
-                    {bon.receipt_time}
-                  </TableCell>
-                  <TableCell className="max-w-[200px] truncate">
-                    <div className="flex items-center gap-1.5">
-                      {bon.is_virtual ? (
-                        <CreditCard className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
-                      ) : null}
-                      <span>{bon.store_name}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {!bon.is_virtual && <ChainBadge chain={bon.store_chain} />}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell text-gray-500">
-                    {bon.receipt_nr}
-                  </TableCell>
-                  <TableCell className="text-right">{bon.is_virtual ? "–" : bon.item_count}</TableCell>
-                  <TableCell className="text-right font-medium tabular-nums">
-                    {formatEuro(bon.total_amount_cents)} €
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    <PaymentBadge method={bon.payment_method} />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {groups.map((group) => {
+                const isExpanded = expandedYears.has(group.year)
+                const yearTotal = group.items.reduce((s, b) => s + b.total_amount_cents, 0)
+                return (
+                  <React.Fragment key={`year-${group.year}`}>
+                    <TableRow
+                      className="bg-gray-50 hover:bg-gray-100 cursor-pointer select-none border-t border-gray-200"
+                      onClick={() => toggleYear(group.year)}
+                    >
+                      <TableCell colSpan={9}>
+                        <div className="flex items-center gap-2">
+                          <ChevronRight
+                            className={`h-4 w-4 text-gray-400 shrink-0 transition-transform duration-150 ${isExpanded ? "rotate-90" : ""}`}
+                          />
+                          <span className="font-medium text-sm text-gray-800">{group.year}</span>
+                          <span className="text-xs text-gray-400">
+                            {group.items.length} Bon{group.items.length !== 1 ? "s" : ""}
+                          </span>
+                          <span className="text-sm font-medium tabular-nums ml-auto text-gray-700">
+                            {formatEuro(yearTotal)} €
+                          </span>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                    {isExpanded && group.items.map((bon) => (
+                      <TableRow
+                        key={bon.id}
+                        className={bon.is_virtual ? "border-dashed opacity-80" : "cursor-pointer"}
+                        onClick={bon.is_virtual ? undefined : () => router.push(`/bon/${bon.id}`)}
+                      >
+                        <TableCell className="font-medium">
+                          {formatDate(bon.receipt_date)}
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell text-gray-500 text-center">
+                          <div className="flex items-center justify-center gap-1.5">
+                            {bon.is_virtual ? (
+                              <CreditCard className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+                            ) : null}
+                            <span>{bon.receipt_time}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <ChainBadge chain={bon.store_chain ?? chainFromText(bon.store_name)} />
+                        </TableCell>
+                        <TableCell className="max-w-[200px] truncate">
+                          {bon.store_name}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell text-gray-500">
+                          {bon.receipt_nr}
+                        </TableCell>
+                        <TableCell className="text-right">{bon.is_virtual ? "–" : bon.item_count}</TableCell>
+                        <TableCell className="text-right font-medium tabular-nums">
+                          {formatEuro(bon.total_amount_cents)} €
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <PaymentBadge method={bon.payment_method} />
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </React.Fragment>
+                )
+              })}
             </TableBody>
           </Table>
         </div>

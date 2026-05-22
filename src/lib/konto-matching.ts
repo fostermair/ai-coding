@@ -73,8 +73,8 @@ export function runMatching(db: Database.Database): MatchingSummary {
     `UPDATE bank_transactions SET match_status = 'virtual', matched_receipt_id = ?, match_source = 'auto' WHERE id = ?`
   )
   const insertVirtual = db.prepare(
-    `INSERT INTO receipts (filename, store_name, receipt_date, total_amount_cents, payment_method, is_virtual, bank_transaction_id, imported_at)
-     VALUES ('[virtual]', ?, ?, ?, ?, 1, ?, datetime('now'))`
+    `INSERT INTO receipts (filename, store_name, store_chain, receipt_date, total_amount_cents, payment_method, is_virtual, bank_transaction_id, imported_at)
+     VALUES ('[virtual]', ?, ?, ?, ?, ?, 1, ?, datetime('now'))`
   )
   const linkReceipt = db.prepare(
     `UPDATE receipts SET bank_transaction_id = ? WHERE id = ?`
@@ -118,11 +118,19 @@ export function runMatching(db: Database.Database): MatchingSummary {
         updatePending.run(tx.id)
         summary.pending++
       } else {
-        // No candidates → create virtual bon
-        const haendler = tx.haendler_name || tx.empfaenger_name || tx.beschreibung.slice(0, 50)
-        const result = insertVirtual.run(haendler, tx.buchungsdatum, absBetrag, tx.typ, tx.id)
-        const virtualId = result.lastInsertRowid as number
-        updateVirtual.run(virtualId, tx.id)
+        // No candidates → create virtual bon (only if none exists yet)
+        const existingVirtual = db
+          .prepare(`SELECT id FROM receipts WHERE bank_transaction_id = ? AND is_virtual = 1`)
+          .get(tx.id) as { id: number } | undefined
+        if (!existingVirtual) {
+          const haendler = tx.haendler_name || tx.empfaenger_name || tx.beschreibung.slice(0, 50)
+          const chain = detectChain(tx.beschreibung) ?? 'sonstige'
+          const result = insertVirtual.run(haendler, chain, tx.buchungsdatum, absBetrag, tx.typ, tx.id)
+          const virtualId = result.lastInsertRowid as number
+          updateVirtual.run(virtualId, tx.id)
+        } else {
+          updateVirtual.run(existingVirtual.id, tx.id)
+        }
         summary.virtual++
       }
     })()

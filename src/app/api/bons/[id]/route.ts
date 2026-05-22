@@ -92,17 +92,24 @@ export async function GET(
     // Check if this receipt has any AVIS matches (for showing edit button)
     const hasAvis = avisMatches.length > 0
 
-    // Fetch linked bank transaction if any
+    // Fetch linked bank transaction if any (with alias/logo from transaction_aliases)
     let bankTransaction = null
     if (receipt.bank_transaction_id) {
       bankTransaction = db
         .prepare(
-          "SELECT betrag_cents, buchungsdatum, match_source FROM bank_transactions WHERE id = ?"
+          `SELECT bt.betrag_cents, bt.buchungsdatum, bt.match_source, bt.beschreibung,
+                  ta.alias, ta.logo_path
+           FROM bank_transactions bt
+           LEFT JOIN transaction_aliases ta ON ta.beschreibung = bt.beschreibung
+           WHERE bt.id = ?`
         )
         .get(receipt.bank_transaction_id as number) as {
           betrag_cents: number
           buchungsdatum: string
           match_source: 'auto' | 'manual'
+          beschreibung: string | null
+          alias: string | null
+          logo_path: string | null
         } | null
     }
 

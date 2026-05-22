@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     const byChain: Record<string, number> = { rewe: 0, lidl: 0, kaufland: 0 }
 
     const chains: ChainConfig[] = [
-      { key: "rewe", envVar: process.env.PAPERLESS_CORRESPONDENT_ID, parser: parseReweEbon },
+      { key: "rewe", envVar: process.env.PAPERLESS_REWE_CORRESPONDENT_ID, parser: parseReweEbon },
       { key: "lidl", envVar: process.env.PAPERLESS_LIDL_CORRESPONDENT_ID, parser: parseLidlEbon },
       {
         key: "kaufland",

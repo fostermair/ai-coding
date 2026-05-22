@@ -1,19 +1,23 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { CreditCard } from "lucide-react"
 import { formatEuro, formatDate } from "@/lib/format"
 
 interface BankTransactionBadgeProps {
   betrag_cents: number
   buchungsdatum: string
   match_source: 'auto' | 'manual'
+  logo_path?: string | null
 }
 
-export function BankTransactionBadge({ betrag_cents, buchungsdatum, match_source }: BankTransactionBadgeProps) {
+export function BankTransactionBadge({ betrag_cents, buchungsdatum, match_source, logo_path }: BankTransactionBadgeProps) {
   return (
     <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
-      <CreditCard className="h-4 w-4 text-blue-500 flex-shrink-0" />
+      {logo_path ? (
+        <img src={logo_path} alt="Händler-Logo" className="h-5 w-auto object-contain flex-shrink-0" />
+      ) : (
+        <img src="/badges/mastercard.png" alt="Mastercard" className="h-5 w-auto object-contain flex-shrink-0" />
+      )}
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-sm text-gray-700">
           Kontoabbuchung: <span className="font-medium tabular-nums">-{formatEuro(Math.abs(betrag_cents))} €</span>

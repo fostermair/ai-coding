@@ -65,7 +65,11 @@ export async function POST(request: NextRequest) {
     let errors = 0
     const details: Array<{ title: string; status: string; message?: string }> = []
 
+    const correspondentId = process.env.PAPERLESS_KONTO_CORRESPONDENT_ID
     let documentUrl = `${baseUrl}/api/documents/?page_size=100&document_type__id=${docTypeId}`
+    if (correspondentId) {
+      documentUrl += `&correspondent__id=${correspondentId}`
+    }
     let hasNext = true
 
     while (hasNext) {

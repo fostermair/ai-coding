@@ -97,6 +97,24 @@ export function parseKontoauszug(text: string): ParsedKontoauszug {
       periode = `${periodeYear}-${perM[1]}`
     }
 
+    if (!periode) {
+      const finalM = line.match(/^Kontoauszug\s+(\d{2})\/(\d{4})/)
+      if (finalM) {
+        periodeMonth = parseInt(finalM[1])
+        periodeYear = parseInt(finalM[2])
+        periode = `${periodeYear}-${finalM[1]}`
+      }
+    }
+
+    if (!periode) {
+      const standaloneM = line.match(/^(\d{2})\/(\d{4})$/)
+      if (standaloneM) {
+        periodeMonth = parseInt(standaloneM[1])
+        periodeYear = parseInt(standaloneM[2])
+        periode = `${periodeYear}-${standaloneM[1]}`
+      }
+    }
+
     if (!kontoinhaber && line.length > 0 && !line.match(/^\d/) && !line.match(/^[A-Z]{2}\d/)) {
       kontoinhaber = line
     }
@@ -315,7 +333,7 @@ function buildInlineTransaction(
   }
 
   const typ = detectType(typeStr, betrag_cents)
-  const beschreibung = lastLine
+  const beschreibung = nameFromLastLine || lastLine
 
   if (typ === "kartenzahlung" || typ === "gutschrift" || typ === "sonstige") {
     return {

@@ -33,28 +33,34 @@ import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
 import { BankTransactionBadge } from "@/components/bank-transaction-badge"
 import { Edit } from "lucide-react"
 
+const CHAIN_CONFIG: Record<string, { src: string; label: string }> = {
+  rewe:     { src: "/badges/rewe.png",     label: "REWE" },
+  lidl:     { src: "/badges/lidl.jpg",     label: "Lidl" },
+  kaufland: { src: "/badges/kaufland.jpg", label: "Kaufland" },
+  edeka:    { src: "/badges/edeka.png",    label: "EDEKA" },
+}
+
+function chainFromBeschreibung(desc?: string | null): string | undefined {
+  if (!desc) return undefined
+  const d = desc.toLowerCase()
+  if (d.includes("rewe")) return "rewe"
+  if (d.includes("lidl")) return "lidl"
+  if (d.includes("kaufland")) return "kaufland"
+  if (d.includes("edeka")) return "edeka"
+  return undefined
+}
+
 function ChainBadge({ chain }: { chain?: string }) {
-  const src =
-    chain === "lidl"
-      ? "/badges/lidl.jpg"
-      : chain === "kaufland"
-        ? "/badges/kaufland.jpg"
-        : "/badges/rewe.png"
-
-  const label =
-    chain === "lidl"
-      ? "Lidl"
-      : chain === "kaufland"
-        ? "Kaufland"
-        : "REWE"
-
-  return <img src={src} alt={label} className="h-5 w-auto object-contain" />
+  if (!chain) return null
+  const entry = CHAIN_CONFIG[chain]
+  if (!entry) return null
+  return <img src={entry.src} alt={entry.label} className="h-5 w-auto object-contain" />
 }
 
 function PaymentBadge({ method }: { method?: string }) {
   if (!method) return null
   const m = method.toLowerCase()
-  if (m.includes("mastercard")) {
+  if (m.includes("mastercard") || m.includes("kartenzahlung") || m.includes("karte")) {
     return (
       <img
         src="/badges/mastercard.png"
@@ -142,6 +148,9 @@ interface BonDetail {
     betrag_cents: number
     buchungsdatum: string
     match_source: 'auto' | 'manual'
+    beschreibung?: string | null
+    alias?: string | null
+    logo_path?: string | null
   } | null
   items: ReceiptItem[]
 }
@@ -283,7 +292,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 <h2 className="text-xl font-semibold text-gray-900">
                   {bon.store_name}
                 </h2>
-                <ChainBadge chain={bon.store_chain} />
+                <ChainBadge chain={bon.store_chain ?? chainFromBeschreibung(bon.bank_transaction?.beschreibung)} />
               </div>
               {bon.store_address && (
                 <p className="text-sm text-gray-500 mt-0.5">{bon.store_address}</p>
@@ -308,6 +317,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
               betrag_cents={bon.bank_transaction.betrag_cents}
               buchungsdatum={bon.bank_transaction.buchungsdatum}
               match_source={bon.bank_transaction.match_source}
+              logo_path={bon.bank_transaction.logo_path}
             />
           )}
         </CardContent>

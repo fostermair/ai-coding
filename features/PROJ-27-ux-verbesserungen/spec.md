@@ -1,8 +1,18 @@
 # PROJ-27 – UX-Verbesserungen Bon- & Transaktionsübersicht
 
-**Status:** Planned  
+**Status:** In Progress  
 **Created:** 2026-05-22  
 **Dependencies:** PROJ-2 (Bon-Übersicht), PROJ-25/26 (Transaktionsübersicht)
+
+## Implementation Notes
+
+**Frontend completed (2026-05-22):**
+- Added search functionality to bon-list.tsx (filters by store name and date)
+- Removed date range filter UI from bon-list.tsx
+- Implemented accordion behavior in both bon-list and transaction-list (only one year/period expanded at a time)
+- Updated chain-badge detection to prioritize `alias` field over `haendler_name`
+- All AC criteria from US-1 through US-4 implemented
+- Build verification passed with no TypeScript errors
 
 ---
 

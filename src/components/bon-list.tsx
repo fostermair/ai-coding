@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import { useRouter } from "next/navigation"
 import {
   Table,
@@ -11,13 +11,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Upload, X, Receipt, Download, CreditCard, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
 import { AvisStatusBadge } from "@/components/avis-status-badge"
+import { ChainBadge, PaymentBadge } from "@/components/chain-badge"
+import { detectChain } from "@/lib/chain"
 
 interface BonSummary {
   id: number
@@ -32,87 +33,18 @@ interface BonSummary {
   store_chain?: string
   avis_status?: "complete" | "pending" | "no_matches" | null
   is_virtual?: number
+  bank_alias?: string | null
+  bank_logo_path?: string | null
+  market_alias?: string | null
+  market_logo_path?: string | null
+  has_bank_match?: number
+  bank_match_source?: "auto" | "manual" | null
 }
 
 interface BonsResponse {
   bons: BonSummary[]
   total_count: number
   total_spent_cents: number
-}
-
-const CHAIN_CONFIG: Record<string, { src: string; label: string }> = {
-  rewe:     { src: "/badges/rewe.png",     label: "REWE" },
-  lidl:     { src: "/badges/lidl.jpg",     label: "Lidl" },
-  kaufland: { src: "/badges/kaufland.jpg", label: "Kaufland" },
-  edeka:    { src: "/badges/edeka.png",    label: "EDEKA" },
-}
-
-function chainFromText(text?: string | null): string | undefined {
-  if (!text) return undefined
-  const t = text.toLowerCase()
-  if (t.includes("rewe")) return "rewe"
-  if (t.includes("lidl")) return "lidl"
-  if (t.includes("kaufland")) return "kaufland"
-  if (t.includes("edeka")) return "edeka"
-  return undefined
-}
-
-function ChainBadge({ chain }: { chain?: string }) {
-  if (!chain) return null
-  const entry = CHAIN_CONFIG[chain]
-  if (!entry) return null
-  return <img src={entry.src} alt={entry.label} className="h-5 w-auto object-contain" />
-}
-
-function PaymentBadge({ method }: { method?: string }) {
-  if (!method) return null
-  const m = method.toLowerCase()
-  if (m.includes("mastercard") || m.includes("kartenzahlung") || m.includes("karte")) {
-    return (
-      <img
-        src="/badges/mastercard.png"
-        alt="Mastercard"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  if (m.includes("visa")) {
-    return (
-      <img
-        src="/badges/visa.png"
-        alt="Visa"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  if (m.includes("bar") || m.includes("bargeld")) {
-    return (
-      <img
-        src="/badges/bar.png"
-        alt="Barzahlung"
-        className="h-5 w-auto object-contain"
-      />
-    )
-  }
-  if (m === "überweisung") {
-    return (
-      <Badge variant="secondary" className="font-normal text-xs text-purple-700 bg-purple-50 border-purple-200">
-        Überweisung
-      </Badge>
-    )
-  }
-  if (m === "gutschrift") {
-    return (
-      <Badge variant="secondary" className="font-normal text-xs text-green-700 bg-green-50 border-green-200">
-        Gutschrift
-      </Badge>
-    )
-  }
-  return (
-    <Badge variant="secondary" className="font-normal text-xs">
-      {method}
-    </Badge>
-  )
 }
 
 export function BonList() {
@@ -124,6 +56,7 @@ export function BonList() {
   const [dateTo, setDateTo] = useState("")
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
   const [expandedYears, setExpandedYears] = useState<Set<string>>(new Set())
+  const didInitYears = useRef(false)
 
   const fetchBons = useCallback(async () => {
     setLoading(true)
@@ -162,8 +95,11 @@ export function BonList() {
   }, [data])
 
   useEffect(() => {
-    if (groups.length > 0) setExpandedYears(new Set([groups[0].year]))
-  }, [groups.length]) // eslint-disable-line react-hooks/exhaustive-deps
+    if (!didInitYears.current && groups.length > 0) {
+      setExpandedYears(new Set([groups[0].year]))
+      didInitYears.current = true
+    }
+  }, [groups])
 
   const toggleYear = useCallback((year: string) => {
     setExpandedYears((prev) => {
@@ -318,6 +254,7 @@ export function BonList() {
                 <TableHead className="text-right">Artikel</TableHead>
                 <TableHead className="text-right">Summe</TableHead>
                 <TableHead className="hidden sm:table-cell">Zahlung</TableHead>
+                <TableHead className="text-center">Konto</TableHead>
                 <TableHead className="text-center">AVIS</TableHead>
               </TableRow>
             </TableHeader>
@@ -331,7 +268,7 @@ export function BonList() {
                       className="bg-gray-50 hover:bg-gray-100 cursor-pointer select-none border-t border-gray-200"
                       onClick={() => toggleYear(group.year)}
                     >
-                      <TableCell colSpan={9}>
+                      <TableCell colSpan={10}>
                         <div className="flex items-center gap-2">
                           <ChevronRight
                             className={`h-4 w-4 text-gray-400 shrink-0 transition-transform duration-150 ${isExpanded ? "rotate-90" : ""}`}
@@ -364,10 +301,20 @@ export function BonList() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <ChainBadge chain={bon.store_chain ?? chainFromText(bon.store_name)} />
+                          {bon.is_virtual ? (() => {
+                            const logoPath = bon.bank_logo_path ?? bon.market_logo_path
+                            if (logoPath)
+                              return <img src={logoPath} alt="Logo" className="h-4 w-auto object-contain" />
+                            const chain = detectChain(bon.bank_alias) ?? detectChain(bon.market_alias) ?? detectChain(bon.store_name)
+                            return chain
+                              ? <ChainBadge chain={chain} />
+                              : <CreditCard className="h-4 w-4 text-gray-400" />
+                          })() : (
+                            <ChainBadge chain={bon.store_chain ?? detectChain(bon.store_name)} />
+                          )}
                         </TableCell>
                         <TableCell className="max-w-[200px] truncate">
-                          {bon.store_name}
+                          {bon.bank_alias ?? bon.market_alias ?? bon.store_name}
                         </TableCell>
                         <TableCell className="hidden md:table-cell text-gray-500">
                           {bon.receipt_nr}
@@ -378,6 +325,9 @@ export function BonList() {
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
                           <PaymentBadge method={bon.payment_method} />
+                        </TableCell>
+                        <TableCell className="text-center text-gray-600 text-sm font-medium">
+                          {bon.has_bank_match && bon.bank_match_source === "auto" && "€"}
                         </TableCell>
                         <TableCell className="text-center">
                           {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}

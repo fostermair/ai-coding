@@ -44,7 +44,13 @@ export async function GET(request: NextRequest) {
           r.payment_method,
           r.store_chain,
           r.is_virtual,
+          ta.alias AS bank_alias,
+          ta.logo_path AS bank_logo_path,
+          ma.alias AS market_alias,
+          ma.logo_path AS market_logo_path,
           (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count,
+          CASE WHEN r.bank_transaction_id IS NOT NULL THEN 1 ELSE 0 END AS has_bank_match,
+          bt.match_source AS bank_match_source,
           CASE
             WHEN (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id) = 0
               THEN NULL
@@ -56,6 +62,9 @@ export async function GET(request: NextRequest) {
             ELSE 'no_matches'
           END AS avis_status
         FROM receipts r
+        LEFT JOIN bank_transactions bt ON bt.id = r.bank_transaction_id
+        LEFT JOIN transaction_aliases ta ON ta.beschreibung = bt.beschreibung
+        LEFT JOIN market_aliases ma ON ma.store_name = r.store_name
         ${where}
         ORDER BY r.receipt_date DESC, r.receipt_time DESC`
       )

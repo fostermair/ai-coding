@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Dynamic import to handle module loading
-    const archiver = (await import("archiver")).default
+    const { Archiver } = await import("archiver")
 
     const db = getDb()
     const dbPath = db.name
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
     const zipFileName = `exbon-backup-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}.zip`
 
     // Use ReadableStream with archiver
-    const archive = archiver("zip", { zlib: { level: 6 } })
+    const archive = new Archiver("zip", { zlib: { level: 6 } })
 
     // Create a custom response body
     const readableStream = new ReadableStream<Uint8Array>({

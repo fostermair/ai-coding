@@ -75,6 +75,8 @@ export function TransactionList() {
   const didInitGroups = useRef(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [pdfGroups, setPdfGroups] = useState<Set<string>>(new Set())
+  const [pdfLoadingKey, setPdfLoadingKey] = useState<string | null>(null)
+  const [pdfErrorKey, setPdfErrorKey] = useState<string | null>(null)
 
   const [aliasDialog, setAliasDialog] = useState<{
     open: boolean
@@ -90,7 +92,10 @@ export function TransactionList() {
     }
     return [...map.entries()]
       .sort((a, b) => b[1][0].periode.localeCompare(a[1][0].periode))
-      .map(([key, txs]) => ({ key, txs, periode: txs[0].periode }))
+      .map(([key, txs]) => {
+        const hasPaperlessPdf = txs.some((tx) => tx.kontoauszug_datei?.startsWith('[paperless]'))
+        return { key, txs, periode: txs[0].periode, hasPaperlessPdf }
+      })
   }, [transactions])
 
   const filteredGroups = useMemo(() => {
@@ -333,7 +338,7 @@ export function TransactionList() {
                     ]
                       .filter((s): s is string => s !== null)
                       .join(" · ")
-                const hasPaperlessPdf = group.txs.some((tx) => tx.kontoauszug_datei?.startsWith('[paperless]'))
+                const hasPaperlessPdf = group.hasPaperlessPdf
                 const showPdfMode = pdfGroups.has(group.key)
 
                 return (
@@ -376,11 +381,39 @@ export function TransactionList() {
                     {isExpanded && showPdfMode && (
                       <TableRow>
                         <TableCell colSpan={showHidden ? 7 : 8} className="p-0">
-                          <iframe
-                            src={`/api/konto/statements/${group.periode}/pdf`}
-                            className="w-full h-[600px] border-0"
-                            title={`Kontoauszug ${formatPeriode(group.periode)}`}
-                          />
+                          <div className="relative w-full bg-gray-50">
+                            {pdfLoadingKey === group.key && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
+                                <div className="flex flex-col items-center gap-2">
+                                  <div className="animate-spin h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full" />
+                                  <p className="text-sm text-gray-600">PDF wird geladen...</p>
+                                </div>
+                              </div>
+                            )}
+                            {pdfErrorKey === group.key && (
+                              <div className="w-full h-[600px] flex items-center justify-center bg-red-50 border border-red-200">
+                                <div className="text-center">
+                                  <p className="text-sm font-medium text-red-700">PDF konnte nicht geladen werden</p>
+                                  <p className="text-xs text-red-600 mt-1">Bitte versuchen Sie es später erneut</p>
+                                </div>
+                              </div>
+                            )}
+                            {pdfErrorKey !== group.key && (
+                              <iframe
+                                src={`/api/konto/statements/${group.periode}/pdf`}
+                                className="w-full h-[600px] border-0"
+                                title={`Kontoauszug ${formatPeriode(group.periode)}`}
+                                onLoad={() => {
+                                  setPdfLoadingKey(null)
+                                  setPdfErrorKey(null)
+                                }}
+                                onError={() => {
+                                  setPdfLoadingKey(null)
+                                  setPdfErrorKey(group.key)
+                                }}
+                              />
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}

@@ -2,10 +2,37 @@ import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ periode: string }> }
 ) {
   try {
+    const referer = request.headers.get("referer")
+    const origin = request.headers.get("origin")
+    const host = request.headers.get("host")
+
+    if (!referer || !origin) {
+      return NextResponse.json(
+        { message: "Direkter Zugriff nicht erlaubt" },
+        { status: 403 }
+      )
+    }
+
+    try {
+      const refererUrl = new URL(referer)
+      const originUrl = new URL(origin)
+      if (refererUrl.host !== host && originUrl.host !== host) {
+        return NextResponse.json(
+          { message: "Zugriff verweigert" },
+          { status: 403 }
+        )
+      }
+    } catch {
+      return NextResponse.json(
+        { message: "Ungültiger Request" },
+        { status: 400 }
+      )
+    }
+
     const { periode } = await params
     if (!periode || !/^\d{4}-\d{2}$/.test(periode)) {
       return NextResponse.json({ message: "Ungültiges Perioden-Format (YYYY-MM erwartet)" }, { status: 400 })

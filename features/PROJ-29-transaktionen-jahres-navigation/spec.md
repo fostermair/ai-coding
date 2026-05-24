@@ -1,6 +1,6 @@
 # PROJ-29: Jahres-Dropdown & Kontoauszug-Navigation in Transaktionsansicht
 
-## Status: Planned
+## Status: In Progress
 ## Created: 2026-05-24
 
 ## Dependencies

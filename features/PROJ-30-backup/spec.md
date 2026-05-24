@@ -1,6 +1,6 @@
-# PROJ-28: Backup & Restore
+# PROJ-30: Backup & Restore
 
-**Status:** Planned  
+**Status:** In Progress  
 **Created:** 2026-05-24  
 **Priority:** P1
 

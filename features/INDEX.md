@@ -44,8 +44,8 @@
 
 | PROJ-27 | UX-Verbesserungen Bon- & Transaktionsübersicht | Approved | [PROJ-27-ux-verbesserungen/spec.md](PROJ-27-ux-verbesserungen/spec.md) | 2026-05-22 |
 | PROJ-28 | Integrierter PDF-Viewer in Bon-Detailansicht | Approved | [PROJ-28-pdf-viewer-bon-detail/spec.md](PROJ-28-pdf-viewer-bon-detail/spec.md) | 2026-05-24 |
-| PROJ-29 | Jahres-Dropdown & Kontoauszug-Navigation in Transaktionsansicht | Architected | [PROJ-29-transaktionen-jahres-navigation/spec.md](PROJ-29-transaktionen-jahres-navigation/spec.md) | 2026-05-24 |
-| PROJ-30 | Backup & Restore | Architected | [PROJ-30-backup/spec.md](PROJ-30-backup/spec.md) | 2026-05-24 |
+| PROJ-29 | Jahres-Dropdown & Kontoauszug-Navigation in Transaktionsansicht | In Progress | [PROJ-29-transaktionen-jahres-navigation/spec.md](PROJ-29-transaktionen-jahres-navigation/spec.md) | 2026-05-24 |
+| PROJ-30 | Backup & Restore | In Progress | [PROJ-30-backup/spec.md](PROJ-30-backup/spec.md) | 2026-05-24 |
 
 <!-- Add features above this line -->
 

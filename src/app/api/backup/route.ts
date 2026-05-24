@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createReadStream } from "fs"
 import { getDb } from "@/lib/db"
 import path from "path"
 import fs from "fs"
 import os from "os"
-
-const archiverModule = require("archiver")
 
 export const runtime = "nodejs"
 
@@ -13,6 +10,9 @@ export async function GET(request: NextRequest) {
   let tempDbPath: string | null = null
 
   try {
+    // Dynamic import to handle module loading
+    const archiver = (await import("archiver")).default
+
     const db = getDb()
     const dbPath = db.name
     const dataDir = path.dirname(dbPath)
@@ -61,12 +61,12 @@ export async function GET(request: NextRequest) {
     const zipFileName = `exbon-backup-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}.zip`
 
     // Use ReadableStream with archiver
-    const archive = archiverModule("zip", { zlib: { level: 6 } })
+    const archive = archiver("zip", { zlib: { level: 6 } })
 
     // Create a custom response body
-    const readableStream = new ReadableStream({
+    const readableStream = new ReadableStream<Uint8Array>({
       start(controller) {
-        archive.on("data", (data) => {
+        archive.on("data", (data: Buffer) => {
           controller.enqueue(new Uint8Array(data))
         })
 
@@ -74,16 +74,16 @@ export async function GET(request: NextRequest) {
           controller.close()
           // Clean up temp file after streaming completes
           setTimeout(() => {
-            if (fs.existsSync(tempDbPath)) {
+            if (tempDbPath && fs.existsSync(tempDbPath)) {
               fs.unlinkSync(tempDbPath)
             }
           }, 100)
         })
 
-        archive.on("error", (err) => {
+        archive.on("error", (err: Error) => {
           controller.error(err)
           // Clean up on error
-          if (fs.existsSync(tempDbPath)) {
+          if (tempDbPath && fs.existsSync(tempDbPath)) {
             fs.unlinkSync(tempDbPath)
           }
         })
@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
           archive.finalize()
         } catch (err) {
           controller.error(err)
-          if (fs.existsSync(tempDbPath)) {
+          if (tempDbPath && fs.existsSync(tempDbPath)) {
             fs.unlinkSync(tempDbPath)
           }
         }

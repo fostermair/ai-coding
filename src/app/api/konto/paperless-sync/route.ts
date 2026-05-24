@@ -143,10 +143,14 @@ export async function POST(request: NextRequest) {
 
           // Duplicate check
           const existing = db
-            .prepare("SELECT id FROM bank_statement_log WHERE konto_iban = ? AND periode = ?")
-            .get(parsed.konto_iban, parsed.periode)
+            .prepare("SELECT id, paperless_doc_id FROM bank_statement_log WHERE konto_iban = ? AND periode = ?")
+            .get(parsed.konto_iban, parsed.periode) as { id: number; paperless_doc_id: number | null } | undefined
 
           if (existing) {
+            if (!existing.paperless_doc_id) {
+              db.prepare("UPDATE bank_statement_log SET paperless_doc_id = ? WHERE id = ?")
+                .run(doc.id, existing.id)
+            }
             duplicates++
             details.push({ title: docTitle, status: "duplicate" })
             continue

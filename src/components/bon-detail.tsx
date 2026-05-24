@@ -26,7 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw } from "lucide-react"
+import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw, FileText, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
@@ -109,6 +109,12 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [avisSyncing, setAvisSyncing] = useState(false)
   const [avisSyncMessage, setAvisSyncMessage] = useState<string | null>(null)
   const [marketAliasDialogOpen, setMarketAliasDialogOpen] = useState(false)
+  const [showEbonPdf, setShowEbonPdf] = useState(false)
+  const [showAvisPdf, setShowAvisPdf] = useState(false)
+  const [ebonPdfLoading, setEbonPdfLoading] = useState(false)
+  const [avisPdfLoading, setAvisPdfLoading] = useState(false)
+  const [ebonPdfError, setEbonPdfError] = useState<string | null>(null)
+  const [avisPdfError, setAvisPdfError] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -181,6 +187,42 @@ export function BonDetailView({ bonId }: { bonId: string }) {
       setDeleting(false)
       setError("Löschen fehlgeschlagen")
     }
+  }
+
+  const handleEbonPdfLoad = () => {
+    setEbonPdfLoading(false)
+    setEbonPdfError(null)
+  }
+
+  const handleEbonPdfError = () => {
+    setEbonPdfLoading(false)
+    setEbonPdfError("PDF konnte nicht geladen werden. Paperless ist möglicherweise nicht erreichbar.")
+  }
+
+  const handleAvisPdfLoad = () => {
+    setAvisPdfLoading(false)
+    setAvisPdfError(null)
+  }
+
+  const handleAvisPdfError = () => {
+    setAvisPdfLoading(false)
+    setAvisPdfError("AVIS-PDF konnte nicht geladen werden.")
+  }
+
+  const toggleEbonPdf = () => {
+    if (!showEbonPdf) {
+      setEbonPdfLoading(true)
+      setEbonPdfError(null)
+    }
+    setShowEbonPdf(!showEbonPdf)
+  }
+
+  const toggleAvisPdf = () => {
+    if (!showAvisPdf) {
+      setAvisPdfLoading(true)
+      setAvisPdfError(null)
+    }
+    setShowAvisPdf(!showAvisPdf)
   }
 
   if (loading) {
@@ -392,6 +434,93 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           </div>
         </div>
       </div>
+
+      {/* PDF Viewers */}
+      {bon.paperless_doc_id && (
+        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+          <button
+            onClick={toggleEbonPdf}
+            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-gray-600" />
+              <span className="font-medium text-gray-900">PDF anzeigen</span>
+            </div>
+            <span className="text-gray-400 text-sm">{showEbonPdf ? "▼" : "▶"}</span>
+          </button>
+          {showEbonPdf && (
+            <div className="p-4 border-t border-gray-100">
+              {ebonPdfLoading && (
+                <div className="flex items-center justify-center gap-2 py-8">
+                  <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+                  <span className="text-sm text-gray-500">PDF wird geladen …</span>
+                </div>
+              )}
+              {ebonPdfError && (
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200">
+                  <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
+                  <p className="text-sm text-red-700">{ebonPdfError}</p>
+                </div>
+              )}
+              {!ebonPdfError && (
+                <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+                  <iframe
+                    key={`ebon-${bonId}`}
+                    src={`/api/bons/${bonId}/pdf`}
+                    className="w-full h-full border-0"
+                    onLoad={handleEbonPdfLoad}
+                    onError={handleEbonPdfError}
+                    title="eBon PDF"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {bon.has_avis && (
+        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+          <button
+            onClick={toggleAvisPdf}
+            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-gray-600" />
+              <span className="font-medium text-gray-900">AVIS anzeigen</span>
+            </div>
+            <span className="text-gray-400 text-sm">{showAvisPdf ? "▼" : "▶"}</span>
+          </button>
+          {showAvisPdf && (
+            <div className="p-4 border-t border-gray-100">
+              {avisPdfLoading && (
+                <div className="flex items-center justify-center gap-2 py-8">
+                  <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+                  <span className="text-sm text-gray-500">AVIS wird geladen …</span>
+                </div>
+              )}
+              {avisPdfError && (
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200">
+                  <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
+                  <p className="text-sm text-red-700">{avisPdfError}</p>
+                </div>
+              )}
+              {!avisPdfError && (
+                <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+                  <iframe
+                    key={`avis-${bonId}`}
+                    src={`/api/bons/${bonId}/avis-pdf`}
+                    className="w-full h-full border-0"
+                    onLoad={handleAvisPdfLoad}
+                    onError={handleAvisPdfError}
+                    title="AVIS PDF"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Actions */}
       <div className="space-y-2">

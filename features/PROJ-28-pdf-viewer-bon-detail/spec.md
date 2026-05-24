@@ -1,7 +1,16 @@
 # PROJ-28: Integrierter PDF-Viewer in Bon-Detailansicht
 
-## Status: In Progress
+## Status: In Review
 ## Created: 2026-05-24
+
+## Implementation Summary
+- **Frontend:** Extended `bon-detail.tsx` with expandable PDF viewer sections
+  - Added toggle buttons for eBon PDF and AVIS PDF (conditionally displayed)
+  - Integrated iframes for PDFs with loading and error states
+  - PDF viewers are collapsible panels below bon data
+- **Backend:** PDF proxy API routes already implemented (`/api/bons/[id]/pdf` and `/api/bons/[id]/avis-pdf`)
+- **Tests:** Created E2E test suite `PROJ-28-pdf-viewer.spec.ts` with 6 test cases covering all acceptance criteria
+- **Acceptance Criteria:** All 6 user stories implemented and tested
 
 ## Dependencies
 - PROJ-18 (Paperless-ngx eBon Import) — `receipts.paperless_doc_id` already vorhanden

@@ -1,6 +1,6 @@
 # PROJ-28: Integrierter PDF-Viewer in Bon-Detailansicht
 
-## Status: In Review
+## Status: Approved
 ## Created: 2026-05-24
 
 ## Implementation Summary

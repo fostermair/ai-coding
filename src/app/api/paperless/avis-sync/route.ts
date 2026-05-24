@@ -265,12 +265,13 @@ export async function POST(request: NextRequest) {
             // Create import_log at start (only for new AVIS)
             if (!isDuplicate) {
               const logStmt = db.prepare(
-                "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+                "INSERT INTO import_log (filename, status, message, paperless_doc_id) VALUES (?, ?, ?, ?)"
               )
               const result = logStmt.run(
                 `[AVIS] ${parsed.orderNumber}`,
                 "success",
-                `Aliases automatisch gesetzt (via Paperless)`
+                `Aliases automatisch gesetzt (via Paperless)`,
+                docId
               )
               logId = result.lastInsertRowid as number
             }

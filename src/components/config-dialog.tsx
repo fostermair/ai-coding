@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle2, Loader2, Trash2 } from "lucide-react"
+import { AlertCircle, CheckCircle2, Download, Loader2, Trash2, Upload } from "lucide-react"
 import { toast } from "sonner"
 
 interface ConfigDialogProps {
@@ -28,7 +28,7 @@ interface ConfigDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-type ConfirmType = "avis" | "alias" | "konto" | "bons" | null
+type ConfirmType = "avis" | "alias" | "konto" | "bons" | "restore" | null
 
 export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const [confirmType, setConfirmType] = useState<ConfirmType>(null)
@@ -36,10 +36,22 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const [aliasLoading, setAliasLoading] = useState(false)
   const [kontoLoading, setKontoLoading] = useState(false)
   const [bonsLoading, setBonsLoading] = useState(false)
+  const [backupLoading, setBackupLoading] = useState(false)
+  const [restoreLoading, setRestoreLoading] = useState(false)
   const [message, setMessage] = useState<{
     type: "success" | "error"
     text: string
   } | null>(null)
+  const [lastBackupTime, setLastBackupTime] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const pendingFileRef = useRef<File | null>(null)
+
+  useEffect(() => {
+    const stored = localStorage.getItem("lastBackupTimestamp")
+    if (stored) {
+      setLastBackupTime(stored)
+    }
+  }, [open])
 
   const handleDeleteAvis = async () => {
     setAvisLoading(true)
@@ -158,6 +170,92 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
     }
   }
 
+  const handleCreateBackup = async () => {
+    setBackupLoading(true)
+    setMessage(null)
+    try {
+      const res = await fetch("/api/backup")
+      if (!res.ok) {
+        setMessage({
+          type: "error",
+          text: "Fehler beim Erstellen des Backups",
+        })
+        return
+      }
+
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = res.headers.get("content-disposition")?.split("filename=")[1]?.replace(/"/g, "") || "backup.zip"
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+
+      // Update last backup timestamp
+      const now = new Date().toLocaleString("de-DE")
+      localStorage.setItem("lastBackupTimestamp", now)
+      setLastBackupTime(now)
+
+      setMessage({
+        type: "success",
+        text: "Backup erstellt und heruntergeladen",
+      })
+      toast.success("Backup erstellt und heruntergeladen")
+      setTimeout(() => setMessage(null), 3000)
+    } catch (e) {
+      setMessage({
+        type: "error",
+        text: "Fehler beim Erstellen des Backups",
+      })
+    } finally {
+      setBackupLoading(false)
+    }
+  }
+
+  const handleRestoreBackup = async (file: File) => {
+    setRestoreLoading(true)
+    setMessage(null)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const res = await fetch("/api/backup/restore", {
+        method: "POST",
+        body: formData,
+      })
+      const data = await res.json()
+
+      if (!res.ok) {
+        setMessage({
+          type: "error",
+          text: data.error || "Fehler beim Wiederherstellen des Backups",
+        })
+        return
+      }
+
+      setMessage({
+        type: "success",
+        text: data.message,
+      })
+      toast.success(data.message)
+
+      // Reload page after 1 second
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (e) {
+      setMessage({
+        type: "error",
+        text: "Fehler beim Verarbeiten des Backups",
+      })
+    } finally {
+      setRestoreLoading(false)
+      setConfirmType(null)
+    }
+  }
+
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -271,10 +369,84 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
             </Button>
           </div>
 
+          <Separator />
+
+          {/* Backup Management */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">Datenbackup Verwaltung</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Erstellen Sie ein Backup aller Daten oder stellen Sie ein früheres Backup wieder her
+              </p>
+            </div>
+
+            {lastBackupTime && (
+              <p className="text-xs text-gray-600">
+                <strong>Letztes Backup:</strong> {lastBackupTime}
+              </p>
+            )}
+            {!lastBackupTime && (
+              <p className="text-xs text-gray-500">Kein Backup vorhanden</p>
+            )}
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleCreateBackup}
+                disabled={
+                  backupLoading ||
+                  restoreLoading ||
+                  avisLoading ||
+                  aliasLoading ||
+                  kontoLoading ||
+                  bonsLoading
+                }
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {backupLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                {backupLoading ? "Wird erstellt..." : "Backup erstellen"}
+              </button>
+
+              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".zip"
+                  onChange={(e) => {
+                    const file = e.currentTarget.files?.[0]
+                    if (file) {
+                      pendingFileRef.current = file
+                      setConfirmType("restore")
+                    }
+                    e.currentTarget.value = ""
+                  }}
+                  disabled={
+                    restoreLoading ||
+                    backupLoading ||
+                    avisLoading ||
+                    aliasLoading ||
+                    kontoLoading ||
+                    bonsLoading
+                  }
+                  className="hidden"
+                />
+                {restoreLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="h-4 w-4" />
+                )}
+                {restoreLoading ? "Wird wiederhergestellt..." : "Backup laden"}
+              </label>
+            </div>
+          </div>
+
           {/* Note about future features */}
           <div className="rounded-md bg-blue-50 p-3 border border-blue-200">
             <p className="text-xs text-blue-800">
-              <strong>Zukünftige Features:</strong> DB-Backup, Statistik-Reset, Produktlisten-Reset, Import-Logs
+              <strong>Zukünftige Features:</strong> Statistik-Reset, Produktlisten-Reset, Import-Logs
             </p>
           </div>
 
@@ -366,6 +538,34 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
             className="bg-red-600 hover:bg-red-700"
           >
             {aliasLoading ? "Wird gelöscht..." : "Ja, löschen"}
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Restore Confirmation Dialog */}
+      <AlertDialog open={confirmType === "restore"} onOpenChange={(open) => !open && setConfirmType(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Backup wiederherstellen?</AlertDialogTitle>
+            <AlertDialogDescription className="text-red-600 font-medium">
+              ⚠️ Alle aktuellen Daten werden überschrieben und können nicht wiederhergestellt werden.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <p className="text-sm text-gray-700 px-4">Diese Aktion kann nicht rückgängig gemacht werden.</p>
+          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              if (pendingFileRef.current) {
+                handleRestoreBackup(pendingFileRef.current)
+              } else {
+                toast.error("Keine Datei ausgewählt")
+                setConfirmType(null)
+              }
+            }}
+            disabled={restoreLoading}
+            className="bg-red-600 hover:bg-red-700"
+          >
+            {restoreLoading ? "Wird wiederhergestellt..." : "Ja, Backup laden"}
           </AlertDialogAction>
         </AlertDialogContent>
       </AlertDialog>

@@ -156,6 +156,14 @@ function initSchema(db: Database.Database): void {
     db.exec("ALTER TABLE avis_matches ADD COLUMN match_source TEXT")
   }
 
+  // Migration: add paperless_doc_id column to import_log
+  const importLogCols = db
+    .prepare("PRAGMA table_info(import_log)")
+    .all() as Array<{ name: string }>
+  if (!importLogCols.some((c) => c.name === "paperless_doc_id")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN paperless_doc_id INTEGER")
+  }
+
   // Migration: add store_chain column to receipts for multi-supermarket support
   if (!receiptCols.some((c) => c.name === "store_chain")) {
     db.exec("ALTER TABLE receipts ADD COLUMN store_chain TEXT NOT NULL DEFAULT 'rewe'")

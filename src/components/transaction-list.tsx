@@ -18,6 +18,7 @@ import { ChainBadge } from "@/components/chain-badge"
 import { detectChain } from "@/lib/chain"
 import { formatEuro, formatDate } from "@/lib/format"
 import { TransactionAliasDialog } from "@/components/transaction-alias-dialog"
+import { KontoauszugPdfViewer } from "@/components/kontoauszug-pdf-viewer"
 
 interface Transaction {
   id: number
@@ -77,6 +78,7 @@ export function TransactionList() {
   const [pdfGroups, setPdfGroups] = useState<Set<string>>(new Set())
   const [pdfLoadingKey, setPdfLoadingKey] = useState<string | null>(null)
   const [pdfErrorKey, setPdfErrorKey] = useState<string | null>(null)
+  const [highlightedTxId, setHighlightedTxId] = useState<number | null>(null)
 
   const [aliasDialog, setAliasDialog] = useState<{
     open: boolean
@@ -126,7 +128,37 @@ export function TransactionList() {
       if (prev.has(key)) return new Set()
       return new Set([key])
     })
+    setHighlightedTxId(null)
   }, [])
+
+  const handleTransactionClick = useCallback((tx: Transaction, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const hasPaperlessPdf = tx.kontoauszug_datei?.startsWith('[paperless]')
+    if (!hasPaperlessPdf) return
+
+    setPdfGroups((prev) => {
+      // Check if this group is already open
+      const isGroupOpen = prev.has(tx.periode)
+
+      // Check if this transaction is already highlighted
+      if (isGroupOpen && highlightedTxId === tx.id) {
+        // Close PDF
+        return new Set()
+      } else if (!isGroupOpen) {
+        // Open new group
+        return new Set([tx.periode])
+      }
+      // If group is open but different tx, keep group open and update highlighted
+      return prev
+    })
+
+    setHighlightedTxId((prev) => {
+      if (prev === tx.id && pdfGroups.has(tx.periode)) {
+        return null
+      }
+      return tx.id
+    })
+  }, [pdfGroups, highlightedTxId])
 
   const fetchTransactions = useCallback(async () => {
     setLoading(true)
@@ -380,47 +412,31 @@ export function TransactionList() {
                     </TableRow>
                     {isExpanded && showPdfMode && (
                       <TableRow>
-                        <TableCell colSpan={showHidden ? 7 : 8} className="p-0">
-                          <div className="relative w-full bg-gray-50">
-                            {pdfLoadingKey === group.key && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-                                <div className="flex flex-col items-center gap-2">
-                                  <div className="animate-spin h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full" />
-                                  <p className="text-sm text-gray-600">PDF wird geladen...</p>
-                                </div>
-                              </div>
-                            )}
-                            {pdfErrorKey === group.key && (
-                              <div className="w-full h-[600px] flex items-center justify-center bg-red-50 border border-red-200">
-                                <div className="text-center">
-                                  <p className="text-sm font-medium text-red-700">PDF konnte nicht geladen werden</p>
-                                  <p className="text-xs text-red-600 mt-1">Bitte versuchen Sie es später erneut</p>
-                                </div>
-                              </div>
-                            )}
-                            {pdfErrorKey !== group.key && (
-                              <iframe
-                                src={`/api/konto/statements/${group.periode}/pdf`}
-                                className="w-full h-[600px] border-0"
-                                title={`Kontoauszug ${formatPeriode(group.periode)}`}
-                                onLoad={() => {
-                                  setPdfLoadingKey(null)
-                                  setPdfErrorKey(null)
-                                }}
-                                onError={() => {
-                                  setPdfLoadingKey(null)
-                                  setPdfErrorKey(group.key)
-                                }}
-                              />
-                            )}
-                          </div>
+                        <TableCell colSpan={showHidden ? 7 : 8} className="p-4">
+                          <KontoauszugPdfViewer
+                            periode={group.periode}
+                            highlightTx={
+                              highlightedTxId
+                                ? group.txs.find((tx) => tx.id === highlightedTxId) || null
+                                : null
+                            }
+                            onClose={() => {
+                              setPdfGroups(new Set())
+                              setHighlightedTxId(null)
+                            }}
+                          />
                         </TableCell>
                       </TableRow>
                     )}
                     {isExpanded && !showPdfMode && group.txs.map((tx) => {
                       const displayName = tx.alias || tx.haendler_name || tx.empfaenger_name || tx.beschreibung
+                      const hasPaperlessPdf = tx.kontoauszug_datei?.startsWith('[paperless]')
                       return (
-                        <TableRow key={tx.id} className={tx.hidden ? "opacity-60" : undefined}>
+                        <TableRow
+                          key={tx.id}
+                          className={`${tx.hidden ? "opacity-60" : ""} ${hasPaperlessPdf ? "cursor-pointer hover:bg-blue-50" : ""}`}
+                          onClick={(e) => hasPaperlessPdf && handleTransactionClick(tx, e)}
+                        >
                           <TableCell className="font-medium tabular-nums">
                             {formatDate(tx.buchungsdatum)}
                           </TableCell>

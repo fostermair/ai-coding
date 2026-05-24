@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -109,12 +110,6 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [avisSyncing, setAvisSyncing] = useState(false)
   const [avisSyncMessage, setAvisSyncMessage] = useState<string | null>(null)
   const [marketAliasDialogOpen, setMarketAliasDialogOpen] = useState(false)
-  const [showEbonPdf, setShowEbonPdf] = useState(false)
-  const [showAvisPdf, setShowAvisPdf] = useState(false)
-  const [ebonPdfLoading, setEbonPdfLoading] = useState(false)
-  const [avisPdfLoading, setAvisPdfLoading] = useState(false)
-  const [ebonPdfError, setEbonPdfError] = useState<string | null>(null)
-  const [avisPdfError, setAvisPdfError] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -189,41 +184,6 @@ export function BonDetailView({ bonId }: { bonId: string }) {
     }
   }
 
-  const handleEbonPdfLoad = () => {
-    setEbonPdfLoading(false)
-    setEbonPdfError(null)
-  }
-
-  const handleEbonPdfError = () => {
-    setEbonPdfLoading(false)
-    setEbonPdfError("PDF konnte nicht geladen werden. Paperless ist möglicherweise nicht erreichbar.")
-  }
-
-  const handleAvisPdfLoad = () => {
-    setAvisPdfLoading(false)
-    setAvisPdfError(null)
-  }
-
-  const handleAvisPdfError = () => {
-    setAvisPdfLoading(false)
-    setAvisPdfError("AVIS-PDF konnte nicht geladen werden.")
-  }
-
-  const toggleEbonPdf = () => {
-    if (!showEbonPdf) {
-      setEbonPdfLoading(true)
-      setEbonPdfError(null)
-    }
-    setShowEbonPdf(!showEbonPdf)
-  }
-
-  const toggleAvisPdf = () => {
-    if (!showAvisPdf) {
-      setAvisPdfLoading(true)
-      setAvisPdfError(null)
-    }
-    setShowAvisPdf(!showAvisPdf)
-  }
 
   if (loading) {
     return (
@@ -334,193 +294,147 @@ export function BonDetailView({ bonId }: { bonId: string }) {
         </CardContent>
       </Card>
 
-      {/* Products table */}
-      {products.length > 0 && (
-        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="w-1/2">Produkt</TableHead>
-                <TableHead className="w-1/2">Alias</TableHead>
-                <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
-                <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
-                <TableHead className="text-right">Gesamt</TableHead>
-                <TableHead className="text-center w-12">MwSt</TableHead>
-                {bon.store_chain === "rewe" && (
-                  <TableHead className="text-center w-8">AVIS</TableHead>
-                )}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {products.map((item) => (
-                <ItemRows
-                  key={item.id}
-                  item={item}
-                  receiptId={bon.id}
-                  hasAvis={bon.has_avis}
-                  storeChain={bon.store_chain}
-                  onItemUpdate={() => {
-                    // Reload bon to refresh item states
-                    fetch(`/api/bons/${bonId}`).then((res) => {
-                      if (res.ok) res.json().then((data) => setBon(data))
-                    })
-                  }}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+      {/* Tabs: Produkte, EBon, AVIS */}
+      <Tabs defaultValue="produkte" className="w-full">
+        <TabsList className="w-full justify-start">
+          <TabsTrigger value="produkte">Produkte</TabsTrigger>
+          <TabsTrigger value="ebon" disabled={!bon.paperless_doc_id}>
+            EBon
+          </TabsTrigger>
+          <TabsTrigger value="avis" disabled={!bon.has_avis}>
+            AVIS
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Pfand / Leergut section */}
-      {pfandLeergut.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Pfand & Leergut</h3>
-          <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-            <Table>
-              <TableBody>
-                {pfandLeergut.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">
-                      {(item.alias || null) ?? (/^\d+$/.test(item.raw_name) ? "(unbekannt)" : item.raw_name)}
-                      {!!item.bonus_excluded && (
-                        <span className="text-gray-400 ml-1">*</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right hidden sm:table-cell">
-                      {item.quantity > 1 ? `${item.quantity} Stk` : ""}
-                    </TableCell>
-                    <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
-                      {item.quantity > 1 ? `${formatEuro(item.unit_price_cents)} €` : ""}
-                    </TableCell>
-                    <TableCell className="text-right tabular-nums font-medium">
-                      <span className={item.total_price_cents < 0 ? "text-green-600" : ""}>
-                        {formatEuro(item.total_price_cents)} €
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Badge variant="outline" className="text-xs font-normal">
-                        {item.tax_code}
-                      </Badge>
-                    </TableCell>
+        <TabsContent value="produkte" className="space-y-6 mt-4">
+          {/* Products table */}
+          {products.length > 0 && (
+            <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="w-1/2">Produkt</TableHead>
+                    <TableHead className="w-1/2">Alias</TableHead>
+                    <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
+                    <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
+                    <TableHead className="text-right">Gesamt</TableHead>
+                    <TableHead className="text-center w-12">MwSt</TableHead>
+                    {bon.store_chain === "rewe" && (
+                      <TableHead className="text-center w-8">AVIS</TableHead>
+                    )}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {products.map((item) => (
+                    <ItemRows
+                      key={item.id}
+                      item={item}
+                      receiptId={bon.id}
+                      hasAvis={bon.has_avis}
+                      storeChain={bon.store_chain}
+                      onItemUpdate={() => {
+                        // Reload bon to refresh item states
+                        fetch(`/api/bons/${bonId}`).then((res) => {
+                          if (res.ok) res.json().then((data) => setBon(data))
+                        })
+                      }}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+
+          {/* Pfand / Leergut section */}
+          {pfandLeergut.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Pfand & Leergut</h3>
+              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+                <Table>
+                  <TableBody>
+                    {pfandLeergut.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell className="font-medium">
+                          {(item.alias || null) ?? (/^\d+$/.test(item.raw_name) ? "(unbekannt)" : item.raw_name)}
+                          {!!item.bonus_excluded && (
+                            <span className="text-gray-400 ml-1">*</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right hidden sm:table-cell">
+                          {item.quantity > 1 ? `${item.quantity} Stk` : ""}
+                        </TableCell>
+                        <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
+                          {item.quantity > 1 ? `${formatEuro(item.unit_price_cents)} €` : ""}
+                        </TableCell>
+                        <TableCell className="text-right tabular-nums font-medium">
+                          <span className={item.total_price_cents < 0 ? "text-green-600" : ""}>
+                            {formatEuro(item.total_price_cents)} €
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Badge variant="outline" className="text-xs font-normal">
+                            {item.tax_code}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {/* VAT breakdown */}
+          <div className="rounded-lg border border-gray-100 bg-white p-4">
+            <h3 className="text-sm font-medium text-gray-500 mb-2">MwSt-Aufschlüsselung</h3>
+            <div className="space-y-1 text-sm">
+              {vatA !== 0 && (
+                <div className="flex justify-between">
+                  <span className="text-gray-600">A = 19%</span>
+                  <span className="tabular-nums">{formatEuro(vatA)} €</span>
+                </div>
+              )}
+              {vatB !== 0 && (
+                <div className="flex justify-between">
+                  <span className="text-gray-600">B = 7%</span>
+                  <span className="tabular-nums">{formatEuro(vatB)} €</span>
+                </div>
+              )}
+              <Separator className="my-2" />
+              <div className="flex justify-between font-medium">
+                <span>Summe</span>
+                <span className="tabular-nums">{formatEuro(bon.total_amount_cents)} €</span>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {/* VAT breakdown */}
-      <div className="rounded-lg border border-gray-100 bg-white p-4">
-        <h3 className="text-sm font-medium text-gray-500 mb-2">MwSt-Aufschlüsselung</h3>
-        <div className="space-y-1 text-sm">
-          {vatA !== 0 && (
-            <div className="flex justify-between">
-              <span className="text-gray-600">A = 19%</span>
-              <span className="tabular-nums">{formatEuro(vatA)} €</span>
+        <TabsContent value="ebon" className="mt-4">
+          {bon.paperless_doc_id && (
+            <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+              <iframe
+                key={`ebon-${bonId}`}
+                src={`/api/bons/${bonId}/pdf`}
+                className="w-full h-full border-0"
+                title="eBon PDF"
+              />
             </div>
           )}
-          {vatB !== 0 && (
-            <div className="flex justify-between">
-              <span className="text-gray-600">B = 7%</span>
-              <span className="tabular-nums">{formatEuro(vatB)} €</span>
-            </div>
-          )}
-          <Separator className="my-2" />
-          <div className="flex justify-between font-medium">
-            <span>Summe</span>
-            <span className="tabular-nums">{formatEuro(bon.total_amount_cents)} €</span>
-          </div>
-        </div>
-      </div>
+        </TabsContent>
 
-      {/* PDF Viewers */}
-      {bon.paperless_doc_id && (
-        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-          <button
-            onClick={toggleEbonPdf}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-gray-600" />
-              <span className="font-medium text-gray-900">PDF anzeigen</span>
-            </div>
-            <span className="text-gray-400 text-sm">{showEbonPdf ? "▼" : "▶"}</span>
-          </button>
-          {showEbonPdf && (
-            <div className="p-4 border-t border-gray-100">
-              {ebonPdfLoading && (
-                <div className="flex items-center justify-center gap-2 py-8">
-                  <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
-                  <span className="text-sm text-gray-500">PDF wird geladen …</span>
-                </div>
-              )}
-              {ebonPdfError && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200">
-                  <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
-                  <p className="text-sm text-red-700">{ebonPdfError}</p>
-                </div>
-              )}
-              {!ebonPdfError && (
-                <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
-                  <iframe
-                    key={`ebon-${bonId}`}
-                    src={`/api/bons/${bonId}/pdf`}
-                    className="w-full h-full border-0"
-                    onLoad={handleEbonPdfLoad}
-                    onError={handleEbonPdfError}
-                    title="eBon PDF"
-                  />
-                </div>
-              )}
+        <TabsContent value="avis" className="mt-4">
+          {bon.has_avis && (
+            <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+              <iframe
+                key={`avis-${bonId}`}
+                src={`/api/bons/${bonId}/avis-pdf`}
+                className="w-full h-full border-0"
+                title="AVIS PDF"
+              />
             </div>
           )}
-        </div>
-      )}
-
-      {bon.has_avis && (
-        <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
-          <button
-            onClick={toggleAvisPdf}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-gray-600" />
-              <span className="font-medium text-gray-900">AVIS anzeigen</span>
-            </div>
-            <span className="text-gray-400 text-sm">{showAvisPdf ? "▼" : "▶"}</span>
-          </button>
-          {showAvisPdf && (
-            <div className="p-4 border-t border-gray-100">
-              {avisPdfLoading && (
-                <div className="flex items-center justify-center gap-2 py-8">
-                  <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
-                  <span className="text-sm text-gray-500">AVIS wird geladen …</span>
-                </div>
-              )}
-              {avisPdfError && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200">
-                  <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
-                  <p className="text-sm text-red-700">{avisPdfError}</p>
-                </div>
-              )}
-              {!avisPdfError && (
-                <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
-                  <iframe
-                    key={`avis-${bonId}`}
-                    src={`/api/bons/${bonId}/avis-pdf`}
-                    className="w-full h-full border-0"
-                    onLoad={handleAvisPdfLoad}
-                    onError={handleAvisPdfError}
-                    title="AVIS PDF"
-                  />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+        </TabsContent>
+      </Tabs>
 
       {/* Actions */}
       <div className="space-y-2">

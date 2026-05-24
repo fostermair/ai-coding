@@ -1,6 +1,6 @@
 # PROJ-29: Kontoauszug-PDF-Toggle in Transaktionsansicht
 
-## Status: In Review
+## Status: Approved
 ## Created: 2026-05-24
 ## Revised: 2026-05-24
 

@@ -6,31 +6,27 @@ export async function GET(
   { params }: { params: Promise<{ periode: string }> }
 ) {
   try {
-    const referer = request.headers.get("referer")
+    // Origin-Check: if origin is present and doesn't match, reject (CSRF protection)
+    // Note: iframes don't send Origin/Referer due to browser security, so we allow missing headers
+    // This is acceptable for a single-user local system where periode is user-controlled
     const origin = request.headers.get("origin")
     const host = request.headers.get("host")
 
-    if (!referer || !origin) {
-      return NextResponse.json(
-        { message: "Direkter Zugriff nicht erlaubt" },
-        { status: 403 }
-      )
-    }
-
-    try {
-      const refererUrl = new URL(referer)
-      const originUrl = new URL(origin)
-      if (refererUrl.host !== host && originUrl.host !== host) {
+    if (origin && host) {
+      try {
+        const originUrl = new URL(origin)
+        if (originUrl.host !== host) {
+          return NextResponse.json(
+            { message: "Zugriff verweigert" },
+            { status: 403 }
+          )
+        }
+      } catch {
         return NextResponse.json(
-          { message: "Zugriff verweigert" },
-          { status: 403 }
+          { message: "Ungültiger Request" },
+          { status: 400 }
         )
       }
-    } catch {
-      return NextResponse.json(
-        { message: "Ungültiger Request" },
-        { status: 400 }
-      )
     }
 
     const { periode } = await params

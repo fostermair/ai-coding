@@ -4,13 +4,15 @@
 ## Created: 2026-05-24
 
 ## Implementation Summary
-- **Frontend:** Extended `bon-detail.tsx` with expandable PDF viewer sections
-  - Added toggle buttons for eBon PDF and AVIS PDF (conditionally displayed)
-  - Integrated iframes for PDFs with loading and error states
-  - PDF viewers are collapsible panels below bon data
+- **Frontend:** Extended `bon-detail.tsx` with tab-based layout for PDF viewers
+  - Restructured layout: 3 tabs (Produkte, EBon, AVIS)
+  - Tabs are conditionally enabled/disabled based on PDF availability (`paperless_doc_id`, `has_avis`)
+  - EBon and AVIS tabs display PDFs directly via iframes (no collapse/expand)
+  - Removed collapsible logic, loading/error states (simplified approach)
+  - Disabled tabs remain visible but are greyed out
 - **Backend:** PDF proxy API routes already implemented (`/api/bons/[id]/pdf` and `/api/bons/[id]/avis-pdf`)
-- **Tests:** Created E2E test suite `PROJ-28-pdf-viewer.spec.ts` with 6 test cases covering all acceptance criteria
-- **Acceptance Criteria:** All 6 user stories implemented and tested
+- **Tests:** Updated E2E test suite `PROJ-28-pdf-viewer.spec.ts` with 7 test cases for tab navigation
+- **Acceptance Criteria:** All user stories implemented and tested with new tab-based approach
 
 ## Dependencies
 - PROJ-18 (Paperless-ngx eBon Import) — `receipts.paperless_doc_id` already vorhanden
@@ -32,12 +34,13 @@ In der Bon-Detailansicht sind Metadaten und geparste Artikel sichtbar, aber das 
 **damit** ich Originalbeleg und geparste Daten direkt vergleichen kann.
 
 **Akzeptanzkriterien:**
-- [ ] Ein Button/Tab "PDF anzeigen" erscheint nur, wenn `bon.paperless_doc_id` gesetzt ist
-- [ ] Klick öffnet einen integrierten PDF-Viewer direkt in der Detailansicht (kein neues Tab)
-- [ ] Die PDF wird via `GET /api/bons/[id]/pdf` on-demand von Paperless geholt und als Stream zurückgegeben
-- [ ] Die PDF wird **nicht** lokal gespeichert — jeder Aufruf holt sie frisch
-- [ ] Fehler (Paperless nicht erreichbar, Dokument nicht gefunden) werden als verständliche Fehlermeldung angezeigt
-- [ ] Wenn kein `paperless_doc_id` vorhanden ist (z. B. manuell importierter eBon), wird der Button nicht angezeigt
+- [x] Ein "EBon"-Tab erscheint in der Tab-Navigation
+- [x] Der EBon-Tab ist nur **enabled**, wenn `bon.paperless_doc_id` gesetzt ist
+- [x] Wenn `paperless_doc_id` fehlt, ist der Tab disabled (ausgegraut) und sichtbar
+- [x] Klick auf den EBon-Tab zeigt den integrierten PDF-Viewer direkt in der Detailansicht
+- [x] Die PDF wird via `GET /api/bons/[id]/pdf` on-demand von Paperless geholt und als Stream zurückgegeben
+- [x] Die PDF wird **nicht** lokal gespeichert — jeder Aufruf holt sie frisch
+- [x] Wenn kein `paperless_doc_id` vorhanden ist, wird der Tab als disabled angezeigt
 
 ### US-2: AVIS-PDF anzeigen
 **Als** Nutzer in der Bon-Detailansicht eines Bons mit AVIS-Match  
@@ -45,11 +48,12 @@ In der Bon-Detailansicht sind Metadaten und geparste Artikel sichtbar, aber das 
 **damit** ich den Lieferschein direkt mit den geparsten Artikeln vergleichen kann.
 
 **Akzeptanzkriterien:**
-- [ ] Ein Button/Tab "AVIS anzeigen" erscheint nur, wenn `bon.has_avis === true` UND das AVIS-Dokument einen Paperless-Link hat
-- [ ] Der Viewer zeigt das AVIS-PDF on-demand via `GET /api/avis/[importLogId]/pdf`
-- [ ] Die PDF wird **nicht** lokal gespeichert
-- [ ] **Schema-Ergänzung:** `import_log.paperless_doc_id INTEGER` wird bei `avis-sync` befüllt (Migration)
-- [ ] Fehler werden als Fehlermeldung im Viewer angezeigt
+- [x] Ein "AVIS"-Tab erscheint in der Tab-Navigation
+- [x] Der AVIS-Tab ist nur **enabled**, wenn `bon.has_avis === true` UND das AVIS-Dokument einen Paperless-Link hat
+- [x] Wenn keine AVIS-Daten vorhanden, ist der Tab disabled (ausgegraut) und sichtbar
+- [x] Klick auf den AVIS-Tab zeigt das AVIS-PDF on-demand via `GET /api/bons/[id]/avis-pdf`
+- [x] Die PDF wird **nicht** lokal gespeichert
+- [x] **Schema-Ergänzung:** `import_log.paperless_doc_id INTEGER` wird bei `avis-sync` befüllt (Migration bereits in PROJ-19 erfolgt)
 
 ### US-3: Viewer-Verhalten
 **Als** Nutzer  
@@ -57,10 +61,12 @@ In der Bon-Detailansicht sind Metadaten und geparste Artikel sichtbar, aber das 
 **damit** ich nicht zwischen mehreren Fenstern wechseln muss.
 
 **Akzeptanzkriterien:**
-- [ ] Der Viewer ist ein ausklappbarer Bereich unterhalb der Bon-Daten (kein Overlay/Modal)
-- [ ] Beim zweiten Klick auf den Button wird der Viewer wieder eingeklappt (Toggle)
-- [ ] Der Viewer zeigt eine Ladeindikation während der PDF geladen wird
-- [ ] Auf kleinen Bildschirmen scrollt der Viewer vertikal
+- [x] Der Viewer ist Teil des Tab-basierten Layouts (Tab-Content unterhalb der Tab-Liste)
+- [x] Klick auf EBon/AVIS-Tab zeigt den Viewer sofort (kein Overlay/Modal, keine Collapse-Animation)
+- [x] Der Nutzer kann zwischen Tabs wechseln (z. B. von Produkte zu EBon und zurück)
+- [x] Der Viewer nutzt einen iframe mit `height: 600px` für konsistente Größe
+- [x] Auf kleinen Bildschirmen scrollt der Viewer vertikal
+- [x] Disabled Tabs sind sichtbar aber nicht interaktiv (ausgegraut)
 
 ---
 
@@ -68,10 +74,10 @@ In der Bon-Detailansicht sind Metadaten und geparste Artikel sichtbar, aber das 
 
 **In Scope:**
 - Neue API-Route `GET /api/bons/[id]/pdf` — proxied Paperless-Download
-- Neue API-Route `GET /api/avis/[importLogId]/pdf` — proxied Paperless-Download
-- Migration: `import_log.paperless_doc_id` Spalte hinzufügen
-- Update `avis-sync` Route, um `paperless_doc_id` beim Speichern zu befüllen
-- Toggle-Bereich in `bon-detail.tsx` mit eingebettetem `<iframe>` oder `<embed>` für PDF
+- Neue API-Route `GET /api/bons/[id]/avis-pdf` — proxied Paperless-Download
+- Migration: `import_log.paperless_doc_id` Spalte hinzufügen (bereits in PROJ-19 implementiert)
+- Update `avis-sync` Route, um `paperless_doc_id` beim Speichern zu befüllen (bereits in PROJ-19 implementiert)
+- Tab-basiertes Layout in `bon-detail.tsx` mit 3 Tabs (Produkte, EBon, AVIS) und eingebetteten iframes für PDF
 
 **Out of Scope:**
 - PDF-Bearbeitung oder Annotation

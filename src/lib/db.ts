@@ -225,7 +225,8 @@ function initSchema(db: Database.Database): void {
       periode TEXT NOT NULL,
       dateiname TEXT,
       importiert_am TEXT NOT NULL DEFAULT (datetime('now')),
-      transaktion_count INTEGER
+      transaktion_count INTEGER,
+      paperless_doc_id INTEGER
     );
     CREATE UNIQUE INDEX IF NOT EXISTS idx_bank_stmt_unique
       ON bank_statement_log(konto_iban, periode);
@@ -240,6 +241,12 @@ function initSchema(db: Database.Database): void {
     db.exec(
       "ALTER TABLE receipts ADD COLUMN bank_transaction_id INTEGER REFERENCES bank_transactions(id)"
     )
+  }
+
+  // PROJ-29: paperless_doc_id on bank_statement_log
+  const stmtCols = db.prepare("PRAGMA table_info(bank_statement_log)").all() as Array<{ name: string }>
+  if (!stmtCols.some((c) => c.name === "paperless_doc_id")) {
+    db.exec("ALTER TABLE bank_statement_log ADD COLUMN paperless_doc_id INTEGER")
   }
 
   // Migration: korrigiere falsch als 'rewe' gesetzte store_chain-Werte (idempotent).

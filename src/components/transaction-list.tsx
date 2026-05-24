@@ -12,15 +12,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { RefreshCw, ChevronRight, Pencil, Eye, EyeOff, Search, X } from "lucide-react"
+import { RefreshCw, ChevronRight, Pencil, Eye, EyeOff, Search, X, FileText } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { ChainBadge } from "@/components/chain-badge"
 import { detectChain } from "@/lib/chain"
 import { formatEuro, formatDate } from "@/lib/format"
@@ -81,8 +74,7 @@ export function TransactionList() {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
   const didInitGroups = useRef(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedYear, setSelectedYear] = useState<string>("all")
-  const [selectedPeriode, setSelectedPeriode] = useState<string>("all")
+  const [pdfGroups, setPdfGroups] = useState<Set<string>>(new Set())
 
   const [aliasDialog, setAliasDialog] = useState<{
     open: boolean
@@ -90,17 +82,8 @@ export function TransactionList() {
   }>({ open: false, tx: null })
 
   const groups = useMemo(() => {
-    // Filter by year and periode
-    let filtered = transactions
-    if (selectedYear !== "all") {
-      filtered = filtered.filter((tx) => tx.periode.startsWith(selectedYear))
-    }
-    if (selectedPeriode !== "all") {
-      filtered = filtered.filter((tx) => tx.periode === selectedPeriode)
-    }
-
     const map = new Map<string, Transaction[]>()
-    for (const tx of filtered) {
+    for (const tx of transactions) {
       const key = tx.kontoauszug_datei ?? tx.periode
       if (!map.has(key)) map.set(key, [])
       map.get(key)!.push(tx)
@@ -108,20 +91,7 @@ export function TransactionList() {
     return [...map.entries()]
       .sort((a, b) => b[1][0].periode.localeCompare(a[1][0].periode))
       .map(([key, txs]) => ({ key, txs, periode: txs[0].periode }))
-  }, [transactions, selectedYear, selectedPeriode])
-
-  const availableYears = useMemo(() => {
-    const years = new Set(transactions.map((tx) => tx.periode.slice(0, 4)))
-    return [...years].sort().reverse()
   }, [transactions])
-
-  const availablePeriodes = useMemo(() => {
-    if (selectedYear === "all") return []
-    const periodes = transactions
-      .filter((tx) => tx.periode.startsWith(selectedYear))
-      .map((tx) => tx.periode)
-    return [...new Set(periodes)].sort().reverse()
-  }, [transactions, selectedYear])
 
   const filteredGroups = useMemo(() => {
     if (!searchQuery.trim()) return groups
@@ -139,6 +109,15 @@ export function TransactionList() {
 
   const toggleGroup = useCallback((key: string) => {
     setExpandedGroups((prev) => {
+      if (prev.has(key)) return new Set()
+      return new Set([key])
+    })
+    setPdfGroups(new Set())
+  }, [])
+
+  const togglePdfMode = useCallback((key: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setPdfGroups((prev) => {
       if (prev.has(key)) return new Set()
       return new Set([key])
     })
@@ -180,10 +159,6 @@ export function TransactionList() {
     }
   }
 
-  const handleYearChange = (year: string) => {
-    setSelectedYear(year)
-    setSelectedPeriode("all")
-  }
 
   const handleToggleHide = async (tx: Transaction) => {
     const nextHidden = tx.hidden ? 0 : 1
@@ -291,47 +266,6 @@ export function TransactionList() {
         </div>
       </div>
 
-      {/* Year & Month Filters */}
-      <div className="flex flex-wrap gap-2 items-center">
-        <Select value={selectedYear} onValueChange={handleYearChange}>
-          <SelectTrigger className="h-8 text-sm w-40">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Alle Jahre</SelectItem>
-            {availableYears.map((year) => (
-              <SelectItem key={year} value={year}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {selectedYear !== "all" && (
-          <Select value={selectedPeriode} onValueChange={setSelectedPeriode}>
-            <SelectTrigger className="h-8 text-sm w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Alle Monate</SelectItem>
-              {availablePeriodes.map((periode) => {
-                const [year, month] = periode.split("-")
-                const date = new Date(Number(year), Number(month) - 1)
-                const monthName = date.toLocaleDateString("de-DE", {
-                  month: "long",
-                  year: "numeric",
-                })
-                return (
-                  <SelectItem key={periode} value={periode}>
-                    {monthName}
-                  </SelectItem>
-                )
-              })}
-            </SelectContent>
-          </Select>
-        )}
-      </div>
-
       {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
@@ -383,11 +317,7 @@ export function TransactionList() {
             </TableHeader>
             <TableBody>
               {filteredGroups.map((group) => {
-                const isExpanded = searchQuery.trim()
-                  ? true
-                  : (selectedPeriode !== "all" && group.periode === selectedPeriode)
-                  ? true
-                  : expandedGroups.has(group.key)
+                const isExpanded = searchQuery.trim() ? true : expandedGroups.has(group.key)
                 const totalCents = group.txs.reduce((s, t) => s + t.betrag_cents, 0)
                 const matched = group.txs.filter((t) => t.match_status === 'matched').length
                 const pending = group.txs.filter((t) => t.match_status === 'pending').length
@@ -403,6 +333,8 @@ export function TransactionList() {
                     ]
                       .filter((s): s is string => s !== null)
                       .join(" · ")
+                const hasPaperlessPdf = group.txs.some((tx) => tx.kontoauszug_datei?.startsWith('[paperless]'))
+                const showPdfMode = pdfGroups.has(group.key)
 
                 return (
                   <React.Fragment key={`frag-${group.key}`}>
@@ -427,10 +359,32 @@ export function TransactionList() {
                           <span className={`text-sm font-medium tabular-nums shrink-0 w-24 text-right ${totalCents < 0 ? "text-red-600" : "text-green-600"}`}>
                             {totalCents < 0 ? "-" : "+"}{formatEuro(Math.abs(totalCents))} €
                           </span>
+                          {hasPaperlessPdf && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className={`h-7 w-7 p-0 ml-2 shrink-0 ${showPdfMode ? "text-blue-600" : "text-gray-400 hover:text-blue-600"}`}
+                              title={showPdfMode ? "Zur Tabelle wechseln" : "PDF anzeigen"}
+                              onClick={(e) => togglePdfMode(group.key, e)}
+                            >
+                              <FileText className="h-4 w-4" />
+                            </Button>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
-                    {isExpanded && group.txs.map((tx) => {
+                    {isExpanded && showPdfMode && (
+                      <TableRow>
+                        <TableCell colSpan={showHidden ? 7 : 8} className="p-0">
+                          <iframe
+                            src={`/api/konto/statements/${group.periode}/pdf`}
+                            className="w-full h-[600px] border-0"
+                            title={`Kontoauszug ${formatPeriode(group.periode)}`}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {isExpanded && !showPdfMode && group.txs.map((tx) => {
                       const displayName = tx.alias || tx.haendler_name || tx.empfaenger_name || tx.beschreibung
                       return (
                         <TableRow key={tx.id} className={tx.hidden ? "opacity-60" : undefined}>

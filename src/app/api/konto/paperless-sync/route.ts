@@ -172,8 +172,8 @@ export async function POST(request: NextRequest) {
               )
               if (result.changes > 0) txImported++
             }
-            db.prepare("INSERT INTO bank_statement_log (konto_iban, periode, dateiname, transaktion_count) VALUES (?,?,?,?)")
-              .run(parsed.konto_iban, parsed.periode, `[paperless] ${docTitle}`, txImported)
+            db.prepare("INSERT INTO bank_statement_log (konto_iban, periode, dateiname, transaktion_count, paperless_doc_id) VALUES (?,?,?,?,?)")
+              .run(parsed.konto_iban, parsed.periode, `[paperless] ${docTitle}`, txImported, doc.id)
           })()
 
           imported++

@@ -1,7 +1,8 @@
-# PROJ-29: Jahres-Dropdown & Kontoauszug-Navigation in Transaktionsansicht
+# PROJ-29: Kontoauszug-PDF-Toggle in Transaktionsansicht
 
 ## Status: In Progress
 ## Created: 2026-05-24
+## Revised: 2026-05-24
 
 ## Dependencies
 - PROJ-24 (Kontoauszug-Import) — `bank_transactions.periode` (YYYY-MM) und `bank_statement_log` bereits vorhanden
@@ -11,99 +12,82 @@
 
 ## Problem / Motivation
 
-Die Transaktionsansicht zeigt alle importierten Kontobewegungen in einer einzigen langen, nach Kontoauszügen gruppierten Liste. Bei vielen Monaten wird die Navigation unübersichtlich. Nutzer möchten direkt zu einem bestimmten Monat eines Jahres springen, ohne durch alle anderen Accordion-Gruppen zu scrollen.
+Nutzer der Transaktionsansicht möchten die Original-Kontoauszug-PDFs direkt in der App einsehen, um Bank­buchungen zu verifyzeigen, ohne zwischen Anwendung und externem PDF-Viewer zu wechseln. Die ursprüngliche Idee mit Jahr-/Monats-Dropdowns war nicht benutzerfreundlich. Stattdessen: direkter PDF-Toggle pro Kontoauszug-Gruppe.
 
 ---
 
 ## User Stories
 
-### US-1: Jahres-Dropdown für schnelle Navigation
+### US-1: PDF-Inline-Viewer für Kontoauszüge
 **Als** Nutzer der Transaktionsansicht  
-**möchte ich** ein Dropdown zur Jahresauswahl haben  
-**damit** ich schnell zu Transaktionen eines bestimmten Jahres navigieren kann.
+**möchte ich** auf einen Button im Accordion-Header klicken und das PDF des Kontoauszugs inline sehen  
+**damit** ich Bankbuchungen verifizieren kann ohne die App zu verlassen.
 
 **Akzeptanzkriterien:**
-- [ ] Oberhalb der Transaktionsliste erscheint ein Dropdown "Jahr auswählen"
-- [ ] Das Dropdown listet alle Jahre, für die Transaktionen vorhanden sind (absteigend, neuestes zuerst)
-- [ ] Standardmäßig ist das aktuellste Jahr vorausgewählt
-- [ ] Eine Option "Alle Jahre" ermöglicht die ungefilterte Ansicht
-- [ ] Die Liste aktualisiert sich dynamisch, wenn neue Kontoauszüge importiert werden
+- [ ] Im aufgeklappten Accordion-Header (rechts neben dem Gesamtbetrag) erscheint ein PDF-Icon-Button
+- [ ] Der Button ist nur sichtbar, wenn ein Paperless-synchronisierter Kontoauszug vorhanden ist
+- [ ] Klick auf den Button zeigt ein `<iframe>` mit dem Original-PDF (600px Höhe)
+- [ ] Während das PDF lädt, wird ein Ladezustand angezeigt
+- [ ] Die Transaktionstabelle wird durch das PDF ersetzt (Toggle-Behavior)
 
-### US-2: Monat-Auswahl innerhalb eines Jahres
+### US-2: Wechsel zwischen Tabelle und PDF
 **Als** Nutzer  
-**möchte ich** nach Auswahl eines Jahres einen Monat auswählen können  
-**damit** ich direkt zur gewünschten Accordion-Gruppe scrolle oder nur diesen Monat angezeigt bekomme.
+**möchte ich** zwischen Transaktionstabelle und PDF-Ansicht wechseln können  
+**damit** ich flexibel vergleichen kann.
 
 **Akzeptanzkriterien:**
-- [ ] Nach Auswahl eines Jahres erscheint ein zweites Dropdown "Monat auswählen"
-- [ ] Das Monat-Dropdown listet nur Monate, für die in diesem Jahr Transaktionen vorhanden sind
-- [ ] Standardmäßig ist "Alle Monate" vorausgewählt (zeigt alle Monate des Jahres)
-- [ ] Bei Auswahl eines Monats wird die Liste auf diesen Monat gefiltert
-- [ ] Die entsprechende Accordion-Gruppe wird automatisch aufgeklappt
-- [ ] Monatsnamen werden auf Deutsch angezeigt (z. B. "Mai 2026")
-
-### US-3: Filterung kombiniert mit Suche
-**Als** Nutzer  
-**möchte ich** Jahr/Monat-Filter und Textsuchfeld gleichzeitig nutzen  
-**damit** ich z. B. alle REWE-Transaktionen im März 2025 finden kann.
-
-**Akzeptanzkriterien:**
-- [ ] Jahr/Monat-Filter und Textsuche sind kombinierbar (AND-Logik)
-- [ ] Das Textfeld bleibt sichtbar und funktionsfähig, wenn ein Jahr/Monat gewählt ist
-- [ ] "Filter zurücksetzen" oder Auswahl von "Alle Jahre" setzt beide Filter zurück
+- [ ] Ein zweiter Klick auf den PDF-Button zeigt die Transaktionstabelle wieder
+- [ ] Der Toggle-Status wird bei Accordion-Collapse gelöscht (neues Öffnen zeigt immer Tabelle)
+- [ ] Klick auf den PDF-Button verhindert das Collapse der Gruppe (Event-Propagation)
 
 ---
 
 ## Scope / Out of Scope
 
 **In Scope:**
-- Jahres-Dropdown (Select-Komponente, shadcn/ui Select) in `transaction-list.tsx`
-- Monat-Dropdown (abhängig vom gewählten Jahr)
-- Client-seitige Filterlogik auf bereits geladene Transaktionen
-- Automatisches Aufklappen der passenden Accordion-Gruppe bei Monatswahl
+- PDF-Toggle-Button in Accordion-Header (nur für Paperless-Statements)
+- Inline-iframe mit Kontoauszug-PDF (`/api/konto/statements/[periode]/pdf`)
+- PDF-Proxy-API-Route (Paperless-Integration, ähnlich PROJ-28)
+- `paperless_doc_id` zu `bank_statement_log` hinzufügen und bei Sync speichern
+- Entfernung der Jahres-/Monats-Dropdown-Filter (ursprüngliche PROJ-29 Implementierung)
 
 **Out of Scope:**
-- Server-seitige Filterung (alle Daten sind bereits geladen, client-seitig ausreichend)
-- Anzeige des Kontoauszug-PDFs (separates Feature, falls gewünscht)
-- Mehrfachauswahl von Jahren oder Monaten
-- Verknüpfung mit der Bon-Übersicht
+- Download-Button für PDFs (nur Inline-Ansicht)
+- Kontoauszug-Vergleich zwischen Perioden
+- PDF-Annotation oder -Bearbeitung
 
 ---
 
 ## Edge Cases
 
-- Nur ein Jahr vorhanden → Jahres-Dropdown zeigt nur dieses Jahr; Monat-Dropdown immer sichtbar
-- Monat hat 0 Transaktionen (nach hidden-Filter) → Monat trotzdem im Dropdown anzeigen, Leermeldung in der Liste
-- Textsuche aktiv + Jahres-Filter → beide Bedingungen gelten (AND); alle Accordion-Gruppen des gewählten Jahres geöffnet
-- Neuer Import während geöffneter Ansicht → Dropdowns aktualisieren sich beim nächsten Laden der Transaktionen
+- Kontoauszug ohne Paperless-Sync (alte Importe): Button wird nicht angezeigt
+- Paperless unerreichbar: iframe zeigt Fehler (404/502) — ausreichend für v1
+- PDF zu groß: Browser handhelt (kein kundenspezifisches Loading-Handling nötig)
+- Gruppe wird zugeklappt während PDF aktiv: Toggle-State wird gelöscht
 
 ---
 
 ## UI-Verhalten
 
 ```
-[ Jahr: 2026 ▼ ]  [ Monat: Alle ▼ ]  [ 🔍 Suche... ]
+▼ Mai 2026  ·  Konto_202605.pdf  ·  3 Buchungen  ·  -142,80 €  [📄]
 
-─────────────────────────────────────────────────────
-▶ Mai 2026  ·  Konto_202605.pdf  ·  3 Buchungen  ·  -142,80 €
-▶ April 2026  ·  Konto_202604.pdf  ·  5 Buchungen  ·  -89,50 €
-...
+├─ [PDF-iframe wird angezeigt (statt Tabelle)]
 ```
 
-Bei Monat "Mai 2026" ausgewählt:
+Nach zweitem Klick auf [📄]:
 ```
-[ Jahr: 2026 ▼ ]  [ Monat: Mai ▼ ]  [ 🔍 Suche... ]
+▼ Mai 2026  ·  Konto_202605.pdf  ·  3 Buchungen  ·  -142,80 €  [📄]
 
-─────────────────────────────────────────────────────
-▼ Mai 2026  ·  Konto_202605.pdf  ·  3 Buchungen  ·  -142,80 €
-  [Transaktionen ausgeklappt]
+├─ [Transaktionstabelle ist wieder sichtbar]
 ```
 
 ---
 
 ## Komponenten-Hinweise
 
-- Reuse: `Select` / `SelectTrigger` / `SelectContent` / `SelectItem` aus `src/components/ui/select.tsx` (gleiche Komponenten wie in `product-list.tsx`)
-- Filter-State: `selectedYear: string | 'all'` + `selectedPeriode: string | 'all'` als `useState` in `transaction-list.tsx`
-- Grouping-Logik: bestehende `groups` useMemo in `transaction-list.tsx` mit vorgeschaltetem `.filter()` auf `periode` erweitern
-- Verfügbare Jahre/Monate aus `transactions` ableiten (kein zusätzlicher API-Call)
+- PDF-Button: `FileText` Icon aus lucide-react, nur wenn `kontoauszug_datei?.startsWith('[paperless]')`
+- Toggle-State: `pdfGroups: Set<string>` in `transaction-list.tsx`
+- iframe-URL: `/api/konto/statements/${group.periode}/pdf`
+- iframe-Style: `w-full h-[600px] border-0` (responsive, nicht scrollbar)
+- Proxy-Route folgt Muster von `src/app/api/bons/[id]/pdf/route.ts`

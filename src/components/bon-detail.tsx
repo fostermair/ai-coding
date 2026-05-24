@@ -409,9 +409,9 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           </div>
         </TabsContent>
 
-        <TabsContent value="ebon" className="mt-4">
+        <TabsContent value="ebon" className="mt-4 flex-1 flex">
           {bon.paperless_doc_id && (
-            <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+            <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 200px)" }}>
               <iframe
                 key={`ebon-${bonId}`}
                 src={`/api/bons/${bonId}/pdf`}
@@ -422,9 +422,9 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           )}
         </TabsContent>
 
-        <TabsContent value="avis" className="mt-4">
+        <TabsContent value="avis" className="mt-4 flex-1 flex">
           {bon.has_avis && (
-            <div className="rounded-lg bg-gray-50 overflow-hidden" style={{ height: "600px" }}>
+            <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 200px)" }}>
               <iframe
                 key={`avis-${bonId}`}
                 src={`/api/bons/${bonId}/avis-pdf`}

@@ -24,14 +24,20 @@ export interface ParsedKontoauszug {
 /** Matches inline transaction header: "DD.MM. DD.MM. Type" or "DD.MM.DD.MM.Type" */
 const INLINE_DATE_RE = /^(\d{2})\.(\d{2})\.\s*(\d{2})\.(\d{2})\.\s*(.+)$/
 
+/** Matches inline transaction date pair without type: "DD.MM.DD.MM." (type on next line) */
+const INLINE_DATE_NOTYPE_RE = /^(\d{2})\.(\d{2})\.\s*(\d{2})\.(\d{2})\.\s*$/
+
 /** Matches a lone date: "DD.MM." */
 const DATE_ONLY_RE = /^(\d{2})\.(\d{2})\.$/
 
-/** Extracts the amount at end of a line: "...-49,08 €" */
-const AMOUNT_SUFFIX_RE = /^(.*?)([+-]?\d{1,3}(?:\.\d{3})*,\d{2})\s*€\s*$/
+/** Matches a line containing ONLY an amount: "-49,08 €" or "- 3,10 €" (with space after sign) */
+const AMOUNT_ONLY_RE = /^([+-]?\s*\d{1,3}(?:\.\d{3})*,\d{2})\s*€\s*$/
 
-/** Matches a line containing ONLY an amount: "-49,08 €" */
-const AMOUNT_ONLY_RE = /^([+-]?\d{1,3}(?:\.\d{3})*,\d{2})\s*€\s*$/
+/** Amount with explicit sign — transactions always have signs in C24 format */
+const AMOUNT_SUFFIX_SIGNED_RE = /^(.*?)\s*([+-]\s*\d{1,3}(?:\.\d{3})*,\d{2})\s*€\s*$/
+
+/** Amount without sign — fallback for summary/balance lines like "Kontostand 741,53 €" */
+const AMOUNT_SUFFIX_RE = /^(.*?)(\d{1,3}(?:\.\d{3})*,\d{2})\s*€\s*$/
 
 /** All amounts on a Zusammenfassung line */
 const ALL_AMOUNTS_RE = /([+-]?\d{1,3}(?:\.\d{3})*,\d{2})\s*€/g
@@ -45,8 +51,10 @@ const OUTER_SKIP_RE = [
   /^Vorläufiger Kontoauszug/,
   /^\d{2}\.\d{2}\.\d{4}\s*[-–]/,        // date range "01.05.2026 - 21.05.2026"
   /^Kontostand/,
+  /^Eingeräumter Dispokredit/,          // credit limit line with amount
   /^Transaktionsübersicht$/,
   /^Buchung\s+Valuta\s*/,               // inline table header
+  /^BuchungValuta/,                     // merged column header from OCR
   /^Seite \d+ von \d+/,
   /^C24 Bank/,
   /^Neue Mainzer/,
@@ -115,7 +123,7 @@ export function parseKontoauszug(text: string): ParsedKontoauszug {
       }
     }
 
-    if (!kontoinhaber && line.length > 0 && !line.match(/^\d/) && !line.match(/^[A-Z]{2}\d/)) {
+    if (!kontoinhaber && line.length > 0 && !line.match(/^\d/) && !line.match(/^[A-Z]{2}\d/) && !line.match(/^IBAN:/) && !line.match(/^BIC:/)) {
       kontoinhaber = line
     }
   }
@@ -159,13 +167,14 @@ export function parseKontoauszug(text: string): ParsedKontoauszug {
         const next = allLines[i]
         // Stop at next transaction header or section boundary
         if (next.match(INLINE_DATE_RE)) break
+        if (next.match(INLINE_DATE_NOTYPE_RE)) break
         if (next.match(DATE_ONLY_RE)) break
         if (next.startsWith("Zusammenfassung")) break
         if (COLUMNAR_HEADERS.includes(next)) { i++; continue }
         if (shouldSkip(next)) { i++; break }
         details.push(next)
         // Stop after the amount-bearing line (amount at end, or amount alone)
-        if (next.match(AMOUNT_ONLY_RE) || next.match(AMOUNT_SUFFIX_RE)) { i++; break }
+        if (next.match(AMOUNT_ONLY_RE) || next.match(AMOUNT_SUFFIX_SIGNED_RE) || next.match(AMOUNT_SUFFIX_RE)) { i++; break }
         i++
       }
 
@@ -179,6 +188,54 @@ export function parseKontoauszug(text: string): ParsedKontoauszug {
         parseErrors.push(
           `Fehler bei Inline-Transaktion (${buchDD}.${buchMM}.): ${e instanceof Error ? e.message : String(e)}`
         )
+      }
+      continue
+    }
+
+    // ── Inline format with type on next line: "DD.MM.DD.MM." then "Überweisung" ──
+    const inlineNoTypeM = line.match(INLINE_DATE_NOTYPE_RE)
+    if (inlineNoTypeM) {
+      const buchDD = parseInt(inlineNoTypeM[1])
+      const buchMM = parseInt(inlineNoTypeM[2])
+      const valtDD = parseInt(inlineNoTypeM[3])
+      const valtMM = parseInt(inlineNoTypeM[4])
+
+      // Peek at next line for the type
+      const nextLine = allLines[i + 1] ?? ""
+      const isKnownType = KNOWN_TYPES.some(t => nextLine.startsWith(t))
+      if (isKnownType) {
+        const typeStr = nextLine.trim()
+        i += 2 // Skip both the date line and the type line
+
+        const details: string[] = []
+        while (i < allLines.length) {
+          const next = allLines[i]
+          // Stop at next transaction header or section boundary
+          if (next.match(INLINE_DATE_RE)) break
+          if (next.match(INLINE_DATE_NOTYPE_RE)) break
+          if (next.match(DATE_ONLY_RE)) break
+          if (next.startsWith("Zusammenfassung")) break
+          if (COLUMNAR_HEADERS.includes(next)) { i++; continue }
+          if (shouldSkip(next)) { i++; break }
+          details.push(next)
+          // Stop after the amount-bearing line
+          if (next.match(AMOUNT_ONLY_RE) || next.match(AMOUNT_SUFFIX_SIGNED_RE) || next.match(AMOUNT_SUFFIX_RE)) { i++; break }
+          i++
+        }
+
+        try {
+          const tx = buildInlineTransaction(
+            buchDD, buchMM, valtDD, valtMM, typeStr, details,
+            periodeYear, periodeMonth
+          )
+          transactions.push(tx)
+        } catch (e) {
+          parseErrors.push(
+            `Fehler bei Inline-Transaktion (${buchDD}.${buchMM}.): ${e instanceof Error ? e.message : String(e)}`
+          )
+        }
+      } else {
+        i++
       }
       continue
     }
@@ -199,6 +256,7 @@ export function parseKontoauszug(text: string): ParsedKontoauszug {
         if (shouldSkip(next)) { i++; continue }
         if (COLUMNAR_HEADERS.includes(next)) { i++; continue }
         if (next.match(INLINE_DATE_RE)) break
+        if (next.match(INLINE_DATE_NOTYPE_RE)) break
         bodyLines.push(next)
         i++
       }
@@ -280,7 +338,10 @@ function toIsoDate(dd: number, mm: number, periodeYear: number, periodeMonth: nu
 }
 
 function parseAmountCents(amtStr: string): number {
-  const clean = amtStr.trim().replace(/\./g, "").replace(",", ".")
+  const clean = amtStr.trim()
+    .replace(/([+-])\s+/g, '$1')   // "- 3,10" → "-3,10", "+ 700,00" → "+700,00"
+    .replace(/\./g, "")
+    .replace(",", ".")
   return Math.round(parseFloat(clean) * 100)
 }
 
@@ -294,6 +355,12 @@ function detectType(typeStr: string, betragCents: number): KontoBankTransaction[
 }
 
 function splitNameAndAmount(line: string): { name: string; betragCents: number } | null {
+  // Try signed amount first (C24 transactions always have explicit sign)
+  const mSigned = line.match(AMOUNT_SUFFIX_SIGNED_RE)
+  if (mSigned) {
+    return { name: mSigned[1].trim(), betragCents: parseAmountCents(mSigned[2]) }
+  }
+  // Fallback to unsigned for summary/balance lines
   const m = line.match(AMOUNT_SUFFIX_RE)
   if (!m) return null
   return { name: m[1].trim(), betragCents: parseAmountCents(m[2]) }

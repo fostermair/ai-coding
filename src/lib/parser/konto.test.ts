@@ -194,4 +194,73 @@ describe("parseKontoauszug", () => {
     expect(result.konto_iban).toBe("UNKNOWN")
     expect(result.periode).toBe("2026-05")
   })
+
+  it("handles OCR format with space between sign and amount: '- 3,10 €'", () => {
+    const text = [
+      "Max Mustermann",
+      "IBAN: DE78500240249610825030",
+      "Kontoauszug 01/2026",
+      "01.01.2026 - 31.01.2026",
+      "Transaktionsübersicht",
+      "31.01.31.01.Kartenzahlung",
+      "DM-Drogerie Markt",
+      "- 3,10 €",
+      "31.01.31.01.Sparen",
+      "C24 Pluskonto",
+      "+ 700,00 €",
+    ].join("\n")
+
+    const result = parseKontoauszug(text)
+    expect(result.parseErrors).toHaveLength(0)
+    expect(result.transactions).toHaveLength(2)
+
+    const kartenzahlung = result.transactions[0]
+    expect(kartenzahlung.haendler_name).toBe("DM-Drogerie Markt")
+    expect(kartenzahlung.betrag_cents).toBe(-310) // negative, not positive!
+    expect(kartenzahlung.typ).toBe("kartenzahlung")
+
+    const sparen = result.transactions[1]
+    expect(sparen.betrag_cents).toBe(70000)
+    expect(sparen.typ).toBe("gutschrift")
+  })
+
+  it("parses inline transaction with date pair but type on next line (Überweisung)", () => {
+    const text = [
+      "Max Mustermann",
+      "IBAN: DE78500240249610825030",
+      "Kontoauszug 01/2026",
+      "01.01.2026 - 31.01.2026",
+      "Transaktionsübersicht",
+      "28.01.28.01.",
+      "Überweisung",
+      "C24 Pluskonto",
+      "+ 100,00 €",
+    ].join("\n")
+
+    const result = parseKontoauszug(text)
+    expect(result.parseErrors).toHaveLength(0)
+    expect(result.transactions).toHaveLength(1)
+
+    const uw = result.transactions[0]
+    expect(uw.buchungsdatum).toBe("2026-01-28")
+    expect(uw.valutadatum).toBe("2026-01-28")
+    // Positive amount → classified as gutschrift (income) not überweisung
+    expect(uw.typ).toBe("gutschrift")
+    expect(uw.betrag_cents).toBe(10000)
+    expect(uw.beschreibung).toBe("C24 Pluskonto")
+  })
+
+  it("skips BIC line in kontoinhaber detection", () => {
+    const text = [
+      "IBAN: ",
+      "BIC: DEFFDEFFXXX",
+      "Wilhelm-Weber-Str. 3",
+      "33106 Paderborn",
+      "Kontoauszug 01/2026",
+    ].join("\n")
+
+    const result = parseKontoauszug(text)
+    // kontoinhaber should be "Wilhelm-Weber-Str. 3", not "BIC: DEFFDEFFXXX" or "IBAN:"
+    expect(result.kontoinhaber).toBe("Wilhelm-Weber-Str. 3")
+  })
 })

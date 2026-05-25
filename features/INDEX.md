@@ -47,7 +47,7 @@
 | PROJ-29 | Kontoauszug-PDF-Toggle in Transaktionsansicht | Approved | [PROJ-29-transaktionen-jahres-navigation/spec.md](PROJ-29-transaktionen-jahres-navigation/spec.md) | 2026-05-24 |
 | PROJ-30 | Backup & Restore | Approved | [PROJ-30-backup/spec.md](PROJ-30-backup/spec.md) | 2026-05-24 |
 
-| PROJ-31 | PDF-Highlight & Auto-Scroll in Transaktionsansicht | In Progress | [PROJ-31-pdf-highlight-scroll/spec.md](PROJ-31-pdf-highlight-scroll/spec.md) | 2026-05-24 |
+| PROJ-31 | PDF-Highlight & Auto-Scroll in Transaktionsansicht | In Review | [PROJ-31-pdf-highlight-scroll/spec.md](PROJ-31-pdf-highlight-scroll/spec.md) | 2026-05-24 |
 
 <!-- Add features above this line -->
 

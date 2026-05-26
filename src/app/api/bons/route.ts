@@ -60,7 +60,16 @@ export async function GET(request: NextRequest) {
               AND (SELECT COUNT(*) FROM avis_matches am WHERE am.receipt_id = r.id AND am.status NOT IN ('confirmed', 'auto_set', 'rejected')) = 0
               THEN 'complete'
             ELSE 'no_matches'
-          END AS avis_status
+          END AS avis_status,
+          CASE WHEN EXISTS (
+            SELECT 1
+            FROM avis_matches am2
+            INNER JOIN import_log il ON am2.import_log_id = il.id
+            INNER JOIN bestellung_items bi
+              ON bi.order_number = SUBSTR(il.filename, INSTR(il.filename, ']') + 2)
+            WHERE am2.receipt_id = r.id
+              AND il.filename LIKE '%[AVIS]%'
+          ) THEN 1 ELSE 0 END AS has_bestellung
         FROM receipts r
         LEFT JOIN bank_transactions bt ON bt.id = r.bank_transaction_id
         LEFT JOIN transaction_aliases ta ON ta.beschreibung = bt.beschreibung

@@ -13,7 +13,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Upload, X, Receipt, Download, CreditCard, ChevronRight, Search } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Upload, X, Receipt, Download, CreditCard, ChevronRight, Search, PackageCheck } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { ExportDialog } from "@/components/export-dialog"
@@ -40,6 +41,7 @@ interface BonSummary {
   market_logo_path?: string | null
   has_bank_match?: number
   bank_match_source?: "auto" | "manual" | null
+  has_bestellung?: number
 }
 
 interface BonsResponse {
@@ -318,8 +320,18 @@ export function BonList() {
                         <TableCell className="text-center text-gray-600 font-bold">
                           {bon.has_bank_match === 1 && bon.bank_match_source === "auto" && "€"}
                         </TableCell>
-                        <TableCell className="text-center">
-                          {bon.store_chain === "rewe" && !bon.is_virtual && <AvisStatusBadge status={bon.avis_status} />}
+                        <TableCell className="text-center space-y-1">
+                          {bon.store_chain === "rewe" && !bon.is_virtual && (
+                            <div className="flex flex-col items-center gap-1">
+                              <AvisStatusBadge status={bon.avis_status} />
+                              {bon.has_bestellung === 1 && (
+                                <Badge variant="outline" className="gap-1 bg-blue-50 text-blue-700 border-blue-200 text-xs">
+                                  <PackageCheck className="h-3 w-3" />
+                                  Best.
+                                </Badge>
+                              )}
+                            </div>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}

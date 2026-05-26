@@ -1,6 +1,6 @@
 # PROJ-32: Bestellbestätigung-Import & Produktmengen-Verknüpfung
 
-## Status: In Review
+## Status: Deployed
 
 ---
 
@@ -151,4 +151,5 @@ PAPERLESS_BESTELLUNG_DOCUMENT_TYPE_ID=<document-type-id>
 
 | Date | Status | Notes |
 |------|--------|-------|
+| 2026-05-26 | Deployed | All AC met; API route + UI components deployed; deletion feature added to config menu |
 | 2026-05-26 | Planned | Spec created |

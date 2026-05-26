@@ -69,6 +69,14 @@ interface ReceiptItem {
   avis_match?: AvisMatch
 }
 
+interface BestellungItem {
+  article_name: string
+  quantity_amount: number
+  quantity_unit: string
+  unit_price_cents: number
+  total_price_cents: number
+}
+
 interface BonDetail {
   id: number
   filename: string
@@ -85,6 +93,9 @@ interface BonDetail {
   paperless_doc_id: number | null
   store_chain?: string
   has_avis: boolean
+  has_bestellung?: boolean
+  bestellung_order_number?: string | null
+  bestellung_items?: BestellungItem[]
   is_virtual?: number
   bank_transaction_id?: number | null
   bank_transaction?: {
@@ -294,7 +305,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
         </CardContent>
       </Card>
 
-      {/* Tabs: Produkte, EBon, AVIS */}
+      {/* Tabs: Produkte, EBon, AVIS, Bestellung */}
       <Tabs defaultValue="produkte" className="w-full">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="produkte">Produkte</TabsTrigger>
@@ -303,6 +314,9 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           </TabsTrigger>
           <TabsTrigger value="avis" disabled={!bon.has_avis}>
             AVIS
+          </TabsTrigger>
+          <TabsTrigger value="bestellung" disabled={!bon.has_bestellung}>
+            Bestellung
           </TabsTrigger>
         </TabsList>
 
@@ -315,8 +329,11 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                   <TableRow className="hover:bg-transparent">
                     <TableHead className="w-1/2">Produkt</TableHead>
                     <TableHead className="w-1/2">Alias</TableHead>
+                    {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Bestellartikel</TableHead>}
+                    {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Bestellung-Menge</TableHead>}
                     <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
                     <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
+                    {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Preis/100g</TableHead>}
                     <TableHead className="text-right">Gesamt</TableHead>
                     <TableHead className="text-center w-12">MwSt</TableHead>
                     {bon.store_chain === "rewe" && (
@@ -331,6 +348,8 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                       item={item}
                       receiptId={bon.id}
                       hasAvis={bon.has_avis}
+                      hasBestellung={bon.has_bestellung || false}
+                      bestellungItems={bon.bestellung_items || []}
                       storeChain={bon.store_chain}
                       onItemUpdate={() => {
                         // Reload bon to refresh item states
@@ -434,6 +453,52 @@ export function BonDetailView({ bonId }: { bonId: string }) {
             </div>
           )}
         </TabsContent>
+
+        <TabsContent value="bestellung" className="mt-4 flex-1 flex">
+          {bon.has_bestellung && bon.bestellung_items && bon.bestellung_items.length > 0 && (
+            <div className="space-y-6 w-full">
+              {/* Bestellung PDF */}
+              <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 450px)", minHeight: "300px" }}>
+                <iframe
+                  key={`bestellung-${bonId}`}
+                  src={`/api/bons/${bonId}/bestellung-pdf`}
+                  className="w-full h-full border-0"
+                  title="Bestellbestätigung PDF"
+                />
+              </div>
+
+              {/* Bestellung items table */}
+              <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead>Artikelname (Bestellung)</TableHead>
+                      <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
+                      <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
+                      <TableHead className="text-right">Gesamt</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {bon.bestellung_items.map((item, idx) => (
+                      <TableRow key={idx}>
+                        <TableCell className="font-medium">{item.article_name}</TableCell>
+                        <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
+                          {item.quantity_amount} {item.quantity_unit}
+                        </TableCell>
+                        <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-600 text-sm">
+                          {formatEuro(item.unit_price_cents)} €
+                        </TableCell>
+                        <TableCell className="text-right tabular-nums font-medium">
+                          {formatEuro(item.total_price_cents)} €
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+        </TabsContent>
       </Tabs>
 
       {/* Actions */}
@@ -520,12 +585,73 @@ interface ItemRowsProps {
   item: ReceiptItem
   receiptId: number
   hasAvis: boolean
+  hasBestellung: boolean
+  bestellungItems: BestellungItem[]
   storeChain?: string
   onItemUpdate: () => void
 }
 
-function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRowsProps) {
-  const TABLE_COLUMNS = storeChain === "rewe" ? 7 : 6 // Produkt, Alias, Menge (hidden sm), Einzelpreis (hidden sm), Gesamt, MwSt, [AVIS]
+function findBestBestellungMatch(
+  avisItemName: string | undefined,
+  bestellungItems: BestellungItem[]
+): BestellungItem | null {
+  if (!avisItemName || bestellungItems.length === 0) return null
+
+  const avisWords = avisItemName.toLowerCase().split(/\s+/).filter((w) => w.length >= 4)
+  if (avisWords.length === 0) return null
+
+  for (const bestellung of bestellungItems) {
+    const bestellungNameLower = bestellung.article_name.toLowerCase()
+    // Check if any word from avis name appears in bestellung name
+    if (avisWords.some((w) => bestellungNameLower.includes(w))) {
+      return bestellung
+    }
+  }
+
+  // Fallback: check if any word from bestellung name appears in avis name
+  for (const bestellung of bestellungItems) {
+    const bestellungWords = bestellung.article_name.toLowerCase().split(/\s+/).filter((w) => w.length >= 4)
+    if (bestellungWords.some((w) => avisItemName.toLowerCase().includes(w))) {
+      return bestellung
+    }
+  }
+
+  return null
+}
+
+function calculatePreisPer100(quantity: { amount: number; unit: string }, unitPriceCents: number): number | null {
+  const { amount, unit } = quantity
+  const unitLower = unit.toLowerCase().trim()
+
+  if (amount <= 0) return null
+
+  // Weight units: g, kg
+  if (unitLower === "g") {
+    return Math.round((unitPriceCents / amount) * 100)
+  }
+  if (unitLower === "kg") {
+    // 1 kg = 1000 g, so per 100g = per 1000g / 10
+    return Math.round((unitPriceCents / (amount * 10)))
+  }
+
+  // Volume units: ml, l
+  if (unitLower === "ml") {
+    return Math.round((unitPriceCents / amount) * 100)
+  }
+  if (unitLower === "l") {
+    // 1 l = 1000 ml, so per 100ml = per 1000ml / 10
+    return Math.round((unitPriceCents / (amount * 10)))
+  }
+
+  // No weight/volume data
+  return null
+}
+
+function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, storeChain, onItemUpdate }: ItemRowsProps) {
+  // Calculate TABLE_COLUMNS: Produkt, Alias, [Bestellartikel, Bestellung-Menge if hasBestellung], Menge, Einzelpreis, Preis/100g, Gesamt, MwSt, [AVIS if rewe]
+  let TABLE_COLUMNS = 8 // Base: Produkt, Alias, Menge, Einzelpreis, Preis/100g, Gesamt, MwSt, Discounts
+  if (hasBestellung) TABLE_COLUMNS += 2 // Add Bestellartikel + Bestellung-Menge
+  if (storeChain === "rewe") TABLE_COLUMNS += 1 // Add AVIS
 
   const [confirming, setConfirming] = useState(false)
   const [rejecting, setRejecting] = useState(false)
@@ -533,6 +659,11 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
   const [deleteAliasDialogOpen, setDeleteAliasDialogOpen] = useState(false)
   const [deletingAlias, setDeletingAlias] = useState(false)
   const [itemState, setItemState] = useState<ReceiptItem>(item)
+
+  const matchedBestellung = findBestBestellungMatch(item.avis_match?.avisItemName, bestellungItems)
+  const preisPer100 = matchedBestellung
+    ? calculatePreisPer100({ amount: matchedBestellung.quantity_amount, unit: matchedBestellung.quantity_unit }, item.unit_price_cents)
+    : null
 
   const handleConfirm = async () => {
     if (!itemState.avis_match) return
@@ -719,12 +850,27 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
             )}
           </div>
         </TableCell>
+        {hasBestellung && (
+          <>
+            <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
+              {matchedBestellung?.article_name ?? "-"}
+            </TableCell>
+            <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
+              {matchedBestellung ? `${matchedBestellung.quantity_amount} ${matchedBestellung.quantity_unit}` : "-"}
+            </TableCell>
+          </>
+        )}
         <TableCell className="text-right hidden sm:table-cell">
           {itemState.quantity > 1 ? `${itemState.quantity} Stk` : ""}
         </TableCell>
         <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500">
           {itemState.quantity > 1 ? `${formatEuro(itemState.unit_price_cents)} €` : ""}
         </TableCell>
+        {hasBestellung && (
+          <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500 text-sm">
+            {preisPer100 !== null ? `${formatEuro(preisPer100)} €` : "-"}
+          </TableCell>
+        )}
         <TableCell className="text-right tabular-nums font-medium">
           {formatEuro(itemState.total_price_cents)} €
         </TableCell>
@@ -802,8 +948,11 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
             ↳ {d.description}
           </TableCell>
           <TableCell />
+          {hasBestellung && <TableCell className="hidden sm:table-cell" />}
+          {hasBestellung && <TableCell className="hidden sm:table-cell" />}
           <TableCell className="hidden sm:table-cell" />
           <TableCell className="hidden sm:table-cell" />
+          {hasBestellung && <TableCell className="hidden sm:table-cell" />}
           <TableCell className="text-right tabular-nums text-red-500 py-1 text-sm">
             {formatEuro(d.amount_cents)} €
           </TableCell>
@@ -812,7 +961,7 @@ function ItemRows({ item, receiptId, hasAvis, storeChain, onItemUpdate }: ItemRo
               {d.tax_code}
             </Badge>
           </TableCell>
-          <TableCell />
+          {storeChain === "rewe" && <TableCell />}
         </TableRow>
       ))}
 

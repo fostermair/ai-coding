@@ -8,6 +8,8 @@ export interface ParsedBestellungItem {
 
 export interface ParsedBestellung {
   orderNumber: string
+  orderDate?: string // YYYY-MM-DD, aus "Datum: DD.MM.YYYY"
+  orderTotalCents?: number // Gesamtsumme aus PDF
   items: ParsedBestellungItem[]
 }
 
@@ -99,6 +101,50 @@ export function parseBestellung(text: string): ParsedBestellung {
 
   if (!orderNumber) {
     throw new Error("Keine Bestellnummer in Bestellbestätigung gefunden")
+  }
+
+  // Parse Datum: DD.MM.YYYY → YYYY-MM-DD
+  let orderDate: string | undefined
+  const datumMatch = text.match(/Datum:\s*(\d{2})\.(\d{2})\.(\d{4})/)
+  if (datumMatch) {
+    orderDate = `${datumMatch[3]}-${datumMatch[2]}-${datumMatch[1]}`
+  }
+
+  // Parse Gesamtsumme: zwei Strategien hintereinander
+  let orderTotalCents: number | undefined
+
+  // Strategie 1: "Gesamtsumme" Label direkt (kann auf gleicher oder nächster Zeile sein)
+  const gesamtSameLineMatch = text.match(/Gesamtsumme\s+(\d+,\d{2})\s*€/)
+  if (gesamtSameLineMatch) {
+    orderTotalCents = parseCents(gesamtSameLineMatch[1])
+  }
+
+  // Strategie 1b: "Gesamtsumme" Label auf eigenständiger Zeile, Preis folgt
+  if (!orderTotalCents) {
+    const gesamtIdx = lines.findIndex((l) => l === "Gesamtsumme" || l.startsWith("Gesamtsumme"))
+    if (gesamtIdx >= 0) {
+      for (let i = gesamtIdx + 1; i < Math.min(gesamtIdx + 4, lines.length); i++) {
+        const m = lines[i].match(/(\d+,\d{2})\s*€/)
+        if (m) {
+          orderTotalCents = parseCents(m[1])
+          break
+        }
+      }
+    }
+  }
+
+  // Strategie 2 (Fallback): erste Preis-Zeile nach "Alle Preise inkl." (erweitertes Fenster)
+  if (!orderTotalCents) {
+    const allPreiseIdx = lines.findIndex((l) => l.includes("Alle Preise inkl"))
+    if (allPreiseIdx >= 0) {
+      for (let i = allPreiseIdx + 1; i < Math.min(allPreiseIdx + 8, lines.length); i++) {
+        const m = lines[i].match(/(\d+,\d{2})\s*€/)
+        if (m) {
+          orderTotalCents = parseCents(m[1])
+          break
+        }
+      }
+    }
   }
 
   // Parse items
@@ -247,6 +293,8 @@ export function parseBestellung(text: string): ParsedBestellung {
 
   return {
     orderNumber,
+    orderDate,
+    orderTotalCents,
     items,
   }
 }

@@ -15,10 +15,10 @@ export async function GET(
 
     const db = getDb()
 
-    // Find matching bestellung via receipt total amount
+    // Find matching bestellung via receipt total amount and date
     const receiptRow = db
-      .prepare(`SELECT total_amount_cents FROM receipts WHERE id = ?`)
-      .get(bonId) as { total_amount_cents: number } | undefined
+      .prepare(`SELECT total_amount_cents, receipt_date FROM receipts WHERE id = ?`)
+      .get(bonId) as { total_amount_cents: number; receipt_date: string } | undefined
 
     if (!receiptRow) {
       return NextResponse.json({ message: "Bon nicht gefunden" }, { status: 404 })
@@ -26,16 +26,26 @@ export async function GET(
 
     const orderMatch = db
       .prepare(
-        `SELECT order_number
-         FROM (
-           SELECT order_number, SUM(total_price_cents) AS order_total
-           FROM bestellung_items
-           GROUP BY order_number
+        `SELECT bi.order_number
+         FROM bestellung_items bi
+         JOIN import_log il ON bi.import_log_id = il.id
+         WHERE (
+           (il.order_date IS NOT NULL AND il.order_total_cents IS NOT NULL
+            AND ABS(JULIANDAY(?) - JULIANDAY(il.order_date)) <= 7
+            AND ABS(il.order_total_cents - ?) <= 200)
+           OR
+           ((il.order_date IS NULL OR il.order_total_cents IS NULL)
+            AND ABS((SELECT SUM(bi2.total_price_cents) FROM bestellung_items bi2
+                     WHERE bi2.import_log_id = il.id) - ?) <= 100)
          )
-         WHERE ABS(order_total - ?) <= 100
+         GROUP BY bi.order_number
          LIMIT 1`
       )
-      .get(receiptRow.total_amount_cents) as { order_number: string | null } | undefined
+      .get(
+        receiptRow.receipt_date,
+        receiptRow.total_amount_cents,
+        receiptRow.total_amount_cents
+      ) as { order_number: string | null } | undefined
 
     if (!orderMatch?.order_number) {
       return NextResponse.json(

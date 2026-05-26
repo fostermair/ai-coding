@@ -473,26 +473,35 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                   <TableHeader>
                     <TableRow className="hover:bg-transparent">
                       <TableHead>Artikelname (Bestellung)</TableHead>
+                      <TableHead className="text-sm text-muted-foreground hidden sm:table-cell">Bon-Artikel</TableHead>
                       <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
                       <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
                       <TableHead className="text-right">Gesamt</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {bon.bestellung_items.map((item, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell className="font-medium">{item.article_name}</TableCell>
-                        <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
-                          {item.quantity_amount} {item.quantity_unit}
-                        </TableCell>
-                        <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-600 text-sm">
-                          {formatEuro(item.unit_price_cents)} €
-                        </TableCell>
-                        <TableCell className="text-right tabular-nums font-medium">
-                          {formatEuro(item.total_price_cents)} €
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {bon.bestellung_items.map((item, idx) => {
+                      const matchedItem = item.matched_receipt_item_id
+                        ? (bon.items as any[]).find((i: any) => i.id === item.matched_receipt_item_id)
+                        : null
+                      return (
+                        <TableRow key={idx}>
+                          <TableCell className="font-medium">{item.article_name}</TableCell>
+                          <TableCell className="text-sm text-muted-foreground italic hidden sm:table-cell">
+                            {matchedItem ? matchedItem.raw_name : "—"}
+                          </TableCell>
+                          <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
+                            {item.quantity_amount} {item.quantity_unit}
+                          </TableCell>
+                          <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-600 text-sm">
+                            {formatEuro(item.unit_price_cents)} €
+                          </TableCell>
+                          <TableCell className="text-right tabular-nums font-medium">
+                            {formatEuro(item.total_price_cents)} €
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
                   </TableBody>
                 </Table>
               </div>

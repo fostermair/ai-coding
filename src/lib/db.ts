@@ -276,6 +276,15 @@ function initSchema(db: Database.Database): void {
     db.exec("ALTER TABLE import_log ADD COLUMN pdf_path TEXT")
   }
 
+  // Migration: add order_date and order_total_cents to import_log
+  const importLogCols3 = db.prepare("PRAGMA table_info(import_log)").all() as Array<{ name: string }>
+  if (!importLogCols3.some((c) => c.name === "order_date")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN order_date TEXT")
+  }
+  if (!importLogCols3.some((c) => c.name === "order_total_cents")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN order_total_cents INTEGER")
+  }
+
   // Migration: korrigiere falsch als 'rewe' gesetzte store_chain-Werte (idempotent).
   // Runs after is_virtual is guaranteed to exist (moved from above PROJ-24 tables).
   db.exec(`

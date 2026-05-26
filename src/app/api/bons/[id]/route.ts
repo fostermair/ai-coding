@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
+import { computeMatchScore } from "@/lib/avis-matching"
 
 export async function GET(
   _request: NextRequest,
@@ -104,36 +105,68 @@ export async function GET(
     let hasBestellung = false
     let bestellungOrderNumber: string | null = null
 
-    // Find matching bestellung via total amount (no AVIS needed)
+    // Find matching bestellung via total amount and date
     const orderMatch = db
       .prepare(
-        `SELECT order_number
-         FROM (
-           SELECT order_number, SUM(total_price_cents) AS order_total
-           FROM bestellung_items
-           GROUP BY order_number
+        `SELECT bi.order_number
+         FROM bestellung_items bi
+         JOIN import_log il ON bi.import_log_id = il.id
+         WHERE (
+           (il.order_date IS NOT NULL AND il.order_total_cents IS NOT NULL
+            AND ABS(JULIANDAY(?) - JULIANDAY(il.order_date)) <= 7
+            AND ABS(il.order_total_cents - ?) <= 200)
+           OR
+           ((il.order_date IS NULL OR il.order_total_cents IS NULL)
+            AND ABS((SELECT SUM(bi2.total_price_cents) FROM bestellung_items bi2
+                     WHERE bi2.import_log_id = il.id) - ?) <= 100)
          )
-         WHERE ABS(order_total - ?) <= 100
+         GROUP BY bi.order_number
          LIMIT 1`
       )
-      .get(receipt.total_amount_cents as number) as { order_number: string } | undefined
+      .get(
+        receipt.receipt_date as string,
+        receipt.total_amount_cents as number,
+        receipt.total_amount_cents as number
+      ) as { order_number: string } | undefined
 
     if (orderMatch?.order_number) {
       bestellungOrderNumber = orderMatch.order_number
-      bestellungItems = db
+      const rawBestellungItems = db
         .prepare(
-          `SELECT article_name, quantity_amount, quantity_unit, unit_price_cents, total_price_cents
+          `SELECT id, article_name, quantity_amount, quantity_unit, unit_price_cents, total_price_cents
            FROM bestellung_items
            WHERE order_number = ?
            ORDER BY id`
         )
         .all(bestellungOrderNumber) as Array<{
+          id: number
           article_name: string
           quantity_amount: number
           quantity_unit: string
           unit_price_cents: number
           total_price_cents: number
         }>
+
+      // Article-level matching: fuzzy-match each bestellung item to receipt items using AVIS logic
+      bestellungItems = rawBestellungItems.map((bi) => {
+        let bestReceiptItemId: number | null = null
+        let bestScore = 0
+        for (const ri of items) {
+          const riRawName = ri.raw_name as string
+          const riId = ri.id as number
+          const score = computeMatchScore(bi.article_name, riRawName)
+          if (score > bestScore && score > 35) {
+            bestScore = score
+            bestReceiptItemId = riId
+          }
+        }
+        return {
+          ...bi,
+          matched_receipt_item_id: bestReceiptItemId,
+          match_score: Math.round(bestScore),
+        }
+      })
+
       hasBestellung = bestellungItems.length > 0
     }
 

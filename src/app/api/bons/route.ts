@@ -63,12 +63,17 @@ export async function GET(request: NextRequest) {
           END AS avis_status,
           CASE WHEN r.store_chain = 'rewe' AND r.is_virtual = 0 AND EXISTS (
             SELECT 1
-            FROM (
-              SELECT order_number, SUM(total_price_cents) AS order_total
-              FROM bestellung_items
-              GROUP BY order_number
-            ) AS totals
-            WHERE ABS(totals.order_total - r.total_amount_cents) <= 100
+            FROM bestellung_items bi
+            JOIN import_log il ON bi.import_log_id = il.id
+            WHERE (
+              (il.order_date IS NOT NULL AND il.order_total_cents IS NOT NULL
+               AND ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) <= 7
+               AND ABS(il.order_total_cents - r.total_amount_cents) <= 200)
+              OR
+              ((il.order_date IS NULL OR il.order_total_cents IS NULL)
+               AND ABS((SELECT SUM(bi2.total_price_cents) FROM bestellung_items bi2
+                        WHERE bi2.import_log_id = il.id) - r.total_amount_cents) <= 100)
+            )
           ) THEN 1 ELSE 0 END AS has_bestellung
         FROM receipts r
         LEFT JOIN bank_transactions bt ON bt.id = r.bank_transaction_id

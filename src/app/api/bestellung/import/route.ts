@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     // ── Insert in transaction ──────────────────────────────────────────────
     const insertLog = db.prepare(
-      "INSERT INTO import_log (filename, status, message, pdf_path) VALUES (?, ?, ?, ?)"
+      "INSERT INTO import_log (filename, status, message, pdf_path, order_date, order_total_cents) VALUES (?, ?, ?, ?, ?, ?)"
     )
 
     const insertBestellungItem = db.prepare(`
@@ -137,7 +137,9 @@ export async function POST(request: NextRequest) {
         file.name,
         "success",
         `${parsed.items.length} Artikel importiert`,
-        filePath
+        filePath,
+        parsed.orderDate ?? null,
+        parsed.orderTotalCents ?? null
       )
 
       for (const item of parsed.items) {

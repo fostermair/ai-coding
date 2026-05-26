@@ -28,7 +28,7 @@ interface ConfigDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-type ConfirmType = "avis" | "alias" | "konto" | "bons" | "restore" | null
+type ConfirmType = "avis" | "alias" | "konto" | "bons" | "bestellung" | "restore" | null
 
 export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const [confirmType, setConfirmType] = useState<ConfirmType>(null)
@@ -36,6 +36,7 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const [aliasLoading, setAliasLoading] = useState(false)
   const [kontoLoading, setKontoLoading] = useState(false)
   const [bonsLoading, setBonsLoading] = useState(false)
+  const [bestellungLoading, setBestellungLoading] = useState(false)
   const [backupLoading, setBackupLoading] = useState(false)
   const [restoreLoading, setRestoreLoading] = useState(false)
   const [message, setMessage] = useState<{
@@ -170,6 +171,32 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
     }
   }
 
+  const handleDeleteBestellung = async () => {
+    setBestellungLoading(true)
+    setMessage(null)
+    try {
+      const res = await fetch("/api/bestellung/reset", { method: "DELETE" })
+      const data = await res.json()
+
+      if (!res.ok) {
+        setMessage({
+          type: "error",
+          text: data.message || "Fehler beim Löschen der Bestellungen",
+        })
+        return
+      }
+
+      setMessage({ type: "success", text: data.message })
+      toast.success(data.message)
+      setTimeout(() => setMessage(null), 3000)
+    } catch {
+      setMessage({ type: "error", text: "Netzwerkfehler beim Löschen aufgetreten" })
+    } finally {
+      setBestellungLoading(false)
+      setConfirmType(null)
+    }
+  }
+
   const handleCreateBackup = async () => {
     setBackupLoading(true)
     setMessage(null)
@@ -297,7 +324,7 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("bons")}
-              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading || bestellungLoading}
               className="w-full gap-2"
             >
               {bonsLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -319,7 +346,7 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("avis")}
-              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading || bestellungLoading}
               className="w-full gap-2"
             >
               {avisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -341,11 +368,33 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("konto")}
-              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading || bestellungLoading}
               className="w-full gap-2"
             >
               {kontoLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
               {kontoLoading ? "Wird gelöscht..." : "Alle Kontoauszüge löschen"}
+            </Button>
+          </div>
+
+          <Separator />
+
+          {/* Bestellung Management */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">Bestellungs-Daten Verwaltung</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Löscht alle importierten Bestellbestätigungen und Artikel-Daten
+              </p>
+            </div>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setConfirmType("bestellung")}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading || bestellungLoading}
+              className="w-full gap-2"
+            >
+              {bestellungLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {bestellungLoading ? "Wird gelöscht..." : "Bestellungs-Daten löschen"}
             </Button>
           </div>
 
@@ -361,7 +410,7 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
               variant="destructive"
               size="sm"
               onClick={() => setConfirmType("alias")}
-              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading}
+              disabled={avisLoading || aliasLoading || kontoLoading || bonsLoading || bestellungLoading}
               className="w-full gap-2"
             >
               {aliasLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -398,7 +447,8 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
                   avisLoading ||
                   aliasLoading ||
                   kontoLoading ||
-                  bonsLoading
+                  bonsLoading ||
+                  bestellungLoading
                 }
                 className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
@@ -429,7 +479,8 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
                     avisLoading ||
                     aliasLoading ||
                     kontoLoading ||
-                    bonsLoading
+                    bonsLoading ||
+                    bestellungLoading
                   }
                   className="hidden"
                 />
@@ -538,6 +589,27 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
             className="bg-red-600 hover:bg-red-700"
           >
             {aliasLoading ? "Wird gelöscht..." : "Ja, löschen"}
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Bestellung Confirmation Dialog */}
+      <AlertDialog open={confirmType === "bestellung"} onOpenChange={(open) => !open && setConfirmType(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Bestellungs-Daten löschen?</AlertDialogTitle>
+            <AlertDialogDescription className="text-red-600 font-medium">
+              ⚠️ Dies löscht ALLE importierten Bestellbestätigungen und Artikel-Daten.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <p className="text-sm text-gray-700 px-4">Diese Aktion kann nicht rückgängig gemacht werden. Die PDF-Dateien bleiben erhalten.</p>
+          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDeleteBestellung}
+            disabled={bestellungLoading}
+            className="bg-red-600 hover:bg-red-700"
+          >
+            {bestellungLoading ? "Wird gelöscht..." : "Ja, löschen"}
           </AlertDialogAction>
         </AlertDialogContent>
       </AlertDialog>

@@ -93,23 +93,33 @@ export async function GET(
     const hasAvis = avisMatches.length > 0
 
     // Check if this receipt has bestellung items (PROJ-32)
-    // First try to find order_number via AVIS matches
-    let bestellungItems = []
+    // Find order_number via total amount matching
+    let bestellungItems: Array<{
+      article_name: string
+      quantity_amount: number
+      quantity_unit: string
+      unit_price_cents: number
+      total_price_cents: number
+    }> = []
     let hasBestellung = false
     let bestellungOrderNumber: string | null = null
 
-    const avisOrderNumber = db
+    // Find matching bestellung via total amount (no AVIS needed)
+    const orderMatch = db
       .prepare(
-        `SELECT DISTINCT SUBSTR(il.filename, INSTR(il.filename, ']') + 2) as order_number
-         FROM avis_matches am
-         INNER JOIN import_log il ON am.import_log_id = il.id
-         WHERE am.receipt_id = ? AND il.filename LIKE '%[AVIS]%'
+        `SELECT order_number
+         FROM (
+           SELECT order_number, SUM(total_price_cents) AS order_total
+           FROM bestellung_items
+           GROUP BY order_number
+         )
+         WHERE ABS(order_total - ?) <= 100
          LIMIT 1`
       )
-      .get(bonId) as { order_number: string } | undefined
+      .get(receipt.total_amount_cents as number) as { order_number: string } | undefined
 
-    if (avisOrderNumber?.order_number) {
-      bestellungOrderNumber = avisOrderNumber.order_number
+    if (orderMatch?.order_number) {
+      bestellungOrderNumber = orderMatch.order_number
       bestellungItems = db
         .prepare(
           `SELECT article_name, quantity_amount, quantity_unit, unit_price_cents, total_price_cents

@@ -61,14 +61,14 @@ export async function GET(request: NextRequest) {
               THEN 'complete'
             ELSE 'no_matches'
           END AS avis_status,
-          CASE WHEN EXISTS (
+          CASE WHEN r.store_chain = 'rewe' AND r.is_virtual = 0 AND EXISTS (
             SELECT 1
-            FROM avis_matches am2
-            INNER JOIN import_log il ON am2.import_log_id = il.id
-            INNER JOIN bestellung_items bi
-              ON bi.order_number = SUBSTR(il.filename, INSTR(il.filename, ']') + 2)
-            WHERE am2.receipt_id = r.id
-              AND il.filename LIKE '%[AVIS]%'
+            FROM (
+              SELECT order_number, SUM(total_price_cents) AS order_total
+              FROM bestellung_items
+              GROUP BY order_number
+            ) AS totals
+            WHERE ABS(totals.order_total - r.total_amount_cents) <= 100
           ) THEN 1 ELSE 0 END AS has_bestellung
         FROM receipts r
         LEFT JOIN bank_transactions bt ON bt.id = r.bank_transaction_id

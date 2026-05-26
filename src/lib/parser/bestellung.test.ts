@@ -120,6 +120,56 @@ wir haben deine Bestellung B-ABC-DEF-GHI erhalten.
       expect(result.items[0].quantityUnit).toBe('stück')
       expect(result.items[0].unitPriceCents).toBe(891) // 26,73 / 3
     })
+
+    it('parses real REWE PDF format without spaces between name and price', () => {
+      const text = `
+wir haben deine Bestellung B-USQ-SPQ-FC5 erhalten.
+1xLeicht&Cross Knusperbrot Vollkorn 125g0,99 €
+2xBlend-a-med Zahnpasta frisch 75ml1,98 €
+3xja! Weizenmehl Type 405 1kg1,77 €
+      `
+      const result = parseBestellung(text)
+      expect(result.orderNumber).toBe('B-USQ-SPQ-FC5')
+      expect(result.items.length).toBe(3)
+      expect(result.items[0].articleName).toContain('Leicht&Cross')
+      expect(result.items[0].totalPriceCents).toBe(99)
+      expect(result.items[0].quantityUnit).toBe('g')
+      expect(result.items[0].quantityAmount).toBe(125)
+
+      expect(result.items[1].totalPriceCents).toBe(198)
+      expect(result.items[1].unitPriceCents).toBe(99) // 1,98 / 2
+      expect(result.items[1].quantityAmount).toBe(75)
+
+      expect(result.items[2].articleName).toContain('Weizenmehl')
+      expect(result.items[2].quantityAmount).toBe(1)
+      expect(result.items[2].quantityUnit).toBe('kg')
+    })
+
+    it('parses real REWE PDF multi-line items', () => {
+      const text = `
+wir haben deine Bestellung B-USQ-SPQ-FC5 erhalten.
+2xL'Oréal Men Expert Deospray Barber Club
+150ml
+5,98 €
+3xWilhelm Brandenburg Regional Hähnchen
+Brustfilet 3 Stück
+26,73 €
+      `
+      const result = parseBestellung(text)
+      expect(result.items.length).toBe(2)
+      expect(result.items[0].articleName).toContain("L'Oréal")
+      expect(result.items[0].articleName).toContain('150ml')
+      expect(result.items[0].totalPriceCents).toBe(598)
+      expect(result.items[0].unitPriceCents).toBe(299) // 5,98 / 2
+      expect(result.items[0].quantityAmount).toBe(150)
+      expect(result.items[0].quantityUnit).toBe('ml')
+
+      expect(result.items[1].articleName).toContain('Wilhelm')
+      expect(result.items[1].totalPriceCents).toBe(2673)
+      expect(result.items[1].unitPriceCents).toBe(891) // 26,73 / 3
+      expect(result.items[1].quantityAmount).toBe(3)
+      expect(result.items[1].quantityUnit).toBe('stück')
+    })
   })
 
   describe('AC-1.3: Duplicate protection', () => {

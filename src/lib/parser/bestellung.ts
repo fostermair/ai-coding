@@ -104,6 +104,18 @@ export function parseBestellung(text: string): ParsedBestellung {
   // Parse items
   const items: ParsedBestellungItem[] = []
 
+  // Helper function to extract quantity from article name
+  function extractQtyFromName(name: string): { quantityAmount: number; quantityUnit: string } {
+    const qtyMatch = name.match(/\s+([\d,\.]+(?:\s*x\s*[\d,\.]+)?\s*[a-züäöß]+)\s*$/i)
+    if (qtyMatch) {
+      const normalized = normalizeQuantity(qtyMatch[1])
+      return { quantityAmount: normalized.amount, quantityUnit: normalized.unit }
+    }
+    return { quantityAmount: 1, quantityUnit: "Stück" }
+  }
+
+  let pendingNxItem: { count: number; nameLines: string[] } | null = null
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
 
@@ -112,27 +124,41 @@ export function parseBestellung(text: string): ParsedBestellung {
       continue
     }
 
-    // Real REWE email format: "1x  Article Name 500g               0,99 €"
-    // Try to match: digit(s) + "x" + whitespace + article name/size + price + €
-    const nxMatch = line.match(/^(\d+)x\s+(.+?)\s+([\d,\.]+)\s*€\s*$/)
-    if (nxMatch) {
-      const count = parseInt(nxMatch[1])
-      const nameRaw = nxMatch[2].trim()
-      const totalPriceCents = parseCents(nxMatch[3])
-      const unitPriceCents = Math.round(totalPriceCents / count)
+    // ─ Real REWE email format parsing ───────────────────────────────────
 
-      // Extract quantity unit from article name (e.g., "500g", "1kg", "3 Stück", "6x330ml")
-      let quantityAmount = 1
-      let quantityUnit = "Stück"
-      // Pattern: space + number + optional "x number" (for multipliers) + space + units at end
-      // The leading \s+ ensures we capture the last "space-number-unit" pattern, avoiding false matches like "Type 405" in "Type 405 1kg"
-      const qtyMatch = nameRaw.match(/\s+([\d,\.]+(?:\s*x\s*[\d,\.]+)?\s*[a-zü]+)\s*$/i)
-      if (qtyMatch) {
-        const qtyStr = qtyMatch[1]
-        const normalized = normalizeQuantity(qtyStr)
-        quantityAmount = normalized.amount
-        quantityUnit = normalized.unit
+    // Multi-line item continuation: waiting for price after name
+    if (pendingNxItem) {
+      const priceOnlyMatch = line.match(/^(\d+,\d{2})\s*€\s*$/)
+      if (priceOnlyMatch) {
+        // Got the price — finalize the item
+        const nameRaw = pendingNxItem.nameLines.join(" ").trim()
+        const totalPriceCents = parseCents(priceOnlyMatch[1])
+        const unitPriceCents = Math.round(totalPriceCents / pendingNxItem.count)
+        const { quantityAmount, quantityUnit } = extractQtyFromName(nameRaw)
+
+        items.push({
+          articleName: nameRaw,
+          quantityAmount,
+          quantityUnit,
+          unitPriceCents,
+          totalPriceCents,
+        })
+        pendingNxItem = null
+      } else {
+        // More name continuation
+        pendingNxItem.nameLines.push(line.trim())
       }
+      continue
+    }
+
+    // Single-line item: "1xArticleName500g0,99 €" (no space between name and price)
+    const singleNxMatch = line.match(/^(\d+)x(.*?)(\d+,\d{2})\s*€\s*$/)
+    if (singleNxMatch) {
+      const count = parseInt(singleNxMatch[1])
+      const nameRaw = singleNxMatch[2].trim()
+      const totalPriceCents = parseCents(singleNxMatch[3])
+      const unitPriceCents = Math.round(totalPriceCents / count)
+      const { quantityAmount, quantityUnit } = extractQtyFromName(nameRaw)
 
       items.push({
         articleName: nameRaw,
@@ -143,6 +169,18 @@ export function parseBestellung(text: string): ParsedBestellung {
       })
       continue
     }
+
+    // Multi-line start: "2xL'Oréal Men Expert..." (starts with Nx, no € on line)
+    const multiNxStart = line.match(/^(\d+)x(.+)$/)
+    if (multiNxStart && !line.includes("€")) {
+      pendingNxItem = {
+        count: parseInt(multiNxStart[1]),
+        nameLines: [multiNxStart[2].trim()],
+      }
+      continue
+    }
+
+    // ────────────────────────────────────────────────────────────────────
 
     // Old format: look for two price patterns on same line (unit price + total price)
     const prices = line.match(/([\d,\.]+)\s*€/g)

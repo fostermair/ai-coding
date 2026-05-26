@@ -1,6 +1,6 @@
 # PROJ-32: Bestellbestätigung-Import & Produktmengen-Verknüpfung
 
-## Status: Planned
+## Status: In Review
 
 ---
 

@@ -81,6 +81,7 @@ export function BonList() {
     const bons = data?.bons ?? []
     const map = new Map<string, BonSummary[]>()
     for (const bon of bons) {
+      if (!bon.receipt_date) continue
       const year = bon.receipt_date.substring(0, 4)
       if (!map.has(year)) map.set(year, [])
       map.get(year)!.push(bon)

@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
+import dynamic from "next/dynamic"
 import {
   Table,
   TableBody,
@@ -18,7 +19,11 @@ import { ChainBadge } from "@/components/chain-badge"
 import { detectChain } from "@/lib/chain"
 import { formatEuro, formatDate } from "@/lib/format"
 import { TransactionAliasDialog } from "@/components/transaction-alias-dialog"
-import { KontoauszugPdfViewer } from "@/components/kontoauszug-pdf-viewer"
+
+const KontoauszugPdfViewer = dynamic(
+  () => import("@/components/kontoauszug-pdf-viewer").then((mod) => ({ default: mod.KontoauszugPdfViewer })),
+  { ssr: false, loading: () => <Skeleton className="h-[600px] w-full" /> }
+)
 
 interface Transaction {
   id: number
@@ -37,6 +42,7 @@ interface Transaction {
   hidden: number
   alias: string | null
   logo_path: string | null
+  [key: string]: unknown
 }
 
 function formatPeriode(periode: string): string {
@@ -76,8 +82,6 @@ export function TransactionList() {
   const didInitGroups = useRef(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [pdfGroups, setPdfGroups] = useState<Set<string>>(new Set())
-  const [pdfLoadingKey, setPdfLoadingKey] = useState<string | null>(null)
-  const [pdfErrorKey, setPdfErrorKey] = useState<string | null>(null)
   const [highlightedTxId, setHighlightedTxId] = useState<number | null>(null)
 
   const [aliasDialog, setAliasDialog] = useState<{
@@ -133,31 +137,23 @@ export function TransactionList() {
 
   const handleTransactionClick = useCallback((tx: Transaction, e: React.MouseEvent) => {
     e.stopPropagation()
-    const hasPaperlessPdf = tx.kontoauszug_datei?.startsWith('[paperless]')
-    if (!hasPaperlessPdf) return
+    console.log("[TxClick] clicked tx id=", tx.id, "kontoauszug_datei=", tx.kontoauszug_datei)
+    if (!tx.kontoauszug_datei?.startsWith('[paperless]')) {
+      console.warn("[TxClick] No paperless PDF on this tx, aborting")
+      return
+    }
 
-    setPdfGroups((prev) => {
-      // Check if this group is already open
-      const isGroupOpen = prev.has(tx.periode)
+    const groupKey = tx.kontoauszug_datei ?? tx.periode
+    const isGroupOpen = pdfGroups.has(groupKey)
+    const isSameTx = highlightedTxId === tx.id
 
-      // Check if this transaction is already highlighted
-      if (isGroupOpen && highlightedTxId === tx.id) {
-        // Close PDF
-        return new Set()
-      } else if (!isGroupOpen) {
-        // Open new group
-        return new Set([tx.periode])
-      }
-      // If group is open but different tx, keep group open and update highlighted
-      return prev
-    })
-
-    setHighlightedTxId((prev) => {
-      if (prev === tx.id && pdfGroups.has(tx.periode)) {
-        return null
-      }
-      return tx.id
-    })
+    if (isGroupOpen && isSameTx) {
+      setPdfGroups(new Set())
+      setHighlightedTxId(null)
+    } else {
+      setPdfGroups(new Set([groupKey]))
+      setHighlightedTxId(tx.id)
+    }
   }, [pdfGroups, highlightedTxId])
 
   const fetchTransactions = useCallback(async () => {
@@ -428,7 +424,7 @@ export function TransactionList() {
                         </TableCell>
                       </TableRow>
                     )}
-                    {isExpanded && !showPdfMode && group.txs.map((tx) => {
+                    {isExpanded && group.txs.map((tx) => {
                       const displayName = tx.alias || tx.haendler_name || tx.empfaenger_name || tx.beschreibung
                       const hasPaperlessPdf = tx.kontoauszug_datei?.startsWith('[paperless]')
                       return (

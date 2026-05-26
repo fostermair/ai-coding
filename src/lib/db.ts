@@ -249,6 +249,33 @@ function initSchema(db: Database.Database): void {
     db.exec("ALTER TABLE bank_statement_log ADD COLUMN paperless_doc_id INTEGER")
   }
 
+  // PROJ-32: bestellung_items table + import_log.pdf_path
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS bestellung_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      import_log_id INTEGER NOT NULL REFERENCES import_log(id) ON DELETE CASCADE,
+      order_number TEXT NOT NULL,
+      article_name TEXT NOT NULL,
+      quantity_amount REAL NOT NULL,
+      quantity_unit TEXT NOT NULL,
+      unit_price_cents INTEGER NOT NULL,
+      total_price_cents INTEGER NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_bestellung_items_order_number
+      ON bestellung_items(order_number);
+    CREATE INDEX IF NOT EXISTS idx_bestellung_items_import_log_id
+      ON bestellung_items(import_log_id);
+  `)
+
+  // Migration: add pdf_path column to import_log
+  const importLogCols2 = db
+    .prepare("PRAGMA table_info(import_log)")
+    .all() as Array<{ name: string }>
+  if (!importLogCols2.some((c) => c.name === "pdf_path")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN pdf_path TEXT")
+  }
+
   // Migration: korrigiere falsch als 'rewe' gesetzte store_chain-Werte (idempotent).
   // Runs after is_virtual is guaranteed to exist (moved from above PROJ-24 tables).
   db.exec(`

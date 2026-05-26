@@ -49,7 +49,7 @@
 
 | PROJ-31 | PDF-Highlight & Auto-Scroll in Transaktionsansicht | In Review | [PROJ-31-pdf-highlight-scroll/spec.md](PROJ-31-pdf-highlight-scroll/spec.md) | 2026-05-24 |
 
-| PROJ-32 | Bestellbestätigung-Import & Produktmengen-Verknüpfung | Planned | [PROJ-32-bestellung-import/spec.md](PROJ-32-bestellung-import/spec.md) | 2026-05-26 |
+| PROJ-32 | Bestellbestätigung-Import & Produktmengen-Verknüpfung | Approved | [PROJ-32-bestellung-import/spec.md](PROJ-32-bestellung-import/spec.md) | 2026-05-26 |
 
 <!-- Add features above this line -->
 

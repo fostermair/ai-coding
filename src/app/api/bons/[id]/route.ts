@@ -92,6 +92,41 @@ export async function GET(
     // Check if this receipt has any AVIS matches (for showing edit button)
     const hasAvis = avisMatches.length > 0
 
+    // Check if this receipt has bestellung items (PROJ-32)
+    // First try to find order_number via AVIS matches
+    let bestellungItems = []
+    let hasBestellung = false
+    let bestellungOrderNumber: string | null = null
+
+    const avisOrderNumber = db
+      .prepare(
+        `SELECT DISTINCT SUBSTR(il.filename, INSTR(il.filename, ']') + 2) as order_number
+         FROM avis_matches am
+         INNER JOIN import_log il ON am.import_log_id = il.id
+         WHERE am.receipt_id = ? AND il.filename LIKE '%[AVIS]%'
+         LIMIT 1`
+      )
+      .get(bonId) as { order_number: string } | undefined
+
+    if (avisOrderNumber?.order_number) {
+      bestellungOrderNumber = avisOrderNumber.order_number
+      bestellungItems = db
+        .prepare(
+          `SELECT article_name, quantity_amount, quantity_unit, unit_price_cents, total_price_cents
+           FROM bestellung_items
+           WHERE order_number = ?
+           ORDER BY id`
+        )
+        .all(bestellungOrderNumber) as Array<{
+          article_name: string
+          quantity_amount: number
+          quantity_unit: string
+          unit_price_cents: number
+          total_price_cents: number
+        }>
+      hasBestellung = bestellungItems.length > 0
+    }
+
     const marketAliasRow = db
       .prepare(
         `SELECT alias AS market_alias, logo_path AS market_logo_path
@@ -126,6 +161,9 @@ export async function GET(
       market_logo_path: marketAliasRow?.market_logo_path ?? null,
       items: itemsWithDiscounts,
       has_avis: hasAvis,
+      has_bestellung: hasBestellung,
+      bestellung_order_number: bestellungOrderNumber,
+      bestellung_items: bestellungItems,
       bank_transaction: bankTransaction,
     })
   } catch (e) {

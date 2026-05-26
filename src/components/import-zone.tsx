@@ -525,6 +525,127 @@ export function ImportZone() {
     }
   }, [])
 
+  // ── Bestellung state ─────────────────────────────────────────────────────
+  const [isBestellungDragging, setIsBestellungDragging] = useState(false)
+  const [bestellungQueue, setBestellungQueue] = useState<QueueItem[]>([])
+  const bestellungFileInputRef = useRef<HTMLInputElement>(null)
+  const [isBestellungSyncing, setIsBestellungSyncing] = useState(false)
+  const [bestellungSyncResult, setBestellungSyncResult] = useState<SyncResult | null>(null)
+  const [bestellungSyncError, setBestellungSyncError] = useState<string | null>(null)
+
+  const updateBestellungItem = useCallback((id: string, updates: Partial<QueueItem>) => {
+    setBestellungQueue((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    )
+  }, [])
+
+  const uploadBestellungFile = useCallback(
+    async (item: QueueItem, file: File) => {
+      updateBestellungItem(item.id, { status: "uploading" })
+      const formData = new FormData()
+      formData.append("file", file)
+      try {
+        const res = await fetch("/api/bestellung/import", { method: "POST", body: formData })
+        const data = await res.json()
+        if (res.status === 409) {
+          updateBestellungItem(item.id, { status: "duplicate", error: data.message })
+        } else if (!res.ok) {
+          updateBestellungItem(item.id, { status: "error", error: data.message ?? "Unbekannter Fehler" })
+        } else {
+          updateBestellungItem(item.id, {
+            status: "success",
+            result: {
+              items: data.items,
+              total: `Bestellung ${data.orderNumber}`,
+            },
+          })
+        }
+      } catch {
+        updateBestellungItem(item.id, { status: "error", error: "Backend nicht verfügbar" })
+      }
+    },
+    [updateBestellungItem]
+  )
+
+  const addBestellungFiles = useCallback(
+    (files: File[]) => {
+      const pdfs = files.filter(
+        (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
+      )
+      if (pdfs.length === 0) return
+      const newItems: QueueItem[] = pdfs.map((f) => ({
+        id: `bestellung-${f.name}-${Date.now()}-${Math.random()}`,
+        filename: f.name,
+        status: "pending" as ImportStatus,
+      }))
+      setBestellungQueue((prev) => [...prev, ...newItems])
+      newItems.forEach((item, i) => {
+        setTimeout(() => uploadBestellungFile(item, pdfs[i]), i * 150)
+      })
+    },
+    [uploadBestellungFile]
+  )
+
+  const onBestellungDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setIsBestellungDragging(false)
+      addBestellungFiles(Array.from(e.dataTransfer.files))
+    },
+    [addBestellungFiles]
+  )
+
+  const onBestellungDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsBestellungDragging(true)
+  }
+
+  const onBestellungDragLeave = (e: React.DragEvent) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsBestellungDragging(false)
+    }
+  }
+
+  const onBestellungFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) addBestellungFiles(Array.from(e.target.files))
+    e.target.value = ""
+  }
+
+  const clearBestellungCompleted = () => {
+    setBestellungQueue((prev) =>
+      prev.filter((item) => item.status === "pending" || item.status === "uploading")
+    )
+  }
+
+  const hasBestellungCompleted = bestellungQueue.some(
+    (item) => item.status === "success" || item.status === "duplicate" || item.status === "error"
+  )
+
+  const handleBestellungPaperlessSync = useCallback(async () => {
+    setIsBestellungSyncing(true)
+    setBestellungSyncResult(null)
+    setBestellungSyncError(null)
+    try {
+      const res = await fetch("/api/paperless/bestellung-sync", { method: "POST" })
+      const data = await res.json()
+      if (!res.ok) {
+        setBestellungSyncError(data.message || "Fehler beim Bestellung-Sync")
+      } else {
+        setBestellungSyncResult({
+          imported: data.imported ?? 0,
+          duplicates: data.duplicates ?? 0,
+          errors: data.errors ?? 0,
+          details: data.details ?? [],
+          message: data.message,
+        })
+      }
+    } catch {
+      setBestellungSyncError("Netzwerkfehler – bitte versuche es später erneut")
+    } finally {
+      setIsBestellungSyncing(false)
+    }
+  }, [])
+
 
   return (
     <div className="space-y-4">
@@ -968,6 +1089,156 @@ export function ImportZone() {
               ))}
             </div>
             {kontoQueue.length > 1 && <ImportSummary queue={kontoQueue} />}
+          </div>
+        )}
+      </div>
+
+      {/* Bestellung Section */}
+      <Separator className="my-6" />
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">Bestellbestätigung importieren</h2>
+          <p className="text-sm text-gray-600 mt-1">
+            Importiere REWE Bestellbestätigungs-PDFs um Mengenangaben mit deinen eBon-Artikeln abzugleichen.
+          </p>
+        </div>
+
+        {/* Bestellung Drop Zone */}
+        <div
+          onDrop={onBestellungDrop}
+          onDragOver={onBestellungDragOver}
+          onDragLeave={onBestellungDragLeave}
+          onClick={() => bestellungFileInputRef.current?.click()}
+          className={cn(
+            "border-2 border-dashed rounded-xl p-14 text-center cursor-pointer transition-all select-none",
+            isBestellungDragging
+              ? "border-blue-400 bg-blue-50 scale-[1.01]"
+              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/50"
+          )}
+        >
+          <input
+            ref={bestellungFileInputRef}
+            type="file"
+            accept=".pdf,application/pdf"
+            multiple
+            className="hidden"
+            onChange={onBestellungFileChange}
+          />
+          <Upload
+            className={cn(
+              "mx-auto h-10 w-10 mb-3 transition-colors",
+              isBestellungDragging ? "text-blue-400" : "text-gray-300"
+            )}
+          />
+          <p className="font-medium text-gray-700">
+            {isBestellungDragging ? "Loslassen zum Importieren" : "Bestellbestätigungs-PDFs hier ablegen"}
+          </p>
+          <p className="text-sm text-gray-400 mt-1">
+            oder klicken zum Auswählen · REWE Bestellbestätigung PDFs · Mehrfachauswahl möglich
+          </p>
+        </div>
+
+        {/* Bestellung Paperless Sync */}
+        {paperlessConfigured && (
+          <div className="space-y-2">
+            <Button
+              onClick={handleBestellungPaperlessSync}
+              disabled={isBestellungSyncing}
+              className="w-full"
+              variant="outline"
+            >
+              {isBestellungSyncing ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Bestellbestätigungen synchronisiere ...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Bestellbestätigungen aus paperless-ngx synchronisieren
+                </>
+              )}
+            </Button>
+
+            {bestellungSyncResult && (
+              <div className="mt-3 space-y-2">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                  <p className="text-sm font-medium text-green-800">Bestellung Sync-Ergebnis</p>
+                  {bestellungSyncResult.imported + bestellungSyncResult.duplicates + bestellungSyncResult.errors > 0 ? (
+                    <p className="text-xs text-green-700 mt-1">
+                      {bestellungSyncResult.imported} importiert
+                      {bestellungSyncResult.duplicates > 0 && ` · ${bestellungSyncResult.duplicates} Duplikat${bestellungSyncResult.duplicates !== 1 ? "e" : ""}`}
+                      {bestellungSyncResult.errors > 0 && ` · ${bestellungSyncResult.errors} Fehler`}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-green-700 mt-1">{bestellungSyncResult.message || "Keine neuen Bestellbestätigungen gefunden"}</p>
+                  )}
+                </div>
+
+                {bestellungSyncResult.details.length > 0 && (
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {bestellungSyncResult.details.map((detail, i) => (
+                      <div
+                        key={i}
+                        className="text-xs p-2 rounded border"
+                        style={{
+                          borderColor:
+                            detail.status === "imported"
+                              ? "#dcfce7"
+                              : detail.status === "duplicate"
+                                ? "#fed7aa"
+                                : "#fee2e2",
+                          backgroundColor:
+                            detail.status === "imported"
+                              ? "#f0fdf4"
+                              : detail.status === "duplicate"
+                                ? "#fffbeb"
+                                : "#fef2f2",
+                        }}
+                      >
+                        <p className="font-medium text-gray-900">{detail.title}</p>
+                        {detail.message && (
+                          <p className="text-gray-600 mt-0.5">{detail.message}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {bestellungSyncError && (
+              <Alert variant="destructive">
+                <AlertDescription>{bestellungSyncError}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+        )}
+
+        {/* Bestellung Queue */}
+        {bestellungQueue.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-gray-600">
+                {bestellungQueue.length} Bestellbestätigungs-Datei{bestellungQueue.length !== 1 ? "en" : ""}
+              </p>
+              {hasBestellungCompleted && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearBestellungCompleted}
+                  className="text-gray-400 hover:text-gray-600 h-7 text-xs"
+                >
+                  Abgeschlossene ausblenden
+                </Button>
+              )}
+            </div>
+            <div className="space-y-2">
+              {bestellungQueue.map((item) => (
+                <QueueItemCard key={item.id} item={item} />
+              ))}
+            </div>
+            {bestellungQueue.length > 1 && <ImportSummary queue={bestellungQueue} />}
           </div>
         )}
       </div>

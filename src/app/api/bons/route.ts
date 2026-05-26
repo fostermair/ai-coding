@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
             JOIN import_log il ON bi.import_log_id = il.id
             WHERE (
               (il.order_date IS NOT NULL AND il.order_total_cents IS NOT NULL
-               AND ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) <= 7
+               AND ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) <= 2
                AND ABS(il.order_total_cents - r.total_amount_cents) <= 200)
               OR
               ((il.order_date IS NULL OR il.order_total_cents IS NULL)

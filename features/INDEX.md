@@ -9,6 +9,7 @@
 - **In Review** - `/qa` active, testing in progress
 - **Approved** - `/qa` passed, no critical/high bugs, ready to deploy
 - **Deployed** - `/deploy` done, live in production
+- **Cancelled** - feature gestrichen, nicht weiterverfolgt
 
 ## Features
 
@@ -19,7 +20,7 @@
 | PROJ-3 | Produktdatenbank & Alias-Verwaltung | Approved | [PROJ-3-produktdatenbank-alias.md](PROJ-3-produktdatenbank-alias.md) | 2026-04-07 |
 | PROJ-4 | Preisentwicklungs-Chart | Approved | [PROJ-4-preisentwicklung-chart.md](PROJ-4-preisentwicklung-chart.md) | 2026-04-07 |
 | PROJ-5 | Statistik-Dashboard | Approved | [PROJ-5-statistik-dashboard/spec.md](PROJ-5-statistik-dashboard/spec.md) | 2026-04-07 |
-| PROJ-6 | Watch-Folder Auto-Import | Planned | [PROJ-6-watch-folder.md](PROJ-6-watch-folder.md) | 2026-04-07 |
+| PROJ-6 | Watch-Folder Auto-Import | Cancelled | — | 2026-04-07 |
 | PROJ-7 | Datenexport (Excel & CSV) | Approved | [PROJ-7-datenexport/spec.md](PROJ-7-datenexport/spec.md) | 2026-04-07 |
 | PROJ-8 | Produkt-Ausblendung für Statistiken | Approved | [PROJ-8-produkt-statistik-ausblendung.md](PROJ-8-produkt-statistik-ausblendung.md) | 2026-04-11 |
 | PROJ-9 | Preissteigerungs-Analyse | Approved | [PROJ-9-preissteigerungs-analyse.md](PROJ-9-preissteigerungs-analyse.md) | 2026-04-11 |
@@ -27,7 +28,7 @@
 | PROJ-11 | Preistrend letzte 12 Monate | Approved | [PROJ-11-preistrend-12-monate/spec.md](PROJ-11-preistrend-12-monate/spec.md) | 2026-04-12 |
 | PROJ-12 | Artikel-Inflation (Jahr-zu-Jahr) | Approved | [PROJ-12-artikel-inflation/spec.md](PROJ-12-artikel-inflation/spec.md) | 2026-04-12 |
 | PROJ-13 | Ausgeblendete Artikel als separater Tab | Approved | [PROJ-13-ausgeblendete-artikel-tab/spec.md](PROJ-13-ausgeblendete-artikel-tab/spec.md) | 2026-04-12 |
-| PROJ-14 | Saisonale Artikel-Markierung | Approved | [PROJ-14-saisonale-artikel/spec.md](PROJ-14-saisonale-artikel/spec.md) | 2026-04-12 |
+| PROJ-14 | Saisonale Artikel-Markierung | Cancelled | — | 2026-04-12 |
 | PROJ-15 | Spaltenweise Filterung in Produktliste | Approved | [PROJ-15-spaltenfilter.md](PROJ-15-spaltenfilter.md) | 2026-05-14 |
 | PROJ-16 | Einkaufskorb-Vergleich | Approved | [PROJ-16-einkaufskorb-vergleich/spec.md](PROJ-16-einkaufskorb-vergleich/spec.md) | 2026-05-17 |
 | PROJ-17 | Monatlicher Ausgaben-Langzeittrend | Approved | [PROJ-17-monatlicher-trend/spec.md](PROJ-17-monatlicher-trend/spec.md) | 2026-05-17 |
@@ -50,7 +51,16 @@
 | PROJ-31 | PDF-Highlight & Auto-Scroll in Transaktionsansicht | In Review | [PROJ-31-pdf-highlight-scroll/spec.md](PROJ-31-pdf-highlight-scroll/spec.md) | 2026-05-24 |
 
 | PROJ-32 | Bestellbestätigung-Import & Produktmengen-Verknüpfung | Deployed | [PROJ-32-bestellung-import/spec.md](PROJ-32-bestellung-import/spec.md) | 2026-05-26 |
+| PROJ-33 | Mehrere Bestellungen pro Bon (zusammengeführte Produktbasis) | Approved | [PROJ-33-bestellung-versionen/spec.md](PROJ-33-bestellung-versionen/spec.md) | 2026-05-27 |
+
+| PROJ-34 | Import-Ansicht mit Reitern & Datei-Historien | Approved | [PROJ-34-import-tabs/spec.md](PROJ-34-import-tabs/spec.md) | 2026-05-27 |
+
+| PROJ-35 | PDF-Inline-Ansicht in Import-History-Tabs | Deployed | [PROJ-35-pdf-inline-import/spec.md](PROJ-35-pdf-inline-import/spec.md) | 2026-05-27 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-33
+| PROJ-36 | Transaktions-Kategorien | Approved | [PROJ-36-transaktions-kategorien/spec.md](PROJ-36-transaktions-kategorien/spec.md) | 2026-05-28 |
+
+| PROJ-37 | HelloFresh Zahlungsverlauf Import & Tab | Approved | [PROJ-37-hellofresh-import/spec.md](PROJ-37-hellofresh-import/spec.md) | 2026-05-29 |
+
+## Next Available ID: PROJ-38

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { parseAvis } from "@/lib/parser/avis"
 import { calculateMatchConfidence } from "@/lib/avis-matching"
+import { categorize } from "@/lib/categorization/engine"
 
 // pdfjs polyfill (copy from /api/import)
 if (typeof globalThis.DOMMatrix === "undefined") {
@@ -107,7 +108,9 @@ export async function POST(request: NextRequest) {
       parsed = parseAvis(pdfText)
     } catch (e) {
       const msg = e instanceof Error ? e.message : "AVIS-Format nicht erkannt"
-      logImport(file.name, "error", msg)
+      const db = getDb()
+      db.prepare("INSERT INTO import_log (filename, status, message, source_type) VALUES (?, ?, ?, ?)")
+        .run(`[AVIS-Fehler] ${file.name}`, "error", msg, "avis")
       return NextResponse.json({ message: msg }, { status: 422 })
     }
 
@@ -152,6 +155,21 @@ export async function POST(request: NextRequest) {
          ORDER BY date DESC`
       )
       .all() as EbonItem[]
+
+    // Verify a receipt exists for this AVIS date before doing any work
+    interface ReceiptInfo {
+      id: number
+    }
+    const receipt = db
+      .prepare("SELECT id FROM receipts WHERE receipt_date = ? LIMIT 1")
+      .get(parsed.pickupDate) as ReceiptInfo | undefined
+
+    if (!receipt) {
+      const msg = `Kein Bon für AVIS-Datum ${parsed.pickupDate} gefunden`
+      db.prepare("INSERT INTO import_log (filename, status, message, source_type) VALUES (?, ?, ?, ?)")
+        .run(`[AVIS] ${parsed.orderNumber}`, "error", msg, "avis")
+      return NextResponse.json({ message: msg }, { status: 422 })
+    }
 
     // Match AVIS items with eBon items
     const autoSet: MatchResult[] = []
@@ -257,26 +275,16 @@ export async function POST(request: NextRequest) {
     const transaction = db.transaction(() => {
       // Log import first to get the import_log_id
       const logStmt = db.prepare(
-        "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+        "INSERT INTO import_log (filename, status, message, source_type, order_date) VALUES (?, ?, ?, ?, ?)"
       )
       const logResult = logStmt.run(
         `[AVIS] ${parsed.orderNumber}`,
         "success",
-        `${autoSet.length} Aliases automatisch gesetzt, ${pendingMatches.length} zu Überprüfung, ${unmatchedItems.length} nicht gematcht`
+        `${autoSet.length} Aliases automatisch gesetzt, ${pendingMatches.length} zu Überprüfung, ${unmatchedItems.length} nicht gematcht`,
+        "avis",
+        parsed.pickupDate
       )
       const logId = logResult.lastInsertRowid as number
-
-      // Find the receipt_id that matches this AVIS date
-      interface ReceiptInfo {
-        id: number
-      }
-      const receipt = db
-        .prepare("SELECT id FROM receipts WHERE receipt_date = ? LIMIT 1")
-        .get(parsed.pickupDate) as ReceiptInfo | undefined
-
-      if (!receipt) {
-        throw new Error(`Kein Bon für AVIS-Datum ${parsed.pickupDate} gefunden`)
-      }
 
       // Process auto-set matches
       for (const match of autoSet) {
@@ -337,6 +345,28 @@ export async function POST(request: NextRequest) {
 
     const importLogId = transaction()
 
+    // Auto-categorize products that received new aliases from this AVIS import
+    try {
+      const db2 = getDb()
+      const upsertCat = db2.prepare(
+        `INSERT INTO product_categories (alias, category, source, updated_at)
+         VALUES (?, ?, 'auto', datetime('now'))
+         ON CONFLICT(alias) DO UPDATE SET
+           category = excluded.category,
+           updated_at = excluded.updated_at
+         WHERE source = 'auto'`
+      )
+      for (const match of autoSet) {
+        const aliasRow = db2
+          .prepare("SELECT alias FROM product_aliases WHERE raw_name = ?")
+          .get(match.ebonRawName) as { alias: string } | undefined
+        const category = categorize(match.ebonRawName, aliasRow?.alias || match.avisName)
+        upsertCat.run(match.ebonRawName, category)
+      }
+    } catch {
+      // Non-critical
+    }
+
     return NextResponse.json({
       auto_set: autoSet.length,
       pending_approval: pendingMatches.length,
@@ -352,15 +382,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function logImport(filename: string, status: string, message: string): void {
-  try {
-    const db = getDb()
-    db.prepare("INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)").run(
-      filename,
-      status,
-      message
-    )
-  } catch {
-    // Non-critical – don't let log failures break the response
-  }
-}

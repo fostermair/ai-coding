@@ -55,6 +55,8 @@ export async function GET(request: NextRequest) {
           COALESCE(NULLIF(pa.alias, ''), ri.raw_name) AS display_name,
           COALESCE(pa.excluded_from_stats, 0) AS excluded_from_stats,
           COALESCE(pa.seasonal, 0) AS seasonal,
+          COALESCE(pc.category, 'sonstiges') AS category,
+          COALESCE(pc.source, 'auto') AS category_source,
           COUNT(*) AS purchase_count,
           (SELECT ri2.total_price_cents
            FROM receipt_items ri2
@@ -135,10 +137,25 @@ export async function GET(request: NextRequest) {
            JOIN receipts r2 ON r2.id = ri2.receipt_id
            WHERE ri2.raw_name = ri.raw_name AND ri2.unit_price_cents > 0
           ) AS cagr_year_count,
+          (SELECT ri2.price_per_unit_cents
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.price_per_unit_cents IS NOT NULL
+           ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
+           LIMIT 1) AS price_per_unit_cents,
+          (SELECT ri2.normalized_unit
+           FROM receipt_items ri2
+           JOIN receipts r2 ON r2.id = ri2.receipt_id
+           WHERE ri2.raw_name = ri.raw_name
+             AND ri2.normalized_unit IS NOT NULL
+           ORDER BY r2.receipt_date DESC, r2.receipt_time DESC
+           LIMIT 1) AS normalized_unit,
           MAX(r.receipt_date) AS last_purchase_date
         FROM receipt_items ri
         JOIN receipts r ON r.id = ri.receipt_id
         LEFT JOIN product_aliases pa ON pa.raw_name = ri.raw_name
+        LEFT JOIN product_categories pc ON pc.alias = ri.raw_name
         WHERE ri.item_type = 'product' OR ri.item_type = 'concession'
         GROUP BY ri.raw_name
         ${havingClause}

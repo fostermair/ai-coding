@@ -1,6 +1,7 @@
 import Database from "better-sqlite3"
 import path from "path"
 import fs from "fs"
+import { categorize } from "@/lib/categorization/engine"
 
 const DEFAULT_DB_PATH = path.join(process.cwd(), "data", "ebon.db")
 
@@ -127,6 +128,11 @@ function initSchema(db: Database.Database): void {
     db.exec(
       "ALTER TABLE product_aliases ADD COLUMN seasonal INTEGER NOT NULL DEFAULT 0"
     )
+  }
+
+  // Migration: add source column for alias origin tracking (PROJ-46)
+  if (!cols.some((c) => c.name === "source")) {
+    db.exec("ALTER TABLE product_aliases ADD COLUMN source TEXT")
   }
 
   // Migration: add needs_reparse and paperless_doc_id columns to receipts
@@ -346,4 +352,151 @@ function initSchema(db: Database.Database): void {
         ON receipts(bank_transaction_id) WHERE bank_transaction_id IS NOT NULL
     `)
   }
+
+  // PROJ-34: source_type column on import_log to distinguish eBon/AVIS/Bestellung
+  const importLogCols4 = db.prepare("PRAGMA table_info(import_log)").all() as Array<{ name: string }>
+  if (!importLogCols4.some((c) => c.name === "source_type")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN source_type TEXT")
+  }
+
+  // Migration: order_number on import_log so Bestelländerungen (0 items) retain their order reference
+  const importLogCols5 = db.prepare("PRAGMA table_info(import_log)").all() as Array<{ name: string }>
+  if (!importLogCols5.some((c) => c.name === "order_number")) {
+    db.exec("ALTER TABLE import_log ADD COLUMN order_number TEXT")
+    // Backfill from bestellung_items for existing imports
+    db.exec(`
+      UPDATE import_log
+      SET order_number = (
+        SELECT order_number FROM bestellung_items WHERE import_log_id = import_log.id LIMIT 1
+      )
+      WHERE source_type = 'bestellung' AND order_number IS NULL
+    `)
+  }
+  // Backfill runs every startup — idempotent (only updates NULL rows, fast once all rows are set)
+  db.exec(`
+    UPDATE import_log SET source_type = 'ebon'
+      WHERE source_type IS NULL
+        AND EXISTS (SELECT 1 FROM receipts WHERE receipts.filename = import_log.filename);
+    UPDATE import_log SET source_type = 'bestellung'
+      WHERE source_type IS NULL AND order_date IS NOT NULL;
+    UPDATE import_log SET source_type = 'ebon'
+      WHERE (source_type IS NULL OR source_type = 'avis')
+        AND status = 'error'
+        AND (
+          message LIKE '%Kein REWE eBon%'
+          OR message LIKE '%Kein Lidl eBon%'
+          OR message LIKE '%Kein Kaufland eBon%'
+          OR message LIKE '%kein lesbarer Text%'
+          OR message LIKE '%PDF konnte nicht gelesen werden%'
+          OR message LIKE '%PDF-Download%'
+        );
+    UPDATE import_log SET source_type = 'avis'
+      WHERE source_type IS NULL
+        AND filename LIKE '[AVIS] %';
+    UPDATE import_log SET source_type = 'ebon'
+      WHERE source_type IS NULL;
+  `)
+
+  // Migration: fix PFAND items incorrectly stored as 'product' — idempotent
+  db.exec(`
+    UPDATE receipt_items
+    SET item_type = 'pfand'
+    WHERE item_type = 'product' AND raw_name LIKE 'PFAND%'
+  `)
+
+  // PROJ-36: transaction_categories table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS transaction_categories (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      muster     TEXT NOT NULL UNIQUE,
+      kategorie  TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_tx_categories_kategorie ON transaction_categories(kategorie);
+  `)
+
+  // Migration: add farbe column to transaction_categories
+  const txCatCols = db.prepare("PRAGMA table_info(transaction_categories)").all() as Array<{ name: string }>
+  if (!txCatCols.some((c) => c.name === "farbe")) {
+    db.exec("ALTER TABLE transaction_categories ADD COLUMN farbe TEXT NOT NULL DEFAULT '#6366f1'")
+  }
+
+  // PROJ-45: product_categories table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS product_categories (
+      alias      TEXT PRIMARY KEY,
+      category   TEXT NOT NULL,
+      source     TEXT NOT NULL CHECK(source IN ('auto','manual')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_product_categories_category
+      ON product_categories(category);
+  `)
+
+  // PROJ-45: Backfill auto-categorization for all existing products (idempotent)
+  const existingCatCount = (
+    db.prepare("SELECT COUNT(*) AS n FROM product_categories").get() as { n: number }
+  ).n
+  const existingProductCount = (
+    db.prepare(
+      `SELECT COUNT(DISTINCT raw_name) AS n FROM receipt_items
+       WHERE item_type = 'product' OR item_type = 'concession'`
+    ).get() as { n: number }
+  ).n
+  if (existingCatCount === 0 && existingProductCount > 0) {
+    const products = db
+      .prepare(
+        `SELECT DISTINCT ri.raw_name, pa.alias
+         FROM receipt_items ri
+         LEFT JOIN product_aliases pa ON pa.raw_name = ri.raw_name
+         WHERE ri.item_type = 'product' OR ri.item_type = 'concession'`
+      )
+      .all() as Array<{ raw_name: string; alias: string | null }>
+    const upsertCat = db.prepare(
+      `INSERT OR IGNORE INTO product_categories (alias, category, source, updated_at)
+       VALUES (?, ?, 'auto', datetime('now'))`
+    )
+    const backfill = db.transaction(() => {
+      for (const row of products) {
+        const category = categorize(row.raw_name, row.alias || undefined)
+        upsertCat.run(row.raw_name, category)
+      }
+    })
+    backfill()
+  }
+
+  // PROJ-39: normalized unit columns on receipt_items
+  const itemCols = db.prepare("PRAGMA table_info(receipt_items)").all() as Array<{ name: string }>
+  if (!itemCols.some((c) => c.name === "normalized_amount")) {
+    db.exec("ALTER TABLE receipt_items ADD COLUMN normalized_amount REAL")
+  }
+  if (!itemCols.some((c) => c.name === "normalized_unit")) {
+    db.exec("ALTER TABLE receipt_items ADD COLUMN normalized_unit TEXT")
+  }
+  if (!itemCols.some((c) => c.name === "price_per_unit_cents")) {
+    db.exec("ALTER TABLE receipt_items ADD COLUMN price_per_unit_cents INTEGER")
+  }
+
+  // PROJ-37: hellofresh_transactions table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS hellofresh_transactions (
+      id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+      bestellnummer         TEXT NOT NULL UNIQUE,
+      datum                 TEXT NOT NULL,
+      produkt               TEXT NOT NULL,
+      portionen             INTEGER,
+      personen              INTEGER,
+      grundpreis_cents      INTEGER NOT NULL,
+      liefergebuehren_cents INTEGER NOT NULL,
+      rabatt_cents          INTEGER NOT NULL,
+      hf_cash_cents         INTEGER NOT NULL,
+      gesamt_cents          INTEGER NOT NULL,
+      status                TEXT NOT NULL,
+      importiert_am         TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_hf_tx_bestellnummer
+      ON hellofresh_transactions(bestellnummer);
+    CREATE INDEX IF NOT EXISTS idx_hf_tx_datum
+      ON hellofresh_transactions(datum);
+  `)
 }

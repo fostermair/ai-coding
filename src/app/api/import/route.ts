@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { parseReweEbon, formatGermanDate } from "@/lib/parser/rewe"
 import { rematchAfterBonImport } from "@/lib/konto-matching"
+import { categorize } from "@/lib/categorization/engine"
+import { suggestAlias } from "@/lib/avis-matching"
+import { parseUnit } from "@/lib/unit-parser"
 
 // ── pdfjs-dist (used internally by pdf-parse) requires browser globals that
 //    don't exist in Node.js. Polyfill them before require() is called. ──────
@@ -125,8 +128,9 @@ export async function POST(request: NextRequest) {
     const insertItem = db.prepare(`
       INSERT INTO receipt_items
         (receipt_id, raw_name, item_type, quantity, unit_price_cents,
-         total_price_cents, tax_code, bonus_excluded, concessionaire_code, position)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         total_price_cents, tax_code, bonus_excluded, concessionaire_code, position,
+         normalized_amount, normalized_unit, price_per_unit_cents)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `)
 
     const insertDiscount = db.prepare(`
@@ -135,7 +139,7 @@ export async function POST(request: NextRequest) {
     `)
 
     const insertLog = db.prepare(
-      "INSERT INTO import_log (filename, status, message) VALUES (?, ?, ?)"
+      "INSERT INTO import_log (filename, status, message, source_type) VALUES (?, ?, ?, ?)"
     )
 
     const doInsert = db.transaction(() => {
@@ -154,6 +158,7 @@ export async function POST(request: NextRequest) {
       )
 
       for (const item of parsed.items) {
+        const unitResult = parseUnit(item.rawName, item.unitPriceCents)
         const { lastInsertRowid: itemId } = insertItem.run(
           receiptId,
           item.rawName,
@@ -164,18 +169,47 @@ export async function POST(request: NextRequest) {
           item.taxCode,
           item.bonusExcluded ? 1 : 0,
           item.concessionaireCode ?? null,
-          item.position
+          item.position,
+          unitResult.normalized_amount,
+          unitResult.normalized_unit,
+          unitResult.price_per_unit_cents
         )
         for (const d of item.discounts) {
           insertDiscount.run(itemId, d.description, d.amountCents, d.taxCode)
         }
       }
 
-      insertLog.run(file.name, "success", `${parsed.items.length} Positionen importiert`)
+      insertLog.run(file.name, "success", `${parsed.items.length} Positionen importiert`, "ebon")
       return receiptId
     })
 
     const receiptId = doInsert()
+
+    // Auto-categorize new products from this import
+    try {
+      const db2 = getDb()
+      const uniqueProducts = parsed.items
+        .filter((i) => i.itemType === "product" || i.itemType === "concession")
+        .map((i) => i.rawName)
+        .filter((v, idx, arr) => arr.indexOf(v) === idx)
+      const upsertCat = db2.prepare(
+        `INSERT INTO product_categories (alias, category, source, updated_at)
+         VALUES (?, ?, 'auto', datetime('now'))
+         ON CONFLICT(alias) DO UPDATE SET
+           category = excluded.category,
+           updated_at = excluded.updated_at
+         WHERE source = 'auto'`
+      )
+      for (const rawName of uniqueProducts) {
+        const aliasRow = db2
+          .prepare("SELECT alias FROM product_aliases WHERE raw_name = ?")
+          .get(rawName) as { alias: string } | undefined
+        const category = categorize(rawName, aliasRow?.alias || undefined)
+        upsertCat.run(rawName, category)
+      }
+    } catch {
+      // Non-critical
+    }
 
     // Re-match open Kontoauszug transactions against the new bon
     try {
@@ -191,12 +225,36 @@ export async function POST(request: NextRequest) {
       // Non-critical
     }
 
+    // Compute alias suggestions for new raw_names (PROJ-46)
+    let alias_suggestions: Array<{ raw_name: string; suggestion: string | null; confidence: number }> = []
+    try {
+      const existingAliases = db
+        .prepare("SELECT raw_name, alias FROM product_aliases WHERE alias != '' AND alias IS NOT NULL")
+        .all() as Array<{ raw_name: string; alias: string }>
+
+      const aliasedSet = new Set(existingAliases.map((e) => e.raw_name))
+
+      const uniqueProductNames = parsed.items
+        .filter((i) => i.itemType === "product" || i.itemType === "concession")
+        .map((i) => i.rawName)
+        .filter((name, idx, arr) => arr.indexOf(name) === idx)
+        .filter((name) => !aliasedSet.has(name))
+
+      alias_suggestions = uniqueProductNames.map((rawName) => ({
+        raw_name: rawName,
+        ...suggestAlias(rawName, existingAliases),
+      }))
+    } catch {
+      // Non-critical
+    }
+
     return NextResponse.json({
       id: receiptId,
       date: formatGermanDate(parsed.receiptDate),
       store: parsed.storeName,
       items: parsed.items.length,
       total: (parsed.totalAmountCents / 100).toFixed(2).replace(".", ","),
+      alias_suggestions,
     })
   } catch (e) {
     console.error("[/api/import] Unexpected error:", e)

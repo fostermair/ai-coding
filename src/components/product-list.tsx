@@ -14,10 +14,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Package, Search, ArrowUpDown, ChevronUp, ChevronDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff, Leaf, Filter, XCircle } from "lucide-react"
+import { Package, Search, ArrowUpDown, ChevronUp, ChevronDown, Check, X, Pencil, Trash2, Upload, TrendingUp, EyeOff, Leaf, Filter, XCircle, RefreshCw, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
+import { UnmappedAliasWorklist } from "@/components/unmapped-alias-worklist"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -28,6 +29,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
+interface CategoryMeta {
+  slug: string
+  label: string
+  default_excluded_from_stats: boolean
+  color?: string
+}
 
 interface Product {
   raw_name: string
@@ -43,6 +51,10 @@ interface Product {
   inflation_cagr_pct: number | null
   seasonal?: boolean
   current_month_season?: "günstig" | "normal" | "teuer" | null
+  category: string
+  category_source: "auto" | "manual"
+  price_per_unit_cents: number | null
+  normalized_unit: "g" | "ml" | "Stück" | null
 }
 
 interface ProdukteResponse {
@@ -58,7 +70,7 @@ type ColumnFilterText = { type: "text"; value: string }
 type ColumnFilterRange = { type: "range"; min: string; max: string }
 type ColumnFilterSelect = { type: "select"; value: string }
 type ColumnFilter = ColumnFilterText | ColumnFilterRange | ColumnFilterSelect
-type ColumnFilterKey = "name" | "alias" | "frequency" | "last_price" | "price_trend" | "inflation_cagr" | "last_purchase" | "season"
+type ColumnFilterKey = "name" | "alias" | "frequency" | "last_price" | "price_trend" | "inflation_cagr" | "last_purchase" | "season" | "category"
 type ColumnFilters = Partial<Record<ColumnFilterKey, ColumnFilter>>
 
 const CLIENT_SORT_KEYS: SortKey[] = ["price_trend", "inflation_cagr"]
@@ -66,6 +78,13 @@ const CLIENT_SORT_KEYS: SortKey[] = ["price_trend", "inflation_cagr"]
 function formatMonthYear(isoDate: string): string {
   const d = new Date(isoDate)
   return d.toLocaleDateString("de-DE", { month: "short", year: "numeric" })
+}
+
+function formatPricePerUnit(cents: number, unit: "g" | "ml" | "Stück"): string {
+  const formatted = formatEuro(cents)
+  if (unit === "g") return `${formatted} €/100g`
+  if (unit === "ml") return `${formatted} €/100ml`
+  return `${formatted} €/Stück`
 }
 
 function PriceTrendBadge({
@@ -170,6 +189,8 @@ function ProductRow({
   editInputRef,
   togglingNames,
   togglingSeasonalNames,
+  categories,
+  hasUnitPrices,
   onStartEdit,
   onCancelEdit,
   onSaveAlias,
@@ -179,6 +200,7 @@ function ProductRow({
   onToggleExclude,
   onToggleSeasonal,
   onOpenChart,
+  onCategoryChange,
 }: {
   product: Product
   editingName: string | null
@@ -187,6 +209,8 @@ function ProductRow({
   editInputRef: React.RefObject<HTMLInputElement | null>
   togglingNames: Set<string>
   togglingSeasonalNames: Set<string>
+  categories: CategoryMeta[]
+  hasUnitPrices: boolean
   onStartEdit: (p: Product) => void
   onCancelEdit: () => void
   onSaveAlias: (raw: string) => void
@@ -196,7 +220,9 @@ function ProductRow({
   onToggleExclude: (p: Product) => void
   onToggleSeasonal: (p: Product) => void
   onOpenChart: (raw: string) => void
+  onCategoryChange: (raw: string, category: string) => void
 }) {
+  const categoryLabel = categories.find((c) => c.slug === product.category)?.label ?? product.category
   return (
     <TableRow key={product.raw_name}>
       {/* Raw name */}
@@ -205,7 +231,7 @@ function ProductRow({
       </TableCell>
 
       {/* Alias (inline-editable) */}
-      <TableCell className="hidden sm:table-cell min-w-[180px]">
+      <TableCell className="hidden sm:table-cell w-[90px] max-w-[90px] overflow-hidden">
         {editingName === product.raw_name ? (
           <div className="flex items-center gap-1">
             <Input
@@ -237,10 +263,10 @@ function ProductRow({
             </Button>
           </div>
         ) : (
-          <div className="flex items-center gap-1 group">
+          <div className="flex items-center gap-1 group overflow-hidden">
             {product.alias ? (
               <>
-                <span className="text-sm font-medium text-gray-900">{product.alias}</span>
+                <span className="text-sm font-medium text-gray-900 truncate">{product.alias}</span>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -261,10 +287,10 @@ function ProductRow({
             ) : (
               <button
                 className="text-sm text-gray-400 hover:text-gray-600 cursor-pointer flex items-center gap-1"
+                title="Alias setzen"
                 onClick={() => onStartEdit(product)}
               >
                 <Pencil className="h-3 w-3" />
-                Alias setzen
               </button>
             )}
           </div>
@@ -280,6 +306,15 @@ function ProductRow({
       <TableCell className="text-right tabular-nums hidden sm:table-cell min-w-[100px]">
         {formatEuro(product.last_price_cents)} €
       </TableCell>
+
+      {/* €/Einheit — only rendered when at least one product has unit data */}
+      {hasUnitPrices && (
+        <TableCell className="text-right tabular-nums hidden sm:table-cell min-w-[110px] text-gray-500 text-xs">
+          {product.price_per_unit_cents != null && product.normalized_unit != null
+            ? formatPricePerUnit(product.price_per_unit_cents, product.normalized_unit)
+            : null}
+        </TableCell>
+      )}
 
       {/* Price trend badge */}
       <TableCell className="text-right hidden sm:table-cell min-w-[90px]">
@@ -299,6 +334,37 @@ function ProductRow({
       {/* Last purchase date */}
       <TableCell className="text-right text-gray-500 hidden md:table-cell min-w-[100px]">
         {formatDate(product.last_purchase_date)}
+      </TableCell>
+
+      {/* Kategorie */}
+      <TableCell className="hidden md:table-cell min-w-[120px]">
+        <div className="flex items-center gap-1">
+          <Select
+            value={product.category}
+            onValueChange={(val) => onCategoryChange(product.raw_name, val)}
+          >
+            <SelectTrigger className="h-7 text-xs border-0 shadow-none px-1 hover:bg-gray-50 focus:ring-0 w-auto max-w-[110px]">
+              <SelectValue>{categoryLabel}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((cat) => (
+                <SelectItem key={cat.slug} value={cat.slug} className="text-xs">
+                  {cat.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {product.category_source === "auto" && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Sparkles className="h-3 w-3 text-gray-300 shrink-0" />
+                </TooltipTrigger>
+                <TooltipContent>Automatisch kategorisiert</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
       </TableCell>
 
       {/* Saison: badge + toggle button */}
@@ -368,6 +434,8 @@ interface ProductTableHeaderProps {
   onSort: (key: SortKey) => void
   columnFilters: ColumnFilters
   onFilterChange: (key: ColumnFilterKey, filter: ColumnFilter | undefined) => void
+  categories: CategoryMeta[]
+  hasUnitPrices: boolean
 }
 
 function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
@@ -620,12 +688,70 @@ function SeasonFilterPopover({
   )
 }
 
+function CategoryFilterPopover({
+  value,
+  categories,
+  onChange,
+  onReset,
+}: {
+  value: string
+  categories: CategoryMeta[]
+  onChange: (v: string) => void
+  onReset: () => void
+}) {
+  const hasValue = value !== "all"
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={`h-6 w-6 p-0 ${
+            hasValue ? "text-blue-600" : "text-gray-400 hover:text-gray-600"
+          }`}
+          title="Kategorie filtern"
+        >
+          <Filter className="h-3.5 w-3.5" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-56 p-3" align="start">
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-gray-700">Kategorie</p>
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger className="h-8 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Alle anzeigen</SelectItem>
+              {categories.map((cat) => (
+                <SelectItem key={cat.slug} value={cat.slug}>{cat.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {hasValue && (
+            <Button
+              variant="link"
+              size="sm"
+              className="h-6 p-0 text-xs text-gray-500"
+              onClick={onReset}
+            >
+              Zurücksetzen
+            </Button>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 function ProductTableHeader({
   sort,
   sortDir,
   onSort,
   columnFilters,
   onFilterChange,
+  categories,
+  hasUnitPrices,
 }: ProductTableHeaderProps) {
   const sh = (
     key: SortKey,
@@ -868,7 +994,7 @@ function ProductTableHeader({
     <TableHeader>
       <TableRow className="hover:bg-transparent">
         {sh("name", "Produkt", "min-w-[200px]", "name")}
-        <TableHead className="hidden sm:table-cell whitespace-nowrap min-w-[180px]">
+        <TableHead className="hidden sm:table-cell whitespace-nowrap w-[90px] max-w-[90px]">
           <div className="flex items-center gap-1">
             <span>Alias</span>
             <TextFilterPopover
@@ -892,6 +1018,11 @@ function ProductTableHeader({
           "text-right hidden sm:table-cell min-w-[100px]",
           "last_price"
         )}
+        {hasUnitPrices && (
+          <TableHead className="text-right hidden sm:table-cell whitespace-nowrap min-w-[110px] text-gray-500">
+            €/Einheit
+          </TableHead>
+        )}
         {sh(
           "price_trend",
           "Preistrend",
@@ -910,6 +1041,23 @@ function ProductTableHeader({
           "text-right hidden md:table-cell min-w-[100px]",
           "last_purchase"
         )}
+        <TableHead className="hidden md:table-cell whitespace-nowrap min-w-[120px]">
+          <div className="flex items-center gap-1">
+            <span>Kategorie</span>
+            <CategoryFilterPopover
+              value={
+                (columnFilters.category?.type === "select"
+                  ? columnFilters.category.value
+                  : "") || "all"
+              }
+              categories={categories}
+              onChange={(v) =>
+                onFilterChange("category", { type: "select", value: v })
+              }
+              onReset={() => onFilterChange("category", undefined)}
+            />
+          </div>
+        </TableHead>
         <TableHead className="text-center hidden sm:table-cell whitespace-nowrap min-w-[80px]">
           <div className="flex items-center justify-center gap-1">
             <span>Saison</span>
@@ -948,6 +1096,10 @@ export function ProductList() {
   const [sort, setSort] = useState<SortKey>("frequency")
   const [sortDir, setSortDir] = useState<SortDir>("desc")
   const [columnFilters, setColumnFilters] = useState<ColumnFilters>({})
+  const [categories, setCategories] = useState<CategoryMeta[]>([])
+  const [recategorizing, setRecategorizing] = useState(false)
+  const [backfillingUnits, setBackfillingUnits] = useState(false)
+  const [backfillResult, setBackfillResult] = useState<string | null>(null)
 
   // Price chart state
   const [chartOpen, setChartOpen] = useState(false)
@@ -1027,6 +1179,10 @@ export function ProductList() {
         if ((v === "günstig" || v === "normal" || v === "teuer") && p.current_month_season !== v) return false
       }
 
+      if (cf.category?.type === "select" && cf.category.value !== "all") {
+        if (p.category !== cf.category.value) return false
+      }
+
       return true
     })
   }, [allProducts, columnFilters])
@@ -1081,6 +1237,70 @@ export function ProductList() {
     const timer = setTimeout(fetchProducts, 200)
     return () => clearTimeout(timer)
   }, [fetchProducts])
+
+  // Fetch categories once on mount
+  useEffect(() => {
+    fetch("/api/produkte/categories")
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => { if (json?.categories) setCategories(json.categories) })
+      .catch(() => {})
+  }, [])
+
+  const handleCategoryChange = async (rawName: string, category: string) => {
+    // Optimistic update
+    setData((prev) => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        products: prev.products.map((p) =>
+          p.raw_name === rawName ? { ...p, category, category_source: "manual" } : p
+        ),
+      }
+    })
+    try {
+      const res = await fetch(
+        `/api/produkte/${encodeURIComponent(rawName)}/category`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ category }),
+        }
+      )
+      if (!res.ok) throw new Error("Speichern fehlgeschlagen")
+    } catch {
+      setError("Kategorie konnte nicht gespeichert werden")
+      await fetchProducts()
+    }
+  }
+
+  const handleRecategorize = async () => {
+    setRecategorizing(true)
+    try {
+      const res = await fetch("/api/produkte/recategorize", { method: "POST" })
+      if (!res.ok) throw new Error("Rekategorisierung fehlgeschlagen")
+      await fetchProducts()
+    } catch {
+      setError("Rekategorisierung fehlgeschlagen")
+    } finally {
+      setRecategorizing(false)
+    }
+  }
+
+  const handleBackfillUnits = async () => {
+    setBackfillingUnits(true)
+    setBackfillResult(null)
+    try {
+      const res = await fetch("/api/admin/backfill-units", { method: "POST" })
+      if (!res.ok) throw new Error("Backfill fehlgeschlagen")
+      const json = await res.json()
+      setBackfillResult(`${json.normalized} von ${json.total} Artikeln normalisiert`)
+      await fetchProducts()
+    } catch {
+      setError("€/Einheit-Backfill fehlgeschlagen")
+    } finally {
+      setBackfillingUnits(false)
+    }
+  }
 
   // Focus input when entering edit mode
   useEffect(() => {
@@ -1261,6 +1481,8 @@ export function ProductList() {
     setChartOpen(true)
   }
 
+  const hasUnitPrices = (data?.products ?? []).some((p) => p.price_per_unit_cents != null)
+
   // Gemeinsame Props für ProductRow
   const rowProps = {
     editingName,
@@ -1269,6 +1491,8 @@ export function ProductList() {
     editInputRef,
     togglingNames,
     togglingSeasonalNames,
+    categories,
+    hasUnitPrices,
     onStartEdit: startEdit,
     onCancelEdit: cancelEdit,
     onSaveAlias: saveAlias,
@@ -1278,6 +1502,7 @@ export function ProductList() {
     onToggleExclude: toggleExclude,
     onToggleSeasonal: toggleSeasonal,
     onOpenChart: openChart,
+    onCategoryChange: handleCategoryChange,
   }
 
   // ── Loading state ─────────────────────────────────────────────────────────
@@ -1379,6 +1604,7 @@ export function ProductList() {
           <TabsTrigger value="ausgeblendet">
             Ausgeblendet ({excludedCount})
           </TabsTrigger>
+          <TabsTrigger value="ungemappt">Ungemappte Artikel</TabsTrigger>
         </TabsList>
 
         {/* ── Tab 1: Aktive Produkte ─────────────────────────────────────── */}
@@ -1406,6 +1632,33 @@ export function ProductList() {
                   {activeFilterCount} Filter zurücksetzen
                 </Button>
               )}
+              <div className="flex items-center gap-2 ml-auto">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleBackfillUnits}
+                  disabled={backfillingUnits}
+                  className="flex items-center gap-2"
+                  title="€/Einheit für alle bestehenden Artikel berechnen (Backfill)"
+                >
+                  <RefreshCw className={`h-4 w-4 ${backfillingUnits ? "animate-spin" : ""}`} />
+                  €/Einheit berechnen
+                </Button>
+                {backfillResult && (
+                  <span className="text-xs text-gray-500">{backfillResult}</span>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRecategorize}
+                  disabled={recategorizing}
+                  className="flex items-center gap-2"
+                  title="Alle automatisch kategorisierten Produkte neu kategorisieren (manuelle Overrides bleiben erhalten)"
+                >
+                  <RefreshCw className={`h-4 w-4 ${recategorizing ? "animate-spin" : ""}`} />
+                  Alle neu kategorisieren
+                </Button>
+              </div>
             </div>
 
             {/* Suche ohne Treffer */}
@@ -1433,7 +1686,7 @@ export function ProductList() {
             {activeProducts.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white">
                 <Table className="w-full min-w-max">
-                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
+                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} categories={categories} hasUnitPrices={hasUnitPrices} />
                   <TableBody>
                     {activeProducts.map((product) => (
                       <ProductRow key={product.raw_name} product={product} {...rowProps} />
@@ -1486,7 +1739,7 @@ export function ProductList() {
             {filteredExcluded.length > 0 && (
               <div className="rounded-lg border border-gray-100 bg-white">
                 <Table className="w-full min-w-max">
-                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} />
+                  <ProductTableHeader sort={sort} sortDir={sortDir} onSort={handleSort} columnFilters={columnFilters} onFilterChange={setFilter} categories={categories} hasUnitPrices={hasUnitPrices} />
                   <TableBody>
                     {filteredExcluded.map((product) => (
                       <ProductRow key={product.raw_name} product={product} {...rowProps} />
@@ -1496,6 +1749,11 @@ export function ProductList() {
               </div>
             )}
           </div>
+        </TabsContent>
+
+        {/* ── Tab 3: Ungemappte Artikel ──────────────────────────────── */}
+        <TabsContent value="ungemappt">
+          <UnmappedAliasWorklist />
         </TabsContent>
       </Tabs>
 

@@ -1,11 +1,5 @@
-import { StatistikDashboard } from "@/components/statistik-dashboard"
-import { StatistikenHeader } from "@/components/statistiken-header"
+import { redirect } from "next/navigation"
 
 export default function StatistikenPage() {
-  return (
-    <div>
-      <StatistikenHeader />
-      <StatistikDashboard />
-    </div>
-  )
+  redirect("/analyse?tab=statistiken")
 }

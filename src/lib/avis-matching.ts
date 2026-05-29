@@ -72,6 +72,29 @@ export function computeMatchScore(
   return Math.max(lev, tok * 0.9) * 100
 }
 
+export function suggestAlias(
+  rawName: string,
+  existingAliases: Array<{ raw_name: string; alias: string }>
+): { suggestion: string | null; confidence: number } {
+  if (existingAliases.length === 0) return { suggestion: null, confidence: 0 }
+
+  let bestScore = 0
+  let bestAlias: string | null = null
+
+  for (const existing of existingAliases) {
+    const score = computeMatchScore(existing.raw_name, rawName)
+    if (score > bestScore) {
+      bestScore = score
+      bestAlias = existing.alias
+    }
+  }
+
+  return {
+    suggestion: bestScore > 0 ? bestAlias : null,
+    confidence: Math.round(bestScore),
+  }
+}
+
 export function calculateMatchConfidence(
   avisItem: { qty: number; unitPrice: number; name: string },
   ebonItem: { qty: number; unitPrice: number; rawName: string; date: string },

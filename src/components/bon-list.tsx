@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import {
   Table,
   TableBody,
@@ -52,6 +52,10 @@ interface BonsResponse {
 
 export function BonList() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const fromParam = searchParams.get("from")
+  const toParam = searchParams.get("to")
+
   const [data, setData] = useState<BonsResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -64,7 +68,11 @@ export function BonList() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/bons")
+      const params = new URLSearchParams()
+      if (fromParam) params.set("from", fromParam)
+      if (toParam) params.set("to", toParam)
+      const query = params.toString()
+      const res = await fetch(`/api/bons${query ? `?${query}` : ""}`)
       if (!res.ok) throw new Error("Fehler beim Laden der Bons")
       const json = await res.json()
       setData(json)
@@ -73,7 +81,7 @@ export function BonList() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [fromParam, toParam])
 
   useEffect(() => {
     fetchBons()
@@ -110,10 +118,12 @@ export function BonList() {
 
   useEffect(() => {
     if (!didInitYears.current && groups.length > 0) {
-      setExpandedYears(new Set([groups[0].year]))
+      const targetYear = fromParam ? fromParam.substring(0, 4) : groups[0].year
+      const yearToExpand = groups.find((g) => g.year === targetYear)?.year ?? groups[0].year
+      setExpandedYears(new Set([yearToExpand]))
       didInitYears.current = true
     }
-  }, [groups])
+  }, [groups, fromParam])
 
   const toggleYear = useCallback((year: string) => {
     setExpandedYears((prev) => {
@@ -169,8 +179,32 @@ export function BonList() {
     )
   }
 
+  const filterLabel = fromParam
+    ? (() => {
+        const [y, m] = fromParam.split("-")
+        const months = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+        return `${months[parseInt(m, 10) - 1]} ${y}`
+      })()
+    : null
+
   return (
     <div className="space-y-4">
+      {/* Date filter banner */}
+      {filterLabel && (
+        <div className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 px-4 py-2.5">
+          <span className="text-sm text-blue-700">
+            Gefiltert: <span className="font-medium">{filterLabel}</span>
+          </span>
+          <button
+            onClick={() => router.push("/")}
+            className="text-blue-500 hover:text-blue-700 transition-colors"
+            title="Filter entfernen"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* Summary Header */}
       <div className="flex items-center gap-6 rounded-lg border border-gray-100 bg-white px-5 py-4">
         <div className="flex items-center gap-2">

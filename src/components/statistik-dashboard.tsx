@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, type ReactNode } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import { BarChart3, TrendingUp, TrendingDown, Upload, Minus, EyeOff } from "lucide-react"
+import { BarChart3, TrendingUp, TrendingDown, Upload, Minus, EyeOff, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import {
   BarChart,
   Bar,
@@ -79,6 +80,19 @@ interface MwstData {
     anteil_prozent: number
   }[]
   gesamt_cents: number
+}
+
+interface KategorienInflationItem {
+  category: string
+  inflation_pct: number | null
+  product_count: number
+  avg_current_price_cents: number | null
+  avg_prev_price_cents: number | null
+}
+
+interface KategorienInflationData {
+  items: KategorienInflationItem[]
+  include_excluded: boolean
 }
 
 interface EinkaufsverbgleichResponse {
@@ -164,6 +178,7 @@ function MonatTooltip({ active, payload }: { active?: boolean; payload?: Array<{
     <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-md text-sm">
       <p className="font-medium">{formatMonat(d.monat)}</p>
       <p>Ausgaben: <span className="font-semibold">{formatEuro(d.ausgaben_cents)} &euro;</span></p>
+      <p className="text-xs text-blue-500 mt-1">Alle Bons vom Monat anzeigen</p>
     </div>
   )
 }
@@ -204,6 +219,7 @@ function LangzeitstrendTooltip({ active, payload }: { active?: boolean; payload?
 // ── Dashboard ──────────────────────────────────────────────────────────────
 
 export function StatistikDashboard() {
+  const router = useRouter()
   const [zeitraum, setZeitraum] = useState<Zeitraum>("alle")
   const [monatlich, setMonatlich] = useState<MonatlichData | null>(null)
   const [monatlichAlle, setMonatlichAlle] = useState<MonatlichAlleData | null>(null)
@@ -213,6 +229,9 @@ export function StatistikDashboard() {
   const [mwst, setMwst] = useState<MwstData | null>(null)
   const [einkaufsverbgleichVorjahr, setEinkaufsverbgleichVorjahr] = useState<EinkaufsverbgleichResponse | null>(null)
   const [einkaufsverbgleichVoreinkauf, setEinkaufsverbgleichVoreinkauf] = useState<EinkaufsverbgleichResponse | null>(null)
+  const [kategorienInflation, setKategorienInflation] = useState<KategorienInflationData | null>(null)
+  const [kategorienLoading, setKategorienLoading] = useState(true)
+  const [includeExcluded, setIncludeExcluded] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isEmpty, setIsEmpty] = useState(false)
   const [excludedCount, setExcludedCount] = useState(0)
@@ -291,6 +310,26 @@ export function StatistikDashboard() {
       fetchTopProdukte()
     }
   }, [fetchTopProdukte])
+
+  const fetchKategorienInflation = useCallback(async () => {
+    setKategorienLoading(true)
+    try {
+      const url = includeExcluded
+        ? "/api/statistiken/kategorien-inflation?include_excluded=true"
+        : "/api/statistiken/kategorien-inflation"
+      const res = await fetch(url)
+      const json: KategorienInflationData = await res.json()
+      setKategorienInflation(json)
+    } catch {
+      // silently fail
+    } finally {
+      setKategorienLoading(false)
+    }
+  }, [includeExcluded])
+
+  useEffect(() => {
+    fetchKategorienInflation()
+  }, [fetchKategorienInflation])
 
   // ── Empty state ────────────────────────────────────────────────────────
   if (!loading && isEmpty) {
@@ -408,12 +447,70 @@ export function StatistikDashboard() {
                       <XAxis dataKey="label" tick={{ fontSize: 11 }} tickLine={false} />
                       <YAxis tick={{ fontSize: 11 }} tickLine={false} tickFormatter={(v: number) => `${v.toFixed(0)} €`} width={60} />
                       <RechartsTooltip content={<MonatTooltip />} />
-                      <Bar dataKey="euro" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="euro"
+                        fill="#3b82f6"
+                        radius={[4, 4, 0, 0]}
+                        cursor="pointer"
+                        onClick={(data: unknown) => {
+                          const d = data as { monat: string }
+                          if (d?.monat) router.push(`/?from=${d.monat}-01&to=${d.monat}-31`)
+                        }}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               ) : (
                 <p className="text-sm text-gray-400 text-center py-10">Keine Daten vorhanden</p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* ── Karte 1b: Inflation nach Kategorie ──────────────────────── */}
+          <Card className="md:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-base font-medium">Inflation nach Kategorie</CardTitle>
+              <label className="flex items-center gap-2 text-xs text-gray-500 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={includeExcluded}
+                  onChange={(e) => setIncludeExcluded(e.target.checked)}
+                  className="h-3.5 w-3.5 accent-gray-600"
+                />
+                Ausgeschlossene Kategorien einblenden
+              </label>
+            </CardHeader>
+            <CardContent>
+              {kategorienLoading ? (
+                <div className="space-y-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <Skeleton key={i} className="h-8 w-full" />
+                  ))}
+                </div>
+              ) : !kategorienInflation || kategorienInflation.items.length === 0 ? (
+                <div className="text-center py-8 space-y-2">
+                  <p className="text-sm text-gray-400">
+                    Keine Kategoriedaten — importiere Bons und weise Kategorien zu (PROJ-45)
+                  </p>
+                  {!includeExcluded && (
+                    <p className="text-xs text-gray-400">
+                      Oder{" "}
+                      <button
+                        className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
+                        onClick={() => setIncludeExcluded(true)}
+                      >
+                        ausgeschlossene Kategorien einblenden
+                      </button>
+                      , falls Daten durch den Filter verborgen sind.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {kategorienInflation.items.map((item) => (
+                    <KategorienInflationZeile key={item.category} item={item} />
+                  ))}
+                </div>
               )}
             </CardContent>
           </Card>
@@ -832,5 +929,51 @@ function InflationsListe({
         </button>
       ))}
     </div>
+  )
+}
+
+// ── Sub-Component: Kategorien-Inflation Zeile ─────────────────────────────
+
+function KategorienInflationZeile({ item }: { item: KategorienInflationItem }) {
+  const encodedCategory = encodeURIComponent(item.category)
+
+  const isNoData = item.inflation_pct === null
+  const isNeutral = item.inflation_pct === 0
+  const isPositive = item.inflation_pct !== null && item.inflation_pct > 0
+
+  const badgeClass = isNoData
+    ? "bg-gray-100 text-gray-500"
+    : isNeutral
+      ? "bg-gray-100 text-gray-600"
+      : isPositive
+        ? "bg-red-50 text-red-600"
+        : "bg-green-50 text-green-600"
+
+  const badgeLabel = isNoData
+    ? "(keine Vergleichsdaten)"
+    : isNeutral
+      ? "±0%"
+      : isPositive
+        ? `+${item.inflation_pct}%`
+        : `${item.inflation_pct}%`
+
+  return (
+    <Link
+      href={`/produkte?category=${encodedCategory}`}
+      className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-gray-50 transition-colors group"
+    >
+      <div className="flex-1 min-w-0">
+        <span className="text-sm font-medium text-gray-900">{item.category}</span>
+        <span className="ml-2 text-xs text-gray-400 tabular-nums">
+          {item.product_count} Produkt{item.product_count !== 1 ? "e" : ""}
+        </span>
+      </div>
+      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums shrink-0 ${badgeClass}`}>
+        {isPositive && <TrendingUp className="h-3 w-3 mr-1 shrink-0" />}
+        {!isNoData && !isNeutral && !isPositive && <TrendingDown className="h-3 w-3 mr-1 shrink-0" />}
+        {badgeLabel}
+      </span>
+      <ChevronRight className="h-3.5 w-3.5 text-gray-300 shrink-0 group-hover:text-gray-400 transition-colors" />
+    </Link>
   )
 }

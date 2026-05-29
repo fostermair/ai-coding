@@ -65,14 +65,16 @@
 
 | PROJ-45 | Auto-Kategorisierung von Produkten | Approved | [PROJ-45-auto-kategorisierung/spec.md](PROJ-45-auto-kategorisierung/spec.md) | 2026-05-29 |
 | PROJ-46 | Smarter Alias-Vorschlag beim Import | Approved | [PROJ-46-smarter-alias-vorschlag/spec.md](PROJ-46-smarter-alias-vorschlag/spec.md) | 2026-05-29 |
-| PROJ-47 | Bulk-Alias-Pflege-Worklist | In Progress | [PROJ-47-bulk-alias-worklist/spec.md](PROJ-47-bulk-alias-worklist/spec.md) | 2026-05-29 |
+| PROJ-47 | Bulk-Alias-Pflege-Worklist | Approved | [PROJ-47-bulk-alias-worklist/spec.md](PROJ-47-bulk-alias-worklist/spec.md) | 2026-05-29 |
 
-| PROJ-38 | Kategorien-Inflation | Architected | [PROJ-38-kategorien-inflation/spec.md](PROJ-38-kategorien-inflation/spec.md) | 2026-05-29 |
-| PROJ-39 | Preis-pro-Einheit-Normalisierung | In Progress | [PROJ-39-preis-pro-einheit/spec.md](PROJ-39-preis-pro-einheit/spec.md) | 2026-05-29 |
-| PROJ-49 | Statistik-Drill-Down | Architected | [PROJ-49-statistik-drill-down/spec.md](PROJ-49-statistik-drill-down/spec.md) | 2026-05-29 |
+| PROJ-38 | Kategorien-Inflation | Approved | [PROJ-38-kategorien-inflation/spec.md](PROJ-38-kategorien-inflation/spec.md) | 2026-05-29 |
+| PROJ-39 | Preis-pro-Einheit-Normalisierung | Approved | [PROJ-39-preis-pro-einheit/spec.md](PROJ-39-preis-pro-einheit/spec.md) | 2026-05-29 |
+| PROJ-49 | Statistik-Drill-Down | In Progress | [PROJ-49-statistik-drill-down/spec.md](PROJ-49-statistik-drill-down/spec.md) | 2026-05-29 |
+| PROJ-48 | Navigations-Konsolidierung | In Progress | [PROJ-48-navigations-konsolidierung/spec.md](PROJ-48-navigations-konsolidierung/spec.md) | 2026-05-29 |
+| PROJ-50 | Einheitliche PDF-Viewer-Komponente | Architected | [PROJ-50-pdf-viewer-komponente/spec.md](PROJ-50-pdf-viewer-komponente/spec.md) | 2026-05-29 |
 
 ## Next Available ID: PROJ-40
 
-> **Hinweis:** PROJ-40 bis PROJ-44, PROJ-48, PROJ-50, PROJ-51 sind für weitere ROADMAP-Features
+> **Hinweis:** PROJ-40 bis PROJ-44, PROJ-51 sind für weitere ROADMAP-Features
 > (siehe `docs/ROADMAP.md`) reserviert und werden vergeben, sobald diese
 > Features spezifiziert werden.

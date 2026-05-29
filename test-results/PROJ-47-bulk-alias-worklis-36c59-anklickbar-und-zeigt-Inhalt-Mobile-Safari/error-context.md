@@ -1,0 +1,46 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "eBon Analyzer" [ref=e5]:
+        - /url: /
+        - img [ref=e6]
+        - text: eBon Analyzer
+      - generic [ref=e9]:
+        - link "Bons" [ref=e10]:
+          - /url: /
+        - link "Import" [ref=e11]:
+          - /url: /import
+        - link "Produkte" [ref=e12]:
+          - /url: /produkte
+        - link "Statistiken" [ref=e13]:
+          - /url: /statistiken
+        - link "Transaktionen" [ref=e14]:
+          - /url: /transaktionen
+      - button "Konfiguration" [ref=e16] [cursor=pointer]:
+        - img
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - heading "Produktdatenbank" [level=1] [ref=e20]
+        - paragraph [ref=e21]: Alle Produkte aus deinen Bons · Alias-Verwaltung
+      - generic [ref=e22]:
+        - img [ref=e24]
+        - heading "Noch keine Produkte" [level=2] [ref=e28]
+        - paragraph [ref=e29]: Importiere zuerst eBons, um die Produktdatenbank aufzubauen.
+        - link "eBons importieren" [ref=e30]:
+          - /url: /import
+          - img
+          - text: eBons importieren
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e36] [cursor=pointer]:
+    - generic [ref=e39]:
+      - text: Compiling
+      - generic [ref=e40]:
+        - generic [ref=e41]: .
+        - generic [ref=e42]: .
+        - generic [ref=e43]: .
+  - alert [ref=e44]
+```

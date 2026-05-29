@@ -71,7 +71,7 @@
 | PROJ-39 | Preis-pro-Einheit-Normalisierung | Approved | [PROJ-39-preis-pro-einheit/spec.md](PROJ-39-preis-pro-einheit/spec.md) | 2026-05-29 |
 | PROJ-49 | Statistik-Drill-Down | In Progress | [PROJ-49-statistik-drill-down/spec.md](PROJ-49-statistik-drill-down/spec.md) | 2026-05-29 |
 | PROJ-48 | Navigations-Konsolidierung | Approved | [PROJ-48-navigations-konsolidierung/spec.md](PROJ-48-navigations-konsolidierung/spec.md) | 2026-05-29 |
-| PROJ-50 | Einheitliche PDF-Viewer-Komponente | Architected | [PROJ-50-pdf-viewer-komponente/spec.md](PROJ-50-pdf-viewer-komponente/spec.md) | 2026-05-29 |
+| PROJ-50 | Einheitliche PDF-Viewer-Komponente | Approved | [PROJ-50-pdf-viewer-komponente/spec.md](PROJ-50-pdf-viewer-komponente/spec.md) | 2026-05-29 |
 
 ## Next Available ID: PROJ-40
 

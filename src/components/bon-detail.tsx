@@ -36,6 +36,7 @@ import { ChainBadge, PaymentBadge } from "@/components/chain-badge"
 import { detectChain } from "@/lib/chain"
 import { Edit } from "lucide-react"
 import { MarketAliasDialog } from "@/components/market-alias-dialog"
+import { PdfViewer } from "@/components/pdf-viewer"
 
 interface Discount {
   id: number
@@ -75,6 +76,7 @@ interface BestellungItem {
   quantity_unit: string
   unit_price_cents: number
   total_price_cents: number
+  matched_receipt_item_id?: number | null
 }
 
 interface BonDetail {
@@ -430,27 +432,21 @@ export function BonDetailView({ bonId }: { bonId: string }) {
 
         <TabsContent value="ebon" className="mt-4 flex-1 flex">
           {bon.paperless_doc_id && (
-            <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 450px)", minHeight: "300px" }}>
-              <iframe
-                key={`ebon-${bonId}`}
-                src={`/api/bons/${bonId}/pdf`}
-                className="w-full h-full border-0"
-                title="eBon PDF"
-              />
-            </div>
+            <PdfViewer
+              src={`/api/bons/${bonId}/pdf`}
+              toolbar={false}
+              className="w-full h-[calc(100vh-450px)] min-h-[300px]"
+            />
           )}
         </TabsContent>
 
         <TabsContent value="avis" className="mt-4 flex-1 flex">
           {bon.has_avis && (
-            <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 450px)", minHeight: "300px" }}>
-              <iframe
-                key={`avis-${bonId}`}
-                src={`/api/bons/${bonId}/avis-pdf`}
-                className="w-full h-full border-0"
-                title="AVIS PDF"
-              />
-            </div>
+            <PdfViewer
+              src={`/api/bons/${bonId}/avis-pdf`}
+              toolbar={false}
+              className="w-full h-[calc(100vh-450px)] min-h-[300px]"
+            />
           )}
         </TabsContent>
 
@@ -458,14 +454,11 @@ export function BonDetailView({ bonId }: { bonId: string }) {
           {bon.has_bestellung && bon.bestellung_items && bon.bestellung_items.length > 0 && (
             <div className="space-y-6 w-full">
               {/* Bestellung PDF */}
-              <div className="w-full rounded-lg bg-gray-50 overflow-hidden" style={{ height: "calc(100vh - 450px)", minHeight: "300px" }}>
-                <iframe
-                  key={`bestellung-${bonId}`}
-                  src={`/api/bons/${bonId}/bestellung-pdf`}
-                  className="w-full h-full border-0"
-                  title="Bestellbestätigung PDF"
-                />
-              </div>
+              <PdfViewer
+                src={`/api/bons/${bonId}/bestellung-pdf`}
+                toolbar={false}
+                className="w-full h-[calc(100vh-450px)] min-h-[300px]"
+              />
 
               {/* Bestellung items table */}
               <div className="rounded-lg border border-gray-100 bg-white overflow-hidden">

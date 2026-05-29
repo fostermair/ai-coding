@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronUp, ChevronDown, ChevronsUpDown, RefreshCw, Loader2 } from "lucide-react"
+import { PdfViewer } from "@/components/pdf-viewer"
 
 type HistoryType = "ebon" | "avis" | "bestellung" | "kontoauszug"
 
@@ -260,40 +261,15 @@ function ReimportButton({
 }
 
 function InlinePdf({ type, id }: { type: HistoryType; id: number }) {
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
-  const [blobUrl, setBlobUrl] = useState<string | null>(null)
-
-  useEffect(() => {
-    let objectUrl: string | null = null
-    setStatus("loading")
-    setBlobUrl(null)
-    fetch(`/api/import/pdf?type=${type}&id=${id}`)
-      .then(async (res) => {
-        if (!res.ok) { setStatus("error"); return }
-        const blob = await res.blob()
-        objectUrl = URL.createObjectURL(blob)
-        setBlobUrl(objectUrl)
-        setStatus("ready")
-      })
-      .catch(() => setStatus("error"))
-    return () => { if (objectUrl) URL.revokeObjectURL(objectUrl) }
-  }, [type, id])
-
-  if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center h-20 text-sm text-gray-400 py-4">
-        PDF wird geladen…
-      </div>
-    )
-  }
-  if (status === "error") {
-    return (
-      <div className="flex items-center justify-center h-20 text-sm text-gray-400 py-4">
-        Kein PDF verfügbar
-      </div>
-    )
-  }
-  return <iframe src={blobUrl!} className="w-full border-0" style={{ height: 600 }} />
+  return (
+    <div className="w-full" style={{ height: 600 }}>
+      <PdfViewer
+        src={`/api/import/pdf?type=${type}&id=${id}`}
+        toolbar={false}
+        className="w-full"
+      />
+    </div>
+  )
 }
 
 export function ImportHistoryTable({ type }: { type: HistoryType }) {

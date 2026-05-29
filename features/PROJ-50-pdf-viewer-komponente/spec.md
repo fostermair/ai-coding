@@ -1,8 +1,9 @@
 # PROJ-50: Einheitliche PDF-Viewer-Komponente
 
-## Status: Architected
+## Status: Approved
 **Created:** 2026-05-29
 **Last Updated:** 2026-05-29
+**QA Completed:** 2026-05-29
 **Feature Folder:** `features/PROJ-50-pdf-viewer-komponente/`
 
 ## Dependencies

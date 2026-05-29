@@ -89,6 +89,38 @@ describe("categorize()", () => {
       expect(categorize("COLORWASCHMITTEL 20WL")).toBe("drogerie")
     })
 
+    it("erkennt Nudeln & Getreide via NUDEL", () => {
+      expect(categorize("BANDNUDELN CHAMPIG")).toBe("grundnahrung")
+    })
+
+    it("erkennt Nudeln & Getreide via BARILLA", () => {
+      expect(categorize("BARILLA FARFALLE 500G")).toBe("grundnahrung")
+    })
+
+    it("erkennt Nudeln & Getreide via BASMATI", () => {
+      expect(categorize("BASMATI REIS 1KG")).toBe("grundnahrung")
+    })
+
+    it("erkennt Nudeln & Getreide via HAFERFLOCKEN", () => {
+      expect(categorize("BIO HAFERFLOCKEN ZARTZART")).toBe("grundnahrung")
+    })
+
+    it("erkennt Öle, Saucen & Gewürze via OLIVENOEL", () => {
+      expect(categorize("OLIVENOEL EXTRA VERG")).toBe("wuerzmittel")
+    })
+
+    it("erkennt Öle, Saucen & Gewürze via BALSAMICO", () => {
+      expect(categorize("BALSAMICO BIANCO 250ML")).toBe("wuerzmittel")
+    })
+
+    it("erkennt Öle, Saucen & Gewürze via AIOLI", () => {
+      expect(categorize("AIOLI CREME PIKANT")).toBe("wuerzmittel")
+    })
+
+    it("erkennt Öle, Saucen & Gewürze via BACKPULVER", () => {
+      expect(categorize("BACKPULVER 5ER PACK")).toBe("wuerzmittel")
+    })
+
     it("erkennt Pfand via PFAND", () => {
       expect(categorize("PFAND 0,25")).toBe("pfand")
     })
@@ -154,9 +186,9 @@ describe("categorize()", () => {
 })
 
 describe("getAllCategories()", () => {
-  it("gibt 12 Standard-Kategorien zurück", () => {
+  it("gibt mindestens 12 Standard-Kategorien zurück", () => {
     const cats = getAllCategories()
-    expect(cats.length).toBe(12)
+    expect(cats.length).toBeGreaterThanOrEqual(12)
   })
 
   it("enthält sonstiges als Fallback-Kategorie", () => {

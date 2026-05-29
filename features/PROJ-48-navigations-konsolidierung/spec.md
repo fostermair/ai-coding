@@ -1,6 +1,6 @@
 # PROJ-48: Navigations-Konsolidierung
 
-## Status: In Progress
+## Status: Approved
 **Created:** 2026-05-29
 **Last Updated:** 2026-05-29
 **Feature Folder:** `features/PROJ-48-navigations-konsolidierung/`

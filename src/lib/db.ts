@@ -477,6 +477,30 @@ function initSchema(db: Database.Database): void {
     db.exec("ALTER TABLE receipt_items ADD COLUMN price_per_unit_cents INTEGER")
   }
 
+  // PROJ-41: substitution_dismissals table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS substitution_dismissals (
+      product_a_alias TEXT NOT NULL,
+      product_b_alias TEXT NOT NULL,
+      dismissed_at    TEXT NOT NULL DEFAULT (datetime('now')),
+      PRIMARY KEY (product_a_alias, product_b_alias)
+    );
+  `)
+
+  // PROJ-44: inflation_reference_values table with Destatis seed data
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS inflation_reference_values (
+      year                  INTEGER PRIMARY KEY,
+      official_rate_percent REAL
+    );
+  `)
+  const seedInflationInsert = db.prepare(
+    `INSERT OR IGNORE INTO inflation_reference_values (year, official_rate_percent) VALUES (?, ?)`
+  )
+  for (const [year, rate] of [[2022, 12.4], [2023, 6.4], [2024, 2.0], [2025, null]] as [number, number | null][]) {
+    seedInflationInsert.run(year, rate)
+  }
+
   // PROJ-37: hellofresh_transactions table
   db.exec(`
     CREATE TABLE IF NOT EXISTS hellofresh_transactions (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle2, Download, Loader2, Trash2, Upload } from "lucide-react"
+import { AlertCircle, CheckCircle2, Download, Loader2, Trash2, Upload, Pencil, Check, X } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 
 interface ConfigDialogProps {
@@ -47,12 +48,56 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const pendingFileRef = useRef<File | null>(null)
 
+  const [referenzwerte, setReferenzwerte] = useState<{ year: number; official_rate_percent: number | null }[]>([])
+  const [editingYear, setEditingYear] = useState<number | null>(null)
+  const [editingValue, setEditingValue] = useState<string>("")
+  const [refLoading, setRefLoading] = useState(false)
+
   useEffect(() => {
     const stored = localStorage.getItem("lastBackupTimestamp")
     if (stored) {
       setLastBackupTime(stored)
     }
   }, [open])
+
+  const fetchReferenzwerte = useCallback(async () => {
+    try {
+      const res = await fetch("/api/statistiken/inflations-index/referenzwerte")
+      const data = await res.json()
+      setReferenzwerte(data.rows ?? [])
+    } catch {
+      // silently fail
+    }
+  }, [])
+
+  useEffect(() => {
+    if (open) fetchReferenzwerte()
+  }, [open, fetchReferenzwerte])
+
+  const handleSaveReferenzwert = async (year: number) => {
+    setRefLoading(true)
+    const parsed = editingValue.trim() === "" ? null : parseFloat(editingValue.replace(",", "."))
+    if (editingValue.trim() !== "" && (isNaN(parsed!) || parsed! < -100 || parsed! > 200)) {
+      toast.error("Ungültiger Wert — bitte eine Zahl zwischen -100 und 200 eingeben.")
+      setRefLoading(false)
+      return
+    }
+    try {
+      const res = await fetch("/api/statistiken/inflations-index/referenzwerte", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ year, official_rate_percent: parsed }),
+      })
+      if (!res.ok) throw new Error("Fehler")
+      await fetchReferenzwerte()
+      setEditingYear(null)
+      toast.success(`Referenzwert für ${year} gespeichert.`)
+    } catch {
+      toast.error("Fehler beim Speichern des Referenzwerts.")
+    } finally {
+      setRefLoading(false)
+    }
+  }
 
   const handleDeleteAvis = async () => {
     setAvisLoading(true)
@@ -492,6 +537,94 @@ export function ConfigDialog({ open, onOpenChange }: ConfigDialogProps) {
                 {restoreLoading ? "Wird wiederhergestellt..." : "Backup laden"}
               </label>
             </div>
+          </div>
+
+          <Separator />
+
+          {/* Lebensmittel-VPI Referenzwerte */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">Lebensmittel-VPI Referenzwerte</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Offizielle Destatis-Inflationswerte für den Persönlichen Inflations-Index. Standardwerte sind vorausgefüllt.
+              </p>
+            </div>
+            {referenzwerte.length === 0 ? (
+              <p className="text-xs text-gray-400">Keine Daten geladen.</p>
+            ) : (
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Jahr</th>
+                      <th className="text-right px-3 py-2 text-xs font-medium text-gray-500">Offiziell (%)</th>
+                      <th className="px-2 py-2" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {referenzwerte.map((row) => (
+                      <tr key={row.year} className="border-t border-gray-100">
+                        <td className="px-3 py-2 font-medium text-gray-800">{row.year}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">
+                          {editingYear === row.year ? (
+                            <Input
+                              className="h-7 w-24 text-xs text-right ml-auto"
+                              value={editingValue}
+                              placeholder="z.B. 2.0"
+                              onChange={(e) => setEditingValue(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleSaveReferenzwert(row.year)
+                                if (e.key === "Escape") setEditingYear(null)
+                              }}
+                              autoFocus
+                            />
+                          ) : (
+                            <span className="text-gray-700">
+                              {row.official_rate_percent !== null
+                                ? `${row.official_rate_percent.toFixed(1)} %`
+                                : <span className="text-gray-400 italic">nicht gesetzt</span>}
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-2 py-2 text-right">
+                          {editingYear === row.year ? (
+                            <div className="flex items-center gap-1 justify-end">
+                              <button
+                                onClick={() => handleSaveReferenzwert(row.year)}
+                                disabled={refLoading}
+                                className="p-1 rounded text-green-600 hover:bg-green-50"
+                                title="Speichern"
+                              >
+                                <Check className="h-3.5 w-3.5" />
+                              </button>
+                              <button
+                                onClick={() => setEditingYear(null)}
+                                className="p-1 rounded text-gray-400 hover:bg-gray-50"
+                                title="Abbrechen"
+                              >
+                                <X className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setEditingYear(row.year)
+                                setEditingValue(row.official_rate_percent !== null ? String(row.official_rate_percent) : "")
+                              }}
+                              className="p-1 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                              title="Bearbeiten"
+                            >
+                              <Pencil className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            <p className="text-xs text-gray-400">Quelle: Destatis. Standardwerte vorausgefüllt.</p>
           </div>
 
           {/* Note about future features */}

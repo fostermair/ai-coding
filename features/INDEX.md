@@ -69,15 +69,14 @@
 
 | PROJ-38 | Kategorien-Inflation | Approved | [PROJ-38-kategorien-inflation/spec.md](PROJ-38-kategorien-inflation/spec.md) | 2026-05-29 |
 | PROJ-39 | Preis-pro-Einheit-Normalisierung | Approved | [PROJ-39-preis-pro-einheit/spec.md](PROJ-39-preis-pro-einheit/spec.md) | 2026-05-29 |
-| PROJ-49 | Statistik-Drill-Down | In Progress | [PROJ-49-statistik-drill-down/spec.md](PROJ-49-statistik-drill-down/spec.md) | 2026-05-29 |
+| PROJ-49 | Statistik-Drill-Down | Approved | [PROJ-49-statistik-drill-down/spec.md](PROJ-49-statistik-drill-down/spec.md) | 2026-05-29 |
 | PROJ-48 | Navigations-Konsolidierung | Approved | [PROJ-48-navigations-konsolidierung/spec.md](PROJ-48-navigations-konsolidierung/spec.md) | 2026-05-29 |
 | PROJ-50 | Einheitliche PDF-Viewer-Komponente | Approved | [PROJ-50-pdf-viewer-komponente/spec.md](PROJ-50-pdf-viewer-komponente/spec.md) | 2026-05-29 |
-| PROJ-40 | Warenkorb-Heatmap (Treemap) | Architected | [PROJ-40-warenkorb-heatmap/spec.md](PROJ-40-warenkorb-heatmap/spec.md) | 2026-05-29 |
-| PROJ-42 | Spar-Alerts | Architected | [PROJ-42-spar-alerts/spec.md](PROJ-42-spar-alerts/spec.md) | 2026-05-29 |
+| PROJ-40 | Warenkorb-Heatmap (Treemap) | Approved | [PROJ-40-warenkorb-heatmap/spec.md](PROJ-40-warenkorb-heatmap/spec.md) | 2026-05-29 |
+| PROJ-42 | Spar-Alerts | Approved | [PROJ-42-spar-alerts/spec.md](PROJ-42-spar-alerts/spec.md) | 2026-05-29 |
 | PROJ-43 | Multi-Store-Preisvergleich | Approved | [PROJ-43-multi-store-preisvergleich/spec.md](PROJ-43-multi-store-preisvergleich/spec.md) | 2026-05-29 |
+| PROJ-41 | Substitutions-Erkennung | Approved | [PROJ-41-substitutions-erkennung/spec.md](PROJ-41-substitutions-erkennung/spec.md) | 2026-05-30 |
+| PROJ-44 | Personal Inflations-Index | Approved | [PROJ-44-personal-inflations-index/spec.md](PROJ-44-personal-inflations-index/spec.md) | 2026-05-30 |
+| PROJ-51 | Onboarding-Flow für Erstnutzer | Approved | [PROJ-51-onboarding-flow/spec.md](PROJ-51-onboarding-flow/spec.md) | 2026-05-30 |
 
-## Next Available ID: PROJ-51
-
-> **Hinweis:** PROJ-40 bis PROJ-44, PROJ-51 sind für weitere ROADMAP-Features
-> (siehe `docs/ROADMAP.md`) reserviert und werden vergeben, sobald diese
-> Features spezifiziert werden.
+## Next Available ID: PROJ-52

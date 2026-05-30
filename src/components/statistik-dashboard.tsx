@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import { BarChart3, TrendingUp, TrendingDown, Upload, Minus, EyeOff, ChevronRight } from "lucide-react"
+import { BarChart3, TrendingUp, TrendingDown, Upload, Minus, EyeOff, ChevronRight, Info } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
@@ -27,6 +27,8 @@ import {
 } from "recharts"
 import { formatEuro } from "@/lib/format"
 import { PriceChartSheet } from "@/components/price-chart-sheet"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -106,6 +108,18 @@ interface EinkaufsverbgleichResponse {
     produkte_gezaehlt: number
     produkte_gesamt: number
   }
+}
+
+interface InflationsIndexResponse {
+  personal_rate: number | null
+  official_rate: number | null
+  delta: number | null
+  basis_products_count: number
+  period_von: number
+  period_bis: number
+  warning: string | null
+  sparkline: { period: string; personal_rate: number | null }[]
+  available_periods: { von: number; bis: number }[]
 }
 
 type Zeitraum = "3" | "6" | "12" | "alle"
@@ -242,6 +256,13 @@ export function StatistikDashboard() {
 
   const [topSort, setTopSort] = useState<TopSort>("frequency")
 
+  const [inflationsIndex, setInflationsIndex] = useState<InflationsIndexResponse | null>(null)
+  const [inflationsIndexLoading, setInflationsIndexLoading] = useState(true)
+  const [indexVon, setIndexVon] = useState<number | null>(null)
+  const [indexBis, setIndexBis] = useState<number | null>(null)
+  const [indexKategorie, setIndexKategorie] = useState<string>("alle")
+  const [indexKategorien, setIndexKategorien] = useState<{ slug: string; label: string }[]>([])
+
   const fetchAll = useCallback(async () => {
     setLoading(true)
     const monateParam = zeitraum !== "alle" ? `monate=${zeitraum}` : ""
@@ -330,6 +351,36 @@ export function StatistikDashboard() {
   useEffect(() => {
     fetchKategorienInflation()
   }, [fetchKategorienInflation])
+
+  const fetchInflationsIndex = useCallback(async () => {
+    setInflationsIndexLoading(true)
+    try {
+      const params = new URLSearchParams()
+      if (indexVon !== null) params.set("von", String(indexVon))
+      if (indexBis !== null) params.set("bis", String(indexBis))
+      if (indexKategorie !== "alle") params.set("kategorie", indexKategorie)
+      const res = await fetch(`/api/statistiken/inflations-index?${params}`)
+      const json: InflationsIndexResponse = await res.json()
+      setInflationsIndex(json)
+    } catch {
+      // silently fail
+    } finally {
+      setInflationsIndexLoading(false)
+    }
+  }, [indexVon, indexBis, indexKategorie])
+
+  useEffect(() => {
+    fetchInflationsIndex()
+  }, [fetchInflationsIndex])
+
+  useEffect(() => {
+    fetch("/api/produkte/categories")
+      .then((r) => r.json())
+      .then((data: { categories: { slug: string; label: string }[] }) =>
+        setIndexKategorien(data.categories || [])
+      )
+      .catch(() => {})
+  }, [])
 
   // ── Empty state ────────────────────────────────────────────────────────
   if (!loading && isEmpty) {
@@ -758,7 +809,170 @@ export function StatistikDashboard() {
             </CardContent>
           </Card>
 
-          {/* ── Karte 7: Monatlicher Ausgaben-Langzeittrend ──────────── */}
+          {/* ── Karte 7: Persönlicher Inflations-Index ───────────────── */}
+          <Card className="md:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-base font-medium">Persönlicher Inflations-Index</CardTitle>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs text-xs">
+                      Laspeyres-Index: Der Vorjahres-Warenkorb (gleiche Produktmengen) wird zu aktuellen Preisen bewertet
+                      und mit den Vorjahrespreisen verglichen. Produkte, die nur in einem Jahr vorkamen, werden
+                      ausgeschlossen.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+              <div className="flex items-center gap-2">
+                {indexKategorien.length > 0 && (
+                  <Select
+                    value={indexKategorie}
+                    onValueChange={(v) => { setIndexKategorie(v); setIndexVon(null); setIndexBis(null) }}
+                  >
+                    <SelectTrigger className="h-7 text-xs w-36">
+                      <SelectValue placeholder="Alle Kategorien" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="alle">Alle Kategorien</SelectItem>
+                      {indexKategorien.map((cat) => (
+                        <SelectItem key={cat.slug} value={cat.slug}>{cat.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+                {inflationsIndex && inflationsIndex.available_periods.length > 1 && (
+                  <Select
+                    value={`${indexVon ?? inflationsIndex.period_von}-${indexBis ?? inflationsIndex.period_bis}`}
+                    onValueChange={(v) => {
+                      const [von, bis] = v.split("-").map(Number)
+                      setIndexVon(von)
+                      setIndexBis(bis)
+                    }}
+                  >
+                    <SelectTrigger className="h-7 text-xs w-28">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {inflationsIndex.available_periods.map(({ von, bis }) => (
+                        <SelectItem key={`${von}-${bis}`} value={`${von}-${bis}`}>
+                          {von} → {bis}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent>
+              {inflationsIndexLoading ? (
+                <div className="flex items-center gap-6">
+                  <Skeleton className="h-14 w-28" />
+                  <Skeleton className="h-[80px] flex-1" />
+                </div>
+              ) : !inflationsIndex || (inflationsIndex.personal_rate === null && inflationsIndex.available_periods.length === 0) ? (
+                <p className="text-sm text-gray-400 text-center py-6">
+                  {inflationsIndex?.warning ?? "Importiere Bons aus mindestens zwei verschiedenen Jahren für diesen Vergleich."}
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex flex-wrap items-start gap-6">
+                    {/* Main metric */}
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs text-gray-500">
+                        Deine Lebensmittel-Inflation
+                        {inflationsIndex.period_von > 0 &&
+                          ` (${inflationsIndex.period_von} → ${inflationsIndex.period_bis})`}
+                      </p>
+                      <p className="text-3xl font-bold tabular-nums">
+                        {inflationsIndex.personal_rate !== null
+                          ? `${inflationsIndex.personal_rate > 0 ? "+" : ""}${inflationsIndex.personal_rate.toFixed(1)}%`
+                          : "—"}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        Basis: {inflationsIndex.basis_products_count} Produkte
+                      </p>
+                    </div>
+
+                    {/* Delta badge */}
+                    {inflationsIndex.delta !== null && inflationsIndex.official_rate !== null && (
+                      <div className="flex flex-col gap-1">
+                        <p className="text-xs text-gray-500">vs. offiziell (Destatis)</p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl font-semibold tabular-nums text-gray-700">
+                            {inflationsIndex.official_rate.toFixed(1)}%
+                          </span>
+                          <Badge
+                            className={`text-xs ${
+                              inflationsIndex.delta > 0
+                                ? "bg-red-50 text-red-700 border-red-200"
+                                : "bg-green-50 text-green-700 border-green-200"
+                            }`}
+                            variant="outline"
+                          >
+                            {inflationsIndex.delta > 0
+                              ? <TrendingUp className="h-3 w-3 mr-1" />
+                              : <TrendingDown className="h-3 w-3 mr-1" />}
+                            {inflationsIndex.delta > 0 ? "+" : ""}
+                            {inflationsIndex.delta.toFixed(1)}% gegenüber offiziell
+                          </Badge>
+                        </div>
+                      </div>
+                    )}
+                    {inflationsIndex.personal_rate !== null && inflationsIndex.official_rate === null && (
+                      <div className="flex flex-col gap-1">
+                        <p className="text-xs text-gray-500">Offizieller Wert</p>
+                        <p className="text-sm text-gray-400">Nicht konfiguriert</p>
+                      </div>
+                    )}
+
+                    {/* Sparkline */}
+                    {inflationsIndex.sparkline.length > 1 && (
+                      <div className="flex-1 min-w-[160px]">
+                        <p className="text-xs text-gray-500 mb-1">Verlauf</p>
+                        <div className="h-[60px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              data={inflationsIndex.sparkline.map((s) => ({
+                                ...s,
+                                value: s.personal_rate ?? 0,
+                              }))}
+                              margin={{ top: 2, right: 4, left: 4, bottom: 2 }}
+                            >
+                              <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} />
+                              <RechartsTooltip
+                                formatter={(v) => {
+                                  const n = v as number
+                                  return [`${n > 0 ? "+" : ""}${n.toFixed(1)}%`, "Inflation"]
+                                }}
+                                labelFormatter={(l) => String(l)}
+                              />
+                              <Bar
+                                dataKey="value"
+                                radius={[2, 2, 0, 0]}
+                                fill="#3b82f6"
+                              />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {inflationsIndex.warning && (
+                    <div className="rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800">
+                      ⚠️ {inflationsIndex.warning}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* ── Karte 8: Monatlicher Ausgaben-Langzeittrend ─────────── */}
           <Card className="md:col-span-2">
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">Monatlicher Ausgaben-Langzeittrend</CardTitle>

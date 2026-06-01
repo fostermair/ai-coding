@@ -1,6 +1,6 @@
 # PROJ-53: Ausgaben-Lebenszyklus-Status
 
-## Status: Architected
+## Status: In Progress
 ## Created: 2026-06-01
 
 ## Overview

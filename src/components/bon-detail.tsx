@@ -330,17 +330,15 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
                     <TableHead className="w-1/2">Produkt</TableHead>
-                    <TableHead className="w-1/2">Alias</TableHead>
+                    <TableHead className="w-1/2">AvisArtikel</TableHead>
+                    <TableHead className="text-center hidden sm:table-cell w-20">Quelle</TableHead>
                     {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Bestellartikel</TableHead>}
                     {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Bestellung-Menge</TableHead>}
                     <TableHead className="text-right hidden sm:table-cell">Menge</TableHead>
                     <TableHead className="text-right hidden sm:table-cell">Einzelpreis</TableHead>
-                    {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Preis/100g</TableHead>}
+                    {bon.has_bestellung && <TableHead className="text-right hidden sm:table-cell">Preis/Einheit</TableHead>}
                     <TableHead className="text-right">Gesamt</TableHead>
                     <TableHead className="text-center w-12">MwSt</TableHead>
-                    {bon.store_chain === "rewe" && (
-                      <TableHead className="text-center w-8">AVIS</TableHead>
-                    )}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -621,28 +619,51 @@ function findBestBestellungMatch(
   return null
 }
 
-function calculatePreisPer100(quantity: { amount: number; unit: string }, unitPriceCents: number): number | null {
+function calculatePreisPer100(quantity: { amount: number; unit: string }, unitPriceCents: number): { price: number; unit: string } | null {
   const { amount, unit } = quantity
   const unitLower = unit.toLowerCase().trim()
 
   if (amount <= 0) return null
 
-  // Weight units: g, kg
+  // Weight units: g, kg → normalize to per 100g
   if (unitLower === "g") {
-    return Math.round((unitPriceCents / amount) * 100)
+    return { price: Math.round((unitPriceCents / amount) * 100), unit: "100g" }
   }
   if (unitLower === "kg") {
-    // 1 kg = 1000 g, so per 100g = per 1000g / 10
-    return Math.round((unitPriceCents / (amount * 10)))
+    return { price: Math.round((unitPriceCents / (amount * 10))), unit: "100g" }
   }
 
-  // Volume units: ml, l
+  // Volume units: ml, l → normalize to per l
   if (unitLower === "ml") {
-    return Math.round((unitPriceCents / amount) * 100)
+    return { price: Math.round((unitPriceCents / amount) * 1000), unit: "l" }
   }
   if (unitLower === "l") {
-    // 1 l = 1000 ml, so per 100ml = per 1000ml / 10
-    return Math.round((unitPriceCents / (amount * 10)))
+    return { price: Math.round(unitPriceCents / amount), unit: "l" }
+  }
+
+  // Pack format: e.g. "6x0.75l", "6x330ml", "4x500g"
+  const packMatch = unitLower.match(/^(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*([a-züäöß]+)?$/)
+  if (packMatch) {
+    const packCount = parseFloat(packMatch[1].replace(",", "."))
+    const packSize = parseFloat(packMatch[2].replace(",", "."))
+    const packUnit = (packMatch[3] ?? "").toLowerCase()
+
+    if (packCount > 0 && packSize > 0) {
+      const totalAmount = packCount * packSize
+
+      if (packUnit === "l") {
+        return { price: Math.round(unitPriceCents / totalAmount), unit: "l" }
+      }
+      if (packUnit === "ml") {
+        return { price: Math.round((unitPriceCents / totalAmount) * 1000), unit: "l" }
+      }
+      if (packUnit === "g") {
+        return { price: Math.round((unitPriceCents / totalAmount) * 100), unit: "100g" }
+      }
+      if (packUnit === "kg") {
+        return { price: Math.round((unitPriceCents / (totalAmount * 1000)) * 100), unit: "100g" }
+      }
+    }
   }
 
   // No weight/volume data
@@ -650,10 +671,9 @@ function calculatePreisPer100(quantity: { amount: number; unit: string }, unitPr
 }
 
 function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, storeChain, onItemUpdate }: ItemRowsProps) {
-  // Calculate TABLE_COLUMNS: Produkt, Alias, [Bestellartikel, Bestellung-Menge if hasBestellung], Menge, Einzelpreis, Preis/100g, Gesamt, MwSt, [AVIS if rewe]
-  let TABLE_COLUMNS = 8 // Base: Produkt, Alias, Menge, Einzelpreis, Preis/100g, Gesamt, MwSt, Discounts
+  // Calculate TABLE_COLUMNS: Produkt, AvisArtikel, Quelle, [Bestellartikel, Bestellung-Menge if hasBestellung], Menge, Einzelpreis, Preis/Einheit, Gesamt, MwSt
+  let TABLE_COLUMNS = 8 // Base: Produkt, AvisArtikel, Quelle, Menge, Einzelpreis, Preis/Einheit, Gesamt, MwSt
   if (hasBestellung) TABLE_COLUMNS += 2 // Add Bestellartikel + Bestellung-Menge
-  if (storeChain === "rewe") TABLE_COLUMNS += 1 // Add AVIS
 
   const [confirming, setConfirming] = useState(false)
   const [rejecting, setRejecting] = useState(false)
@@ -803,14 +823,6 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
       <TableRow>
         <TableCell className="font-medium">
           <div className="flex items-center gap-2">
-            {/* AVIS match status indicator */}
-            {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
-              <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
-            ) : avisMatch?.status === "rejected" ? (
-              <XCircle className="h-4 w-4 text-gray-400 flex-shrink-0" />
-            ) : itemState.alias ? (
-              <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
-            ) : null}
             <span>
               {/^\d+$/.test(itemState.raw_name) ? "(unbekannt)" : itemState.raw_name}
               {!!itemState.bonus_excluded && (
@@ -839,20 +851,24 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
           )}
         </TableCell>
         <TableCell className="text-sm text-gray-500">
-          <div className="flex items-center gap-2">
-            <span>{itemState.alias ?? ""}</span>
-            {itemState.alias && (
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-5 w-5 p-0 text-gray-500 hover:text-red-600"
-                onClick={() => setDeleteAliasDialogOpen(true)}
-                title="Alias löschen"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
+          {itemState.alias ?? ""}
+        </TableCell>
+        <TableCell className="text-center hidden sm:table-cell">
+          {(avisMatch?.status === "auto_set" || (avisMatch?.status === "confirmed" && avisMatch.match_source === "avis_document")) && (
+            <Badge variant="outline" className="text-xs font-normal bg-green-50 border-green-200 text-green-700">
+              AVIS
+            </Badge>
+          )}
+          {avisMatch?.status === "confirmed" && avisMatch.match_source === "global_database" && (
+            <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
+              Global
+            </Badge>
+          )}
+          {itemState.alias && !avisMatch && (
+            <Badge variant="outline" className="text-xs font-normal bg-gray-50 border-gray-200 text-gray-500">
+              Manuell
+            </Badge>
+          )}
         </TableCell>
         {hasBestellung && (
           <>
@@ -860,7 +876,11 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
               {matchedBestellung?.article_name ?? "-"}
             </TableCell>
             <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
-              {matchedBestellung ? `${matchedBestellung.quantity_amount} ${matchedBestellung.quantity_unit}` : "-"}
+              {matchedBestellung
+                ? /^\d+x/i.test(matchedBestellung.quantity_unit)
+                  ? matchedBestellung.quantity_unit
+                  : `${matchedBestellung.quantity_amount} ${matchedBestellung.quantity_unit}`
+                : "-"}
             </TableCell>
           </>
         )}
@@ -872,7 +892,7 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
         </TableCell>
         {hasBestellung && (
           <TableCell className="text-right hidden sm:table-cell tabular-nums text-gray-500 text-sm">
-            {preisPer100 !== null ? `${formatEuro(preisPer100)} €` : "-"}
+            {preisPer100 !== null ? `${formatEuro(preisPer100.price)} €/${preisPer100.unit}` : "-"}
           </TableCell>
         )}
         <TableCell className="text-right tabular-nums font-medium">
@@ -883,27 +903,6 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
             {itemState.tax_code}
           </Badge>
         </TableCell>
-        {storeChain === "rewe" && (
-          <TableCell className="text-center text-xs">
-            {avisMatch?.status === "confirmed" || avisMatch?.status === "auto_set" ? (
-              <div className="flex items-center justify-center gap-1">
-                <span className="text-green-600 font-medium">✓</span>
-                {avisMatch.status === "confirmed" && avisMatch.match_source === "avis_document" && (
-                  <Badge variant="outline" className="text-xs font-normal bg-green-50 border-green-200 text-green-700">
-                    AVIS
-                  </Badge>
-                )}
-                {avisMatch.status === "confirmed" && avisMatch.match_source === "global_database" && (
-                  <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
-                    Global
-                  </Badge>
-                )}
-              </div>
-            ) : avisMatch?.status === "rejected" ? (
-              <span className="text-gray-400">⊗</span>
-            ) : null}
-          </TableCell>
-        )}
       </TableRow>
 
       {/* AVIS match pending review row */}

@@ -51,6 +51,7 @@ interface MatchResult {
   ebonDate: string
   confidence: number
   ebonItemId: number
+  ebonReceiptId: number
 }
 
 interface AvisImportResponse {
@@ -185,9 +186,16 @@ export async function POST(request: NextRequest) {
       return dayDiff <= 14
     })
 
+    // Track which eBon items have already been claimed by a previous AVIS item.
+    // Prevents two AVIS items with identical price/date/qty from both matching the
+    // same receipt item (e.g. two YouCook dishes at the same price both scoring 100
+    // against the first one encountered).
+    const claimedEbonItemIds = new Set<number>()
+
     for (const avisItem of parsed.items) {
-      // Skip non-available items for matching (but still include in results)
-      if (avisItem.status !== "available") {
+      // "unavailable" items were not delivered — store as unmatched for reference.
+      // "substitute" items were delivered as replacements and should be matched normally.
+      if (avisItem.status === "unavailable") {
         unmatchedItems.push({
           name: avisItem.name,
           price: avisItem.unitPrice,
@@ -196,11 +204,13 @@ export async function POST(request: NextRequest) {
         continue
       }
 
-      // Find best match among eBon items in the window
+      // Find best match among eBon items in the window that haven't been claimed yet
       let bestMatch: (typeof ebonItems)[0] | null = null
       let bestConfidence = 0
 
       for (const ebonItem of ebonItemsInWindow) {
+        if (claimedEbonItemIds.has(ebonItem.id)) continue
+
         const confidence = calculateMatchConfidence(
           {
             qty: avisItem.qty,
@@ -242,7 +252,11 @@ export async function POST(request: NextRequest) {
         ebonDate: bestMatch.date,
         confidence: Math.round(bestConfidence),
         ebonItemId: bestMatch.id,
+        ebonReceiptId: bestMatch.receipt_id,
       }
+
+      // Claim this eBon item so no later AVIS item can also match it
+      claimedEbonItemIds.add(bestMatch.id)
 
       // Only auto-set with very high confidence AND good name match
       // Requires: excellent name match (>75%) + good date/price/qty combo
@@ -298,9 +312,11 @@ export async function POST(request: NextRequest) {
           autoSetCount++
         }
 
-        // Insert match record
+        // Insert match record — use the receipt_id of the matched eBon item, not the
+        // first receipt found on the AVIS date, so items are attributed to the correct Bon
+        // when multiple receipts share the same date.
         insertMatchStmt.run(
-          receipt.id,
+          match.ebonReceiptId,
           match.ebonItemId,
           logId,
           match.avisName,
@@ -312,9 +328,8 @@ export async function POST(request: NextRequest) {
 
       // Process pending matches
       for (const match of pendingMatches) {
-        // Insert match record
         insertMatchStmt.run(
-          receipt.id,
+          match.ebonReceiptId,
           match.ebonItemId,
           logId,
           match.avisName,

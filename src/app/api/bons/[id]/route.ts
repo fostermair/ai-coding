@@ -147,11 +147,13 @@ export async function GET(
           total_price_cents: number
         }>
 
-      // Article-level matching: fuzzy-match each bestellung item to receipt items using AVIS logic
+      // Article-level matching: fuzzy-match each bestellung item to receipt items using AVIS logic.
+      // Only match against product items — pfand, discounts, and service fees must not be candidates.
+      const productItems = items.filter((ri) => ri.item_type === "product")
       bestellungItems = rawBestellungItems.map((bi) => {
         let bestReceiptItemId: number | null = null
         let bestScore = 0
-        for (const ri of items) {
+        for (const ri of productItems) {
           const riRawName = ri.raw_name as string
           const riId = ri.id as number
           const score = computeMatchScore(bi.article_name, riRawName)

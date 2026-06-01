@@ -276,14 +276,22 @@ export async function POST(request: NextRequest) {
               logId = result.lastInsertRowid as number
             }
 
-            for (const avisItem of parsed.items) {
-              if (avisItem.status !== "available") continue
+            // Track claimed receipt items so two AVIS items with identical
+            // price/date/qty don't both match the same receipt item.
+            const claimedEbonItemIds = new Set<number>()
 
-              // Find best match
-              let bestMatch = null
+            for (const avisItem of parsed.items) {
+              // "unavailable" items were not delivered — skip them.
+              // "substitute" items were delivered as replacements and must be matched.
+              if (avisItem.status === "unavailable") continue
+
+              // Find best unclaimed match
+              let bestMatch: typeof ebonItemsInWindow[0] | null = null
               let bestConfidence = 0
 
               for (const ebonItem of ebonItemsInWindow) {
+                if (claimedEbonItemIds.has(ebonItem.id)) continue
+
                 const confidence = calculateMatchConfidence(
                   {
                     qty: avisItem.qty,
@@ -305,6 +313,9 @@ export async function POST(request: NextRequest) {
               }
 
               if (bestMatch && bestConfidence >= 85) {
+                // Claim so no later AVIS item can also match this receipt item
+                claimedEbonItemIds.add(bestMatch.id)
+
                 const existing = db
                   .prepare("SELECT alias FROM product_aliases WHERE raw_name = ?")
                   .get(bestMatch.raw_name) as { alias: string } | undefined
@@ -336,13 +347,23 @@ export async function POST(request: NextRequest) {
             duplicates++
           }
 
-          details.push({
+          const detailEntry: SyncDetail & { parsedItems?: unknown } = {
             title: docTitle,
             status: "imported",
             message: isDuplicate
               ? `${autoSetCount} Aliases gesetzt (bereits importiert)`
               : `${autoSetCount} Aliases gesetzt`,
-          })
+          }
+          if (searchParams.get("debug") === "true") {
+            detailEntry.parsedItems = parsed.items.map((item) => ({
+              name: item.name,
+              section: item.section,
+              status: item.status,
+              unitPrice: item.unitPrice,
+              qty: item.qty,
+            }))
+          }
+          details.push(detailEntry)
         } catch (e) {
           errors++
           details.push({
@@ -452,15 +473,20 @@ function calculateMatchConfidence(
   }
 
   // 3. PRICE MATCHING (0-30 points)
-  const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
-  if (priceDiff <= 2) {
-    confidence += 30
-  } else if (priceDiff <= 5) {
-    confidence += 20
-  } else if (priceDiff <= 10) {
-    confidence += 10
+  // Weight/variable-price items in the AVIS often show 0,00 € as unit price.
+  if (avisItem.unitPrice === 0) {
+    confidence += 10 // partial credit, no disqualification
   } else {
-    return 0
+    const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
+    if (priceDiff <= 2) {
+      confidence += 30
+    } else if (priceDiff <= 5) {
+      confidence += 20
+    } else if (priceDiff <= 10) {
+      confidence += 10
+    } else {
+      return 0
+    }
   }
 
   // 4. QUANTITY MATCHING (0-20 points)

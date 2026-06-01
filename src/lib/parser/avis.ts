@@ -83,6 +83,11 @@ export function parseAvis(text: string): ParsedAvis {
   // Parse items by section
   const items: ParsedAvisItem[] = []
   let currentSection: "Lieferbar" | "Nicht lieferbar" | "Ersatzartikel" | null = null
+  // Holds an all-caps product name seen on its own line (no prices yet).
+  // Substitute items like "BANANE BANDEROLE" often appear as a standalone
+  // all-caps line followed by the price line — isSkipLine would drop them
+  // otherwise because they match /^[A-Z ]+$/.
+  let pendingAllCapsName: string | null = null
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i]
@@ -90,23 +95,38 @@ export function parseAvis(text: string): ParsedAvis {
     // Section detection
     if (/^\s*(Lieferbar|LIEFERBAR)\s*$/.test(line)) {
       currentSection = "Lieferbar"
+      pendingAllCapsName = null
       continue
     }
     if (/^\s*(Nicht lieferbar|NICHT LIEFERBAR)\s*$/.test(line)) {
       currentSection = "Nicht lieferbar"
+      pendingAllCapsName = null
       continue
     }
     if (/^\s*(Ersatzartikel|ERSATZARTIKEL)\s*$/.test(line)) {
       currentSection = "Ersatzartikel"
-      continue
-    }
-
-    // Skip header rows and non-item lines
-    if (isSkipLine(line)) {
+      pendingAllCapsName = null
       continue
     }
 
     if (!currentSection) continue
+
+    // All-caps lines with no prices need special handling: they may be either
+    // table headers (skip) or product names like "BANANE BANDEROLE" (keep as
+    // pending name for the following price line).
+    if (/^[A-Z][A-Z ]{1,}$/.test(line) && !line.match(/([\d,\.]+)\s*€/)) {
+      // Known header keywords → discard
+      const isHeaderKeyword = /^(Artikel|Menge|Einzelpreis|Betrag|Liefermenge|EUR|EURO|PFAND|Summe|Total|Gesamt|Herkunfts|Gebuehr)/i.test(line)
+      if (!isHeaderKeyword) {
+        pendingAllCapsName = line.trim()
+      }
+      continue
+    }
+
+    // Skip header rows and non-item lines (the all-caps check is already handled above)
+    if (isSkipLine(line)) {
+      continue
+    }
 
     // Parse item line.
     // AVIS PDFs concatenate table columns without spaces, so a line like:
@@ -165,9 +185,17 @@ export function parseAvis(text: string): ParsedAvis {
 
     // Find where the first price starts — everything before it is the product name
     const firstPriceIdx = line.indexOf(prices[0])
-    if (firstPriceIdx < 0) continue
+    if (firstPriceIdx < 0) { pendingAllCapsName = null; continue }
 
-    const nameRaw = line.substring(0, firstPriceIdx).trim()
+    let nameRaw = line.substring(0, firstPriceIdx).trim()
+
+    // If the inline name is too short (e.g. just a qty digit like "1"), use a
+    // pending all-caps name from the previous line (Ersatzartikel pattern).
+    if (nameRaw.length < 2 && pendingAllCapsName) {
+      nameRaw = pendingAllCapsName
+    }
+    pendingAllCapsName = null
+
     if (!nameRaw || nameRaw.length < 2) continue
 
     // Clean up page numbers ("1 von2") and embedded table headers from PDF parsing

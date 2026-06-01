@@ -91,6 +91,30 @@ describe("AVIS Parser", () => {
     expect(parsed.items[0].qty).toBeGreaterThan(100)
   })
 
+  it("parses Ersatzartikel with all-caps product name on its own line", () => {
+    // Real-world pattern: substitute items appear as an all-caps name line
+    // followed by a separate price line — e.g. "BANANE BANDEROLE\n1  0,89 €  0,89 €  1"
+    const avisText = `
+      Abholtermin: 11.05.2026
+      Bestellnummer: B-434-2Y8-YB2
+
+      LIEFERBAR
+
+      Nutella 750g  3  3,79 €  11,37 €  3
+
+      ERSATZARTIKEL
+
+      BANANE BANDEROLE
+      1  0,89 €  0,89 €  1
+    `
+
+    const parsed = parseAvis(avisText)
+    const substitutes = parsed.items.filter((i) => i.status === "substitute")
+    expect(substitutes.length).toBe(1)
+    expect(substitutes[0].name).toContain("BANANE BANDEROLE")
+    expect(substitutes[0].unitPrice).toBe(89)
+  })
+
   it("parses prices in cents correctly", () => {
     const avisText = `
       Abholtermin: 18.05.2026

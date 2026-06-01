@@ -42,6 +42,8 @@ interface UnmappedItem {
   last_bon_date: string
   suggestion: string | null
   confidence: number
+  avis_suggestion: string | null
+  avis_confidence: number
 }
 
 type SortKey = "raw_name" | "purchase_count" | "last_bon_date" | "confidence"
@@ -656,14 +658,32 @@ export function UnmappedAliasWorklist() {
                       {formatDate(item.last_bon_date)}
                     </TableCell>
                     <TableCell>
-                      {item.suggestion ? (
+                      {item.avis_suggestion ? (
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <Badge variant="outline" className="text-xs text-green-700 border-green-300 bg-green-50 shrink-0">AVIS</Badge>
+                          <span className="text-sm text-gray-700">{item.avis_suggestion}</span>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-5 px-1.5 text-xs text-green-700 hover:text-green-800 hover:bg-green-50 shrink-0"
+                            disabled={isSaving}
+                            onClick={() => setEditValues((prev) => ({ ...prev, [item.raw_name]: item.avis_suggestion! }))}
+                          >
+                            ✓
+                          </Button>
+                        </div>
+                      ) : item.suggestion ? (
                         <span className="text-sm text-gray-600">{item.suggestion}</span>
                       ) : (
                         <span className="text-xs text-gray-300 italic">Kein Vorschlag</span>
                       )}
                     </TableCell>
                     <TableCell>
-                      {item.suggestion ? <ConfidenceBadge confidence={item.confidence} /> : null}
+                      {item.avis_suggestion ? (
+                        <ConfidenceBadge confidence={item.avis_confidence} />
+                      ) : item.suggestion ? (
+                        <ConfidenceBadge confidence={item.confidence} />
+                      ) : null}
                     </TableCell>
                     <TableCell>
                       <Input

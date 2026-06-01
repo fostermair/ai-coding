@@ -141,16 +141,24 @@ export function calculateMatchConfidence(
   }
 
   // 3. PRICE MATCHING: ±5 cents for tolerance (15-30 points)
-  const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
-  if (priceDiff <= 2) {
-    confidence += 30
-  } else if (priceDiff <= 5) {
-    confidence += 20
-  } else if (priceDiff <= 10) {
+  // Weight/variable-price items in the AVIS often show 0,00 € as unit price
+  // (the actual price is only known once the item is weighed at pick-up).
+  // In that case, skip the price check entirely — name + date + qty are enough.
+  if (avisItem.unitPrice === 0) {
+    // No price signal available — grant partial points to avoid disqualifying
     confidence += 10
   } else {
-    // Price differs too much
-    return 0
+    const priceDiff = Math.abs(avisItem.unitPrice - ebonItem.unitPrice)
+    if (priceDiff <= 2) {
+      confidence += 30
+    } else if (priceDiff <= 5) {
+      confidence += 20
+    } else if (priceDiff <= 10) {
+      confidence += 10
+    } else {
+      // Price differs too much
+      return 0
+    }
   }
 
   // 4. QUANTITY MATCHING (0-20 points)

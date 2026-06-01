@@ -252,6 +252,36 @@ Käse 1 Stück 5,00 € 5,00 €
     })
   })
 
+  describe('REWE-branded products', () => {
+    it('parses lines containing "REWE" as product names, not as headers', () => {
+      const text = `
+Bestellnummer: MO0000000020
+REWE Bio Frische Weidemilch 3,8% 500ml 1,35 € 2,70 €
+REWE Beste Wahl Sonnenblumenöl 1l 2,19 € 2,19 €
+REWE Bio Eier Spitz und Bude 6 Stück 3,29 € 3,29 €
+      `
+      const result = parseBestellung(text)
+      expect(result.items.length).toBe(3)
+      expect(result.items[0].articleName).toContain('Weidemilch')
+      expect(result.items[1].articleName).toContain('Sonnenblumenöl')
+      expect(result.items[2].articleName).toContain('Eier')
+    })
+
+    it('parses "Nx REWE..." email format items', () => {
+      const text = `
+wir haben deine Bestellung B-TST-REW-001B erhalten.
+2x  REWE Bio Frische Weidemilch 3,8% 500ml        2,70 €
+1x  REWE Beste Wahl Sonnenblumenöl 1l              2,19 €
+      `
+      const result = parseBestellung(text)
+      expect(result.orderNumber).toBe('B-TST-REW-001B')
+      expect(result.items.length).toBe(2)
+      expect(result.items[0].articleName).toContain('Weidemilch')
+      expect(result.items[0].totalPriceCents).toBe(270)
+      expect(result.items[1].articleName).toContain('Sonnenblumenöl')
+    })
+  })
+
   describe('Edge cases', () => {
     it('throws error if no Bestellnummer found', () => {
       const text = `

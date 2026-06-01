@@ -55,7 +55,9 @@ function isSkipLine(line: string): boolean {
     line.includes("Lieferadresse") ||
     line.includes("Rechnungsadresse") ||
     line.includes("Bestellnummer") ||
-    line.includes("REWE") ||
+    // "REWE" standalone header is already caught by the all-caps check below.
+    // Do NOT skip lines that merely contain "REWE" — product names like
+    // "REWE Bio Frische Weidemilch" would be silently dropped otherwise.
     /^[A-Z ]+$/.test(line)
   )
 }

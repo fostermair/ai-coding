@@ -662,7 +662,9 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
   const [deletingAlias, setDeletingAlias] = useState(false)
   const [itemState, setItemState] = useState<ReceiptItem>(item)
 
-  const matchedBestellung = findBestBestellungMatch(item.avis_match?.avisItemName, bestellungItems)
+  const matchedBestellung =
+    bestellungItems.find((b) => b.matched_receipt_item_id === item.id) ??
+    findBestBestellungMatch(item.avis_match?.avisItemName, bestellungItems)
   const preisPer100 = matchedBestellung
     ? calculatePreisPer100({ amount: matchedBestellung.quantity_amount, unit: matchedBestellung.quantity_unit }, item.unit_price_cents)
     : null

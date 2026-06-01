@@ -19,7 +19,7 @@ export interface LifecycleStatusBadgeProps {
   source?: "hellofresh"
 }
 
-function deriveStatus(props: LifecycleStatusBadgeProps): LifecycleStatus {
+export function deriveStatus(props: LifecycleStatusBadgeProps): LifecycleStatus {
   if (props.source === "hellofresh") return "hellofresh"
   if (props.is_virtual === 1 || props.item_count === 0) return "konto"
   if (props.has_bestellung === 1 || props.avis_status === "complete") return "vollstaendig"

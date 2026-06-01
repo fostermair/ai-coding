@@ -78,8 +78,8 @@
 | PROJ-41 | Substitutions-Erkennung | Approved | [PROJ-41-substitutions-erkennung/spec.md](PROJ-41-substitutions-erkennung/spec.md) | 2026-05-30 |
 | PROJ-44 | Personal Inflations-Index | Approved | [PROJ-44-personal-inflations-index/spec.md](PROJ-44-personal-inflations-index/spec.md) | 2026-05-30 |
 | PROJ-51 | Onboarding-Flow für Erstnutzer | Approved | [PROJ-51-onboarding-flow/spec.md](PROJ-51-onboarding-flow/spec.md) | 2026-05-30 |
-| PROJ-52 | Ausgaben-Ledger | In Review | [PROJ-52-ausgaben-ledger/spec.md](PROJ-52-ausgaben-ledger/spec.md) | 2026-06-01 |
-| PROJ-53 | Ausgaben-Lebenszyklus-Status | In Progress | [PROJ-53-ausgaben-lebenszyklus/spec.md](PROJ-53-ausgaben-lebenszyklus/spec.md) | 2026-06-01 |
-| PROJ-54 | Vorausschauende Ausgaben-Karte | Planned | [PROJ-54-vorausschauende-karte/spec.md](PROJ-54-vorausschauende-karte/spec.md) | 2026-06-01 |
+| PROJ-52 | Ausgaben-Ledger | Approved | [PROJ-52-ausgaben-ledger/spec.md](PROJ-52-ausgaben-ledger/spec.md) | 2026-06-01 |
+| PROJ-53 | Ausgaben-Lebenszyklus-Status | Approved | [PROJ-53-ausgaben-lebenszyklus/spec.md](PROJ-53-ausgaben-lebenszyklus/spec.md) | 2026-06-01 |
+| PROJ-54 | Vorausschauende Ausgaben-Karte | In Progress | [PROJ-54-vorausschauende-karte/spec.md](PROJ-54-vorausschauende-karte/spec.md) | 2026-06-01 |
 
 ## Next Available ID: PROJ-55

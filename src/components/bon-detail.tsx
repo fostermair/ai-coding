@@ -27,7 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw, FileText, AlertCircle } from "lucide-react"
+import { ArrowLeft, Trash2, CheckCircle2, XCircle, Loader2, RefreshCw, FileText, AlertCircle, Flag } from "lucide-react"
 import Link from "next/link"
 import { formatEuro, formatDate } from "@/lib/format"
 import { AvisManualAssignDialog } from "@/components/avis-manual-assign-dialog"
@@ -36,7 +36,9 @@ import { ChainBadge, PaymentBadge } from "@/components/chain-badge"
 import { detectChain } from "@/lib/chain"
 import { Edit } from "lucide-react"
 import { MarketAliasDialog } from "@/components/market-alias-dialog"
-import { PdfViewer } from "@/components/pdf-viewer"
+import dynamic from "next/dynamic"
+
+const PdfViewer = dynamic(() => import("@/components/pdf-viewer").then((m) => m.PdfViewer), { ssr: false })
 
 interface Discount {
   id: number
@@ -52,12 +54,15 @@ interface AvisMatch {
   confidence: number
   status: "pending" | "confirmed" | "rejected" | "auto_set" | "unmatched"
   match_source?: "avis_document" | "global_database" | null
+  flagged_wrong?: boolean
 }
 
 interface ReceiptItem {
   id: number
   raw_name: string
   alias: string | null
+  alias_source: string | null
+  alias_flagged_wrong?: boolean
   item_type: "product" | "pfand" | "leergut" | "concession"
   quantity: number
   unit_price_cents: number
@@ -71,12 +76,14 @@ interface ReceiptItem {
 }
 
 interface BestellungItem {
+  id: number
   article_name: string
   quantity_amount: number
   quantity_unit: string
   unit_price_cents: number
   total_price_cents: number
   matched_receipt_item_id?: number | null
+  flagged_wrong?: boolean
 }
 
 interface BonDetail {
@@ -95,6 +102,7 @@ interface BonDetail {
   paperless_doc_id: number | null
   store_chain?: string
   has_avis: boolean
+  has_avis_pdf?: boolean
   has_bestellung?: boolean
   bestellung_order_number?: string | null
   bestellung_items?: BestellungItem[]
@@ -122,6 +130,7 @@ export function BonDetailView({ bonId }: { bonId: string }) {
   const [marking, setMarking] = useState(false)
   const [avisSyncing, setAvisSyncing] = useState(false)
   const [avisSyncMessage, setAvisSyncMessage] = useState<string | null>(null)
+  const [removingAvis, setRemovingAvis] = useState(false)
   const [marketAliasDialogOpen, setMarketAliasDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -182,6 +191,20 @@ export function BonDetailView({ bonId }: { bonId: string }) {
       setAvisSyncMessage("Netzwerkfehler")
     } finally {
       setAvisSyncing(false)
+    }
+  }
+
+  const handleRemoveAvis = async () => {
+    setRemovingAvis(true)
+    try {
+      const res = await fetch(`/api/bons/${bonId}/avis`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Entfernen fehlgeschlagen")
+      const bonRes = await fetch(`/api/bons/${bonId}`)
+      if (bonRes.ok) setBon(await bonRes.json())
+    } catch {
+      setError("AVIS-Verknüpfung konnte nicht entfernt werden")
+    } finally {
+      setRemovingAvis(false)
     }
   }
 
@@ -287,7 +310,12 @@ export function BonDetailView({ bonId }: { bonId: string }) {
             </div>
             <div className="text-right">
               <p className="text-2xl font-semibold tabular-nums text-gray-900">
-                {formatEuro(bon.total_amount_cents)} €
+                {formatEuro(products.reduce((s, i) => s + i.total_price_cents, 0))} €
+                {products.reduce((s, i) => s + i.total_price_cents, 0) !== bon.total_amount_cents && (
+                  <span className="text-base font-normal text-gray-400 ml-1.5">
+                    ({formatEuro(bon.total_amount_cents)} €)
+                  </span>
+                )}
               </p>
               <div className="mt-1">
                 <PaymentBadge method={bon.payment_method} />
@@ -439,13 +467,15 @@ export function BonDetailView({ bonId }: { bonId: string }) {
         </TabsContent>
 
         <TabsContent value="avis" className="mt-4 flex-1 flex">
-          {bon.has_avis && (
+          {bon.has_avis_pdf ? (
             <PdfViewer
               src={`/api/bons/${bonId}/avis-pdf`}
               toolbar={false}
               className="w-full h-[calc(100vh-450px)] min-h-[300px]"
             />
-          )}
+          ) : bon.has_avis ? (
+            <p className="text-sm text-muted-foreground p-4">Kein AVIS-PDF verfügbar (manuell importiert).</p>
+          ) : null}
         </TabsContent>
 
         <TabsContent value="bestellung" className="mt-4 flex-1 flex">
@@ -529,6 +559,38 @@ export function BonDetailView({ bonId }: { bonId: string }) {
                 {avisSyncing ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-1.5" />}
                 {avisSyncing ? "AVIS wird abgeholt …" : "AVIS neu einlesen"}
               </Button>
+            )}
+            {bon.has_avis && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={removingAvis}
+                    className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                  >
+                    {removingAvis ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <XCircle className="h-4 w-4 mr-1.5" />}
+                    AVIS entfernen
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>AVIS-Verknüpfung entfernen?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Alle AVIS-Matches für diesen Bon werden gelöscht. Die gesetzten Produkt-Aliases bleiben erhalten. Diese Aktion kann nicht rückgängig gemacht werden.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleRemoveAvis}
+                      className="bg-orange-600 hover:bg-orange-700"
+                    >
+                      AVIS entfernen
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
             <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -671,9 +733,9 @@ function calculatePreisPer100(quantity: { amount: number; unit: string }, unitPr
 }
 
 function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, storeChain, onItemUpdate }: ItemRowsProps) {
-  // Calculate TABLE_COLUMNS: Produkt, AvisArtikel, Quelle, [Bestellartikel, Bestellung-Menge if hasBestellung], Menge, Einzelpreis, Preis/Einheit, Gesamt, MwSt
-  let TABLE_COLUMNS = 8 // Base: Produkt, AvisArtikel, Quelle, Menge, Einzelpreis, Preis/Einheit, Gesamt, MwSt
-  if (hasBestellung) TABLE_COLUMNS += 2 // Add Bestellartikel + Bestellung-Menge
+  // Calculate TABLE_COLUMNS: Produkt, AvisArtikel, Quelle, [Bestellartikel, Bestellung-Menge, Preis/Einheit if hasBestellung], Menge, Einzelpreis, Gesamt, MwSt
+  let TABLE_COLUMNS = 7 // Base: Produkt, AvisArtikel, Quelle, Menge, Einzelpreis, Gesamt, MwSt
+  if (hasBestellung) TABLE_COLUMNS += 3 // Add Bestellartikel + Bestellung-Menge + Preis/Einheit
 
   const [confirming, setConfirming] = useState(false)
   const [rejecting, setRejecting] = useState(false)
@@ -681,6 +743,11 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
   const [deleteAliasDialogOpen, setDeleteAliasDialogOpen] = useState(false)
   const [deletingAlias, setDeletingAlias] = useState(false)
   const [itemState, setItemState] = useState<ReceiptItem>(item)
+  const [avisFlagging, setAvisFlagging] = useState(false)
+  const [aliasFlagging, setAliasFlagging] = useState(false)
+  const [aliasFlaggedWrong, setAliasFlaggedWrong] = useState<boolean>(item.alias_flagged_wrong ?? false)
+  const [bestellungFlagging, setBestellungFlagging] = useState(false)
+  const [bestellungFlaggedWrong, setBestellungFlaggedWrong] = useState<boolean>(false)
 
   const matchedBestellung =
     bestellungItems.find((b) => b.matched_receipt_item_id === item.id) ??
@@ -688,6 +755,66 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
   const preisPer100 = matchedBestellung
     ? calculatePreisPer100({ amount: matchedBestellung.quantity_amount, unit: matchedBestellung.quantity_unit }, item.unit_price_cents)
     : null
+
+  // Sync bestellungFlaggedWrong from prop when data loads
+  useEffect(() => {
+    setBestellungFlaggedWrong(matchedBestellung?.flagged_wrong ?? false)
+  }, [matchedBestellung?.id])
+
+  const handleFlagAvis = async () => {
+    if (!itemState.avis_match) return
+    setAvisFlagging(true)
+    try {
+      const res = await fetch(`/api/avis/matches/${itemState.avis_match.matchId}/flag`, { method: "PUT" })
+      if (!res.ok) throw new Error("Flag fehlgeschlagen")
+      const data = await res.json()
+      setItemState((prev) => ({
+        ...prev,
+        avis_match: prev.avis_match ? { ...prev.avis_match, flagged_wrong: data.flagged_wrong } : undefined,
+      }))
+    } catch (e) {
+      console.error("Flag AVIS match failed:", e)
+    } finally {
+      setAvisFlagging(false)
+    }
+  }
+
+  const handleFlagAlias = async () => {
+    setAliasFlagging(true)
+    try {
+      const res = await fetch(`/api/produkte/${encodeURIComponent(itemState.raw_name)}/flag`, { method: "PUT" })
+      if (!res.ok) throw new Error("Flag fehlgeschlagen")
+      const data = await res.json()
+      setAliasFlaggedWrong(data.flagged_wrong)
+    } catch (e) {
+      console.error("Flag alias failed:", e)
+    } finally {
+      setAliasFlagging(false)
+    }
+  }
+
+  const handleFlagBestellung = async () => {
+    if (!matchedBestellung?.id) return
+    setBestellungFlagging(true)
+    const newFlagged = !bestellungFlaggedWrong
+    try {
+      const res = await fetch("/api/bestellung/match-flags", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receipt_item_id: item.id,
+          bestellung_item_id: matchedBestellung.id,
+          flagged: newFlagged,
+        }),
+      })
+      if (!res.ok) throw new Error("Flag fehlgeschlagen")
+      setBestellungFlaggedWrong(newFlagged)
+    } catch (e) {
+      console.error("Flag Bestellung match failed:", e)
+    } finally {
+      setBestellungFlagging(false)
+    }
+  }
 
   const handleConfirm = async () => {
     if (!itemState.avis_match) return
@@ -764,6 +891,7 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
       setItemState((prev) => ({
         ...prev,
         alias: avisItemName,
+        alias_source: "manual",
         avis_match: prev.avis_match
           ? {
               ...prev.avis_match,
@@ -803,6 +931,7 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
       setItemState((prev) => ({
         ...prev,
         alias: null,
+        alias_source: null,
       }))
 
       // Trigger parent reload
@@ -851,7 +980,37 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
           )}
         </TableCell>
         <TableCell className="text-sm text-gray-500">
-          {itemState.alias ?? ""}
+          <div className="flex items-center gap-1">
+            <span>{itemState.alias ?? ""}</span>
+            {itemState.avis_match && itemState.avis_match.status !== "pending" && (
+              <button
+                onClick={handleFlagAvis}
+                disabled={avisFlagging}
+                title={itemState.avis_match.flagged_wrong ? "Markierung aufheben" : "Als falsch gematchten AVIS-Namen markieren"}
+                className={`ml-0.5 h-4 w-4 flex-shrink-0 transition-colors ${
+                  itemState.avis_match.flagged_wrong
+                    ? "text-red-500 hover:text-red-700"
+                    : "text-gray-300 hover:text-gray-500"
+                }`}
+              >
+                <Flag className="h-3.5 w-3.5" />
+              </button>
+            )}
+            {!itemState.avis_match && itemState.alias_source === "avis" && (
+              <button
+                onClick={handleFlagAlias}
+                disabled={aliasFlagging}
+                title={aliasFlaggedWrong ? "Markierung aufheben" : "Globalen Alias als falsch markieren"}
+                className={`ml-0.5 h-4 w-4 flex-shrink-0 transition-colors ${
+                  aliasFlaggedWrong
+                    ? "text-red-500 hover:text-red-700"
+                    : "text-gray-300 hover:text-gray-500"
+                }`}
+              >
+                <Flag className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
         </TableCell>
         <TableCell className="text-center hidden sm:table-cell">
           {(avisMatch?.status === "auto_set" || (avisMatch?.status === "confirmed" && avisMatch.match_source === "avis_document")) && (
@@ -864,7 +1023,12 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
               Global
             </Badge>
           )}
-          {itemState.alias && !avisMatch && (
+          {itemState.alias && !avisMatch && itemState.alias_source === "avis" && (
+            <Badge variant="outline" className="text-xs font-normal bg-blue-50 border-blue-200 text-blue-700">
+              Global
+            </Badge>
+          )}
+          {itemState.alias && !avisMatch && itemState.alias_source === "manual" && (
             <Badge variant="outline" className="text-xs font-normal bg-gray-50 border-gray-200 text-gray-500">
               Manuell
             </Badge>
@@ -873,7 +1037,23 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
         {hasBestellung && (
           <>
             <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
-              {matchedBestellung?.article_name ?? "-"}
+              <div className="flex items-center justify-end gap-1">
+                <span>{matchedBestellung?.article_name ?? "-"}</span>
+                {matchedBestellung && (
+                  <button
+                    onClick={handleFlagBestellung}
+                    disabled={bestellungFlagging}
+                    title={bestellungFlaggedWrong ? "Markierung aufheben" : "Als falsch gematchten Bestellartikel markieren"}
+                    className={`ml-0.5 h-4 w-4 flex-shrink-0 transition-colors ${
+                      bestellungFlaggedWrong
+                        ? "text-red-500 hover:text-red-700"
+                        : "text-gray-300 hover:text-gray-500"
+                    }`}
+                  >
+                    <Flag className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
             </TableCell>
             <TableCell className="text-right hidden sm:table-cell text-sm text-gray-600">
               {matchedBestellung
@@ -951,6 +1131,7 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
             ↳ {d.description}
           </TableCell>
           <TableCell />
+          <TableCell className="hidden sm:table-cell" />
           {hasBestellung && <TableCell className="hidden sm:table-cell" />}
           {hasBestellung && <TableCell className="hidden sm:table-cell" />}
           <TableCell className="hidden sm:table-cell" />
@@ -964,7 +1145,6 @@ function ItemRows({ item, receiptId, hasAvis, hasBestellung, bestellungItems, st
               {d.tax_code}
             </Badge>
           </TableCell>
-          {storeChain === "rewe" && <TableCell />}
         </TableRow>
       ))}
 

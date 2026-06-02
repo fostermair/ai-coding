@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 
+type BonCategoryRule = { muster: string; kategorie: string }
+
+function resolveCategory(
+  effectiveName: string | null | undefined,
+  override: string | null | undefined,
+  rules: BonCategoryRule[]
+): string {
+  if (override) return override
+  const lower = (effectiveName ?? "").toLowerCase()
+  for (const rule of rules) {
+    if (lower.includes(rule.muster.toLowerCase())) return rule.kategorie
+  }
+  return "Sonstiges"
+}
+
 export async function GET(request: NextRequest) {
   try {
     const db = getDb()
@@ -44,11 +59,13 @@ export async function GET(request: NextRequest) {
           r.payment_method,
           r.store_chain,
           r.is_virtual,
+          r.kategorie_override,
           ta.alias AS bank_alias,
           ta.logo_path AS bank_logo_path,
           ma.alias AS market_alias,
           ma.logo_path AS market_logo_path,
           (SELECT COUNT(*) FROM receipt_items ri WHERE ri.receipt_id = r.id) AS item_count,
+          (SELECT COALESCE(SUM(ri.total_price_cents), 0) FROM receipt_items ri WHERE ri.receipt_id = r.id AND ri.item_type IN ('product', 'concession')) AS food_amount_cents,
           CASE WHEN r.bank_transaction_id IS NOT NULL THEN 1 ELSE 0 END AS has_bank_match,
           bt.match_source AS bank_match_source,
           CASE
@@ -63,17 +80,21 @@ export async function GET(request: NextRequest) {
           END AS avis_status,
           CASE WHEN r.store_chain = 'rewe' AND r.is_virtual = 0 AND EXISTS (
             SELECT 1
-            FROM bestellung_items bi
-            JOIN import_log il ON bi.import_log_id = il.id
-            WHERE (
-              (il.order_date IS NOT NULL AND il.order_total_cents IS NOT NULL
-               AND ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) <= 2
-               AND ABS(il.order_total_cents - r.total_amount_cents) <= 200)
-              OR
-              ((il.order_date IS NULL OR il.order_total_cents IS NULL)
-               AND ABS((SELECT SUM(bi2.total_price_cents) FROM bestellung_items bi2
-                        WHERE bi2.import_log_id = il.id) - r.total_amount_cents) <= 100)
-            )
+            FROM import_log il
+            WHERE il.source_type = 'bestellung'
+              AND (
+                (il.order_date IS NOT NULL AND (
+                  ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) = 0
+                  OR (
+                    ABS(JULIANDAY(r.receipt_date) - JULIANDAY(il.order_date)) BETWEEN 1 AND 2
+                    AND (il.order_total_cents IS NULL OR ABS(il.order_total_cents - r.total_amount_cents) <= 1500)
+                  )
+                ))
+                OR (
+                  il.order_date IS NULL
+                  AND ABS((SELECT SUM(bi.total_price_cents) FROM bestellung_items bi WHERE bi.import_log_id = il.id) - r.total_amount_cents) <= 500
+                )
+              )
           ) THEN 1 ELSE 0 END AS has_bestellung
         FROM receipts r
         LEFT JOIN bank_transactions bt ON bt.id = r.bank_transaction_id
@@ -83,6 +104,25 @@ export async function GET(request: NextRequest) {
         ORDER BY r.receipt_date DESC, r.receipt_time DESC`
       )
       .all(...params)
+
+    // Resolve category for each bon using rules (longest match wins) + override
+    const categoryRules = db
+      .prepare(
+        "SELECT muster, kategorie FROM bon_categories ORDER BY LENGTH(muster) DESC"
+      )
+      .all() as BonCategoryRule[]
+
+    for (const bon of bons as Record<string, unknown>[]) {
+      const effectiveName =
+        (bon.market_alias as string | null) ??
+        (bon.bank_alias as string | null) ??
+        (bon.store_name as string | null)
+      bon.kategorie = resolveCategory(
+        effectiveName,
+        bon.kategorie_override as string | null,
+        categoryRules
+      )
+    }
 
     // Total stats (unfiltered) — real bons only for count; all receipts (incl. virtual) for total spend
     const stats = db
